@@ -1,0 +1,213 @@
+.action {
+  list-style: none outside none;
+  display: inline-flex;
+  float: left;
+  padding: 0 3px;
+  align-items: center;
+  margin-top: 4px !important;
+}
+
+.action li {
+  margin-left: 2px !important;
+}
+
+.tree-view {
+  /* overflow: scroll !important; */
+  /* overflow:auto !important; */
+  height: 100vh !important;
+}
+
+.table-price-details td {
+  text-align: right !important;
+  padding: 0.2rem 0.75rem !important;
+}
+
+.form-check {
+  padding-left: 1.875em !important;
+}
+
+.custom-toggle {
+  margin-top: 74px !important;
+}
+
+.accordion-collapse td {
+  background-color: #ffeb3b29 !important;
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 0;
+}
+
+.box div {
+  width: 100px;
+  height: 100px;
+}
+
+/* card */
+.card {
+  margin-bottom: 30px !important;
+  border-radius: 16px !important;
+  /* overflow: hidden !important; */
+  overflow: visible !important;
+}
+
+.modal-content {
+  border-radius: 16px !important;
+}
+
+/* Custom Css */
+.custom-dialog {
+  width: 60%;
+}
+
+label img {
+  height: 100px;
+  width: 100px;
+  transition-duration: 0.2s;
+  transform-origin: 50% 50%;
+  border-radius: 5px;
+}
+
+:checked + label img {
+  transform: scale(0.9);
+  box-shadow: 0 0 5px #333;
+  z-index: -1;
+  border: 1px solid red;
+  padding: 5px;
+}
+
+/* room dashboard checkbox */
+
+label span {
+  height: 30px;
+  width: 100px;
+  transition-duration: 0.5s;
+  transform-origin: 40% 40%;
+}
+
+:checked + label span {
+  transform: scale(0.9);
+  box-shadow: 0 0 8px #5218f2;
+  z-index: -1;
+  border-color: red;
+  background-color: red;
+}
+
+.flex-gap {
+  display: inline-flex;
+  flex-wrap: wrap;
+}
+
+.flex-gap > div {
+  margin: 6px;
+}
+
+.flex-gap-inline {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+.custom-badge {
+  height: 40px !important;
+  padding: 10px 10px !important;
+}
+
+.select-bg {
+  z-index: 100 !important;
+}
+
+/* Pagination */
+.page-item .page-link {
+  border-radius: 50%;
+}
+
+/* Custom checkbox */
+.available:checked {
+  background-color: #0acc95 !important;
+  overflow: hidden !important;
+}
+
+.free:checked {
+  background-color: #186dde !important;
+  overflow: hidden !important;
+}
+
+.occupied:checked {
+  background-color: #ef5350 !important;
+  overflow: hidden !important;
+}
+
+.dirty:checked {
+  background-color: #7460ee !important;
+  overflow: hidden !important;
+}
+
+.cleaning:checked {
+  background-color: #545b62 !important;
+  overflow: hidden !important;
+}
+
+.reserved:checked {
+  background-color: #ffb22b !important;
+  overflow: hidden !important;
+}
+
+.maintenance:checked {
+  background-color: #99abb4 !important;
+  overflow: hidden !important;
+}
+
+.form-check {
+  display: block;
+  min-height: 1.40625rem;
+  padding-left: 1.875em;
+  margin-bottom: 0.125rem;
+}
+
+/* Room pricing */
+div.scrollmenu {
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.add-btn {
+  color: #157347;
+  font-size: 40px;
+  margin-top: -12px;
+  cursor: pointer;
+  position: absolute;
+}
+.remove-btn {
+  color: #dc3545;
+  font-size: 40px;
+  margin-top: -12px;
+  cursor: pointer;
+  position: absolute;
+}
+.room-form-border {
+  background: radial-gradient(
+        circle at 100% 100%,
+        #ffffff 0,
+        #ffffff 5px,
+        transparent 5px
+      )
+      0% 0%/8px 8px no-repeat,
+    radial-gradient(circle at 0 100%, #ffffff 0, #ffffff 5px, transparent 5px)
+      100% 0%/8px 8px no-repeat,
+    radial-gradient(circle at 100% 0, #ffffff 0, #ffffff 5px, transparent 5px)
+      0% 100%/8px 8px no-repeat,
+    radial-gradient(circle at 0 0, #ffffff 0, #ffffff 5px, transparent 5px) 100%
+      100%/8px 8px no-repeat,
+    linear-gradient(#ffffff, #ffffff) 50% 50% / calc(100% - 6px)
+      calc(100% - 16px) no-repeat,
+    linear-gradient(#ffffff, #ffffff) 50% 50% / calc(100% - 16px)
+      calc(100% - 6px) no-repeat,
+    linear-gradient(90deg, #8cd2e4 0%, #48abe0 100%);
+  border-radius: 8px;
+  margin: 25px 0px !important;
+  padding: 15px 0px !important;
+}
