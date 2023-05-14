@@ -76,7 +76,7 @@ export default function Login() {
                     <div className="form-group mb-0 mt-4">
                       <div className="col-sm-12 justify-content-center d-flex">
                         <p>
-                          Don't have an account?
+                          Dont have an account?
                           <a href="authentication-register1.html" className="text-info font-weight-medium ms-1">Sign Up</a>
                         </p>
                       </div>
