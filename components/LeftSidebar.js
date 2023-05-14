@@ -1,5 +1,5 @@
 import React from 'react'
-
+import Link from 'next/link';
 const LeftSidebar = () => {
   return (
     <>
@@ -66,12 +66,12 @@ const LeftSidebar = () => {
                     <ul aria-expanded="false" className="collapse second-level">
                       <li className="sidebar-item">
                           {/* <a href=""></a> */}
-                          <a href="/modules/hr/teacher/create">
+                          <Link href="/modules/hr/teacher/create">
                             <a className="sidebar-link">
                               <i className="mdi mdi-drawing" />
                               <span className="hide-menu">Add Teacher</span>
                             </a>
-                          </a>
+                          </Link>
                         
                       </li>
                       <li className="sidebar-item">
@@ -100,12 +100,12 @@ const LeftSidebar = () => {
                     <ul aria-expanded="false" className="collapse second-level">
                       <li className="sidebar-item">
                         
-                          <a href="/modules/hr/student/create">
+                          <Link href="/modules/hr/student/create">
                             <a className="sidebar-link">
                               <i className="mdi mdi-drawing" />
                               <span className="hide-menu">Add Student</span>
                             </a>
-                          </a>
+                          </Link>
                         
                       </li>
                       <li className="sidebar-item">

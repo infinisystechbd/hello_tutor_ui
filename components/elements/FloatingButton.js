@@ -29,9 +29,10 @@ export default function FloatingButton({isOpen,fontSize,subIcon,supplier_Id, sel
       size={fontSize}
     />
 
-    {subIcon?.map((sub)=>{
+    {subIcon?.map((sub,index)=>{
       return(
         <ChildButton
+        key={index}
         icon={sub?.icon}
         backgroundColor="white"
         size={fontSize}
