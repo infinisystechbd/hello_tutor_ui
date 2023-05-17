@@ -141,7 +141,7 @@ const LeftSidebar = () => {
                 </a>
 
                 <ul aria-expanded="false" className="collapse first-level">
-                  {/* Students */}
+                  {/* class */}
                   <li className="sidebar-item">
                     <a
                       className="sidebar-link has-arrow waves-effect waves-dark"
@@ -174,7 +174,78 @@ const LeftSidebar = () => {
                       </li>
                     </ul>
                   </li>
-                  {/* End Students */}
+                  {/* End class */}
+
+
+                  {/* subject */}
+                  <li className="sidebar-item">
+                    <a
+                      className="sidebar-link has-arrow waves-effect waves-dark"
+                      href="#" onClick={(e) => e.preventDefault()}
+                      aria-expanded="false"
+                    >
+                      <i className="mdi mdi-dns" />
+                      <span className="hide-menu">Subject</span>
+                    </a>
+                    <ul aria-expanded="false" className="collapse second-level">
+                      <li className="sidebar-item">
+
+                        <Link href="/modules/hrm/subject/create">
+                          <a className="sidebar-link">
+                            <i className="mdi mdi-drawing" />
+                            <span className="hide-menu">Add Subject</span>
+                          </a>
+                        </Link>
+
+                      </li>
+                      <li className="sidebar-item">
+
+                        <a href="#" onClick={(e) => e.preventDefault()}>
+                          <a className="sidebar-link">
+                            <i className="mdi mdi-drawing" />
+                            <span className="hide-menu">All Subject</span>
+                          </a>
+                        </a>
+
+                      </li>
+                    </ul>
+                  </li>
+                  {/* End subject */}
+
+                  {/* Categories */}
+                  <li className="sidebar-item">
+                    <a
+                      className="sidebar-link has-arrow waves-effect waves-dark"
+                      href="#" onClick={(e) => e.preventDefault()}
+                      aria-expanded="false"
+                    >
+                      <i className="mdi mdi-dns" />
+                      <span className="hide-menu">Categories</span>
+                    </a>
+                    <ul aria-expanded="false" className="collapse second-level">
+                      <li className="sidebar-item">
+
+                        <Link href="/modules/hrm/subject/create">
+                          <a className="sidebar-link">
+                            <i className="mdi mdi-drawing" />
+                            <span className="hide-menu">Add Categorie</span>
+                          </a>
+                        </Link>
+
+                      </li>
+                      <li className="sidebar-item">
+
+                        <a href="#" onClick={(e) => e.preventDefault()}>
+                          <a className="sidebar-link">
+                            <i className="mdi mdi-drawing" />
+                            <span className="hide-menu">All Categories</span>
+                          </a>
+                        </a>
+
+                      </li>
+                    </ul>
+                  </li>
+                  {/* End Categories */}
 
                 </ul>
               </li>
