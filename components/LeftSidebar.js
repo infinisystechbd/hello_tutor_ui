@@ -225,7 +225,7 @@ const LeftSidebar = () => {
                     <ul aria-expanded="false" className="collapse second-level">
                       <li className="sidebar-item">
 
-                        <Link href="/modules/hrm/subject/create">
+                        <Link href="/modules/hrm/categorie/create">
                           <a className="sidebar-link">
                             <i className="mdi mdi-drawing" />
                             <span className="hide-menu">Add Categorie</span>
