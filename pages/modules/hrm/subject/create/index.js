@@ -14,7 +14,7 @@ const Subject = () => {
     <div className="container-fluid ">
     <div className="w-75 m-auto">
       <div className="row">
-        <div className="col-md-8">
+        <div className="col-md-10">
           <div className="card">
             <div className="card-body border-bottom">
               <h4 className="card-title">Add Subect</h4>
