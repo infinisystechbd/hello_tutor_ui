@@ -9,6 +9,15 @@ import Select2 from "../../../../../components/elements/Select2";
 import TextInput from "../../../../../components/elements/TextInput";
 
 const Subject = () => {
+
+  const class_options = [
+    { value: "1", label: "class 1", name: "class_options" },
+    { value: "2", label: "class 2", name: "class_options" },
+    { value: "3", label: "class 3", name: "class_options" },
+    { value: "4", label: "class 4", name: "class_options" },
+    { value: "5", label: "class 5", name: "class_options" },
+  
+  ]
   return (
     <>
     <div className="container-fluid ">
@@ -28,13 +37,13 @@ const Subject = () => {
                 <div className="mb-3 row">
                   <Label text="Class Name" />
                   <div className="col-sm-6">
-                    <Select name="promoType" >
-                      <option value="" disabled>select discount type</option>
+                    <Select2 isMulti options={class_options} name="promoType"/> 
+                      {/* <option value="" disabled>select discount type</option>
                       <option value="1">class 1</option>
                       <option value="2">Class 2</option>
                       <option value="3">Class 3</option>
                       <option value="4">Class 4</option>
-                    </Select>
+                    </Select2> */}
                   </div>
                 </div>
                 <div className="mb-3 row">

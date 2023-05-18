@@ -11,48 +11,43 @@ import TextInput from "../../../../../components/elements/TextInput";
 const Categories = () => {
   return (
     <>
-    <div className="container-fluid ">
-    <div className="w-75 m-auto">
-      <div className="row">
-        <div className="col-md-10">
-          <div className="card">
-            <div className="card-body border-bottom">
-              <h4 className="card-title">Add Categorie</h4>
-            </div>
-
-            <Form >
-            
-              <div className="card-body">
-
-                <TextInput label="Categories" placeholder="Categories Name" />
-                <TextInput label="Class Name" placeholder="Class Name" />
-                <div className="mb-3 row">
-                  <Label text="Status" />
-                  <div className="col-sm-6">
-                    <Select name="promoType" >
-                      <option value="" disabled>select discount type</option>
-                      <option value="1">Active</option>
-                      <option value="0">Inactive</option>
-                    </Select>
+      <div className="container-fluid ">
+        <div className="w-75 m-auto">
+          <div className="row">
+            <div className="col-md-10">
+              <div className="card">
+                <div className="card-body border-bottom">
+                  <h4 className="card-title">Add Categorie</h4>
+                </div>
+                <Form >
+                  <div className="card-body">
+                    <TextInput label="Categories" placeholder="Categories Name" />
+                    <TextInput label="Class Name" placeholder="Class Name" />
+                    <div className="mb-3 row">
+                      <Label text="Status" />
+                      <div className="col-sm-6">
+                        <Select name="promoType" >
+                          <option value="" disabled>select discount type</option>
+                          <option value="1">Active</option>
+                          <option value="0">Inactive</option>
+                        </Select>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                  <div className="p-3 border-top">
+                    <div className="text-end">
+                      <Button className="btn-info">
+                        Save
+                      </Button>
+                    </div>
+                  </div>
+                </Form>
               </div>
-              <div className="p-3 border-top">
-                <div className="text-end">
-                  <Button className="btn-info">
-                    Save
-                  </Button>
-
-                </div>
-              </div>
-             
-            </Form>
+            </div>
           </div>
         </div>
       </div>
-      </div>
-    </div>
-  </>
+    </>
   )
 }
 
