@@ -1,17 +1,25 @@
-import React, { Fragment, useCallback, useEffect, useState } from 'react';
-import { Button, Form, Modal } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 // import HeadSection from "../../../components/HeadSection";
+import Table from "react-bootstrap/Table";
 import HeadSection from "../../../../components/HeadSection";
 import RadioButton from "../../../../components/elements/RadioButton";
 import Select2 from "../../../../components/elements/Select2";
-import Table from "react-bootstrap/Table";
+import { TEST_1 } from '../../../../constants/api_endpoints/test1';
+import { post } from '../../../../helpers/api_helper';
 const Teacher = () => {
+
+    const login = ()=>
+    {
+        const loginuser = post(TEST_1.test1(), {userid:'01999999999',password:'asd123'});
+        console.log(loginuser);
+    }
+ 
 
   function submitForm(e) { }
   return (
     <>
       <HeadSection title="Add New Teacher" />
-
+      <Button onClick={login}>tes</Button>
       <div className="container-fluid ">
         <Form onSubmit={submitForm} id="customerForm" noValidate >
           <h4>Add New Teacher</h4>
