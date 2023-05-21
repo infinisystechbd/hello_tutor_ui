@@ -1,9 +1,10 @@
 import React from 'react'
-
+import Link from "next/link";
+import { Card, Form, InputGroup, Modal, Button } from 'react-bootstrap';
 const NavBar = () => {
     return (
         <>
-          <>
+    <>
       <header className="topbar">
         <nav className="navbar top-navbar navbar-expand-md navbar-dark">
           <div className="navbar-header">
@@ -13,13 +14,18 @@ const NavBar = () => {
             >
               <i className="ri-close-line fs-6 ri-menu-2-line"></i>
             </a>
-            <a to="/">
+            <Link href="/">
               <a className="navbar-brand">
+
+
                 <span className="logo-text">
-                  <h3 className="fw-bolder mb-0">Managebeds</h3>
+
+
+                  <h3 className="fw-bolder mb-0" >Managebeds</h3>
+
                 </span>
               </a>
-            </a>
+            </Link>
 
             <a
               onClick={(e) => e.preventDefault()}
@@ -37,7 +43,10 @@ const NavBar = () => {
           <div className="navbar-collapse collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto">
               <li className="nav-item">
-                <a className="nav-link sidebartoggler d-none d-md-block waves-effect waves-dark">
+                <a
+
+                  className="nav-link sidebartoggler d-none d-md-block waves-effect waves-dark"
+                >
                   <i data-feather="menu" className="feather-sm"></i>
                 </a>
               </li>
@@ -45,22 +54,22 @@ const NavBar = () => {
 
             <ul className="navbar-nav justify-content-end">
               <li className="nav-item ">
-                <a href="/modules/roomManagement/RoomDashboard">
+                <Link href="/modules/roomManagement/RoomDashboard">
                   <a className="nav-link">
-                    <button type="button" className="btn btn-sm btn-info">
+                    <Button type="button" className="btn btn-sm btn-info">
                       Room Dashboard
-                    </button>
+                    </Button>
                   </a>
-                </a>
+                </Link>
               </li>
               <li className="nav-item ">
-                <a href="/modules/roomManagement/roomPrice">
+                <Link href="/modules/roomManagement/roomPrice">
                   <a className="nav-link">
-                    <button type="button" className="btn btn-sm btn-info">
+                    <Button type="button" className="btn btn-sm btn-info">
                       Rates and Availability
-                    </button>
+                    </Button>
                   </a>
-                </a>
+                </Link>
               </li>
 
               <li className="nav-item d-none d-md-block search-box">
@@ -98,10 +107,10 @@ const NavBar = () => {
                 </a>
                 <div
                   className="
-                dropdown-menu dropdown-menu-end
-                mailbox
-                dropdown-menu-animate-up
-              "
+                  dropdown-menu dropdown-menu-end
+                  mailbox
+                  dropdown-menu-animate-up
+                "
                 >
                   <ul className="list-style-none">
                     <li>
@@ -119,13 +128,13 @@ const NavBar = () => {
                         <a
                           href="#"
                           className="
-                        message-item
-                        d-flex
-                        align-items-center
-                        border-bottom
-                        px-3
-                        py-2
-                      "
+                          message-item
+                          d-flex
+                          align-items-center
+                          border-bottom
+                          px-3
+                          py-2
+                        "
                         >
                           <span className="btn btn-light-danger text-danger btn-circle">
                             <i
@@ -139,26 +148,26 @@ const NavBar = () => {
                             </h5>
                             <span
                               className="
-                        fs-2
-                        text-nowrap
-                        d-block
-                        time
-                        text-truncate
-                        fw-normal
-                        text-muted
-                        mt-1
-                      "
+                          fs-2
+                          text-nowrap
+                          d-block
+                          time
+                          text-truncate
+                          fw-normal
+                          text-muted
+                          mt-1
+                        "
                             >
                               Just see the my new admin!
                             </span>
                             <span
                               className="
-                        fs-2
-                        text-nowrap
-                        d-block
-                        subtext
-                        text-muted
-                      "
+                          fs-2
+                          text-nowrap
+                          d-block
+                          subtext
+                          text-muted
+                        "
                             >
                               9:30 AM
                             </span>
@@ -168,20 +177,20 @@ const NavBar = () => {
                         <a
                           href="#"
                           className="
-                    message-item
-                    d-flex
-                    align-items-center
-                    border-bottom
-                    px-3
-                    py-2
-                  "
+                      message-item
+                      d-flex
+                      align-items-center
+                      border-bottom
+                      px-3
+                      py-2
+                    "
                         >
                           <span
                             className="
-                      btn btn-light-success
-                      text-success
-                      btn-circle
-                    "
+                        btn btn-light-success
+                        text-success
+                        btn-circle
+                      "
                           >
                             <i
                               data-feather="calendar"
@@ -194,26 +203,26 @@ const NavBar = () => {
                             </h5>
                             <span
                               className="
-                        fs-2
-                        text-nowrap
-                        d-block
-                        time
-                        text-truncate
-                        fw-normal
-                        text-muted
-                        mt-1
-                      "
+                          fs-2
+                          text-nowrap
+                          d-block
+                          time
+                          text-truncate
+                          fw-normal
+                          text-muted
+                          mt-1
+                        "
                             >
                               Just a reminder that you have event
                             </span>
                             <span
                               className="
-                        fs-2
-                        text-nowrap
-                        d-block
-                        subtext
-                        text-muted
-                      "
+                          fs-2
+                          text-nowrap
+                          d-block
+                          subtext
+                          text-muted
+                        "
                             >
                               9:10 AM
                             </span>
@@ -223,13 +232,13 @@ const NavBar = () => {
                         <a
                           href="#"
                           className="
-                    message-item
-                    d-flex
-                    align-items-center
-                    border-bottom
-                    px-3
-                    py-2
-                  "
+                      message-item
+                      d-flex
+                      align-items-center
+                      border-bottom
+                      px-3
+                      py-2
+                    "
                         >
                           <span className="btn btn-light-info text-info btn-circle">
                             <i
@@ -243,26 +252,26 @@ const NavBar = () => {
                             </h5>
                             <span
                               className="
-                        fs-2
-                        text-nowrap
-                        d-block
-                        time
-                        text-truncate
-                        fw-normal
-                        text-muted
-                        mt-1
-                      "
+                          fs-2
+                          text-nowrap
+                          d-block
+                          time
+                          text-truncate
+                          fw-normal
+                          text-muted
+                          mt-1
+                        "
                             >
                               You can customize this template as you want
                             </span>
                             <span
                               className="
-                        fs-2
-                        text-nowrap
-                        d-block
-                        subtext
-                        text-muted
-                      "
+                          fs-2
+                          text-nowrap
+                          d-block
+                          subtext
+                          text-muted
+                        "
                             >
                               9:08 AM
                             </span>
@@ -272,20 +281,20 @@ const NavBar = () => {
                         <a
                           href="#"
                           className="
-                    message-item
-                    d-flex
-                    align-items-center
-                    border-bottom
-                    px-3
-                    py-2
-                  "
+                      message-item
+                      d-flex
+                      align-items-center
+                      border-bottom
+                      px-3
+                      py-2
+                    "
                         >
                           <span
                             className="
-                      btn btn-light-primary
-                      text-primary
-                      btn-circle
-                    "
+                        btn btn-light-primary
+                        text-primary
+                        btn-circle
+                      "
                           >
                             <i
                               data-feather="users"
@@ -298,26 +307,26 @@ const NavBar = () => {
                             </h5>
                             <span
                               className="
-                        fs-2
-                        text-nowrap
-                        d-block
-                        time
-                        text-truncate
-                        fw-normal
-                        text-muted
-                        mt-1
-                      "
+                          fs-2
+                          text-nowrap
+                          d-block
+                          time
+                          text-truncate
+                          fw-normal
+                          text-muted
+                          mt-1
+                        "
                             >
                               Just see the my admin!
                             </span>
                             <span
                               className="
-                        fs-2
-                        text-nowrap
-                        d-block
-                        subtext
-                        text-muted
-                      "
+                          fs-2
+                          text-nowrap
+                          d-block
+                          subtext
+                          text-muted
+                        "
                             >
                               9:02 AM
                             </span>
@@ -358,10 +367,10 @@ const NavBar = () => {
                 </a>
                 <div
                   className="
-            dropdown-menu
-            mailbox
-            dropdown-menu-end dropdown-menu-animate-up
-          "
+              dropdown-menu
+              mailbox
+              dropdown-menu-end dropdown-menu-animate-up
+            "
                   aria-labelledby="2"
                 >
                   <ul className="list-style-none">
@@ -380,13 +389,13 @@ const NavBar = () => {
                         <a
                           href="#"
                           className="
-                    message-item
-                    d-flex
-                    align-items-center
-                    border-bottom
-                    px-3
-                    py-2
-                  "
+                      message-item
+                      d-flex
+                      align-items-center
+                      border-bottom
+                      px-3
+                      py-2
+                    "
                         >
                           <span className="user-img position-relative d-inline-block">
                             <img
@@ -404,26 +413,26 @@ const NavBar = () => {
                             </h5>
                             <span
                               className="
-                        fs-2
-                        text-nowrap
-                        d-block
-                        time
-                        text-truncate
-                        fw-normal
-                        text-muted
-                        mt-1
-                      "
+                          fs-2
+                          text-nowrap
+                          d-block
+                          time
+                          text-truncate
+                          fw-normal
+                          text-muted
+                          mt-1
+                        "
                             >
                               Just see the my admin!
                             </span>
                             <span
                               className="
-                        fs-2
-                        text-nowrap
-                        d-block
-                        subtext
-                        text-muted
-                      "
+                          fs-2
+                          text-nowrap
+                          d-block
+                          subtext
+                          text-muted
+                        "
                             >
                               9:30 AM
                             </span>
@@ -433,17 +442,17 @@ const NavBar = () => {
                         <a
                           href="#"
                           className="
-                    message-item
-                    d-flex
-                    align-items-center
-                    border-bottom
-                    px-3
-                    py-2
-                  "
+                      message-item
+                      d-flex
+                      align-items-center
+                      border-bottom
+                      px-3
+                      py-2
+                    "
                         >
                           <span className="user-img position-relative d-inline-block">
                             <img
-                              src="../../assets/images/users/2.jpg"
+                              src="/assets/images/users/2.jpg"
                               alt="user"
                               className="rounded-circle w-100"
                             />
@@ -455,23 +464,23 @@ const NavBar = () => {
                             </h5>
                             <span
                               className="
-                        fs-2
-                        text-nowrap
-                        d-block
-                        time
-                        text-truncate
-                      "
+                          fs-2
+                          text-nowrap
+                          d-block
+                          time
+                          text-truncate
+                        "
                             >
                               Ive sung a song! See you at
                             </span>
                             <span
                               className="
-                        fs-2
-                        text-nowrap
-                        d-block
-                        subtext
-                        text-muted
-                      "
+                          fs-2
+                          text-nowrap
+                          d-block
+                          subtext
+                          text-muted
+                        "
                             >
                               9:10 AM
                             </span>
@@ -481,13 +490,13 @@ const NavBar = () => {
                         <a
                           href="#"
                           className="
-                    message-item
-                    d-flex
-                    align-items-center
-                    border-bottom
-                    px-3
-                    py-2
-                  "
+                      message-item
+                      d-flex
+                      align-items-center
+                      border-bottom
+                      px-3
+                      py-2
+                    "
                         >
                           <span className="user-img position-relative d-inline-block">
                             <img
@@ -503,23 +512,23 @@ const NavBar = () => {
                             </h5>
                             <span
                               className="
-                        fs-2
-                        text-nowrap
-                        d-block
-                        time
-                        text-truncate
-                      "
+                          fs-2
+                          text-nowrap
+                          d-block
+                          time
+                          text-truncate
+                        "
                             >
                               I am a singer!
                             </span>
                             <span
                               className="
-                        fs-2
-                        text-nowrap
-                        d-block
-                        subtext
-                        text-muted
-                      "
+                          fs-2
+                          text-nowrap
+                          d-block
+                          subtext
+                          text-muted
+                        "
                             >
                               9:08 AM
                             </span>
@@ -529,13 +538,13 @@ const NavBar = () => {
                         <a
                           href="#"
                           className="
-                    message-item
-                    d-flex
-                    align-items-center
-                    border-bottom
-                    px-3
-                    py-2
-                  "
+                      message-item
+                      d-flex
+                      align-items-center
+                      border-bottom
+                      px-3
+                      py-2
+                    "
                         >
                           <span className="user-img position-relative d-inline-block">
                             <img
@@ -551,23 +560,23 @@ const NavBar = () => {
                             </h5>
                             <span
                               className="
-                        fs-2
-                        text-nowrap
-                        d-block
-                        time
-                        text-truncate
-                      "
+                          fs-2
+                          text-nowrap
+                          d-block
+                          time
+                          text-truncate
+                        "
                             >
                               Just see the my admin!
                             </span>
                             <span
                               className="
-                        fs-2
-                        text-nowrap
-                        d-block
-                        subtext
-                        text-muted
-                      "
+                          fs-2
+                          text-nowrap
+                          d-block
+                          subtext
+                          text-muted
+                        "
                             >
                               9:02 AM
                             </span>
@@ -845,14 +854,17 @@ const NavBar = () => {
                 </div>
               </li>
 
+
+
+
               <li className="nav-item dropdown">
                 <a
                   className="
-            nav-link
-            dropdown-toggle
-            text-muted
-            waves-effect waves-dark
-          "
+              nav-link
+              dropdown-toggle
+              text-muted
+              waves-effect waves-dark
+            "
                   href=""
                   data-bs-toggle="dropdown"
                   aria-haspopup="true"
@@ -862,8 +874,8 @@ const NavBar = () => {
                 </a>
                 <div
                   className="
-            dropdown-menu dropdown-menu-end dropdown-menu-animate-up
-          "
+              dropdown-menu dropdown-menu-end dropdown-menu-animate-up
+            "
                 >
                   <a className="dropdown-item" href="#">
                     <i className="flag-icon flag-icon-in"></i> India
@@ -879,6 +891,43 @@ const NavBar = () => {
                   </a>
                 </div>
               </li>
+
+
+
+              {/* <Form onSubmit={update}> */}
+              <li className="nav-item dropdown">
+                <a
+                  className="
+              nav-link
+              dropdown-toggle
+              text-muted
+              waves-effect waves-dark
+            "
+                  href=""
+                  data-bs-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  // value={selectedCurrency}
+                >
+                 
+                </a>
+                <div
+                  className="
+              dropdown-menu dropdown-menu-end dropdown-menu-animate-up
+            "
+                >
+
+
+
+                </div>
+              </li>
+
+
+
+
+
+
+
 
               <li className="nav-item dropdown">
                 <a
@@ -897,22 +946,22 @@ const NavBar = () => {
                 </a>
                 <div
                   className="
-            dropdown-menu dropdown-menu-end
-            user-dd
-            animated
-            flipInY
-          "
+              dropdown-menu dropdown-menu-end
+              user-dd
+              animated
+              flipInY
+            "
                 >
                   <div
                     className="
-              d-flex
-              no-block
-              align-items-center
-              p-3
-              bg-primary
-              text-white
-              mb-2
-            "
+                d-flex
+                no-block
+                align-items-center
+                p-3
+                bg-primary
+                text-white
+                mb-2
+              "
                   >
                     <div className="">
                       <img
@@ -924,7 +973,7 @@ const NavBar = () => {
                     </div>
                     <div className="ms-2">
                       <h4 className="mb-0 text-white">user</h4>
-                      <p className="mb-0">emai@gmail.com</p>
+                      <p className="mb-0">user@gmail.com</p>
                     </div>
                   </div>
                   <a className="dropdown-item" href="#">
@@ -957,11 +1006,11 @@ const NavBar = () => {
                     Account Setting
                   </a>
                   <div className="dropdown-divider"></div>
-            
-                    <a href="/user/login">
+                  
+                    <Link href="/user/login">
                       <a
                         className="dropdown-item"
-                        
+                        style={{ display: "block" }}
                         href="#"
                       >
                         <i
@@ -970,21 +1019,10 @@ const NavBar = () => {
                         ></i>
                         Login
                       </a>
-                    </a>
-                 
-                
-                    <button
-                      type="button"
-                      className="dropdown-item"
-                      
-                    >
-                      <i
-                        data-feather="log-out"
-                        className="feather-sm text-danger me-1 ms-1"
-                      ></i>
-                      Logout
-                    </button>
-                  
+                    </Link>
+              
+
+
 
                   <div className="dropdown-divider"></div>
                   <div className="pl-4 p-2">
@@ -1002,6 +1040,7 @@ const NavBar = () => {
         </nav>
       </header>
     </>
+
 
         </>
     )

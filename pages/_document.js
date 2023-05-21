@@ -55,6 +55,11 @@ class MyDocument extends Document {
         {/* bootstrap cdn */}
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
 
+        {/* <link
+          href="/assets/libs/bootstrap-table/dist/bootstrap-table.min.css"
+          rel="stylesheet"
+          type="text/css"
+        /> */}
 
 
 
@@ -63,37 +68,49 @@ class MyDocument extends Document {
           <Main />
           <NextScript />
 
-        <s src="/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js" async/>
-        <script src="/assets/libs/jquery/dist/jquery.min.js"defer/>
+        <script src="/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
 
        
-        <script src="/dist/js/app.min.js"defer/>
-        <script src="/dist/js/app.init.js"defer/>
+        <script src="/dist/js/app.min.js"></script>
+        <script src="/dist/js/app.init.js"></script>
     
-        <script src="/dist/js/app-style-switcher.js"defer/>
+        <script src="/dist/js/app-style-switcher.js"></script>
 
-        <script src="/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"defer/>
-        <script src="/assets/extra-libs/sparkline/sparkline.js"defer/>
+        <script src="/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+        <script src="/assets/extra-libs/sparkline/sparkline.js"></script>
 
 
-        <script src="/dist/js/waves.js"defer/>
+        <script src="/dist/js/waves.js"></script>
 
-        <script src="/dist/js/sidebarmenu.js"defer/>
+        <script src="/dist/js/sidebarmenu.js"></script>
 
-        <script src="/dist/js/feather.min.js"defer/>
+        <script src="/dist/js/feather.min.js"></script>
 
-        <script src="/dist/js/custom.min.js"defer/>
+        <script src="/dist/js/custom.min.js"></script>
 
         {/* ContactList Page plugin */}
-        <script src="/dist/js/pages/contact/contact.js"defer/>
+        <script src="/dist/js/pages/contact/contact.js"></script>
 
         {/* Datatable Plugin */}
-        <script src="/assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"defer/>
-        <script src="/assets/extra-libs/datatables.net-bs4/js/dataTables.responsive.min.js"defer/>
-        <script src="/dist/js/pages/datatable/datatable-basic.init.js"defer/>
+        <script src="/assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="/assets/extra-libs/datatables.net-bs4/js/dataTables.responsive.min.js"></script>
+        <script src="/dist/js/pages/datatable/datatable-basic.init.js"></script>
 
         {/* bootstrap switch button */}
-        <script src="/assets/libs/bootstrap-switch/dist/js/bootstrap-switch.min.js"defer/>
+        <script src="/assets/libs/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
+
+        {/* <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+        <script src="/assets/libs/bootstrap-table/dist/bootstrap-table.min.js"></script>
+        <script src="/assets/libs/bootstrap-table/dist/bootstrap-table-locale-all.min.js"></script>
+        <script src="/assets/libs/bootstrap-table/dist/extensions/export/bootstrap-table-export.min.js"></script>
+        <script src="/dist/js/pages/tables/bootstrap-table.init.js"></script> */}
+
+
+
+
+
+	      
 
         </body>
       </Html>
