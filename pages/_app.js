@@ -1,13 +1,13 @@
 import Layout from '/components/Layout';
 import '../styles/globals.css'
 import Script from "next/script"; 
-import Axios from '../utilss/axios';
+import Axios from '../utils/axios';
 import Login from '../pages/user/login'
 import { useRouter } from "next/router";
 import { Slide, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react';
-
+import UserContext from './../components/context/userContext'
 
 const MyApp = ({ Component, pageProps }) => {
   const { http, user, token, logout } = Axios();
@@ -44,7 +44,7 @@ const MyApp = ({ Component, pageProps }) => {
       return (
         <>
           <Login />
-          {/* <ToastContainer 
+          <ToastContainer 
             position="top-right"
             autoClose={3000}
             hideProgressBar={false}
@@ -53,7 +53,7 @@ const MyApp = ({ Component, pageProps }) => {
             closeOnClick
             pauseOnHover
             transition={Slide}
-          /> */}
+          />
 
         </>
       );
@@ -62,9 +62,10 @@ const MyApp = ({ Component, pageProps }) => {
 
   return (
     <>
+    <UserContext.Provider>
         <Layout>
           <Component {...pageProps} />
-          {/* <ToastContainer
+          <ToastContainer
             position="top-right"
             autoClose={3000}
             hideProgressBar={false}
@@ -73,9 +74,9 @@ const MyApp = ({ Component, pageProps }) => {
             closeOnClick
             pauseOnHover
             transition={Slide}
-          /> */}
+          />
         </Layout>
-      
+        </UserContext.Provider>
     </>
   );
 };

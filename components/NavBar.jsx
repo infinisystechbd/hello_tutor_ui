@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Link from "next/link";
-import Axios from "../utilss/axios"
+import Axios from "../utils/axios"
 import { Card, Form, InputGroup, Modal, Button } from 'react-bootstrap';
 const NavBar = () => {
   const { token, user, logout, http } = Axios();
@@ -38,7 +38,7 @@ const NavBar = () => {
               >
                 <i className="ri-close-line fs-6 ri-menu-2-line"></i>
               </a>
-              <Link href="/">
+              <Link href="/dashboard">
                 <a className="navbar-brand">
 
 

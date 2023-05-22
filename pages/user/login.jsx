@@ -1,7 +1,7 @@
-import Axios from "../../utilss/axios";
+import Axios from "../../utils/axios";
 import { useRouter } from "next/router";
 import { useCallback,useState,useEffect } from "react"
-import { toast } from 'react-toastify';
+import ToastMessage from '../../components/Toast/index';
 export default function Login() {
   // const{http}= Axios()
   // const [phone,setPhone]= useState("");
@@ -12,7 +12,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const notify = useCallback((type, message) => {
-    toast({ type, message });
+    ToastMessage({ type, message });
   }, []);
 
 
@@ -23,13 +23,15 @@ export default function Login() {
   },[token])
   const submitForm = (event) =>{
     event.preventDefault();
-    // notify("info", "Checking...!");
+    notify("info", "Checking...!");
     http.post('/login', { phone: phone, password: password })
+    // http.post('/login', { email: email, password: password })
     .then((res) => {
       setToken(res?.data?.data?.token);
+      // setToken(res.data.access_token);
       // setToken(res.data.user,res.data.access_token);
       console.log(res.data)
-      notify("success", "successfully deleted!");
+      // notify("success", "successfully Login!");
     })
 
   }
