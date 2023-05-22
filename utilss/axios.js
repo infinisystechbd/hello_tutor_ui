@@ -38,11 +38,13 @@ export default function Axios() {
         setToken(token);
         // setUser(user);
         router.replace("/dashboard")
+        router.reload();
     }
 
     function logout(){
         localStorage.clear();
          router.push("/user/login");
+         router.reload();
       }
 
     const http = axios.create({
