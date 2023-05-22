@@ -8,9 +8,7 @@ export default function Axios() {
         if (typeof window !== 'undefined') {
 
             const tokenString = localStorage.getItem('token');
-            // console.log(tokenString);
-            const userToken = JSON.parse(tokenString);
-            return userToken;
+            return tokenString;
         }
     }
 
@@ -18,9 +16,9 @@ export default function Axios() {
 
         if (typeof window !== 'undefined') {
 
-            const userString = localStorage.getItem('user');
-            const user_detail = JSON.parse(userString);
-            return user_detail;
+            const userString = localStorage.getItem('token');
+          //  const user_detail = JSON.parse(userString);
+            return userString;
         }
     }
 
@@ -32,7 +30,7 @@ export default function Axios() {
 
     const saveToken = (token) => {
         
-        localStorage.setItem('token', JSON.stringify(token));
+        localStorage.setItem('token', token);
         // localStorage.setItem('user', JSON.stringify(user));
 
         setToken(token);

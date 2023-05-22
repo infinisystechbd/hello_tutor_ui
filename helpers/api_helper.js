@@ -1,6 +1,5 @@
 import axios from 'axios';
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
-console.log(API_URL);
 const axiosApi = axios.create({
     baseURL: API_URL
   });
@@ -13,12 +12,13 @@ const axiosApi = axios.create({
   //pass new generated access token here
 // Bearer Access Token
 const setAccessToken = () => {
-    const localeAuth = localStorage.getItem("authUser");
-    const authUser = localStorage.getItem("authUser")
+    const localeAuth = localStorage.getItem("token");
+    const authUser = localStorage.getItem("token")
       ? JSON.parse(localeAuth)
       : null;
   
     let token = (authUser && authUser.accessToken) || "";
+    let accessToken = `Bearer eyo4eiroejrlejrlkerjlkerf`;
     axiosApi.defaults.headers.common['Authorization'] = token? `Bearer ${token}` : accessToken;
   };
 

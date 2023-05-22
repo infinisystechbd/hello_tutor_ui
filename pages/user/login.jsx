@@ -1,7 +1,9 @@
-import Axios from "../../utils/axios";
 import { useRouter } from "next/router";
-import { useCallback,useState,useEffect } from "react"
+import { useCallback, useEffect, useState } from "react";
 import ToastMessage from '../../components/Toast/index';
+import { SECURITY_END_POINT } from "../../constants/index";
+import { post } from "../../helpers/api_helper";
+import Axios from "../../utils/axios";
 export default function Login() {
   // const{http}= Axios()
   // const [phone,setPhone]= useState("");
@@ -21,19 +23,41 @@ export default function Login() {
       router.replace('/');
     }
   },[token])
-  const submitForm = (event) =>{
+  const submitForm = async (event) =>{
     event.preventDefault();
-    notify("info", "Checking...!");
-    http.post('/login', { phone: phone, password: password })
-    // http.post('/login', { email: email, password: password })
-    .then((res) => {
-      setToken(res?.data?.data?.token);
-      // setToken(res.data.access_token);
-      // setToken(res.data.user,res.data.access_token);
-      console.log(res.data)
-      // notify("success", "successfully Login!");
-    })
+    try{
+      const login = await post(SECURITY_END_POINT.login(),{ phone: phone, password: password });
+    //  const res = 
+    console.log(login.status);
+    setToken(login.accessToken);
+    notify("success", "successfully Login!");
 
+    }catch(error){
+      let message;
+      const errorStatus = error?.response?.status;
+      if (errorStatus) {
+        switch (error.response.status) {
+          case 404:
+            message = 'Sorry! the page you are looking for could not be found';
+            break;
+          case 500:
+            message = 'Sorry! something went wrong, please contact our support team';
+            break;
+          case 401:
+            message = 'Invalid credentials';
+            break;
+          default:
+            message = error[1];
+            break;
+        }
+      }
+      notify("error", message);
+  
+      if (!errorStatus && error.code === 'ERR_NETWORK') {
+        message = 'Netword Error!';
+      }
+    }
+    
   }
 
 
