@@ -1,5 +1,5 @@
 import axios from "axios";
-import jwt from 'jsonwebtoken';
+import jwtDecode from 'jwt-decode';
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -19,8 +19,8 @@ export default function Axios() {
         if (typeof window !== 'undefined') {
             try {
                 const userString = localStorage.getItem('token');
-                const decodedToken = jwt.verify(userString, 'hellotutor00009');
-                console.log(decodedToken);
+                const decode = jwtDecode(userString);
+                console.log("decode" ,decode);
                 return userString;
               } catch (error) {
                 console.log(error)
@@ -39,7 +39,6 @@ export default function Axios() {
     const saveToken = (token) => {
         
         localStorage.setItem('token', token);
-        // localStorage.setItem('user', JSON.stringify(user));
 
         setToken(token);
         // setUser(user);
