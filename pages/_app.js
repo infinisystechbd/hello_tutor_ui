@@ -1,15 +1,16 @@
-import Layout from '/components/Layout';
-import '../styles/globals.css'
-import Script from "next/script"; 
-import Axios from '../utils/axios';
-import Login from '../pages/user/login'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useRouter } from "next/router";
 import { Slide, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { useEffect } from 'react';
-import UserContext from './../components/context/userContext'
+import Login from '../pages/user/login';
+import '../styles/globals.css';
+import Axios from '../utils/axios';
+import UserContext from './../components/context/userContext';
+import Layout from '/components/Layout';
 
 const MyApp = ({ Component, pageProps }) => {
+  const queryClient = new QueryClient();
   const { http, user, token, logout } = Axios();
   const router = useRouter();
 
@@ -64,7 +65,10 @@ const MyApp = ({ Component, pageProps }) => {
     <>
     <UserContext.Provider>
         <Layout>
+          <QueryClientProvider client={queryClient}>
           <Component {...pageProps} />
+          <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
           <ToastContainer
             position="top-right"
             autoClose={3000}
