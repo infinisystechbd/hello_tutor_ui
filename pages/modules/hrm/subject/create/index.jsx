@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback,useState } from 'react'
 import HeadSection from "../../../../../components/HeadSection";
 import Button from "../../../../../components/elements/Button";
 import Form from "../../../../../components/elements/Form";
@@ -6,18 +6,43 @@ import Label from "../../../../../components/elements/Label";
 import RadioButton from "../../../../../components/elements/RadioButton";
 import Select from "../../../../../components/elements/Select";
 import Select2 from "../../../../../components/elements/Select2";
+import ToastMessage from "../../../../../components/Toast/index";
 import TextInput from "../../../../../components/elements/TextInput";
-
+import { SUBJECT_END_POINT } from "../../../../../constants/index";
+import { post } from "../../../../../helpers/api_helper";
 const Subject = () => {
 
-  const class_options = [
-    { value: "1", label: "class 1", name: "class_options" },
-    { value: "2", label: "class 2", name: "class_options" },
-    { value: "3", label: "class 3", name: "class_options" },
-    { value: "4", label: "class 4", name: "class_options" },
-    { value: "5", label: "class 5", name: "class_options" },
+  const notify = useCallback((type, message) => {
+    ToastMessage({ type, message });
+  }, []);
+  const [subjectDetails,setSubjectDetails] = useState({
+    name:"",
+    status:""
+  });
+
+  const handleChange =(e)=>{
+    setSubjectDetails(prev=>({
+      ...prev, [e.target.name]:e.target.value
+    }))
+  }
+
   
-  ]
+  async function submitForm(e) {
+    e.preventDefault();
+    console.log(subjectDetails);
+    const response =  await post(SUBJECT_END_POINT.create(),subjectDetails);
+    console.log(response);
+    notify("success", "successfully Login!");
+    // try{
+  
+    // }catch(error){
+    //   let message;
+    //   const errorStatus = error?.response?.status;
+    //   notify("error", message);
+  
+    // }
+  }
+
   return (
     <>
     <div className="container-fluid ">
@@ -29,30 +54,19 @@ const Subject = () => {
               <h4 className="card-title">Add Subect</h4>
             </div>
 
-            <Form >
+            <Form onSubmit={submitForm}>
             
               <div className="card-body">
 
-                <TextInput label="Subject Name" placeholder="Subject Name" />
-                <div className="mb-3 row">
-                  <Label text="Class Name" />
-                  <div className="col-sm-6">
-                    <Select2 isMulti options={class_options} name="promoType"/> 
-                      {/* <option value="" disabled>select discount type</option>
-                      <option value="1">class 1</option>
-                      <option value="2">Class 2</option>
-                      <option value="3">Class 3</option>
-                      <option value="4">Class 4</option>
-                    </Select2> */}
-                  </div>
-                </div>
+                <TextInput label="Subject Name" value={subjectDetails.name} placeholder="Subject Name" name="name"  onChange={handleChange} />
+
                 <div className="mb-3 row">
                   <Label text="Status" />
                   <div className="col-sm-6">
-                    <Select name="promoType" >
+                    <Select name="status" value={subjectDetails.status}  onChange={handleChange} >
                       <option value="" disabled>select discount type</option>
-                      <option value="1">Active</option>
-                      <option value="0">Inactive</option>
+                      <option value="true">Active</option>
+                      <option value="false">Inactive</option>
                     </Select>
                   </div>
                 </div>

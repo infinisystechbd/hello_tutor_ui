@@ -13,13 +13,14 @@ const axiosApi = axios.create({
 // Bearer Access Token
 const setAccessToken = () => {
     const localeAuth = localStorage.getItem("token");
+    console.log("call from helper",localeAuth);
     const authUser = localStorage.getItem("token")
-      ? JSON.parse(localeAuth)
+      ? localeAuth
       : null;
   
     let token = (authUser && authUser.accessToken) || "";
     let accessToken = `Bearer eyo4eiroejrlejrlkerjlkerf`;
-    axiosApi.defaults.headers.common['Authorization'] = token? `Bearer ${token}` : accessToken;
+    axiosApi.defaults.headers.common['Authorization'] = localeAuth;
   };
 
   export async function get(url, config= {}) {

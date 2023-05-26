@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import HeadSection from "../../../../../components/HeadSection";
 import Button from "../../../../../components/elements/Button";
 import Form from "../../../../../components/elements/Form";
@@ -8,6 +8,17 @@ import Select from "../../../../../components/elements/Select";
 import Select2 from "../../../../../components/elements/Select2";
 import TextInput from "../../../../../components/elements/TextInput";
 const Class = () => {
+
+  const[classDetails,setClassDetails] = useState({
+    class_name:"",
+    discount_type:""
+  });
+  console.log(classDetails);
+  const handleChange =(e)=>{
+    setClassDetails(prev=>({
+      ...prev, [e.target.name]:e.target.value
+    }))
+  }
 
   return (
     <>
@@ -24,11 +35,11 @@ const Class = () => {
               
                 <div className="card-body">
 
-                  <TextInput label="Class Name" placeholder="Class Name" />
+                  <TextInput name="class_name" label="Class Name" placeholder="Class Name"  onChange={handleChange} value={classDetails.class_name}/>
                   <div className="mb-3 row">
                     <Label text="Status" />
                     <div className="col-sm-6">
-                      <Select name="promoType" >
+                      <Select name="discount_type" value={classDetails.discount_type}  onChange={handleChange}>
                         <option value="" disabled>select discount type</option>
                         <option value="1">Active</option>
                         <option value="0">Inactive</option>
