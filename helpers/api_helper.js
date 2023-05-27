@@ -13,7 +13,6 @@ const axiosApi = axios.create({
 // Bearer Access Token
 const setAccessToken = () => {
     const localeAuth = localStorage.getItem("token");
-    console.log("call from helper",localeAuth);
     const authUser = localStorage.getItem("token")
       ? localeAuth
       : null;

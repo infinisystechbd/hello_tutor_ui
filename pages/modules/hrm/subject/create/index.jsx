@@ -10,8 +10,10 @@ import ToastMessage from "../../../../../components/Toast/index";
 import TextInput from "../../../../../components/elements/TextInput";
 import { SUBJECT_END_POINT } from "../../../../../constants/index";
 import { post } from "../../../../../helpers/api_helper";
-const Subject = () => {
+import { useRouter } from "next/router";
 
+const Subject = () => {
+  const router = useRouter();
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
@@ -31,8 +33,8 @@ const Subject = () => {
     e.preventDefault();
     console.log(subjectDetails);
     const response =  await post(SUBJECT_END_POINT.create(),subjectDetails);
-    console.log(response);
-    notify("success", "successfully Login!");
+    notify("success", "successfully Created!");
+    router.push(`/modules/hrm/subject`);
     // try{
   
     // }catch(error){

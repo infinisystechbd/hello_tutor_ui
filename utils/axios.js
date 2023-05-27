@@ -20,7 +20,6 @@ export default function Axios() {
             try {
                 const userString = localStorage.getItem('token');
                 const decode = jwtDecode(userString);
-                console.log("decode" ,decode);
                 return userString;
               } catch (error) {
                 console.log(error)

@@ -7,7 +7,7 @@ import RadioButton from "../../../../../components/elements/RadioButton";
 import Select from "../../../../../components/elements/Select";
 import Select2 from "../../../../../components/elements/Select2";
 import TextInput from "../../../../../components/elements/TextInput";
-const Class = () => {
+const ManageClass = () => {
 
   const[classDetails,setClassDetails] = useState({
     class_name:"",
@@ -66,4 +66,4 @@ const Class = () => {
   )
 }
 
-export default Class
+export default ManageClass

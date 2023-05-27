@@ -199,14 +199,14 @@ const LeftSidebar = () => {
 
                       </li>
                       <li className="sidebar-item">
-
-                        <a href="#" onClick={(e) => e.preventDefault()}>
+                      <Link href="/modules/hrm/subject">
+                        {/* <a href="/modules/hrm/subject/create" onClick={(e) => e.preventDefault()}> */}
                           <a className="sidebar-link">
                             <i className="mdi mdi-drawing" />
                             <span className="hide-menu">All Subject</span>
                           </a>
-                        </a>
-
+                        {/* </a> */}
+                        </Link>
                       </li>
                     </ul>
                   </li>

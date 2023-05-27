@@ -28,7 +28,7 @@ export default function Login() {
     try{
       const login = await post(SECURITY_END_POINT.login(),{ phone: phone, password: password });
     //  const res = 
-    console.log(login.status);
+    console.log("alll",login.status);
     setToken(login.accessToken);
     notify("success", "successfully Login!");
 
