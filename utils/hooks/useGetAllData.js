@@ -1,4 +1,4 @@
-import { get } from '@/helpers/api_helper';
+import { get } from '../../helpers/api_helper';
 import { useQuery } from '@tanstack/react-query';
 
 export const useGetAllData = (queryKey , url) => {

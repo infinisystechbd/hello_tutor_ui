@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback,useEffect, useState } from 'react'
 import { Button, Modal } from 'react-bootstrap'
 import Link from 'next/link';
 import Axios from '../../../';
@@ -8,6 +8,7 @@ import DataTable from 'react-data-table-component';
 import DeleteIcon from '../../../../components/elements/DeleteIcon';
 import EditIcon from '../../../../components/elements/EditIcon';
 import ViewIcon from '../../../../components/elements/ViewIcon';
+import ToastMessage from '../../../../components/Toast';
 
 
 
@@ -16,7 +17,7 @@ import ViewIcon from '../../../../components/elements/ViewIcon';
 
 //Delete component
 const DeleteComponent = ({ onSubmit,id, pending }) => {
-console.log("clicked::",onSubmit,id,pending);
+// console.log("clicked::",onSubmit,id,pending);
 
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(true);
@@ -24,14 +25,12 @@ console.log("clicked::",onSubmit,id,pending);
   const fetchSubject = useCallback(async () => {
     let isSubscribed = true;
     setLoading(true);
-    
-
     return () => (isSubscribed = false);
   }, [id]);
 
   useEffect(() => {
     fetchSubject();
-  }, [fetchRcvBckSlip]);
+  }, [fetchSubject]);
 
   let myFormData = new FormData();
 
@@ -46,8 +45,8 @@ console.log("clicked::",onSubmit,id,pending);
       <Modal.Footer>
         <Button
           variant="danger"
-          disabled={pending || loading}
-          onClick={() => onSubmit(myFormData)}
+          disabled={pending}
+          onClick={() => onSubmit(id)}
         >
           Delete
         </Button>
@@ -62,7 +61,10 @@ console.log("clicked::",onSubmit,id,pending);
 
 
 const AllSubject = () => {
-  const { http } = Axios
+  const { http } = Axios;
+  const notify = useCallback((type, message) => {
+    ToastMessage({ type, message });
+  }, []);
   const [subjectList, setAllSubjectList] = useState([]);
   const [search, setSearch] = useState("");
   const [itemList, setItemList] = useState([]);
@@ -76,6 +78,7 @@ const AllSubject = () => {
   const handleOpenDelete = (id) =>{
     setShowDeleteModal(true);
     setSubjectId(id);
+    // console.log(id);
   } 
 
   const data = itemList?.data;
@@ -142,11 +145,12 @@ const AllSubject = () => {
 
 
   const actionButton = (id) => {
+    // console.log(id);
     return <>
       <ul className="action align-items-center">
 
         <li>
-          <Link href="#">
+          <Link href={`/modules/hrm/subject/update/${id}`}>
             <a >
               <EditIcon />
             </a>
@@ -164,8 +168,8 @@ const AllSubject = () => {
         </li>
         <li>
           <Link href="#">
-            <a >
-              <DeleteIcon onClick={()=>handleOpenDelete(id)} />
+            <a onClick={()=>handleOpenDelete(id)} >
+              <DeleteIcon  />
             </a>
           </Link>
 
@@ -186,20 +190,21 @@ const AllSubject = () => {
         
         let isSubscribed = true;
         setPending(true);
-        await del(`${process.env.NEXT_PUBLIC_API_URL}/subject/${id}`)
-            .then((res) => {
-                if (isSubscribed) {
-                    notify("success", "successfully deleted!");
-                    handleExitDelete();
-                    setPending(false);
+        const deleteSubject = await del(SUBJECT_END_POINT.delete(id))
+        console.log("deleteSubject",deleteSubject);
+            // .then((res) => {
+            //     if (isSubscribed) {
+            //         notify("success", "successfully deleted!");
+            //         handleExitDelete();
+            //         setPending(false);
 
-                }
+            //     }
 
-            })
-            .catch((e) => {
-                console.log('error delete !')
-                setPending(false);
-            });
+            // })
+            // .catch((e) => {
+            //     console.log('error delete !')
+            //     setPending(false);
+            // });
 
             fetchSubjectList();
 
