@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useCallback } from 'react';
 import Button from "../../../../../components/elements/Button";
 import Form from "../../../../../components/elements/Form";
 import Label from "../../../../../components/elements/Label";
@@ -8,8 +8,11 @@ import TextInput from "../../../../../components/elements/TextInput";
 import { SUBJECT_END_POINT } from '../../../../../constants/api_endpoints/subectEndPoints';
 import { CLASS_END_POINT } from '../../../../../constants/api_endpoints/classEndPoints';
 import { get, post } from '../../../../../helpers/api_helper';
+import ToastMessage from '../../../../../components/Toast';
 const ManageClass = () => {
-
+  const notify = useCallback((type, message) => {
+    ToastMessage({ type, message });
+  }, []);
   const[classDetails,setClassDetails] = useState({
     name:"",
     status:"",  
@@ -90,8 +93,8 @@ const ManageClass = () => {
                     <Label text="Subjects" />
                     <div className="col-sm-6">
                       <Select2 placeholder="Select Subjects" isMulti
-                      options={subjectList && subjectList.map(({ subjectId, name}) => ({
-                        value: subjectId,
+                      options={subjectList && subjectList.map(({ _id, name}) => ({
+                        value: _id,
                         label:name,
                       }))}
                       onChange={onSelectSubject}

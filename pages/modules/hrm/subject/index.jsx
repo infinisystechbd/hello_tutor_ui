@@ -66,6 +66,7 @@ const AllSubject = () => {
   }, []);
   //const [subjectList, setAllSubjectList] = useState([]);
   const [search, setSearch] = useState("");
+  console.log(search);
   const [itemList, setItemList] = useState([]);
   const [pending, setPending] = useState(false);
 
@@ -81,9 +82,8 @@ const AllSubject = () => {
   }
 
   const {data : subjectList, isLoading , refetch:fetchSubjectList} = useGetAllData(QUERY_KEYS.GET_ALL_SUBJECT_LIST,SUBJECT_END_POINT.get())
-
   const data = subjectList?.data;
-  console.log("call from subject list",isLoading);
+  console.log("call from subject list",data);
 
 /*   React.useEffect(() => {
     const timeout = setTimeout(() => {
@@ -195,23 +195,7 @@ const AllSubject = () => {
       notify("error", "something went wron");
     }      
 
-
-    // .then((res) => {
-    //     if (isSubscribed) {
-    //         notify("success", "successfully deleted!");
-    //         handleExitDelete();
-    //         setPending(false);
-
-    //     }
-
-    // })
-    // .catch((e) => {
-    //     console.log('error delete !')
-    //     setPending(false);
-    // });
-
     fetchSubjectList();
-
     return () => isSubscribed = false;
   }
 
@@ -226,7 +210,7 @@ const AllSubject = () => {
     const result = data?.filter((item) => {
       return item.subjectId.toLowerCase().match(search.toLocaleLowerCase())
     });
-
+    fetchSubjectList();
    // setAllSubjectList(result);
     return () => controller.abort();
   }, [search])
