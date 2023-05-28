@@ -83,7 +83,7 @@ const AllSubject = () => {
   const {data : subjectList, isLoading , refetch:fetchSubjectList} = useGetAllData(QUERY_KEYS.GET_ALL_SUBJECT_LIST,SUBJECT_END_POINT.get())
 
   const data = subjectList?.data;
-
+  console.log("call from subject list",isLoading);
 
 /*   React.useEffect(() => {
     const timeout = setTimeout(() => {
@@ -270,7 +270,7 @@ const AllSubject = () => {
                   pagination
                   highlightOnHover
                   subHeader
-                  isLoading={isLoading}
+                  progressPending={isLoading}
                   subHeaderComponent={
                     <input
                       type="text"
