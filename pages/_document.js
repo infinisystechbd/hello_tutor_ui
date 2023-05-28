@@ -63,7 +63,7 @@ class MyDocument extends Document {
           <Main />
           <NextScript />
 
-        <s src="/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js" async/>
+        <script src="/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js" async/>
         <script src="/assets/libs/jquery/dist/jquery.min.js"defer/>
 
        
