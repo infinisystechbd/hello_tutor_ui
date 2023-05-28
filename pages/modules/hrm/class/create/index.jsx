@@ -9,13 +9,13 @@ import { SUBJECT_END_POINT } from '../../../../../constants/api_endpoints/subect
 import { CLASS_END_POINT } from '../../../../../constants/api_endpoints/classEndPoints';
 import { get, post } from '../../../../../helpers/api_helper';
 import ToastMessage from '../../../../../components/Toast';
-const ManageClass = () => {
+const CreateClass = () => {
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
   const[classDetails,setClassDetails] = useState({
     name:"",
-    status:"",  
+    status:""||"true",  
   });
   const [subjectList, setAllSubjectList] = useState([]);
   const[subject,setSubject] = useState([]);
@@ -132,4 +132,4 @@ const ManageClass = () => {
   )
 }
 
-export default ManageClass
+export default CreateClass

@@ -19,8 +19,9 @@ const Subject = () => {
   }, []);
   const [subjectDetails,setSubjectDetails] = useState({
     name:"",
-    status:""
+    status:""||"true"
   });
+  console.log(subjectDetails);
 
   const handleChange =(e)=>{
     setSubjectDetails(prev=>({
@@ -33,13 +34,12 @@ const Subject = () => {
     e.preventDefault();
     console.log(subjectDetails);
     const response =  await post(SUBJECT_END_POINT.create(),subjectDetails);
-    if (response.status === "SUCCESS") {
-      
-      notify("success", "successfully Created!");
+    if (response.status === "SUCCESS") { 
+      notify("success", response.message);
       router.push(`/modules/hrm/subject`);
     }
     else{
-      notify("error", "something went wrong");
+      notify("error", response.errorMessage);
     }
     // try{
   

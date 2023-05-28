@@ -203,12 +203,12 @@ const LeftSidebar = () => {
                       </li>
                       <li className="sidebar-item">
 
-                        <a href="#" onClick={(e) => e.preventDefault()}>
+                        <Link href="/modules/hrm/class" onClick={(e) => e.preventDefault()}>
                           <a className="sidebar-link">
                             <i className="mdi mdi-drawing" />
                             <span className="hide-menu">All Classes</span>
                           </a>
-                        </a>
+                        </Link>
 
                       </li>
                     </ul>
