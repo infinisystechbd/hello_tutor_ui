@@ -1,8 +1,8 @@
-import React, { useCallback,useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Button, Modal } from 'react-bootstrap'
 import Link from 'next/link';
 import Axios from '../../../';
-import { get,del } from '../../../../helpers/api_helper';
+import { get, del } from '../../../../helpers/api_helper';
 import { SUBJECT_END_POINT } from "../../../../constants/index";
 import DataTable from 'react-data-table-component';
 import DeleteIcon from '../../../../components/elements/DeleteIcon';
@@ -10,31 +10,28 @@ import EditIcon from '../../../../components/elements/EditIcon';
 import ViewIcon from '../../../../components/elements/ViewIcon';
 import ToastMessage from '../../../../components/Toast';
 
-
-
-
-
-
 //Delete component
-const DeleteComponent = ({ onSubmit,id, pending }) => {
-// console.log("clicked::",onSubmit,id,pending);
+const DeleteComponent = ({ onSubmit, id, pending }) => {
 
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(true);
 
   const fetchSubject = useCallback(async () => {
+
     let isSubscribed = true;
+    const getTheSubject = await get(SUBJECT_END_POINT.info(id));
+    setName(getTheSubject?.data?.name)
+    
     setLoading(true);
     return () => (isSubscribed = false);
   }, [id]);
+
 
   useEffect(() => {
     fetchSubject();
   }, [fetchSubject]);
 
   let myFormData = new FormData();
-
-  
   myFormData.append("id", id);
 
   return (
@@ -72,14 +69,14 @@ const AllSubject = () => {
 
   //Delete Tower Modal
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [subject_id, setSubjectId] = useState(''); 
+  const [subject_id, setSubjectId] = useState('');
   console.log(subject_id);
   const handleExitDelete = () => setShowDeleteModal(false);
-  const handleOpenDelete = (id) =>{
+  const handleOpenDelete = (id) => {
     setShowDeleteModal(true);
     setSubjectId(id);
     // console.log(id);
-  } 
+  }
 
   const data = itemList?.data;
 
@@ -89,29 +86,21 @@ const AllSubject = () => {
       fetchSubjectList();
     });
     return () => clearTimeout(timeout);
-}, []);
+  }, []);
 
 
-    const fetchSubjectList = async () => {
-      let isSubscribed = true;
-      try {
-        const getAllList = await get(SUBJECT_END_POINT.get());
-        setAllSubjectList(getAllList?.data);
-        setItemList(getAllList)
-      } catch (error) {
-        console.log("find the error");
-      }
-
-      return () => isSubscribed = false;
+  const fetchSubjectList = async () => {
+    let isSubscribed = true;
+    try {
+      const getAllList = await get(SUBJECT_END_POINT.get());
+      setAllSubjectList(getAllList?.data);
+      setItemList(getAllList)
+    } catch (error) {
+      console.log("find the error");
     }
 
-
-
-
-
-
-
-
+    return () => isSubscribed = false;
+  }
 
 
   const columns = [
@@ -159,7 +148,7 @@ const AllSubject = () => {
         </li>
 
         <li>
-          <Link href="#">
+        <Link href={`/modules/hrm/subject/view/${id}`}>
             <a >
               <ViewIcon />
             </a>
@@ -168,8 +157,8 @@ const AllSubject = () => {
         </li>
         <li>
           <Link href="#">
-            <a onClick={()=>handleOpenDelete(id)} >
-              <DeleteIcon  />
+            <a onClick={() => handleOpenDelete(id)} >
+              <DeleteIcon />
             </a>
           </Link>
 
@@ -185,31 +174,42 @@ const AllSubject = () => {
 
 
 
-      //Delete booking  form
-      const handleDelete = async (id) => {
-        
-        let isSubscribed = true;
-        setPending(true);
-        const deleteSubject = await del(SUBJECT_END_POINT.delete(id))
-        console.log("deleteSubject",deleteSubject);
-            // .then((res) => {
-            //     if (isSubscribed) {
-            //         notify("success", "successfully deleted!");
-            //         handleExitDelete();
-            //         setPending(false);
+  //Delete booking  form
+  const handleDelete = async (id) => {
 
-            //     }
+    let isSubscribed = true;
+    // setPending(true);
+    const deleteSubject = await del(SUBJECT_END_POINT.delete(id))
+   
+    if (deleteSubject.status === "SUCCESS") {
+              notify("success", "successfully deleted!");
+              handleExitDelete();
+              setPending(false);
+  
+          }
+    else{
+      notify("error", "something went wron");
+    }      
 
-            // })
-            // .catch((e) => {
-            //     console.log('error delete !')
-            //     setPending(false);
-            // });
 
-            fetchSubjectList();
+    // .then((res) => {
+    //     if (isSubscribed) {
+    //         notify("success", "successfully deleted!");
+    //         handleExitDelete();
+    //         setPending(false);
 
-        return () => isSubscribed = false;
-    }
+    //     }
+
+    // })
+    // .catch((e) => {
+    //     console.log('error delete !')
+    //     setPending(false);
+    // });
+
+    fetchSubjectList();
+
+    return () => isSubscribed = false;
+  }
 
 
 
@@ -232,7 +232,7 @@ const AllSubject = () => {
 
 
 
- 
+
 
 
 
@@ -264,7 +264,7 @@ const AllSubject = () => {
             {/* Delete Modal Form */}
             <Modal show={showDeleteModal} onHide={handleExitDelete}>
               <Modal.Header closeButton></Modal.Header>
-              <DeleteComponent  onSubmit={handleDelete} id={subject_id} pending={pending} />
+              <DeleteComponent onSubmit={handleDelete} id={subject_id} pending={pending} />
             </Modal>
 
 

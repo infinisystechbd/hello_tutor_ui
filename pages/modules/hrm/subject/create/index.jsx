@@ -33,8 +33,14 @@ const Subject = () => {
     e.preventDefault();
     console.log(subjectDetails);
     const response =  await post(SUBJECT_END_POINT.create(),subjectDetails);
-    notify("success", "successfully Created!");
-    router.push(`/modules/hrm/subject`);
+    if (response.status === "SUCCESS") {
+      
+      notify("success", "successfully Created!");
+      router.push(`/modules/hrm/subject`);
+    }
+    else{
+      notify("error", "something went wrong");
+    }
     // try{
   
     // }catch(error){
@@ -66,7 +72,7 @@ const Subject = () => {
                   <Label text="Status" />
                   <div className="col-sm-6">
                     <Select name="status" value={subjectDetails.status}  onChange={handleChange} >
-                      <option value="" disabled>select discount type</option>
+                      {/* <option value="" disabled>select subject type</option> */}
                       <option value="true">Active</option>
                       <option value="false">Inactive</option>
                     </Select>

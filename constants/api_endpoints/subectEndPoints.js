@@ -1,5 +1,7 @@
 export const SUBJECT_END_POINT = {
     create: () => `/subject`,
     get: () => `/subject`,
-    delete: (id) => `/subject/${id}`,
-}
+    info: (id) => `/subject/${id}`,
+    update: (id) => `/subject/${id}`,
+    delete:(id) => `/subject/${id}`,
+}   
