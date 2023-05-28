@@ -1,6 +1,7 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useRouter } from "next/router";
+import { useState } from 'react';
 import { Slide, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Login from '../pages/user/login';
@@ -10,7 +11,7 @@ import UserContext from './../components/context/userContext';
 import Layout from '/components/Layout';
 
 const MyApp = ({ Component, pageProps }) => {
-  const queryClient = new QueryClient();
+  const [queryClient] = useState(() => new QueryClient());
   const { http, user, token, logout } = Axios();
   const router = useRouter();
 
@@ -66,9 +67,9 @@ const MyApp = ({ Component, pageProps }) => {
     <UserContext.Provider>
         <Layout>
           <QueryClientProvider client={queryClient}>
+            <Hydrate state={pageProps.dehydratedState}>
           <Component {...pageProps} />
-          <ReactQueryDevtools initialIsOpen={false} />
-          </QueryClientProvider>
+         
           <ToastContainer
             position="top-right"
             autoClose={3000}
@@ -79,6 +80,9 @@ const MyApp = ({ Component, pageProps }) => {
             pauseOnHover
             transition={Slide}
           />
+          </Hydrate>
+           <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
         </Layout>
         </UserContext.Provider>
     </>

@@ -1,14 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { Button, Modal } from 'react-bootstrap'
 import Link from 'next/link';
-import Axios from '../../../';
-import { get, del } from '../../../../helpers/api_helper';
-import { SUBJECT_END_POINT } from "../../../../constants/index";
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Modal } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
+import Axios from '../../../';
+import ToastMessage from '../../../../components/Toast';
 import DeleteIcon from '../../../../components/elements/DeleteIcon';
 import EditIcon from '../../../../components/elements/EditIcon';
 import ViewIcon from '../../../../components/elements/ViewIcon';
-import ToastMessage from '../../../../components/Toast';
+import { SUBJECT_END_POINT } from "../../../../constants/index";
+import { QUERY_KEYS } from "../../../../constants/queryKeys";
+import { del, get } from '../../../../helpers/api_helper';
+import { useGetAllData } from "../../../../utils/hooks/useGetAllData";
 
 //Delete component
 const DeleteComponent = ({ onSubmit, id, pending }) => {
@@ -62,7 +64,7 @@ const AllSubject = () => {
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
-  const [subjectList, setAllSubjectList] = useState([]);
+  //const [subjectList, setAllSubjectList] = useState([]);
   const [search, setSearch] = useState("");
   const [itemList, setItemList] = useState([]);
   const [pending, setPending] = useState(false);
@@ -78,18 +80,20 @@ const AllSubject = () => {
     // console.log(id);
   }
 
-  const data = itemList?.data;
+  const {data : subjectList, isLoading , refetch:fetchSubjectList} = useGetAllData(QUERY_KEYS.GET_ALL_SUBJECT_LIST,SUBJECT_END_POINT.get())
+
+  const data = subjectList?.data;
 
 
-  React.useEffect(() => {
+/*   React.useEffect(() => {
     const timeout = setTimeout(() => {
       fetchSubjectList();
     });
     return () => clearTimeout(timeout);
-  }, []);
+  }, []); */
 
 
-  const fetchSubjectList = async () => {
+/*   const fetchSubjectList = async () => {
     let isSubscribed = true;
     try {
       const getAllList = await get(SUBJECT_END_POINT.get());
@@ -100,7 +104,7 @@ const AllSubject = () => {
     }
 
     return () => isSubscribed = false;
-  }
+  } */
 
 
   const columns = [
@@ -223,19 +227,9 @@ const AllSubject = () => {
       return item.subjectId.toLowerCase().match(search.toLocaleLowerCase())
     });
 
-    setAllSubjectList(result);
+   // setAllSubjectList(result);
     return () => controller.abort();
   }, [search])
-
-
-
-
-
-
-
-
-
-
 
   return (
     <div className="container-fluid">
@@ -272,10 +266,11 @@ const AllSubject = () => {
               <div className="">
                 <DataTable
                   columns={columns}
-                  data={subjectList}
+                  data={subjectList?.data}
                   pagination
                   highlightOnHover
                   subHeader
+                  isLoading={isLoading}
                   subHeaderComponent={
                     <input
                       type="text"
