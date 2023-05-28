@@ -274,7 +274,7 @@ const AllSubject = () => {
                   subHeaderComponent={
                     <input
                       type="text"
-                      placeholder="search by mobile or invoice no."
+                      placeholder="search by subject code"
                       className="w-25 form-control search-input_RESERVATIONS"
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}

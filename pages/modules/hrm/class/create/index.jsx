@@ -1,23 +1,73 @@
-import React, { useState } from 'react'
-import HeadSection from "../../../../../components/HeadSection";
+import { useEffect, useState } from 'react';
 import Button from "../../../../../components/elements/Button";
 import Form from "../../../../../components/elements/Form";
 import Label from "../../../../../components/elements/Label";
-import RadioButton from "../../../../../components/elements/RadioButton";
 import Select from "../../../../../components/elements/Select";
 import Select2 from "../../../../../components/elements/Select2";
 import TextInput from "../../../../../components/elements/TextInput";
+import { SUBJECT_END_POINT } from '../../../../../constants/api_endpoints/subectEndPoints';
+import { CLASS_END_POINT } from '../../../../../constants/api_endpoints/classEndPoints';
+import { get, post } from '../../../../../helpers/api_helper';
 const ManageClass = () => {
 
   const[classDetails,setClassDetails] = useState({
-    class_name:"",
-    discount_type:""
+    name:"",
+    status:"",  
   });
-  console.log(classDetails);
+  const [subjectList, setAllSubjectList] = useState([]);
+  const[subject,setSubject] = useState([]);
+
+  useEffect(()=>{
+    const controller = new AbortController();
+    const fetchTotalSubjects = async () =>{
+      let isSubscribed = true;
+    try {
+      const getAllList = await get(SUBJECT_END_POINT.get());
+      setAllSubjectList(getAllList?.data);
+      
+    } catch (error) {
+      console.log("find the error");
+    }
+
+    return () => isSubscribed = false;
+    }
+    fetchTotalSubjects();
+  },[])
+
+
   const handleChange =(e)=>{
     setClassDetails(prev=>({
       ...prev, [e.target.name]:e.target.value
     }))
+  }
+
+  const onSelectSubject = (e) => {
+    setSubject([])
+    e.map((x) => {
+      setSubject(subject => [
+        ...subject,
+        { subjectId: x.value }
+      ])
+    })
+
+  }
+
+
+  async function submitForm(e) {
+    e.preventDefault();
+    const body = {...classDetails,subject};
+    console.log(body);
+
+    const response =  await post(CLASS_END_POINT.create(),body);
+    if (response.status === "SUCCESS") {
+      
+      notify("success", "successfully Created!");
+      // router.push(`/modules/hrm/subject`);
+    }
+    else{
+      notify("error", "something went wrong");
+    }
+  
   }
 
   return (
@@ -31,17 +81,30 @@ const ManageClass = () => {
                 <h4 className="card-title">Add Class</h4>
               </div>
 
-              <Form >
+              <Form onSubmit={submitForm} >
               
                 <div className="card-body">
 
-                  <TextInput name="class_name" label="Class Name" placeholder="Class Name"  onChange={handleChange} value={classDetails.class_name}/>
+                  <TextInput name="name" label="Class Name" placeholder="Class Name"  onChange={handleChange} value={classDetails.name}/>
+                  <div className="mb-3 row">
+                    <Label text="Subjects" />
+                    <div className="col-sm-6">
+                      <Select2 placeholder="Select Subjects" isMulti
+                      options={subjectList && subjectList.map(({ subjectId, name}) => ({
+                        value: subjectId,
+                        label:name,
+                      }))}
+                      onChange={onSelectSubject}
+                      />
+                    </div>
+                  </div>
+
                   <div className="mb-3 row">
                     <Label text="Status" />
                     <div className="col-sm-6">
-                      <Select name="discount_type" value={classDetails.discount_type}  onChange={handleChange}>
-                        <option value="" disabled>select discount type</option>
-                        <option value="1">Active</option>
+                      <Select name="status" value={classDetails.status}  onChange={handleChange}>
+                      <option value="" disabled>select activation type</option>
+                      <option value="true" selected>Active</option>
                         <option value="0">Inactive</option>
                       </Select>
                     </div>
