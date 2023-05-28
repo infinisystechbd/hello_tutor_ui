@@ -166,13 +166,13 @@ const LeftSidebar = () => {
 
                       </li>
                       <li className="sidebar-item">
-                      <Link href="/modules/hrm/subject" onClick={(e) => e.preventDefault()}>
-                        {/* <a href="/modules/hrm/subject/create" onClick={(e) => e.preventDefault()}> */}
+                        <Link href="/modules/hrm/subject" onClick={(e) => e.preventDefault()}>
+                          {/* <a href="/modules/hrm/subject/create" onClick={(e) => e.preventDefault()}> */}
                           <a className="sidebar-link">
                             <i className="mdi mdi-drawing" />
                             <span className="hide-menu">All Subject</span>
                           </a>
-                        {/* </a> */}
+                          {/* </a> */}
                         </Link>
                       </li>
                     </ul>
@@ -180,8 +180,8 @@ const LeftSidebar = () => {
                   {/* End subject */}
 
 
-                                    {/* class */}
-                                    <li className="sidebar-item">
+                  {/* class */}
+                  <li className="sidebar-item">
                     <a
                       className="sidebar-link has-arrow waves-effect waves-dark"
                       href="#" onClick={(e) => e.preventDefault()}
@@ -286,8 +286,8 @@ const LeftSidebar = () => {
                   </li>
                   {/* End Guardian */}
 
-                                    {/* Guardian */}
-                                    <li className="sidebar-item">
+                  {/* Guardian */}
+                  <li className="sidebar-item">
                     <a
                       className="sidebar-link has-arrow waves-effect waves-dark"
                       href="#" onClick={(e) => e.preventDefault()}
