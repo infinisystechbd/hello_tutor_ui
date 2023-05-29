@@ -13,17 +13,20 @@ const LeftSidebar = () => {
 
               <li className={`sidebar-item `}>
 
-                <a
+                {/* <a
                   className="sidebar-link has-arrow waves-effect waves-dark"
                   href="#" onClick={(e) => e.preventDefault()}
                   aria-expanded="false"
                 >
                   <i data-feather="file-text" className="feather-icon" />
                   <span className="hide-menu">Admin</span>
-                </a>
+                </a> */}
 
                 <ul aria-expanded="false" className="collapse first-level">
+
+
                   {/* Employee */}
+{/* 
                   <li className="sidebar-item">
                     <a
                       className="sidebar-link has-arrow waves-effect waves-dark"
@@ -49,10 +52,14 @@ const LeftSidebar = () => {
 
                       </li>
                     </ul>
-                  </li>
+                  </li> */}
+
                   {/* End Employee */}
 
                   {/* Teacher */}
+
+{/* 
+
                   <li className="sidebar-item">
 
                     <a
@@ -65,7 +72,6 @@ const LeftSidebar = () => {
                     </a>
                     <ul aria-expanded="false" className="collapse second-level">
                       <li className="sidebar-item">
-                        {/* <a href=""></a> */}
                         <Link href="/modules/hr/teacher/create">
                           <a className="sidebar-link">
                             <i className="mdi mdi-drawing" />
@@ -85,9 +91,13 @@ const LeftSidebar = () => {
 
                       </li>
                     </ul>
-                  </li>
+                  </li> */}
+
+
                   {/* End Teacher */}
                   {/* Students */}
+
+{/* 
                   <li className="sidebar-item">
                     <a
                       className="sidebar-link has-arrow waves-effect waves-dark"
@@ -119,7 +129,10 @@ const LeftSidebar = () => {
 
                       </li>
                     </ul>
-                  </li>
+                  </li> */}
+
+
+
                   {/* End Students */}
 
                 </ul>
@@ -167,7 +180,6 @@ const LeftSidebar = () => {
                       </li>
                       <li className="sidebar-item">
                         <Link href="/modules/hrm/subject" onClick={(e) => e.preventDefault()}>
-                          {/* <a href="/modules/hrm/subject/create" onClick={(e) => e.preventDefault()}> */}
                           <a className="sidebar-link">
                             <i className="mdi mdi-drawing" />
                             <span className="hide-menu">All Subject</span>
@@ -216,6 +228,8 @@ const LeftSidebar = () => {
                   {/* End class */}
 
                   {/* Categories */}
+
+
                   <li className="sidebar-item">
                     <a
                       className="sidebar-link has-arrow waves-effect waves-dark"
@@ -238,21 +252,25 @@ const LeftSidebar = () => {
                       </li>
                       <li className="sidebar-item">
 
-                        <a href="#" onClick={(e) => e.preventDefault()}>
+                        <Link href="/modules/hrm/categorie" onClick={(e) => e.preventDefault()}>
                           <a className="sidebar-link">
                             <i className="mdi mdi-drawing" />
                             <span className="hide-menu">All Categories</span>
                           </a>
-                        </a>
+                        </Link>
 
                       </li>
                     </ul>
                   </li>
+
+
+
+
                   {/* End Categories */}
 
 
                   {/* Guardian */}
-                  <li className="sidebar-item">
+                  {/* <li className="sidebar-item">
                     <a
                       className="sidebar-link has-arrow waves-effect waves-dark"
                       href="#" onClick={(e) => e.preventDefault()}
@@ -283,11 +301,11 @@ const LeftSidebar = () => {
 
                       </li>
                     </ul>
-                  </li>
+                  </li> */}
                   {/* End Guardian */}
 
                   {/* Guardian */}
-                  <li className="sidebar-item">
+                  {/* <li className="sidebar-item">
                     <a
                       className="sidebar-link has-arrow waves-effect waves-dark"
                       href="#" onClick={(e) => e.preventDefault()}
@@ -318,7 +336,7 @@ const LeftSidebar = () => {
 
                       </li>
                     </ul>
-                  </li>
+                  </li> */}
                   {/* End Guardian */}
 
                 </ul>

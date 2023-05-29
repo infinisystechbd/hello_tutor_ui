@@ -45,7 +45,7 @@ const NavBar = () => {
                   <span className="logo-text">
 
 
-                    <h3 className="fw-bolder mb-0" >Managebeds</h3>
+                    <h3 className="fw-bolder mb-0" >Hello Tutor</h3>
 
                   </span>
                 </a>

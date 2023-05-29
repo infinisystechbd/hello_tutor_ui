@@ -70,7 +70,7 @@ const AllSubject = () => {
   const [itemList, setItemList] = useState([]);
   const [pending, setPending] = useState(false);
 
-  //Delete Tower Modal
+  //Delete  Modal
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [subject_id, setSubjectId] = useState('');
   console.log(subject_id);
@@ -178,7 +178,7 @@ const AllSubject = () => {
 
 
 
-  //Delete booking  form
+  //Delete Subject
   const handleDelete = async (id) => {
 
     let isSubscribed = true;

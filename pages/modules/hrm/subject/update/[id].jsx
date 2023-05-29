@@ -20,7 +20,6 @@ const EditSubject = () => {
     name: "",
     status: ""
   });
-  console.log(subjectDetails);
   const fetchSubject = useCallback(async () => {
     let isSubscribed = true;
     if (id) {

@@ -9,14 +9,18 @@ import { SUBJECT_END_POINT } from '../../../../../constants/api_endpoints/subect
 import { CLASS_END_POINT } from '../../../../../constants/api_endpoints/classEndPoints';
 import { get, post } from '../../../../../helpers/api_helper';
 import ToastMessage from '../../../../../components/Toast';
+import { useRouter } from "next/router";
+
 const CreateClass = () => {
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
+  const router = useRouter();
   const[classDetails,setClassDetails] = useState({
     name:"",
     status:""||"true",  
   });
+  console.log(classDetails);
   const [subjectList, setAllSubjectList] = useState([]);
   const[subject,setSubject] = useState([]);
 
@@ -65,7 +69,7 @@ const CreateClass = () => {
     if (response.status === "SUCCESS") {
       
       notify("success", "successfully Created!");
-      // router.push(`/modules/hrm/subject`);
+      router.push(`/modules/hrm/class`);
     }
     else{
       notify("error", "something went wrong");
@@ -108,7 +112,7 @@ const CreateClass = () => {
                       <Select name="status" value={classDetails.status}  onChange={handleChange}>
                       <option value="" disabled>select activation type</option>
                       <option value="true" selected>Active</option>
-                        <option value="0">Inactive</option>
+                        <option value="false">Inactive</option>
                       </Select>
                     </div>
                   </div>

@@ -29,7 +29,7 @@ class MyDocument extends Document {
             content="managebeds,hotel-management,hotel,hospitality,datahost-it" />
         <meta name="description" content="Managebeds hospitality management solution for all property types. 2022 Best PMS, Best Hotel Software, Top 10 Hotelier’s Choice, and more." />
         <meta name="robots" content="noindex,nofollow" />
-        <title>Managebeds</title>
+        <title>Hello Tutor</title>
 
         
         <link rel="canonical" href="http://194.233.78.193/" />
