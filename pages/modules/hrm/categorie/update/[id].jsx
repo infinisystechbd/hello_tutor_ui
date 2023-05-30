@@ -11,23 +11,20 @@ import ToastMessage from '../../../../../components/Toast';
 import { useRouter } from "next/router";
 import { CLASS_END_POINT } from "../../../../../constants/api_endpoints/classEndPoints";
 import { CATEGORIE_END_POINT } from "../../../../../constants/api_endpoints/categorieEndPoints";
-import { get, post } from '../../../../../helpers/api_helper';
+import { get, post, put } from '../../../../../helpers/api_helper';
 
-// 
-const Categories = () => {
+const UpdateCategory = () => {
 
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const { id } = router?.query;
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
-  const router = useRouter();
-  const [categorieDetails, setCategorieDetails] = useState({
-    name: "",
-    status: "" || "true",
-  });
 
   const [allClassesList, setAllClassesList] = useState([]);
+  const [categorieDetails, setCategorieDetails] = useState({});
   const [allClasses, setAllClasses] = useState([]);
-
   useEffect(() => {
     const controller = new AbortController();
     const fetchTotalClasses = async () => {
@@ -47,6 +44,28 @@ const Categories = () => {
 
 
 
+  const fetchCategory = useCallback(async () => {
+    let isSubscribed = true;
+    if (id) {
+      const getTheCategory = await get(CATEGORIE_END_POINT.info(id));
+      console.log("getTheCategory", getTheCategory);
+      setCategorieDetails(prev => ({
+        ...prev,
+        name: getTheCategory?.data?.name,
+        status: getTheCategory?.data?.status,
+        class: getTheCategory?.data?.class
+      }));
+    }
+
+    // setLoading(true);
+    return () => (isSubscribed = false);
+  }, [id]);
+
+
+  useEffect(() => {
+    fetchCategory();
+  }, [fetchCategory]);
+
 
   const handleChange = (e) => {
     setCategorieDetails(prev => ({
@@ -65,34 +84,34 @@ const Categories = () => {
 
   }
 
+
+
   async function submitForm(e) {
     e.preventDefault();
-    const body = { ...categorieDetails, class: allClasses };
+    const body = { ...categorieDetails, class:allClasses };
     console.log(body);
-
-    const response = await post(CATEGORIE_END_POINT.create(), body);
-    if (response.status === "SUCCESS") {
-
-      notify("success", "successfully Created!");
+    const updateTheClass = await put(CATEGORIE_END_POINT.update(id), body);
+    if (updateTheClass.status === 'SUCCESS') {
+      notify("success", updateTheClass.message);
       router.push(`/modules/hrm/categorie`);
     }
-    else {
-      notify("error", "something went wrong");
-    }
 
+    else {
+      notify("error", updateTheClass.message);
+    }
 
   }
 
   return (
     <>
-      <HeadSection title="Add Categorie" />
+      <HeadSection title="Update Categorie" />
       <div className="container-fluid ">
         <div className="w-75 m-auto">
           <div className="row">
             <div className="col-md-10">
               <div className="card">
                 <div className="card-body border-bottom">
-                  <h4 className="card-title">Add Categorie</h4>
+                  <h4 className="card-title">Update Categorie</h4>
                 </div>
                 <Form onSubmit={submitForm} >
                   <div className="card-body">
@@ -100,7 +119,7 @@ const Categories = () => {
                     <div className="mb-3 row">
                       <Label text="Name" />
                       <div className="col-sm-6">
-                        <Select name="name" onChange={handleChange}  >
+                        <Select name="name" value={categorieDetails.name} onChange={handleChange}  >
                           <option value="" >Bangla/English Version Name</option>
                           <option value="Bangla_Version" >Bangla Version Name</option>
                           <option value="English_Version">English Version Name</option>
@@ -110,19 +129,36 @@ const Categories = () => {
                     <div className="mb-3 row">
                       <Label text="Class" />
                       <div className="col-sm-6">
-                        <Select2 placeholder="Select class" isMulti
-                          options={allClassesList && allClassesList.map(({ _id, name }) => ({
-                            value: _id,
-                            label: name,
-                          }))}
-                          onChange={onSelectCLass}
-                        />
+                        {
+                          categorieDetails?.class?.length > 0 &&
+                          <Select2
+                            isMulti
+                            options={allClassesList && allClassesList.map(({ _id, name }) => ({
+                              value: _id,
+                              label: name,
+                            }))}
+                            onChange={onSelectCLass}
+                            defaultValue={categorieDetails?.class?.map((classId, index) => ({ value: classId?.classId?._id, label: classId?.classId?.name }))}
+                          />
+                        }
+
+
+                        {
+                          categorieDetails?.class?.length <= 0 &&
+                          <Select2
+                            isMulti
+                            options={allClassesList && allClassesList?.class?.map((classId, index) => ({ value: classId?.classId?._id, label: classId?.classId?.name }))}
+                            onChange={onSelectCLass}
+
+
+                          />
+                        }
                       </div>
                     </div>
                     <div className="mb-3 row">
                       <Label text="Status" />
                       <div className="col-sm-6">
-                        <Select name="status" onChange={handleChange}  >
+                        <Select name="status" value={categorieDetails.status} onChange={handleChange}  >
                           <option value="true" selected>Active</option>
                           <option value="false">Inactive</option>
                         </Select>
@@ -132,7 +168,7 @@ const Categories = () => {
                   <div className="p-3 border-top">
                     <div className="text-end">
                       <Button className="btn-info">
-                        Save
+                        Update
                       </Button>
                     </div>
                   </div>
@@ -146,4 +182,4 @@ const Categories = () => {
   )
 }
 
-export default Categories
+export default UpdateCategory

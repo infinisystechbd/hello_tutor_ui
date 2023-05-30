@@ -263,10 +263,82 @@ const LeftSidebar = () => {
                     </ul>
                   </li>
 
-
-
-
                   {/* End Categories */}
+
+
+
+                 {/** city */}
+
+                 <li className="sidebar-item">
+                    <a
+                      className="sidebar-link has-arrow waves-effect waves-dark"
+                      href="#" onClick={(e) => e.preventDefault()}
+                      aria-expanded="false"
+                    >
+                      <i className="mdi mdi-dns" />
+                      <span className="hide-menu">City</span>
+                    </a>
+                    <ul aria-expanded="false" className="collapse second-level">
+                      <li className="sidebar-item">
+
+                        <Link href="/modules/hrm/city/create">
+                          <a className="sidebar-link">
+                            <i className="mdi mdi-drawing" />
+                            <span className="hide-menu">Add City</span>
+                          </a>
+                        </Link>
+
+                      </li>
+                      <li className="sidebar-item">
+
+                        <Link href="/modules/hrm/city" onClick={(e) => e.preventDefault()}>
+                          <a className="sidebar-link">
+                            <i className="mdi mdi-drawing" />
+                            <span className="hide-menu">All City</span>
+                          </a>
+                        </Link>
+
+                      </li>
+                    </ul>
+                  </li>
+                  {/*End city*/}
+
+
+                  {/** Location */}
+                  <li className="sidebar-item">
+                    <a
+                      className="sidebar-link has-arrow waves-effect waves-dark"
+                      href="#" onClick={(e) => e.preventDefault()}
+                      aria-expanded="false"
+                    >
+                      <i className="mdi mdi-dns" />
+                      <span className="hide-menu">Location</span>
+                    </a>
+                    <ul aria-expanded="false" className="collapse second-level">
+                      <li className="sidebar-item">
+
+                        <Link href="/modules/hrm/location/create">
+                          <a className="sidebar-link">
+                            <i className="mdi mdi-drawing" />
+                            <span className="hide-menu">Add Location</span>
+                          </a>
+                        </Link>
+
+                      </li>
+                      <li className="sidebar-item">
+
+                        <Link href="/modules/hrm/location" onClick={(e) => e.preventDefault()}>
+                          <a className="sidebar-link">
+                            <i className="mdi mdi-drawing" />
+                            <span className="hide-menu">All Location</span>
+                          </a>
+                        </Link>
+
+                      </li>
+                    </ul>
+                  </li>
+
+                  {/**End Location */}
 
 
                   {/* Guardian */}

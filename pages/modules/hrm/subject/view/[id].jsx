@@ -11,7 +11,7 @@ const ViewSubject = () => {
     }, []);
     const { id } = router?.query;
     const [subjectDetails, setSubjectDetails] = useState({});
-    console.log("call from view",subjectDetails);
+    console.log("call from view", subjectDetails);
 
 
     const fetchSubject = useCallback(async () => {
@@ -31,68 +31,68 @@ const ViewSubject = () => {
     return (
         <>
             <div className="container-fluid ">
-            <div className="w-75 m-auto">   
-        <div className="row">
-           
-            <div className="col-lg-8 col-md-8 col-sm-8">
-                <div className="card">
-                    <div className="card-body">
-            
-                        <div className="row">
-                            <div className="col-lg-12 col-md-12 col-sm-12">
-                            <h3 className="box-title mt-5">Subject Basic Info</h3>
-                            <div className="table-responsive">
-                                <table className="table">
-                                <tbody>
-                                    <tr>
-                                        <td width={390}>Name</td>
-                                        <td>{subjectDetails.name}</td>
-                                    </tr>
+                <div className="w-75 m-auto">
+                    <div className="row">
 
-                                    <tr>
-                                    <td>Status</td>
-                                    <td>
-                                        {subjectDetails.status == true ? 
-                                        <button className="btn btn-primary">Active</button> :
-                                        <button className="btn btn-danger">Inactive</button>
-                                        } 
-                                    </td>
-                                    </tr>
-                                    
-                                </tbody>
-                                </table>
-                            </div>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-lg-12 col-md-12 col-sm-12">
-                            <h3 className="box-title mt-5">Creation/updation related info</h3>
-                            <div className="table-responsive">
-                                <table className="table">
-                                <tbody>
+                        <div className="col-lg-8 col-md-8 col-sm-8">
+                            <div className="card">
+                                <div className="card-body">
 
-                                    <tr>
-                                    <td>Created At</td>
-                                    <td>{moment(subjectDetails?.createdAt).format('DD-MM-YYYY')}</td>
-                                    </tr>
-                                    <tr>
-                                    <td>Updated At</td>
-                                    <td>{moment(subjectDetails?.updatedAt).format('DD-MM-YYYY')}</td>
-                                    </tr>
-                            
-                                </tbody>
-                                </table>
-                            </div>
+                                    <div className="row">
+                                        <div className="col-lg-12 col-md-12 col-sm-12">
+                                            <h3 className="box-title mt-5">Subject Basic Info</h3>
+                                            <div className="table-responsive">
+                                                <table className="table">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td width={390}>Name</td>
+                                                            <td>{subjectDetails.name}</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>Status</td>
+                                                            <td>
+                                                                {subjectDetails.status == true ?
+                                                                    <button className="btn btn-primary">Active</button> :
+                                                                    <button className="btn btn-danger">Inactive</button>
+                                                                }
+                                                            </td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-lg-12 col-md-12 col-sm-12">
+                                            <h3 className="box-title mt-5">Creation/updation related info</h3>
+                                            <div className="table-responsive">
+                                                <table className="table">
+                                                    <tbody>
+
+                                                        <tr>
+                                                            <td>Created At</td>
+                                                            <td>{moment(subjectDetails?.createdAt).format('DD-MM-YYYY')}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Updated At</td>
+                                                            <td>{moment(subjectDetails?.updatedAt).format('DD-MM-YYYY')}</td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+
+
                 </div>
             </div>
-         
-            
-        </div>
-    </div>
         </>
     )
 }

@@ -9,6 +9,7 @@ import Button from "../../../../../components/elements/Button";
 import { get, put } from '../../../../../helpers/api_helper';
 import { CLASS_END_POINT } from '../../../../../constants/api_endpoints/classEndPoints';
 import { SUBJECT_END_POINT } from '../../../../../constants/api_endpoints/subectEndPoints';
+import HeadSection from "../../../../../components/HeadSection";
 import ToastMessage from '../../../../../components/Toast';
 
 
@@ -21,13 +22,12 @@ const ClassUpdate = () => {
     ToastMessage({ type, message });
   }, []);
 
-  const [classDetails, setClassDetails] = useState({
-    name: "",
-    status: "" || "true",
-  });
+  const [classDetails, setClassDetails] = useState({});
   const [subjectList, setAllSubjectList] = useState([]);
   const [subject, setSubject] = useState([]);
 
+  // console.log(classDetails);
+  // console.log("classDetails",classDetails?.subject[0]?.subjectId?._id);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -35,6 +35,7 @@ const ClassUpdate = () => {
       let isSubscribed = true;
       try {
         const getAllList = await get(SUBJECT_END_POINT.get());
+        // console.log(getAllList);
         setAllSubjectList(getAllList?.data);
 
       } catch (error) {
@@ -52,10 +53,12 @@ const ClassUpdate = () => {
     let isSubscribed = true;
     if (id) {
       const getTheClass = await get(CLASS_END_POINT.info(id));
+      console.log("getTheClass",getTheClass);
       setClassDetails(prev => ({
         ...prev,
         name: getTheClass?.data?.name,
-        status: getTheClass?.data?.status
+        status: getTheClass?.data?.status,
+        subject:getTheClass?.data?.subject
       }));
     }
 
@@ -108,13 +111,14 @@ const ClassUpdate = () => {
 
   return (
     <>
+    <HeadSection title="Update Class" />
       <div className="container-fluid ">
         <div className="w-75 m-auto">
           <div className="row">
             <div className="col-md-10">
               <div className="card">
                 <div className="card-body border-bottom">
-                  <h4 className="card-title">Add Class</h4>
+                  <h4 className="card-title">Update Class</h4>
                 </div>
 
                 <Form onSubmit={submitForm} >
@@ -125,37 +129,26 @@ const ClassUpdate = () => {
                     <div className="mb-3 row">
                       <Label text="Subjects" />
                       <div className="col-sm-6">
-                        {/*<Select2 placeholder="Select Subjects" isMulti
-                    options={classDetails && classDetails?.subject?.map(({ _id, name}) => ({
-                      value: _id,
-                      label:name,
-                    }))}
-                    // onChange={onSelectSubject}
-                    /> */}
-
-
+   
                         {
-                          classDetails?.subject &&
+                          classDetails?.subject?.length > 0 &&
                           <Select2
                             isMulti
                             options={subjectList && subjectList.map(({ _id, name }) => ({
                               value: _id,
                               label: name,
                             }))}
-                            onChange={onSelectSubject}
-                            defaultValue={classDetails?.subject?.map(({ _id }) => ({ value: _id }))}
+                            onChange={onSelectSubject}subjectId
+                            defaultValue={classDetails?.subject?.map((subjectId,index) => ({ value:subjectId?.subjectId?._id,label:subjectId?.subjectId?.name }))}
                           />
                         }
 
 
                         {
-                          !classDetails?.subject &&
+                          classDetails?.subject?.length <= 0 &&
                           <Select2
                             isMulti
-                            options={subjectList && subjectList.map(({ _id, name }) => ({
-                              value: _id,
-                              label: name,
-                            }))}
+                            options={classDetails && classDetails?.subject?.map((subjectId,index) => ({ value:subjectId?.subjectId?._id,label:subjectId?.subjectId?.name }))}
                             onChange={onSelectSubject}
 
 
@@ -178,7 +171,7 @@ const ClassUpdate = () => {
                   <div className="p-3 border-top">
                     <div className="text-end">
                       <Button className="btn-info">
-                        Save
+                        Update
                       </Button>
 
                     </div>

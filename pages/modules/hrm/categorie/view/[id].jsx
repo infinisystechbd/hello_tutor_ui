@@ -4,23 +4,22 @@ import { get, put } from '../../../../../helpers/api_helper';
 import HeadSection from '../../../../../components/HeadSection';
 import moment from 'moment';
 import ToastMessage from '../../../../../components/Toast';
-import { CLASS_END_POINT } from '../../../../../constants/api_endpoints/classEndPoints';
-const ClassInfo = () => {
+import { CATEGORIE_END_POINT } from '../../../../../constants/api_endpoints/categorieEndPoints';
+
+const CategoryInfo = () => {
 
     const router = useRouter();
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
     }, []);
     const { id } = router?.query;
-    const [classDetails, setClassDetails] = useState({});
-
-    console.log("class details", classDetails);
-
-    const fetchClass = useCallback(async () => {
+    const [categoryDetails, setCategoryDetails] = useState({});
+    console.log(categoryDetails);
+    const fetchCategory = useCallback(async () => {
         let isSubscribed = true;
         if (id) {
-            const getTheClass = await get(CLASS_END_POINT.info(id));
-            setClassDetails(getTheClass?.data);
+            const getTheClass = await get(CATEGORIE_END_POINT.info(id));
+            setCategoryDetails(getTheClass?.data);
         }
 
         return () => (isSubscribed = false);
@@ -28,13 +27,12 @@ const ClassInfo = () => {
 
 
     useEffect(() => {
-        fetchClass();
-    }, [fetchClass]);
-
+        fetchCategory();
+    }, [fetchCategory]);
 
     return (
         <>
-            <HeadSection title="Class-Details" />
+            <HeadSection title="Category-Details" />
 
             <div className="container-fluid ">
                 <div className="row">
@@ -45,21 +43,23 @@ const ClassInfo = () => {
 
                                 <div className="row">
                                     <div className="col-lg-12 col-md-12 col-sm-12">
-                                        <h3 className="box-title mt-5">Class Basic Info</h3>
+                                        <h3 className="box-title mt-5">Category Basic Info</h3>
                                         <div className="table-responsive">
                                             <table className="table">
                                                 <tbody>
                                                     <tr>
                                                         <td width={390}>Name</td>
-                                                        <td>{classDetails?.name}</td>
+                                                        <td>{categoryDetails?.name}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Status</td>
                                                         <td>
-                                                            {classDetails?.status == true ?
+                                                            {categoryDetails?.status == true ?
                                                                 <button className="btn btn-primary">Active</button> :
                                                                 <button className="btn btn-danger">Inactive</button>
                                                             }
+
+
                                                         </td>
                                                     </tr>
 
@@ -77,12 +77,12 @@ const ClassInfo = () => {
 
                                                     <tr>
                                                         <td>Created At</td>
-                                                        <td>{moment(classDetails?.createdAt).format('DD-MM-YYYY')}</td>
+                                                        <td>{moment(categoryDetails?.createdAt).format('DD-MM-YYYY')}</td>
                                                     </tr>
 
                                                     <tr>
                                                         <td>Updated At</td>
-                                                        <td>{moment(classDetails?.updatedAt).format('DD-MM-YYYY')}</td>
+                                                        <td>{moment(categoryDetails?.updatedAt).format('DD-MM-YYYY')}</td>
                                                     </tr>
 
                                                 </tbody>
@@ -97,7 +97,7 @@ const ClassInfo = () => {
 
                         <div className="card">
                             <div className="border-bottom title-part-padding">
-                                <h4 className="card-title mb-0">Subject’s under the Class</h4>
+                                <h4 className="card-title mb-0">Class’s under the Category</h4>
                             </div>
                             <div className="card-body">
                                 <div className="table-responsive">
@@ -115,12 +115,11 @@ const ClassInfo = () => {
                                         </thead>
                                         <tbody>
                                             {
-                                                classDetails?.subject?.map((sub, index) => (
+                                                categoryDetails?.class?.map((catg, index) => (
                                                     <tr key={index}>
-                                                        {/* <th>name</th> */}
-                                                        <th>{sub?.subjectId?.name}</th>
+                                                        <th>{catg?.classId?.name}</th>
                                                         <td>
-                                                            {sub?.subjectId?.status == true ?
+                                                            {catg?.classId?.status == true ?
                                                                 <button className="btn btn-primary">Active</button> :
                                                                 <button className="btn btn-danger">Inactive</button>
                                                             }
@@ -141,4 +140,4 @@ const ClassInfo = () => {
     )
 }
 
-export default ClassInfo
+export default CategoryInfo

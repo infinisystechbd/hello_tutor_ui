@@ -13,16 +13,74 @@ import { CATEGORIE_END_POINT } from '../../../../constants/api_endpoints/categor
 import { QUERY_KEYS } from "../../../../constants/queryKeys";
 import { useGetAllData } from "../../../../utils/hooks/useGetAllData";
 
+
+
+
+//Delete component
+const DeleteComponent = ({ onSubmit, id, pending }) => {
+
+    const [name, setName] = useState("");
+    const [loading, setLoading] = useState(true);
+
+    const fetchCategory = useCallback(async () => {
+
+        let isSubscribed = true;
+        const getTheSubject = await get(CATEGORIE_END_POINT.info(id));
+        setName(getTheSubject?.data?.name)
+
+        setLoading(true);
+        return () => (isSubscribed = false);
+    }, [id]);
+
+
+    useEffect(() => {
+        fetchCategory();
+    }, [fetchCategory]);
+
+    let myFormData = new FormData();
+    myFormData.append("id", id);
+
+    return (
+        <>
+            <Modal.Body>
+                <Modal.Title>Are you sure to delete {name} ?</Modal.Title>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button
+                    variant="danger"
+                    disabled={pending}
+                    onClick={() => onSubmit(id)}
+                >
+                    Delete
+                </Button>
+            </Modal.Footer>
+        </>
+    );
+};
+
+
+
+
 const ManageCategorie = () => {
 
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
     }, []);
-
+    const [itemList, setItemList] = useState([]);
+    const [pending, setPending] = useState(false);
 
     const { data: categoryList, isLoading, refetch: fetchCategoryList } = useGetAllData(QUERY_KEYS.GET_ALL_CATEGORY_LIST, CATEGORIE_END_POINT.get());
 
-
+    //Delete  Modal
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [category_id, setCategoryId] = useState('');
+    console.log(category_id);
+    const handleExitDelete = () => setShowDeleteModal(false);
+    const handleOpenDelete = (id) => {
+        setShowDeleteModal(true);
+        setCategoryId(id);
+        // console.log(id);
+    }
     const columns = [
         {
             name: <span className="fw-bold">SL</span>,
@@ -87,6 +145,33 @@ const ManageCategorie = () => {
             </ul>
         </>
     }
+
+
+
+    //Delete Subject
+    const handleDelete = async (id) => {
+
+        let isSubscribed = true;
+        // setPending(true);
+        const deleteSubject = await del(CATEGORIE_END_POINT.delete(id))
+
+        if (deleteSubject.status === "SUCCESS") {
+            notify("success", "successfully deleted!");
+            handleExitDelete();
+            setPending(false);
+
+        }
+        else {
+            notify("error", "something went wron");
+        }
+
+        fetchCategoryList();
+        return () => isSubscribed = false;
+    }
+
+
+
+
     return (
         <>
             <HeadSection title="All Category-Details" />
@@ -111,6 +196,12 @@ const ManageCategorie = () => {
 
                                 </div>
                             </div>
+
+                            {/* Delete Modal Form */}
+                            <Modal show={showDeleteModal} onHide={handleExitDelete}>
+                                <Modal.Header closeButton></Modal.Header>
+                                <DeleteComponent onSubmit={handleDelete} id={category_id} pending={pending} />
+                            </Modal>
 
 
                             <div className="card-body">
