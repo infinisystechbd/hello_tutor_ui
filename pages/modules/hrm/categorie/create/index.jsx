@@ -96,8 +96,8 @@ const Categories = () => {
                 </div>
                 <Form onSubmit={submitForm} >
                   <div className="card-body">
-                    {/* <TextInput name="name" label="Categories" placeholder="Bangla/English Version Name"   onChange={handleChange}/> */}
-                    <div className="mb-3 row">
+                    <TextInput name="name" label="Categories" placeholder="Bangla/English Version Name"   onChange={handleChange}/>
+                    {/* <div className="mb-3 row">
                       <Label text="Name" />
                       <div className="col-sm-6">
                         <Select name="name" onChange={handleChange}  >
@@ -106,7 +106,7 @@ const Categories = () => {
                           <option value="English_Version">English Version Name</option>
                         </Select>
                       </div>
-                    </div>
+                    </div> */}
                     <div className="mb-3 row">
                       <Label text="Class" />
                       <div className="col-sm-6">

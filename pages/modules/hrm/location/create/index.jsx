@@ -73,7 +73,7 @@ const CreateLocation = () => {
         const body = { ...locationDetails, city };
         console.log(body);
 
-        const response = await post(LOCATION_END_POINT.create(), body);
+        const response = await post(LOCATION_END_POINT.create(), locationDetails);
         if (response.status === "SUCCESS") {
 
             notify("success", "successfully Created!");
@@ -88,7 +88,7 @@ const CreateLocation = () => {
 
     return (
         <>
-            <HeadSection title="Add Class" />
+            <HeadSection title="Add Location" />
             <div className="container-fluid ">
                 <div className="w-75 m-auto">
                     <div className="row">
