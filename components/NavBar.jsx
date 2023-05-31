@@ -77,7 +77,7 @@ const NavBar = () => {
               </ul>
 
               <ul className="navbar-nav justify-content-end">
-                <li className="nav-item ">
+                {/* <li className="nav-item ">
                   <Link href="/modules/roomManagement/RoomDashboard">
                     <a className="nav-link">
                       <Button type="button" className="btn btn-sm btn-info">
@@ -94,7 +94,7 @@ const NavBar = () => {
                       </Button>
                     </a>
                   </Link>
-                </li>
+                </li> */}
 
                 <li className="nav-item d-none d-md-block search-box">
                   <a

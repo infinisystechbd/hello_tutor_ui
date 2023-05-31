@@ -342,7 +342,7 @@ const LeftSidebar = () => {
 
 
                   {/* Guardian */}
-                  {/* <li className="sidebar-item">
+                  <li className="sidebar-item">
                     <a
                       className="sidebar-link has-arrow waves-effect waves-dark"
                       href="#" onClick={(e) => e.preventDefault()}
@@ -364,16 +364,16 @@ const LeftSidebar = () => {
                       </li>
                       <li className="sidebar-item">
 
-                        <a href="#" onClick={(e) => e.preventDefault()}>
+                        <Link href="/modules/hrm/guardian" onClick={(e) => e.preventDefault()}>
                           <a className="sidebar-link">
                             <i className="mdi mdi-drawing" />
                             <span className="hide-menu">All Guardians</span>
                           </a>
-                        </a>
+                        </Link>
 
                       </li>
                     </ul>
-                  </li> */}
+                  </li>
                   {/* End Guardian */}
 
                   {/* Guardian */}
