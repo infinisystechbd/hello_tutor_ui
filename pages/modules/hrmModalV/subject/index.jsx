@@ -66,10 +66,7 @@ const CreateForm = ({ onSubmit, loading, validated }) => {
 
 
                 </div>
-                {/* <div className="col-md-6">
 
-
-                </div> */}
             </div>
 
 
