@@ -8,140 +8,7 @@ const LeftSidebar = () => {
 
           <nav className="sidebar-nav">
             <ul id="sidebarnav">
-
-              {/* ADMIN */}
-
-              <li className={`sidebar-item `}>
-
-                {/* <a
-                  className="sidebar-link has-arrow waves-effect waves-dark"
-                  href="#" onClick={(e) => e.preventDefault()}
-                  aria-expanded="false"
-                >
-                  <i data-feather="file-text" className="feather-icon" />
-                  <span className="hide-menu">Admin</span>
-                </a> */}
-
-                <ul aria-expanded="false" className="collapse first-level">
-
-
-                  {/* Employee */}
-{/* 
-                  <li className="sidebar-item">
-                    <a
-                      className="sidebar-link has-arrow waves-effect waves-dark"
-                      href="#" onClick={(e) => e.preventDefault()}
-                      aria-expanded="false"
-                    >
-                      <i className="mdi mdi-dns" />
-                      <span className="hide-menu">Employee</span>
-                    </a>
-                    <ul aria-expanded="false" className="collapse second-level">
-                      <li className={`sidebar-item`}>
-
-
-                      </li>
-                      <li className={`sidebar-item`}>
-
-                        <a href="#" onClick={(e) => e.preventDefault()}>
-                          <a className="sidebar-link">
-                            <i className="mdi mdi-drawing" />
-                            <span className="hide-menu">All Employees</span>
-                          </a>
-                        </a>
-
-                      </li>
-                    </ul>
-                  </li> */}
-
-                  {/* End Employee */}
-
-                  {/* Teacher */}
-
-{/* 
-
-                  <li className="sidebar-item">
-
-                    <a
-                      className="sidebar-link has-arrow waves-effect waves-dark"
-                      href="#" onClick={(e) => e.preventDefault()}
-                      aria-expanded="false"
-                    >
-                      <i className="mdi mdi-dns" />
-                      <span className="hide-menu">Teacher</span>
-                    </a>
-                    <ul aria-expanded="false" className="collapse second-level">
-                      <li className="sidebar-item">
-                        <Link href="/modules/hr/teacher/create">
-                          <a className="sidebar-link">
-                            <i className="mdi mdi-drawing" />
-                            <span className="hide-menu">Add Teacher</span>
-                          </a>
-                        </Link>
-
-                      </li>
-                      <li className="sidebar-item">
-
-                        <a href="#" onClick={(e) => e.preventDefault()}>
-                          <a className="sidebar-link">
-                            <i className="mdi mdi-drawing" />
-                            <span className="hide-menu">All Teacher</span>
-                          </a>
-                        </a>
-
-                      </li>
-                    </ul>
-                  </li> */}
-
-
-                  {/* End Teacher */}
-                  {/* Students */}
-
-{/* 
-                  <li className="sidebar-item">
-                    <a
-                      className="sidebar-link has-arrow waves-effect waves-dark"
-                      href="#" onClick={(e) => e.preventDefault()}
-                      aria-expanded="false"
-                    >
-                      <i className="mdi mdi-dns" />
-                      <span className="hide-menu">Students</span>
-                    </a>
-                    <ul aria-expanded="false" className="collapse second-level">
-                      <li className="sidebar-item">
-
-                        <Link href="/modules/hr/student/create">
-                          <a className="sidebar-link">
-                            <i className="mdi mdi-drawing" />
-                            <span className="hide-menu">Add Student</span>
-                          </a>
-                        </Link>
-
-                      </li>
-                      <li className="sidebar-item">
-
-                        <a href="#" onClick={(e) => e.preventDefault()}>
-                          <a className="sidebar-link">
-                            <i className="mdi mdi-drawing" />
-                            <span className="hide-menu">All Students</span>
-                          </a>
-                        </a>
-
-                      </li>
-                    </ul>
-                  </li> */}
-
-
-
-                  {/* End Students */}
-
-                </ul>
-              </li>
-              {/* End ADMIN */}
-
-
-              {/* ADMIN */}
-
+              {/* hrm */}
               <li className={`sidebar-item `}>
 
                 <a
@@ -267,9 +134,9 @@ const LeftSidebar = () => {
 
 
 
-                 {/** city */}
+                  {/** city */}
 
-                 <li className="sidebar-item">
+                  <li className="sidebar-item">
                     <a
                       className="sidebar-link has-arrow waves-effect waves-dark"
                       href="#" onClick={(e) => e.preventDefault()}
@@ -376,44 +243,57 @@ const LeftSidebar = () => {
                   </li>
                   {/* End Guardian */}
 
-                  {/* Guardian */}
-                  {/* <li className="sidebar-item">
+
+                </ul>
+              </li>
+              {/* End hrm */}
+
+              {/* hrm modal version */}
+              <li className={`sidebar-item `}>
+
+                <a
+                  className="sidebar-link has-arrow waves-effect waves-dark"
+                  href="#" onClick={(e) => e.preventDefault()}
+                  aria-expanded="false"
+                >
+                  <i data-feather="file-text" className="feather-icon" />
+                  <span className="hide-menu">HRM MODAL</span>
+                </a>
+
+                <ul aria-expanded="false" className="collapse first-level">
+
+
+
+                  {/* subject */}
+                  <li className="sidebar-item">
                     <a
                       className="sidebar-link has-arrow waves-effect waves-dark"
                       href="#" onClick={(e) => e.preventDefault()}
                       aria-expanded="false"
                     >
                       <i className="mdi mdi-dns" />
-                      <span className="hide-menu">Tutor</span>
+                      <span className="hide-menu">Subject</span>
                     </a>
                     <ul aria-expanded="false" className="collapse second-level">
-                      <li className="sidebar-item">
 
-                        <Link href="/modules/hrm/tutor/create">
+                      <li className="sidebar-item">
+                        <Link href="/modules/hrmModalV/subject" onClick={(e) => e.preventDefault()}>
                           <a className="sidebar-link">
                             <i className="mdi mdi-drawing" />
-                            <span className="hide-menu">Add Tutor</span>
+                            <span className="hide-menu">All Subject</span>
                           </a>
+                          {/* </a> */}
                         </Link>
-
-                      </li>
-                      <li className="sidebar-item">
-
-                        <a href="#" onClick={(e) => e.preventDefault()}>
-                          <a className="sidebar-link">
-                            <i className="mdi mdi-drawing" />
-                            <span className="hide-menu">All Tutor</span>
-                          </a>
-                        </a>
-
                       </li>
                     </ul>
-                  </li> */}
-                  {/* End Guardian */}
+                  </li>
+                  {/* End subject */}
+
+
+
 
                 </ul>
               </li>
-              {/* End ADMIN */}
             </ul>
           </nav>
 
