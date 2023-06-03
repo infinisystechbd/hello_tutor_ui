@@ -74,8 +74,117 @@ const ManageGuardian = () => {
 
   const [pending, setPending] = useState(false);
   const { data: guardianList, isLoading, refetch: fetchGuardianList } = useGetAllData(QUERY_KEYS.GET_ALL_GUARDIAN_LIST, GUARDIAN_END_POINT.get());
- 
-  console.log("opopop",guardianList);
+  const data = guardianList?.data;
+
+
+  //Delete  Modal
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [guardian_id, setGuardianId] = useState('');
+  const handleExitDelete = () => setShowDeleteModal(false);
+  const handleOpenDelete = (id) => {
+    setShowDeleteModal(true);
+    setGuardianId(id);
+
+  }
+
+  const columns = [
+    {
+      name: <span className="fw-bold">SL</span>,
+      selector: (row, index) => index + 1,
+      sortable: true,
+      width: "70px",
+    },
+    {
+      name: 'Guardian Id',
+      selector: row => row.guardianId,
+      sortable: true,
+    },
+    {
+      name: 'Guardian Name',
+      selector: row => row.fullName,
+      sortable: true,
+    },
+    {
+      name: 'Guardian Phone',
+      selector: row => row.phone,
+      sortable: true,
+    },
+    {
+      name: 'Guardian Address',
+      selector: row => row.address,
+      sortable: true,
+    },
+    {
+      name: 'Status',
+      selector: row => row.status = true ? "Active" : "Inactive",
+      sortable: true,
+    },
+    {
+      name: 'Action',
+      selector: row => actionButton(row._id),
+    }
+
+  ];
+
+
+  const actionButton = (id) => {
+    // console.log(id);
+    return <>
+      <ul className="action align-items-center">
+
+        <li>
+          <Link href={`/modules/hrm/guardian/update/${id}`}>
+            <a >
+              <EditIcon />
+            </a>
+          </Link>
+
+        </li>
+
+        <li>
+          <Link href={`/modules/hrm/guardian/view/${id}`}>
+            <a >
+              <ViewIcon />
+            </a>
+          </Link>
+
+        </li>
+        <li>
+          <Link href="#">
+            <a onClick={() => handleOpenDelete(id)} >
+              <DeleteIcon />
+            </a>
+          </Link>
+
+        </li>
+
+      </ul>
+    </>
+  }
+
+
+  //Delete Subject
+  const handleDelete = async (id) => {
+
+    let isSubscribed = true;
+    const deleteGuardian = await del(GUARDIAN_END_POINT.delete(id))
+
+    if (deleteGuardian.status === "SUCCESS") {
+      notify("success", "successfully deleted!");
+      handleExitDelete();
+      setPending(false);
+
+    }
+    else {
+      notify("error", "something went wrong");
+    }
+
+    fetchGuardianList();
+    return () => isSubscribed = false;
+  }
+
+
+
   return (
 
     <>
