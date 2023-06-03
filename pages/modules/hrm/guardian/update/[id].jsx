@@ -9,13 +9,14 @@ import HeadSection from "../../../../../components/HeadSection";
 import { CITY_END_POINT } from '../../../../../constants/api_endpoints/cityEndPoints';
 import { LOCATION_END_POINT } from '../../../../../constants/api_endpoints/locationEndPoints';
 import { GUARDIAN_END_POINT } from '../../../../../constants/api_endpoints/guardianEndPoints';
-import { get, post } from '../../../../../helpers/api_helper';
+import { get, post, put } from '../../../../../helpers/api_helper';
 import ToastMessage from '../../../../../components/Toast';
 import { useRouter } from "next/router";
 
 const GuardianUpdate = () => {
 
     const router = useRouter();
+    const { id } = router?.query;
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
     }, []);
@@ -32,6 +33,9 @@ const GuardianUpdate = () => {
         isPortalAccess: "false",
         status: "" || "true"
     });
+
+    console.log(guardianDetails);
+
 
     useEffect(() => {
         const controller = new AbortController();
@@ -68,6 +72,37 @@ const GuardianUpdate = () => {
         fetchTotalLocation();
     }, [])
 
+
+
+
+    const fetchGuardian = useCallback(async () => {
+        let isSubscribed = true;
+        if (id) {
+            const getTheGuardian = await get(GUARDIAN_END_POINT.info(id));
+            console.log("</datas>",getTheGuardian?.data);
+            setGuardianDetails(prev => ({
+                ...prev,
+                fullName: getTheGuardian?.data?.fullName,
+                phone: getTheGuardian?.data?.phone,
+                city: getTheGuardian?.data?.city?._id,
+                location: getTheGuardian?.data?.location?._id,
+                address: getTheGuardian?.data?.address,
+                email: getTheGuardian?.data?.email,
+                isPortalAccess: getTheGuardian?.data?.isPortalAccess,
+                status: getTheGuardian?.data?.status,
+                // name: getTheGuardian?.data?.city?.name,
+            }));
+        }
+
+        // setLoading(true);
+        return () => (isSubscribed = false);
+    }, [id]);
+
+
+    useEffect(() => {
+        fetchGuardian();
+    }, [fetchGuardian]);
+
     const handleChange = (e) => {
         setGuardianDetails(prev => ({
             ...prev, [e.target.name]: e.target.value
@@ -76,33 +111,43 @@ const GuardianUpdate = () => {
 
     async function submitForm(e) {
         e.preventDefault();
+        const updateTheGuardian = await put(GUARDIAN_END_POINT.update(id), guardianDetails);
+        if (updateTheGuardian.status === 'SUCCESS') {
+            notify("success", updateTheGuardian.message);
+            router.push(`/modules/hrm/guardian`);
+        }
 
-     
+        else {
+            notify("error", updateTheGuardian.message);
+        }
 
 
     }
   return (
     <>
-     <HeadSection title="All Guardian-Details" />
+     <HeadSection title="Update Guardian-Details" />
     <div className="container-fluid ">
         <div className="w-75 m-auto">
             <div className="row">
                 <div className="col-md-10">
                     <div className="card">
                         <div className="card-body border-bottom">
-                            <h4 className="card-title">Add Students</h4>
+                            <h4 className="card-title">Update Students</h4>
                         </div>
 
                         <Form onSubmit={submitForm}>
 
                             <div className="card-body">
 
-                                <TextInput label="Student Name" value={guardianDetails.name} placeholder="Student Name" name="fullName" onChange={handleChange} />
+                                <TextInput label="Student Name" value={guardianDetails.fullName} placeholder="Student Name" name="fullName" onChange={handleChange} />
                                 <TextInput label="Phone Number" value={guardianDetails.phone} placeholder="Phone Number" name="phone" onChange={handleChange} />
                                 <div className="mb-3 row">
                                     <Label text="City" />
                                     <div className="col-sm-6">
-                                        <Select name="city" value={guardianDetails.city} onChange={handleChange}>
+                                        <Select name="city" defaultValue={{
+                                                    value: guardianDetails?.city?._id,
+                                                    label: guardianDetails?.city?.name,
+                                                }} onChange={handleChange}>
                                         <option value="" disabled>Select country</option>
                                             {
                                                 cityList?.map((city, index) => (
@@ -117,7 +162,10 @@ const GuardianUpdate = () => {
                                 <div className="mb-3 row">
                                     <Label text="Location" />
                                     <div className="col-sm-6">
-                                        <Select name="location" value={guardianDetails.location} onChange={handleChange}>
+                                        <Select name="location" defaultValue={{
+                                                    value: guardianDetails?.location?._id,
+                                                    label: guardianDetails?.location?.name,
+                                                }} onChange={handleChange}>
                                         <option value="" disabled>Select Location</option>
                                             {
                                                 locationList?.map((locn, index) => (
@@ -145,7 +193,7 @@ const GuardianUpdate = () => {
                             <div className="p-3 border-top">
                                 <div className="text-end">
                                     <Button className="btn-info">
-                                        Save
+                                        Update
                                     </Button>
 
                                 </div>

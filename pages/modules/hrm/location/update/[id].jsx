@@ -1,9 +1,10 @@
-import React, { useCallback, useState, useEffect,Fragment } from 'react'
+import React, { useCallback, useState, useEffect, Fragment } from 'react'
 import { useRouter } from "next/router";
 import Form from "../../../../../components/elements/Form";
 import Label from "../../../../../components/elements/Label";
 import TextInput from "../../../../../components/elements/TextInput";
 import Select from "../../../../../components/elements/Select";
+import Select2 from "../../../../../components/elements/Select2";
 import Button from "../../../../../components/elements/Button";
 import { get, put } from '../../../../../helpers/api_helper';
 import { LOCATION_END_POINT } from '../../../../../constants/api_endpoints/locationEndPoints';
@@ -19,16 +20,15 @@ const EditLocation = () => {
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
     }, []);
-    
+
     const [cityId, setCityId] = useState("");
     const [locationDetails, setLocationDetails] = useState({
         name: "",
         status: "" || "true",
-        city: ""
     });
     console.log(locationDetails);
     const [cityList, setAllCityList] = useState([]);
-    
+    console.log(cityList);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -52,23 +52,25 @@ const EditLocation = () => {
     const fetchLocation = useCallback(async () => {
         let isSubscribed = true;
         if (id) {
-          const getTheLocation = await get(LOCATION_END_POINT.info(id));
-          setLocationDetails(prev => ({
-            ...prev,
-            name: getTheLocation?.data?.name,
-            status: getTheLocation?.data?.status,
-            city :getTheLocation?.data?.city
-          }));
+            const getTheLocation = await get(LOCATION_END_POINT.info(id));
+            console.log("</datas>",getTheLocation?.data);
+            setLocationDetails(prev => ({
+                ...prev,
+                name: getTheLocation?.data?.name,
+                status: getTheLocation?.data?.status,
+                city: getTheLocation?.data?.city?._id,
+                // name: getTheLocation?.data?.city?.name,
+            }));
         }
-    
+
         // setLoading(true);
         return () => (isSubscribed = false);
-      }, [id]);
-    
-    
-      useEffect(() => {
+    }, [id]);
+
+
+    useEffect(() => {
         fetchLocation();
-      }, [fetchLocation]);
+    }, [fetchLocation]);
 
 
     const handleChange = (e) => {
@@ -81,79 +83,106 @@ const EditLocation = () => {
     async function submitForm(e) {
         e.preventDefault();
         const updateTheLocation = await put(LOCATION_END_POINT.update(id), locationDetails);
-        if (updateTheLocation.status ==='SUCCESS' ) {
-          notify("success", updateTheLocation.message);
-          router.push(`/modules/hrm/location`);
+        if (updateTheLocation.status === 'SUCCESS') {
+            notify("success", updateTheLocation.message);
+            router.push(`/modules/hrm/location`);
         }
-    
-        else{
-          notify("error", updateTheLocation.message);
-        }  
-    
-    
-      }
+
+        else {
+            notify("error", updateTheLocation.message);
+        }
 
 
-  return (
-    <>
-    <HeadSection title="Update Location" />
-    <div className="container-fluid ">
-        <div className="w-75 m-auto">
-            <div className="row">
-                <div className="col-md-10">
-                    <div className="card">
-                        <div className="card-body border-bottom">
-                            <h4 className="card-title">Update Location</h4>
+    }
+
+
+    return (
+        <>
+            <HeadSection title="Update Location" />
+            <div className="container-fluid ">
+                <div className="w-75 m-auto">
+                    <div className="row">
+                        <div className="col-md-10">
+                            <div className="card">
+                                <div className="card-body border-bottom">
+                                    <h4 className="card-title">Update Location</h4>
+                                </div>
+
+                                <Form onSubmit={submitForm} >
+
+                                    <div className="card-body">
+
+                                        <TextInput name="name" label="Location Name" placeholder="Location Name" onChange={handleChange} defaultValue={locationDetails.name} />
+                                        <div className="mb-3 row">
+                                            <Label text="City" />
+                                            <div className="col-sm-6">
+                                                <Select name="city" defaultValue={{
+                                                    value: locationDetails?.city?._id,
+                                                    label: locationDetails?.city?.name,
+                                                }} onChange={handleChange}>
+                                                    {
+                                                        cityList?.map((city, index) => (
+                                                            <Fragment key={index}>
+                                                                <option value={city._id} selected>{city.name}</option>
+                                                            </Fragment>
+                                                        ))
+                                                    }
+                                                </Select>
+
+                                                {/* {
+
+                                                    locationDetails &&
+                                                    
+                                                    <Select2
+                                                        options={cityList && cityList.map(({ _id, name }) => ({
+                                                            value: _id,
+                                                            label: name,
+                                                        }))}
+
+                                                        defaultValue={{
+                                                            value: locationDetails?.city?._id,
+                                                            label: locationDetails?.city?.name,
+                                                        }} onChange={handleChange}
+
+                                                    />
+
+                                                    
+                                                } */}
+
+
+
+
+                                            </div>
+                                        </div>
+
+                                        <div className="mb-3 row">
+                                            <Label text="Status" />
+                                            <div className="col-sm-6">
+                                                <Select name="status" value={locationDetails.status} onChange={handleChange}>
+                                                    <option value="" disabled>select activation type</option>
+                                                    <option value="true" selected>Active</option>
+                                                    <option value="false">Inactive</option>
+                                                </Select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="p-3 border-top">
+                                        <div className="text-end">
+                                            <Button className="btn-info">
+                                                Update
+                                            </Button>
+
+                                        </div>
+                                    </div>
+
+                                </Form>
+                            </div>
                         </div>
-
-                        <Form onSubmit={submitForm} >
-
-                            <div className="card-body">
-
-                                <TextInput name="name" label="Location Name" placeholder="Location Name" onChange={handleChange} value={locationDetails.name} />
-                                <div className="mb-3 row">
-                                    <Label text="City" />
-                                    <div className="col-sm-6">
-                                        <Select name="city" value={locationDetails.city} onChange={handleChange}>
-                                            {
-                                                cityList?.map((city, index) => (
-                                                    <Fragment key={index}>
-                                                        <option value={city._id} selected>{city.name}</option>
-                                                    </Fragment>
-                                                ))
-                                            }
-                                        </Select>
-                                    </div>
-                                </div>
-
-                                <div className="mb-3 row">
-                                    <Label text="Status" />
-                                    <div className="col-sm-6">
-                                        <Select name="status" value={locationDetails.status} onChange={handleChange}>
-                                            <option value="" disabled>select activation type</option>
-                                            <option value="true" selected>Active</option>
-                                            <option value="false">Inactive</option>
-                                        </Select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="p-3 border-top">
-                                <div className="text-end">
-                                    <Button className="btn-info">
-                                        Update
-                                    </Button>
-
-                                </div>
-                            </div>
-
-                        </Form>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</>
-  )
+        </>
+    )
 }
 
 export default EditLocation

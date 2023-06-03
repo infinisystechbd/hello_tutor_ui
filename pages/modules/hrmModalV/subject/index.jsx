@@ -13,6 +13,7 @@ import { del, get, post, put } from '../../../../helpers/api_helper';
 import { useGetAllData } from "../../../../utils/hooks/useGetAllData";
 import Select from '../../../../components/elements/Select';
 import { useRouter } from "next/router";
+import moment from 'moment';
 
 //Create Component
 const CreateForm = ({ onSubmit, loading, validated }) => {
@@ -89,8 +90,6 @@ const CreateForm = ({ onSubmit, loading, validated }) => {
 
 //Update component
 const EditForm = ({ onSubmit, id, pending, validated }) => {
-    const { http } = Axios();
-
     const [loading, setLoading] = useState(true);
 
     const [subjectDetails, setSubjectDetails] = useState({
@@ -168,6 +167,92 @@ const EditForm = ({ onSubmit, id, pending, validated }) => {
                 update
             </Button>
         </Form>
+    );
+};
+
+
+//view component
+const ViewForm = ({ id, pending, validated }) => {
+
+
+    const [loading, setLoading] = useState(true);
+    const [subjectDetails, setSubjectDetails] = useState({});
+    const fetchSubject = useCallback(async () => {
+        let isSubscribed = true;
+        if (id) {
+            const getTheSubject = await get(SUBJECT_END_POINT.info(id));
+            setSubjectDetails(getTheSubject?.data);
+        }
+
+        return () => (isSubscribed = false);
+    }, [id]);
+
+
+    useEffect(() => {
+        fetchSubject();
+    }, [fetchSubject]);
+
+
+    return (
+        <div className="container-fluid ">
+            <div className="row mt-3">
+
+                <div className="col-lg-10 col-md-10 col-sm-10">
+                    <div className="card">
+                        <div className="card-body">
+
+                            <div className="row">
+                                <div className="col-lg-12 col-md-12 col-sm-12">
+                                    <h3 className="box-title mt-5">Subject Basic Info</h3>
+                                    <div className="table-responsive">
+                                        <table className="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td width={390}>Name</td>
+                                                    <td>{subjectDetails.name}</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>Status</td>
+                                                    <td>
+                                                        {subjectDetails.status == true ?
+                                                            <button className="btn btn-primary">Active</button> :
+                                                            <button className="btn btn-danger">Inactive</button>
+                                                        }
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-lg-12 col-md-12 col-sm-12">
+                                    <h3 className="box-title mt-5">Creation/updation related info</h3>
+                                    <div className="table-responsive">
+                                        <table className="table">
+                                            <tbody>
+
+                                                <tr>
+                                                    <td>Created At</td>
+                                                    <td>{moment(subjectDetails?.createdAt).format('DD-MM-YYYY')}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Updated At</td>
+                                                    <td>{moment(subjectDetails?.updatedAt).format('DD-MM-YYYY')}</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 };
 
@@ -477,9 +562,9 @@ const AllSubject = () => {
 
 
                         {/* View Modal Form */}
-                        <Modal show={showViewModal} onHide={handleExitView}>
+                        <Modal dialogClassName="modal-sm" show={showViewModal} onHide={handleExitView}>
                             <Modal.Header closeButton></Modal.Header>
-                            {/* <DeleteComponent onSubmit={handleDelete} id={subject_id} pending={pending} /> */}
+                            <ViewForm id={subject_id} pending={pending} />
                         </Modal>
                         {/* view Modal Form end */}
 

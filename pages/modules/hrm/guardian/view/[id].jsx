@@ -33,6 +33,7 @@ const ViewGuardian = () => {
     }, [fetchGuardian]);
   return (
     <>
+    <HeadSection title="Guardian-Details" />
     <div className="container-fluid ">
         <div className="w-75 m-auto">
             <div className="row">

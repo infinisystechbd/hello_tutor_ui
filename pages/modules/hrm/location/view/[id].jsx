@@ -5,6 +5,7 @@ import { SUBJECT_END_POINT } from '../../../../../constants';
 import { LOCATION_END_POINT } from '../../../../../constants/api_endpoints/locationEndPoints';
 import ToastMessage from '../../../../../components/Toast';
 import moment from 'moment';
+import HeadSection from "../../../../../components/HeadSection";
 
 const ViewLocation = () => {
     const router = useRouter();
@@ -32,6 +33,7 @@ const ViewLocation = () => {
     }, [fetchSubject]);
   return (
     <>
+    <HeadSection title="Location-Details" />
     <div className="container-fluid ">
         <div className="w-75 m-auto">
             <div className="row">
