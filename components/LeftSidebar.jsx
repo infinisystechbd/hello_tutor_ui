@@ -266,25 +266,24 @@ const LeftSidebar = () => {
 
                   {/* subject */}
                   <li className="sidebar-item">
-                    <a
-                      className="sidebar-link has-arrow waves-effect waves-dark"
-                      href="#" onClick={(e) => e.preventDefault()}
-                      aria-expanded="false"
-                    >
-                      <i className="mdi mdi-dns" />
-                      <span className="hide-menu">Subject</span>
-                    </a>
-                    <ul aria-expanded="false" className="collapse second-level">
-
-                      <li className="sidebar-item">
-                        <Link href="/modules/hrmModalV/subject" onClick={(e) => e.preventDefault()}>
+                  <Link href="/modules/hrmModalV/subject" onClick={(e) => e.preventDefault()}>
                           <a className="sidebar-link">
                             <i className="mdi mdi-drawing" />
                             <span className="hide-menu">Subject</span>
                           </a>
                           {/* </a> */}
                         </Link>
-                      </li>
+                    <ul aria-expanded="false" className="collapse second-level">
+
+                      {/* <li className="sidebar-item">
+                        <Link href="/modules/hrmModalV/subject" onClick={(e) => e.preventDefault()}>
+                          <a className="sidebar-link">
+                            <i className="mdi mdi-drawing" />
+                            <span className="hide-menu">Subject</span>
+                          </a>
+                          
+                        </Link>
+                      </li> */}
                     </ul>
                   </li>
                   {/* End subject */}
