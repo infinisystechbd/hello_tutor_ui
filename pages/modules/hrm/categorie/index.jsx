@@ -70,7 +70,7 @@ const ManageCategorie = () => {
     const [pending, setPending] = useState(false);
 
     const { data: categoryList, isLoading, refetch: fetchCategoryList } = useGetAllData(QUERY_KEYS.GET_ALL_CATEGORY_LIST, CATEGORIE_END_POINT.get());
-
+console.log(categoryList?.data);
     //Delete  Modal
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [category_id, setCategoryId] = useState('');

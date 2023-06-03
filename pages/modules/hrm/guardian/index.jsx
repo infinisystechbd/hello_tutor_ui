@@ -14,7 +14,7 @@ import { useGetAllData } from "../../../../utils/hooks/useGetAllData";
 
 const ManageGuardian = () => {
 
-  
+
 
   const { http } = Axios;
   const notify = useCallback((type, message) => {
@@ -22,9 +22,9 @@ const ManageGuardian = () => {
   }, []);
 
   const [pending, setPending] = useState(false);
-const { data: guardianList, isLoading, refetch: fetchGuardianList } = useGetAllData(QUERY_KEYS.GET_ALL_GUARDIAN_LIST, GUARDIAN_END_POINT.get());
-const data = subjectList?.data;
-console.log("call from subject list",data);
+  const { data: guardianList, isLoading, refetch: fetchGuardianList } = useGetAllData(QUERY_KEYS.GET_ALL_GUARDIAN_LIST, GUARDIAN_END_POINT.get());
+ 
+  console.log("opopop",guardianList);
   return (
     <div>ManageGuardian</div>
   )
