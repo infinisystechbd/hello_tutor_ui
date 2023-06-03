@@ -246,6 +246,15 @@ const AllSubject = () => {
     };
 
 
+    //View Tower Modal form
+    const [showViewModal, setShowViewModal] = useState(false);
+    const handleExitView = () => setShowViewModal(false);
+    const handleViewOpen = (id) => {
+        setShowViewModal(true);
+        setSubjectId(id);
+    };
+
+
 
     //Delete  Modal
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -361,6 +370,15 @@ const AllSubject = () => {
             <ul className="action align-items-center">
 
                 <li>
+                    <Link href="#">
+                        <a onClick={() => handleViewOpen(id)}>
+                            <ViewIcon />
+                        </a>
+                    </Link>
+
+                </li>
+
+                <li>
 
                     <Link href="#" >
                         <a onClick={() => handleOpen(id)}>
@@ -370,14 +388,7 @@ const AllSubject = () => {
 
                 </li>
 
-                <li>
-                    <Link href={`/modules/hrm/subject/view/${id}`}>
-                        <a >
-                            <ViewIcon />
-                        </a>
-                    </Link>
 
-                </li>
                 <li>
                     <Link href="#">
                         <a onClick={() => handleOpenDelete(id)} >
@@ -463,11 +474,23 @@ const AllSubject = () => {
                         {/* End Update Modal Form */}
 
 
+
+
+                        {/* View Modal Form */}
+                        <Modal show={showViewModal} onHide={handleExitView}>
+                            <Modal.Header closeButton></Modal.Header>
+                            {/* <DeleteComponent onSubmit={handleDelete} id={subject_id} pending={pending} /> */}
+                        </Modal>
+                        {/* view Modal Form end */}
+
+
+
                         {/* Delete Modal Form */}
                         <Modal show={showDeleteModal} onHide={handleExitDelete}>
                             <Modal.Header closeButton></Modal.Header>
                             <DeleteComponent onSubmit={handleDelete} id={subject_id} pending={pending} />
                         </Modal>
+                        {/* Delete Modal Form end */}
 
 
                         <div className="card-body">
