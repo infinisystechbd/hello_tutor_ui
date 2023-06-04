@@ -1,5 +1,5 @@
-import { useEffect, useState,useCallback,Fragment } from 'react';
-import Button from "../../../../../components/elements/Button";
+import { useEffect, useState, useCallback, Fragment } from 'react';
+import Button from "../../../../../components/elements/Button"; 
 import Form from "../../../../../components/elements/Form";
 import Label from "../../../../../components/elements/Label";
 import Select from "../../../../../components/elements/Select";
@@ -15,26 +15,26 @@ import { useRouter } from "next/router";
 const Create = () => {
     const router = useRouter();
     const notify = useCallback((type, message) => {
-      ToastMessage({ type, message });
+        ToastMessage({ type, message });
     }, []);
     const [cityList, setAllCityList] = useState([]);
     const [locationList, setAllLocationList] = useState([]);
-    const [guardianDetails,setGuardianDetails] = useState({
-        fullName:"",
-        phone:"",
-        city:"",
-        location:"",
-        address:"",
-        email:"",
-        isPortalAccess:"false",
-        status:""||"true"
-      });
+    const [guardianDetails, setGuardianDetails] = useState({
+        fullName: "",
+        phone: "",
+        city: "",
+        location: "",
+        address: "",
+        email: "",
+        isPortalAccess: "false",
+        status: "" || "true"
+    });
 
 
-      console.log(guardianDetails);
+    console.log(guardianDetails);
 
 
-      useEffect(() => {
+    useEffect(() => {
         const controller = new AbortController();
         const fetchTotalCities = async () => {
             let isSubscribed = true;
@@ -71,25 +71,25 @@ const Create = () => {
 
 
 
-    const handleChange =(e)=>{
-        setGuardianDetails(prev=>({
-          ...prev, [e.target.name]:e.target.value
+    const handleChange = (e) => {
+        setGuardianDetails(prev => ({
+            ...prev, [e.target.name]: e.target.value
         }))
-      }
+    }
 
-      async function submitForm(e) {
+    async function submitForm(e) {
         e.preventDefault();
-       
-    const response =  await post(GUARDIAN_END_POINT.create(),guardianDetails);
-    if (response.status === "SUCCESS") { 
-      notify("success", response.message);
-      router.push(`/modules/hrm/guardian`);
-    }
-    else{
-      notify("error", response.errorMessage);
-    }
-    
-    
+
+        const response = await post(GUARDIAN_END_POINT.create(), guardianDetails);
+        if (response.status === "SUCCESS") {
+            notify("success", response.message);
+            router.push(`/modules/hrm/guardian`);
+        }
+        else {
+            notify("error", response.errorMessage);
+        }
+
+
     }
 
 
@@ -108,12 +108,13 @@ const Create = () => {
 
                                     <div className="card-body">
 
-                                        <TextInput label="Student Name" value={guardianDetails.name} placeholder="Subject Name" name="fullName" onChange={handleChange} />
+                                        <TextInput label="Student Name" value={guardianDetails.name} placeholder="Student Name" name="fullName" onChange={handleChange} />
                                         <TextInput label="Phone Number" value={guardianDetails.phone} placeholder="Phone Number" name="phone" onChange={handleChange} />
                                         <div className="mb-3 row">
                                             <Label text="City" />
                                             <div className="col-sm-6">
                                                 <Select name="city" value={guardianDetails.city} onChange={handleChange}>
+                                                <option value="" disabled>Select country</option>
                                                     {
                                                         cityList?.map((city, index) => (
                                                             <Fragment key={index}>
@@ -128,6 +129,7 @@ const Create = () => {
                                             <Label text="Location" />
                                             <div className="col-sm-6">
                                                 <Select name="location" value={guardianDetails.location} onChange={handleChange}>
+                                                <option value="" disabled>Select Location</option>
                                                     {
                                                         locationList?.map((locn, index) => (
                                                             <Fragment key={index}>

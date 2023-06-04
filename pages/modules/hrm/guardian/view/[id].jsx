@@ -1,27 +1,27 @@
-import React, { useCallback, useState, useEffect } from 'react'
-import { useRouter } from "next/router";
-import { get, put } from '../../../../../helpers/api_helper';
-import { SUBJECT_END_POINT } from '../../../../../constants';
-import { LOCATION_END_POINT } from '../../../../../constants/api_endpoints/locationEndPoints';
-import ToastMessage from '../../../../../components/Toast';
-import moment from 'moment';
+import { useEffect, useState, useCallback, Fragment } from 'react';
+import Button from "../../../../../components/elements/Button";
+import Form from "../../../../../components/elements/Form";
+import Label from "../../../../../components/elements/Label";
+import TextInput from "../../../../../components/elements/TextInput";
 import HeadSection from "../../../../../components/HeadSection";
-
-const ViewLocation = () => {
+import { GUARDIAN_END_POINT } from '../../../../../constants/api_endpoints/guardianEndPoints';
+import { get, post } from '../../../../../helpers/api_helper';
+import ToastMessage from '../../../../../components/Toast';
+import { useRouter } from "next/router";
+import moment from 'moment';
+const ViewGuardian = () => {
     const router = useRouter();
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
     }, []);
     const { id } = router?.query;
-    const [locationDetails, setLocationDetails] = useState({});
-    console.log("call from view", locationDetails);
+    const [guardianDetails, setGuardianDetails] = useState({});
 
-
-    const fetchLocation = useCallback(async () => {
+    const fetchGuardian = useCallback(async () => {
         let isSubscribed = true;
         if (id) {
-            const getTheLocation = await get(LOCATION_END_POINT.info(id));
-            setLocationDetails(getTheLocation?.data);
+            const getTheGuardian = await get(GUARDIAN_END_POINT.info(id));
+            setGuardianDetails(getTheGuardian?.data);
         }
 
         return () => (isSubscribed = false);
@@ -29,11 +29,11 @@ const ViewLocation = () => {
 
 
     useEffect(() => {
-        fetchLocation();
-    }, [fetchLocation]);
+        fetchGuardian();
+    }, [fetchGuardian]);
   return (
     <>
-    <HeadSection title="Location-Details" />
+    <HeadSection title="Guardian-Details" />
     <div className="container-fluid ">
         <div className="w-75 m-auto">
             <div className="row">
@@ -44,19 +44,36 @@ const ViewLocation = () => {
 
                             <div className="row">
                                 <div className="col-lg-12 col-md-12 col-sm-12">
-                                    <h3 className="box-title mt-5">Location Basic Info</h3>
+                                    <h3 className="box-title mt-5">Guardian Info</h3>
                                     <div className="table-responsive">
                                         <table className="table">
                                             <tbody>
+                                            <tr>
+                                                    <td width={390}>Guardian Id</td>
+                                                    <td>{guardianDetails.guardianId}</td>
+                                                </tr>
                                                 <tr>
                                                     <td width={390}>Name</td>
-                                                    <td>{locationDetails.name}</td>
+                                                    <td>{guardianDetails.fullName}</td>
                                                 </tr>
 
                                                 <tr>
+                                                    <td width={390}>Phone</td>
+                                                    <td>{guardianDetails.phone}</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td width={390}>Email</td>
+                                                    <td>{guardianDetails.email}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width={390}>Address</td>
+                                                    <td>{guardianDetails.address}</td>
+                                                </tr>
+                                                <tr>
                                                     <td>Status</td>
                                                     <td>
-                                                        {locationDetails.status == true ?
+                                                        {guardianDetails.status == true ?
                                                             <button className="btn btn-primary">Active</button> :
                                                             <button className="btn btn-danger">Inactive</button>
                                                         }
@@ -77,11 +94,11 @@ const ViewLocation = () => {
 
                                                 <tr>
                                                     <td>Created At</td>
-                                                    <td>{moment(locationDetails?.createdAt).format('DD-MM-YYYY')}</td>
+                                                    <td>{moment(guardianDetails?.createdAt).format('DD-MM-YYYY')}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Updated At</td>
-                                                    <td>{moment(locationDetails?.updatedAt).format('DD-MM-YYYY')}</td>
+                                                    <td>{moment(guardianDetails?.updatedAt).format('DD-MM-YYYY')}</td>
                                                 </tr>
 
                                             </tbody>
@@ -101,4 +118,4 @@ const ViewLocation = () => {
   )
 }
 
-export default ViewLocation
+export default ViewGuardian

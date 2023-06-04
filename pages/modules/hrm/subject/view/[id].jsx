@@ -11,8 +11,6 @@ const ViewSubject = () => {
     }, []);
     const { id } = router?.query;
     const [subjectDetails, setSubjectDetails] = useState({});
-    console.log("call from view", subjectDetails);
-
 
     const fetchSubject = useCallback(async () => {
         let isSubscribed = true;

@@ -18,8 +18,8 @@ const CategoryInfo = () => {
     const fetchCategory = useCallback(async () => {
         let isSubscribed = true;
         if (id) {
-            const getTheClass = await get(CATEGORIE_END_POINT.info(id));
-            setCategoryDetails(getTheClass?.data);
+            const getTheCategory = await get(CATEGORIE_END_POINT.info(id));
+            setCategoryDetails(getTheCategory?.data);
         }
 
         return () => (isSubscribed = false);
