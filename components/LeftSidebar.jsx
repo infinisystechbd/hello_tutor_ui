@@ -266,108 +266,80 @@ const LeftSidebar = () => {
 
                   {/* subject */}
                   <li className="sidebar-item">
-                  <Link href="/modules/hrmModalV/subject" onClick={(e) => e.preventDefault()}>
-                          <a className="sidebar-link">
-                            <i className="mdi mdi-drawing" />
-                            <span className="hide-menu">Subject</span>
-                          </a>
-                          {/* </a> */}
-                        </Link>
-                    <ul aria-expanded="false" className="collapse second-level">
+                    <Link href="/modules/hrmModalV/subject" onClick={(e) => e.preventDefault()}>
+                      <a className="sidebar-link">
+                        <i className="mdi mdi-drawing" />
+                        <span className="hide-menu">Subject</span>
+                      </a>
+                    </Link>
 
-                      {/* <li className="sidebar-item">
-                        <Link href="/modules/hrmModalV/subject" onClick={(e) => e.preventDefault()}>
-                          <a className="sidebar-link">
-                            <i className="mdi mdi-drawing" />
-                            <span className="hide-menu">Subject</span>
-                          </a>
-                          
-                        </Link>
-                      </li> */}
-                    </ul>
                   </li>
                   {/* End subject */}
 
                   {/* class */}
                   <li className="sidebar-item">
-                    <a
-                      className="sidebar-link has-arrow waves-effect waves-dark"
-                      href="#" onClick={(e) => e.preventDefault()}
-                      aria-expanded="false"
-                    >
-                      <i className="mdi mdi-dns" />
-                      <span className="hide-menu">Class</span>
-                    </a>
-                    <ul aria-expanded="false" className="collapse second-level">
+                    <Link href="/modules/hrmModalV/class" onClick={(e) => e.preventDefault()}>
+                      <a className="sidebar-link">
+                        <i className="mdi mdi-drawing" />
+                        <span className="hide-menu">Classes</span>
+                      </a>
+                    </Link>
 
-                      <li className="sidebar-item">
-
-                        <Link href="/modules/hrmModalV/class" onClick={(e) => e.preventDefault()}>
-                          <a className="sidebar-link">
-                            <i className="mdi mdi-drawing" />
-                            <span className="hide-menu">Classes</span>
-                          </a>
-                        </Link>
-
-                      </li>
-                    </ul>
                   </li>
                   {/* End class */}
 
 
-                  {/* class */}
+                  {/* Categories */}
                   <li className="sidebar-item">
-                    <a
-                      className="sidebar-link has-arrow waves-effect waves-dark"
-                      href="#" onClick={(e) => e.preventDefault()}
-                      aria-expanded="false"
-                    >
-                      <i className="mdi mdi-dns" />
-                      <span className="hide-menu">Category</span>
-                    </a>
-                    <ul aria-expanded="false" className="collapse second-level">
+                    <Link href="/modules/hrmModalV/categorie" onClick={(e) => e.preventDefault()}>
+                      <a className="sidebar-link">
+                        <i className="mdi mdi-drawing" />
+                        <span className="hide-menu">Categories</span>
+                      </a>
+                    </Link>
 
-                      <li className="sidebar-item">
-
-                        <Link href="/modules/hrmModalV/categorie" onClick={(e) => e.preventDefault()}>
-                          <a className="sidebar-link">
-                            <i className="mdi mdi-drawing" />
-                            <span className="hide-menu">Categories</span>
-                          </a>
-                        </Link>
-
-                      </li>
-                    </ul>
                   </li>
-                  {/* End class */}
+                  {/* End Categories */}
 
 
 
-                                    {/* city */}
-                                    <li className="sidebar-item">
-                    <a
-                      className="sidebar-link has-arrow waves-effect waves-dark"
-                      href="#" onClick={(e) => e.preventDefault()}
-                      aria-expanded="false"
-                    >
-                      <i className="mdi mdi-dns" />
-                      <span className="hide-menu">City</span>
-                    </a>
-                    <ul aria-expanded="false" className="collapse second-level">
+                  {/* city */}
+                  <li className="sidebar-item">
+                    <Link href="/modules/hrmModalV/city" onClick={(e) => e.preventDefault()}>
+                      <a className="sidebar-link">
+                        <i className="mdi mdi-drawing" />
+                        <span className="hide-menu">City</span>
+                      </a>
+                    </Link>
 
-                      <li className="sidebar-item">
-
-                        <Link href="/modules/hrmModalV/city" onClick={(e) => e.preventDefault()}>
-                          <a className="sidebar-link">
-                            <i className="mdi mdi-drawing" />
-                            <span className="hide-menu">Cities</span>
-                          </a>
-                        </Link>
-
-                      </li>
-                    </ul>
                   </li>
                   {/* End city */}
+
+
+                  {/* Location */}
+                  <li className="sidebar-item">
+                    <Link href="/modules/hrmModalV/location" onClick={(e) => e.preventDefault()}>
+                      <a className="sidebar-link">
+                        <i className="mdi mdi-drawing" />
+                        <span className="hide-menu">Location</span>
+                      </a>
+                    </Link>
+
+                  </li>
+                  {/* End Location */}
+
+
+                  {/* Guardian */}
+                  <li className="sidebar-item">
+                    <Link href="/modules/hrmModalV/guardian" onClick={(e) => e.preventDefault()}>
+                      <a className="sidebar-link">
+                        <i className="mdi mdi-drawing" />
+                        <span className="hide-menu">Guardian</span>
+                      </a>
+                    </Link>
+
+                  </li>
+                  {/* End Guardian */}
 
 
 

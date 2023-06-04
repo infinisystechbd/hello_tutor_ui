@@ -17,7 +17,7 @@ const ViewLocation = () => {
     console.log("call from view", locationDetails);
 
 
-    const fetchSubject = useCallback(async () => {
+    const fetchLocation = useCallback(async () => {
         let isSubscribed = true;
         if (id) {
             const getTheLocation = await get(LOCATION_END_POINT.info(id));
@@ -29,8 +29,8 @@ const ViewLocation = () => {
 
 
     useEffect(() => {
-        fetchSubject();
-    }, [fetchSubject]);
+        fetchLocation();
+    }, [fetchLocation]);
   return (
     <>
     <HeadSection title="Location-Details" />

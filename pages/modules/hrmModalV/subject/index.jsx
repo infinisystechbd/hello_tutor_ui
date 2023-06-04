@@ -331,7 +331,7 @@ const AllSubject = () => {
     };
 
 
-    //View Tower Modal form
+    //View  Modal form
     const [showViewModal, setShowViewModal] = useState(false);
     const handleExitView = () => setShowViewModal(false);
     const handleViewOpen = (id) => {
@@ -374,7 +374,7 @@ const AllSubject = () => {
     };
 
 
-    //Update floor form
+    //Update  form
     const updateForm = async (formData) => {
         let isSubscribed = true;
         setPending(true);
