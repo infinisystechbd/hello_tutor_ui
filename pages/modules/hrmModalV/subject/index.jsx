@@ -394,7 +394,6 @@ const AllSubject = () => {
       handleClose();
       setValidated(false);
       fetchSubjectList()
-      
     } else {
       notify('error', response.errorMessage);
     }
