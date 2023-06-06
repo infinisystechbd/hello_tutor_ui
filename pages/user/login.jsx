@@ -51,11 +51,12 @@ export default function Login() {
             break;
         }
       }
-      notify("error", message);
+      
   
       if (!errorStatus && error.code === 'ERR_NETWORK') {
         message = 'Netword Error!';
       }
+      notify("error", message);
     }
     
   }

@@ -1,10 +1,9 @@
-import { Button, Card, Form, Input, Select } from 'antd';
-import { useRouter } from 'next/router';
-import { useCallback, useState } from 'react';
-import ToastMessage from '../../../../../components/Toast/index';
-import { SUBJECT_END_POINT } from '../../../../../constants/index';
-import { post } from '../../../../../helpers/api_helper';
+import { Button, Form, Input, Modal, Select } from 'antd';
+import React from 'react';
+
+ const subjectForm = ({isModalOpen , setIsModalOpen}) => {
 const { Option } = Select;
+const [form] = Form.useForm
 const layout = {
   labelCol: {
     span: 8,
@@ -19,27 +18,9 @@ const tailLayout = {
     span: 16,
   },
 };
-const Subject = () => {
-  const [form] = Form.useForm();
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const notify = useCallback((type, message) => {
-    ToastMessage({ type, message });
-  }, []);
- /*  const [subjectDetails, setSubjectDetails] = useState({
-    name: '',
-    status: '' || 'true',
-  });
-  console.log(subjectDetails);
 
-  const handleChange = (e) => {
-    setSubjectDetails((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  }; */
 
-  const onFinish = async (values) => {
+const onFinish = async (values) => {
     console.log('Success:', values);
     setLoading(true)
     const response = await post(SUBJECT_END_POINT.create(), values);
@@ -54,36 +35,16 @@ const Subject = () => {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-
- /*  async function submitForm(e) {
-    e.preventDefault();
-    console.log(subjectDetails);
-    const response = await post(SUBJECT_END_POINT.create(), subjectDetails);
-    if (response.status === 'SUCCESS') {
-      notify('success', response.message);
-      router.push(`/modules/hrm/subject`);
-    } else {
-      notify('error', response.errorMessage);
-    }
-    // try{
-
-    // }catch(error){
-    //   let message;
-    //   const errorStatus = error?.response?.status;
-    //   notify("error", message);
-
-    // }
-  } */
-
   return (
-    <>
-      <div className="container-fluid ">
-        <div className="w-75 m-auto">
-          <div className="row">
-            <div className="col-md-10">
-              <Card title="Add Subject" bordered={false}>
-
-                <Form
+    <Modal
+        title="Add Subject"
+        style={{ top: 20 }}
+        centered
+        open={isModalOpen}
+        onOk={() => setIsModalOpen(false)}
+        onCancel={() => setIsModalOpen(false)}
+      >
+        <Form
                   {...layout}
                   form={form}
                   name="control-hooks"
@@ -124,13 +85,8 @@ const Subject = () => {
                     </Button>
                   </Form.Item>
                 </Form>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};
 
-export default Subject;
+      </Modal>
+  )
+}
+export default subjectForm;
