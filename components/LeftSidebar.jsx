@@ -342,6 +342,19 @@ const LeftSidebar = () => {
                   {/* End Guardian */}
 
 
+                  {/* Guardian */}
+                  <li className="sidebar-item">
+                    <Link href="/modules/hrmModalV/tutor" onClick={(e) => e.preventDefault()}>
+                      <a className="sidebar-link">
+                        <i className="mdi mdi-drawing" />
+                        <span className="hide-menu">Tutor</span>
+                      </a>
+                    </Link>
+
+                  </li>
+                  {/* End Guardian */}
+
+
 
 
                 </ul>

@@ -10,6 +10,7 @@ import ViewIcon from '../../../../components/elements/ViewIcon';
 import { GUARDIAN_END_POINT } from '../../../../constants/api_endpoints/guardianEndPoints';
 import { LOCATION_END_POINT } from "../../../../constants/api_endpoints/locationEndPoints";
 import { CITY_END_POINT } from "../../../../constants/api_endpoints/cityEndPoints";
+import { TUTOR_END_POINT } from "../../../../constants/api_endpoints/tutorEndPoints";
 import { QUERY_KEYS } from "../../../../constants/queryKeys";
 import { del, get, post, put } from '../../../../helpers/api_helper';
 import { useGetAllData } from "../../../../utils/hooks/useGetAllData";
@@ -29,7 +30,7 @@ const CreateForm = ({ onSubmit, loading, validated }) => {
 
     const [cityList, setAllCityList] = useState([]);
     const [locationList, setAllLocationList] = useState([]);
-    const [guardianDetails, setGuardianDetails] = useState({
+    const [tutorDetails, setTutorDetails] = useState({
         fullName: "",
         phone: "",
         city: "",
@@ -78,13 +79,13 @@ const CreateForm = ({ onSubmit, loading, validated }) => {
 
 
     const handleChange = (e) => {
-        setGuardianDetails(prev => ({
+        setTutorDetails(prev => ({
             ...prev, [e.target.name]: e.target.value
         }))
     }
 
 
-    let dataset = { ...guardianDetails };
+    let dataset = { ...tutorDetails };
 
 
     return (
@@ -94,12 +95,12 @@ const CreateForm = ({ onSubmit, loading, validated }) => {
             <div className="row">
                 <div className="card-body">
 
-                    <TextInput label="Student Name" value={guardianDetails.name} placeholder="Student Name" name="fullName" onChange={handleChange} />
-                    <TextInput label="Phone Number" value={guardianDetails.phone} placeholder="Phone Number" name="phone" onChange={handleChange} />
+                    <TextInput label="Student Name" value={tutorDetails.name} placeholder="Student Name" name="fullName" onChange={handleChange} />
+                    <TextInput label="Phone Number" value={tutorDetails.phone} placeholder="Phone Number" name="phone" onChange={handleChange} />
                     <div className="mb-3 row">
                         <Label text="City" />
                         <div className="col-sm-6">
-                            <Select name="city" value={guardianDetails.city} onChange={handleChange}>
+                            <Select name="city" value={tutorDetails.city} onChange={handleChange}>
                                 <option value="" disabled>Select country</option>
                                 {
                                     cityList?.map((city, index) => (
@@ -114,7 +115,7 @@ const CreateForm = ({ onSubmit, loading, validated }) => {
                     <div className="mb-3 row">
                         <Label text="Location" />
                         <div className="col-sm-6">
-                            <Select name="location" value={guardianDetails.location} onChange={handleChange}>
+                            <Select name="location" value={tutorDetails.location} onChange={handleChange}>
                                 <option value="" disabled>Select Location</option>
                                 {
                                     locationList?.map((locn, index) => (
@@ -126,12 +127,12 @@ const CreateForm = ({ onSubmit, loading, validated }) => {
                             </Select>
                         </div>
                     </div>
-                    <TextInput label="Address" value={guardianDetails.address} placeholder="Phone Number" name="address" onChange={handleChange} />
-                    <TextInput label="Email" value={guardianDetails.email} placeholder="Email" name="email" onChange={handleChange} />
+                    <TextInput label="Address" value={tutorDetails.address} placeholder="Phone Number" name="address" onChange={handleChange} />
+                    <TextInput label="Email" value={tutorDetails.email} placeholder="Email" name="email" onChange={handleChange} />
                     <div className="mb-3 row">
                         <Label text="Status" />
                         <div className="col-sm-6">
-                            <Select name="status" value={guardianDetails.status} onChange={handleChange} >
+                            <Select name="status" value={tutorDetails.status} onChange={handleChange} >
                                 <option value="" disabled>select activation type</option>
                                 <option value="true" selected>Active</option>
                                 <option value="false">Inactive</option>
@@ -164,12 +165,12 @@ const ViewForm = ({ id, pending, validated }) => {
 
 
     const [loading, setLoading] = useState(true);
-    const [guardianDetails, setGuardianDetails] = useState({});
-    const fetchGuardian = useCallback(async () => {
+    const [tutorDetails, setTutorDetails] = useState({});
+    const fetchTutor = useCallback(async () => {
         let isSubscribed = true;
         if (id) {
-            const getTheGuardian = await get(GUARDIAN_END_POINT.info(id));
-            setGuardianDetails(getTheGuardian?.data);
+            const getTheTutor = await get(TUTOR_END_POINT.info(id));
+            setTutorDetails(getTheTutor?.data);
         }
 
         return () => (isSubscribed = false);
@@ -177,8 +178,8 @@ const ViewForm = ({ id, pending, validated }) => {
 
 
     useEffect(() => {
-        fetchGuardian();
-    }, [fetchGuardian]);
+        fetchTutor();
+    }, [fetchTutor]);
 
 
     return (
@@ -190,36 +191,36 @@ const ViewForm = ({ id, pending, validated }) => {
                         <div className="card-body">
                             <div className="row">
                                 <div className="col-lg-12 col-md-12 col-sm-12">
-                                    <h3 className="box-title mt-5">Guardian Info</h3>
+                                    <h3 className="box-title mt-5">Tutor Info</h3>
                                     <div className="table-responsive">
                                         <table className="table">
                                             <tbody>
                                                 <tr>
-                                                    <td width={390}>Guardian Id</td>
-                                                    <td>{guardianDetails.guardianId}</td>
+                                                    <td width={390}>TutorId Id</td>
+                                                    <td>{tutorDetails.tutorId}</td>
                                                 </tr>
                                                 <tr>
                                                     <td width={390}>Name</td>
-                                                    <td>{guardianDetails.fullName}</td>
+                                                    <td>{tutorDetails.fullName}</td>
                                                 </tr>
 
                                                 <tr>
                                                     <td width={390}>Phone</td>
-                                                    <td>{guardianDetails.phone}</td>
+                                                    <td>{tutorDetails.phone}</td>
                                                 </tr>
 
                                                 <tr>
                                                     <td width={390}>Email</td>
-                                                    <td>{guardianDetails.email}</td>
+                                                    <td>{tutorDetails.email}</td>
                                                 </tr>
                                                 <tr>
                                                     <td width={390}>Address</td>
-                                                    <td>{guardianDetails.address}</td>
+                                                    <td>{tutorDetails.address}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Status</td>
                                                     <td>
-                                                        {guardianDetails.status == true ?
+                                                        {tutorDetails.status == true ?
                                                             <button className="btn btn-primary">Active</button> :
                                                             <button className="btn btn-danger">Inactive</button>
                                                         }
@@ -240,11 +241,11 @@ const ViewForm = ({ id, pending, validated }) => {
 
                                                 <tr>
                                                     <td>Created At</td>
-                                                    <td>{moment(guardianDetails?.createdAt).format('DD-MM-YYYY')}</td>
+                                                    <td>{moment(tutorDetails?.createdAt).format('DD-MM-YYYY')}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Updated At</td>
-                                                    <td>{moment(guardianDetails?.updatedAt).format('DD-MM-YYYY')}</td>
+                                                    <td>{moment(tutorDetails?.updatedAt).format('DD-MM-YYYY')}</td>
                                                 </tr>
 
                                             </tbody>
@@ -261,6 +262,7 @@ const ViewForm = ({ id, pending, validated }) => {
 };
 
 
+
 //Update component
 const EditForm = ({ onSubmit, id, pending, validated }) => {
     const [loading, setLoading] = useState(true);
@@ -268,7 +270,7 @@ const EditForm = ({ onSubmit, id, pending, validated }) => {
     const [cityList, setAllCityList] = useState([]);
     const [locationList, setAllLocationList] = useState([]);
 
-    const [guardianDetails, setGuardianDetails] = useState({
+    const [tutorDetails, setTutorDetails] = useState({
         fullName: "",
         phone: "",
         city: "",
@@ -317,26 +319,27 @@ const EditForm = ({ onSubmit, id, pending, validated }) => {
 
 
     const handleChange = (e) => {
-        setGuardianDetails(prev => ({
+        setTutorDetails(prev => ({
             ...prev, [e.target.name]: e.target.value
         }))
     }
-    const fetchGuardian = useCallback(async () => {
+    const fetchTutor = useCallback(async () => {
         let isSubscribed = true;
         setLoading(true);
         if (id) {
-            const getTheGuardian = await get(GUARDIAN_END_POINT.info(id));
-            setGuardianDetails(prev => ({
+            const getTheTutor = await get(TUTOR_END_POINT.info(id));
+            console.log(getTheTutor);
+            setTutorDetails(prev => ({
                 ...prev,
-                fullName: getTheGuardian?.data?.fullName,
-                phone: getTheGuardian?.data?.phone,
-                city: getTheGuardian?.data?.city?._id,
-                location: getTheGuardian?.data?.location?._id,
-                address: getTheGuardian?.data?.address,
-                email: getTheGuardian?.data?.email,
-                isPortalAccess: getTheGuardian?.data?.isPortalAccess,
-                status: getTheGuardian?.data?.status,
-                // name: getTheGuardian?.data?.city?.name,
+                fullName: getTheTutor?.data?.fullName,
+                phone: getTheTutor?.data?.phone,
+                city: getTheTutor?.data?.city?._id,
+                location: getTheTutor?.data?.location?._id,
+                address: getTheTutor?.data?.address,
+                email: getTheTutor?.data?.email,
+                isPortalAccess: getTheTutor?.data?.isPortalAccess,
+                status: getTheTutor?.data?.status,
+                // name: getTheTutor?.data?.city?.name,
             }));
             setLoading(false);
         }
@@ -347,10 +350,10 @@ const EditForm = ({ onSubmit, id, pending, validated }) => {
 
 
     useEffect(() => {
-        fetchGuardian();
-    }, [fetchGuardian]);
+        fetchTutor();
+    }, [fetchTutor]);
 
-    let dataset = { ...guardianDetails };
+    let dataset = { ...tutorDetails };
 
 
     return (
@@ -358,14 +361,14 @@ const EditForm = ({ onSubmit, id, pending, validated }) => {
 
             <div className="row">
 
-                <TextInput label="Student Name" value={guardianDetails.fullName} placeholder="Student Name" name="fullName" onChange={handleChange} />
-                <TextInput label="Phone Number" value={guardianDetails.phone} placeholder="Phone Number" name="phone" onChange={handleChange} />
+                <TextInput label="Student Name" value={tutorDetails.fullName} placeholder="Student Name" name="fullName" onChange={handleChange} />
+                <TextInput label="Phone Number" value={tutorDetails.phone} placeholder="Phone Number" name="phone" onChange={handleChange} />
                 <div className="mb-3 row">
                     <Label text="City" />
                     <div className="col-sm-6">
                         <Select name="city" defaultValue={{
-                            value: guardianDetails?.city?._id,
-                            label: guardianDetails?.city?.name,
+                            value: tutorDetails?.city?._id,
+                            label: tutorDetails?.city?.name,
                         }} onChange={handleChange}>
                             <option value="" disabled>Select country</option>
                             {
@@ -382,8 +385,8 @@ const EditForm = ({ onSubmit, id, pending, validated }) => {
                     <Label text="Location" />
                     <div className="col-sm-6">
                         <Select name="location" defaultValue={{
-                            value: guardianDetails?.location?._id,
-                            label: guardianDetails?.location?.name,
+                            value: tutorDetails?.location?._id,
+                            label: tutorDetails?.location?.name,
                         }} onChange={handleChange}>
                             <option value="" disabled>Select Location</option>
                             {
@@ -396,12 +399,12 @@ const EditForm = ({ onSubmit, id, pending, validated }) => {
                         </Select>
                     </div>
                 </div>
-                <TextInput label="Address" value={guardianDetails.address} placeholder="Phone Number" name="address" onChange={handleChange} />
-                <TextInput label="Email" value={guardianDetails.email} placeholder="Email" name="email" onChange={handleChange} />
+                <TextInput label="Address" value={tutorDetails.address} placeholder="Phone Number" name="address" onChange={handleChange} />
+                <TextInput label="Email" value={tutorDetails.email} placeholder="Email" name="email" onChange={handleChange} />
                 <div className="mb-3 row">
                     <Label text="Status" />
                     <div className="col-sm-6">
-                        <Select name="status" value={guardianDetails.status} onChange={handleChange} >
+                        <Select name="status" value={tutorDetails.status} onChange={handleChange} >
                             <option value="" disabled>select activation type</option>
                             <option value="true" selected>Active</option>
                             <option value="false">Inactive</option>
@@ -432,21 +435,17 @@ const EditForm = ({ onSubmit, id, pending, validated }) => {
 };
 
 
-
-
-
-
 //Delete component
 const DeleteComponent = ({ onSubmit, id, pending }) => {
 
     const [name, setName] = useState("");
     const [loading, setLoading] = useState(true);
 
-    const fetchGuardian = useCallback(async () => {
+    const fetchTutor = useCallback(async () => {
 
         let isSubscribed = true;
-        const getTheGuardian = await get(GUARDIAN_END_POINT.info(id));
-        setName(getTheGuardian?.data?.fullName)
+        const getTheTutor = await get(TUTOR_END_POINT.info(id));
+        setName(getTheTutor?.data?.fullName)
 
         setLoading(true);
         return () => (isSubscribed = false);
@@ -454,8 +453,8 @@ const DeleteComponent = ({ onSubmit, id, pending }) => {
 
 
     useEffect(() => {
-        fetchGuardian();
-    }, [fetchGuardian]);
+        fetchTutor();
+    }, [fetchTutor]);
 
     let myFormData = new FormData();
     myFormData.append("id", id);
@@ -480,21 +479,20 @@ const DeleteComponent = ({ onSubmit, id, pending }) => {
 
 
 
+const ManageTutor = () => {
 
-
-const ManageGuardian = () => {
-
-    
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
     }, []);
 
     const [pending, setPending] = useState(false);
-    const { data: guardianList, isLoading, refetch: fetchGuardianList } = useGetAllData(QUERY_KEYS.GET_ALL_GUARDIAN_LIST, GUARDIAN_END_POINT.get());
-    const data = guardianList?.data;
+    const { data: tutorList, isLoading, refetch: fetchTutorList } = useGetAllData(QUERY_KEYS.GET_ALL_TUTOR_LIST, TUTOR_END_POINT.get());
+    const data = tutorList?.data;
+
+
     //Form validation
     const [validated, setValidated] = useState(false);
-    const [guardian_id, setGuardianId] = useState('');
+    const [tutor_id, setTutorId] = useState('');
 
     //   Create Modal
     const [loading, setLoading] = useState(false);
@@ -502,30 +500,32 @@ const ManageGuardian = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    //View  Modal form
-    const [showViewModal, setShowViewModal] = useState(false);
-    const handleExitView = () => setShowViewModal(false);
-    const handleViewOpen = (id) => {
-        setShowViewModal(true);
-        setGuardianId(id);
-    };
 
-    //Update Tower Modal form
-    const [showUpdateModal, setShowUpdateModal] = useState(false);
-    const handleExit = () => setShowUpdateModal(false);
-    const handleOpen = (id) => {
-        setShowUpdateModal(true);
-        setGuardianId(id);
-    };
+        //View  Modal form
+        const [showViewModal, setShowViewModal] = useState(false);
+        const handleExitView = () => setShowViewModal(false);
+        const handleViewOpen = (id) => {
+            setShowViewModal(true);
+            setTutorId(id);
+        };
 
 
-    //Delete  Modal
+        //Update  Modal form
+        const [showUpdateModal, setShowUpdateModal] = useState(false);
+        const handleExit = () => setShowUpdateModal(false);
+        const handleOpen = (id) => {
+            setShowUpdateModal(true);
+            setTutorId(id);
+        };
+
+
+            //Delete  Modal
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const handleExitDelete = () => setShowDeleteModal(false);
     const handleOpenDelete = (id) => {
         setShowDeleteModal(true);
-        setGuardianId(id);
+        setTutorId(id);
 
     }
 
@@ -535,7 +535,7 @@ const ManageGuardian = () => {
     const submitForm = async (items) => {
         let isSubscribed = true;
         setLoading(true);
-        const response = await post(GUARDIAN_END_POINT.create(), items);
+        const response = await post(TUTOR_END_POINT.create(), items);
         if (response.status === "SUCCESS") {
             notify("success", response.message);
             // router.push(`/modules/hrmModalV/subject`);
@@ -549,20 +549,20 @@ const ManageGuardian = () => {
             setValidated(true);
         }
 
-        fetchGuardianList();
+        fetchTutorList();
 
         return () => (isSubscribed = false);
     };
 
 
-
+    
     //Update  form
     const updateForm = async (formData) => {
         let isSubscribed = true;
         setPending(true);
-        const updateTheSubject = await put(GUARDIAN_END_POINT.update(guardian_id), formData);
-        if (updateTheSubject.status === 'SUCCESS') {
-            notify("success", updateTheSubject.message);
+        const updateTheTutor = await put(TUTOR_END_POINT.update(tutor_id), formData);
+        if (updateTheTutor.status === 'SUCCESS') {
+            notify("success", updateTheTutor.message);
             // router.push(`/modules/hrmModalV/subject`);
             handleExit();
             setPending(false);
@@ -570,38 +570,36 @@ const ManageGuardian = () => {
         }
 
         else {
-            notify("error", updateTheSubject.message);
+            notify("error", updateTheTutor.message);
             setPending(false);
             setValidated(true);
         }
 
-        fetchGuardianList();
+        fetchTutorList();
 
         return () => (isSubscribed = false);
     };
 
 
+        //Delete Subject
+        const handleDelete = async (id) => {
 
-    //Delete Subject
-    const handleDelete = async (id) => {
-
-        let isSubscribed = true;
-        const deleteGuardian = await del(GUARDIAN_END_POINT.delete(id))
-
-        if (deleteGuardian.status === "SUCCESS") {
-            notify("success", "successfully deleted!");
-            handleExitDelete();
-            setPending(false);
-
+            let isSubscribed = true;
+            const deleteTutor = await del(TUTOR_END_POINT.delete(id))
+    
+            if (deleteTutor.status === "SUCCESS") {
+                notify("success", "successfully deleted!");
+                handleExitDelete();
+                setPending(false);
+    
+            }
+            else {
+                notify("error", "something went wrong");
+            }
+    
+            fetchTutorList();
+            return () => isSubscribed = false;
         }
-        else {
-            notify("error", "something went wrong");
-        }
-
-        fetchGuardianList();
-        return () => isSubscribed = false;
-    }
-
 
 
     const columns = [
@@ -612,22 +610,22 @@ const ManageGuardian = () => {
             width: "70px",
         },
         {
-            name: 'Guardian Id',
-            selector: row => row.guardianId,
+            name: 'Tutor Id',
+            selector: row => row.tutorId,
             sortable: true,
         },
         {
-            name: 'Guardian Name',
+            name: 'Tutor Name',
             selector: row => row.fullName,
             sortable: true,
         },
         {
-            name: 'Guardian Phone',
+            name: 'Tutor Phone',
             selector: row => row.phone,
             sortable: true,
         },
         {
-            name: 'Guardian Address',
+            name: 'Tutor Address',
             selector: row => row.address,
             sortable: true,
         },
@@ -680,10 +678,9 @@ const ManageGuardian = () => {
     }
 
 
-
     return (
         <>
-            <HeadSection title="All Guardian-Details" />
+            <HeadSection title="All TUTOR-Details" />
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-12">
@@ -691,7 +688,7 @@ const ManageGuardian = () => {
 
                             <div className="d-flex border-bottom title-part-padding align-items-center">
                                 <div>
-                                    <h4 class="card-title mb-0">All Guardian</h4>
+                                    <h4 class="card-title mb-0">All TUTOR</h4>
                                 </div>
                                 <div className="ms-auto flex-shrink-0">
                                     <Button
@@ -701,7 +698,7 @@ const ManageGuardian = () => {
                                         onClick={handleShow}
                                         block
                                     >
-                                        Add Guardian
+                                        Add TUTOR
                                     </Button>
 
                                 </div>
@@ -711,67 +708,67 @@ const ManageGuardian = () => {
                             {/* Create Modal Form */}
 
                             <Modal
-                                dialogClassName="modal-sm"
-                                show={show}
-                                onHide={handleClose}
-                            >
-                                <Modal.Header closeButton>
-                                    <Modal.Title>Create Guardian</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
-                                    <CreateForm
-                                        onSubmit={submitForm}
-                                        loading={loading}
-                                        validated={validated}
-                                    />
-                                </Modal.Body>
-                            </Modal>
+                        dialogClassName="modal-sm"
+                        show={show}
+                        onHide={handleClose}
+                    >
+                        <Modal.Header closeButton>
+                            <Modal.Title>Create Tutor</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <CreateForm
+                                onSubmit={submitForm}
+                                loading={loading}
+                                validated={validated}
+                            />
+                        </Modal.Body>
+                    </Modal>
                             {/* End Create Modal Form */}
 
 
 
                             {/* View Modal Form */}
                             <Modal dialogClassName="modal-sm" show={showViewModal} onHide={handleExitView}>
-                                <Modal.Header closeButton></Modal.Header>
-                                <ViewForm id={guardian_id} pending={pending} />
-                            </Modal>
+                        <Modal.Header closeButton></Modal.Header>
+                        <ViewForm id={tutor_id} pending={pending} />
+                    </Modal>
                             {/* view Modal Form end */}
 
 
                             {/* Update Modal Form */}
                             <Modal
-                                dialogClassName="modal-sm"
-                                show={showUpdateModal}
-                                onHide={handleExit}
-                            >
-                                <Modal.Header closeButton>
-                                    <Modal.Title>Update Guardian</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
-                                    <EditForm
-                                        onSubmit={updateForm}
-                                        id={guardian_id}
-                                        pending={pending}
-                                        validated={validated}
-                                    />
-                                </Modal.Body>
-                            </Modal>
+                        dialogClassName="modal-sm"
+                        show={showUpdateModal}
+                        onHide={handleExit}
+                    >
+                        <Modal.Header closeButton>
+                            <Modal.Title>Update Guardian</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <EditForm
+                                onSubmit={updateForm}
+                                id={tutor_id}
+                                pending={pending}
+                                validated={validated}
+                            />
+                        </Modal.Body>
+                    </Modal>
                             {/* End Update Modal Form */}
 
 
 
                             {/* Delete Modal Form */}
                             <Modal show={showDeleteModal} onHide={handleExitDelete}>
-                                <Modal.Header closeButton></Modal.Header>
-                                <DeleteComponent onSubmit={handleDelete} id={guardian_id} pending={pending} />
-                            </Modal>
+                        <Modal.Header closeButton></Modal.Header>
+                        <DeleteComponent onSubmit={handleDelete} id={tutor_id} pending={pending} />
+                    </Modal>
 
 
                             <div className="card-body">
                                 <div className="">
                                     <DataTable
                                         columns={columns}
-                                        data={guardianList?.data}
+                                        data={tutorList?.data}
                                         pagination
                                         highlightOnHover
                                         subHeader
@@ -796,4 +793,4 @@ const ManageGuardian = () => {
     )
 }
 
-export default ManageGuardian
+export default ManageTutor
