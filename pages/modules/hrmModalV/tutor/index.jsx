@@ -501,25 +501,25 @@ const ManageTutor = () => {
     const handleShow = () => setShow(true);
 
 
-        //View  Modal form
-        const [showViewModal, setShowViewModal] = useState(false);
-        const handleExitView = () => setShowViewModal(false);
-        const handleViewOpen = (id) => {
-            setShowViewModal(true);
-            setTutorId(id);
-        };
+    //View  Modal form
+    const [showViewModal, setShowViewModal] = useState(false);
+    const handleExitView = () => setShowViewModal(false);
+    const handleViewOpen = (id) => {
+        setShowViewModal(true);
+        setTutorId(id);
+    };
 
 
-        //Update  Modal form
-        const [showUpdateModal, setShowUpdateModal] = useState(false);
-        const handleExit = () => setShowUpdateModal(false);
-        const handleOpen = (id) => {
-            setShowUpdateModal(true);
-            setTutorId(id);
-        };
+    //Update  Modal form
+    const [showUpdateModal, setShowUpdateModal] = useState(false);
+    const handleExit = () => setShowUpdateModal(false);
+    const handleOpen = (id) => {
+        setShowUpdateModal(true);
+        setTutorId(id);
+    };
 
 
-            //Delete  Modal
+    //Delete  Modal
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const handleExitDelete = () => setShowDeleteModal(false);
@@ -555,7 +555,7 @@ const ManageTutor = () => {
     };
 
 
-    
+
     //Update  form
     const updateForm = async (formData) => {
         let isSubscribed = true;
@@ -581,25 +581,25 @@ const ManageTutor = () => {
     };
 
 
-        //Delete Subject
-        const handleDelete = async (id) => {
+    //Delete Subject
+    const handleDelete = async (id) => {
 
-            let isSubscribed = true;
-            const deleteTutor = await del(TUTOR_END_POINT.delete(id))
-    
-            if (deleteTutor.status === "SUCCESS") {
-                notify("success", "successfully deleted!");
-                handleExitDelete();
-                setPending(false);
-    
-            }
-            else {
-                notify("error", "something went wrong");
-            }
-    
-            fetchTutorList();
-            return () => isSubscribed = false;
+        let isSubscribed = true;
+        const deleteTutor = await del(TUTOR_END_POINT.delete(id))
+
+        if (deleteTutor.status === "SUCCESS") {
+            notify("success", "successfully deleted!");
+            handleExitDelete();
+            setPending(false);
+
         }
+        else {
+            notify("error", "something went wrong");
+        }
+
+        fetchTutorList();
+        return () => isSubscribed = false;
+    }
 
 
     const columns = [
@@ -708,60 +708,60 @@ const ManageTutor = () => {
                             {/* Create Modal Form */}
 
                             <Modal
-                        dialogClassName="modal-sm"
-                        show={show}
-                        onHide={handleClose}
-                    >
-                        <Modal.Header closeButton>
-                            <Modal.Title>Create Tutor</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <CreateForm
-                                onSubmit={submitForm}
-                                loading={loading}
-                                validated={validated}
-                            />
-                        </Modal.Body>
-                    </Modal>
+                                dialogClassName="modal-sm"
+                                show={show}
+                                onHide={handleClose}
+                            >
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Create Tutor</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <CreateForm
+                                        onSubmit={submitForm}
+                                        loading={loading}
+                                        validated={validated}
+                                    />
+                                </Modal.Body>
+                            </Modal>
                             {/* End Create Modal Form */}
 
 
 
                             {/* View Modal Form */}
                             <Modal dialogClassName="modal-sm" show={showViewModal} onHide={handleExitView}>
-                        <Modal.Header closeButton></Modal.Header>
-                        <ViewForm id={tutor_id} pending={pending} />
-                    </Modal>
+                                <Modal.Header closeButton></Modal.Header>
+                                <ViewForm id={tutor_id} pending={pending} />
+                            </Modal>
                             {/* view Modal Form end */}
 
 
                             {/* Update Modal Form */}
                             <Modal
-                        dialogClassName="modal-sm"
-                        show={showUpdateModal}
-                        onHide={handleExit}
-                    >
-                        <Modal.Header closeButton>
-                            <Modal.Title>Update Guardian</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <EditForm
-                                onSubmit={updateForm}
-                                id={tutor_id}
-                                pending={pending}
-                                validated={validated}
-                            />
-                        </Modal.Body>
-                    </Modal>
+                                dialogClassName="modal-sm"
+                                show={showUpdateModal}
+                                onHide={handleExit}
+                            >
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Update Guardian</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <EditForm
+                                        onSubmit={updateForm}
+                                        id={tutor_id}
+                                        pending={pending}
+                                        validated={validated}
+                                    />
+                                </Modal.Body>
+                            </Modal>
                             {/* End Update Modal Form */}
 
 
 
                             {/* Delete Modal Form */}
                             <Modal show={showDeleteModal} onHide={handleExitDelete}>
-                        <Modal.Header closeButton></Modal.Header>
-                        <DeleteComponent onSubmit={handleDelete} id={tutor_id} pending={pending} />
-                    </Modal>
+                                <Modal.Header closeButton></Modal.Header>
+                                <DeleteComponent onSubmit={handleDelete} id={tutor_id} pending={pending} />
+                            </Modal>
 
 
                             <div className="card-body">

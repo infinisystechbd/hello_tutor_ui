@@ -342,7 +342,7 @@ const LeftSidebar = () => {
                   {/* End Guardian */}
 
 
-                  {/* Guardian */}
+                  {/* Tutor */}
                   <li className="sidebar-item">
                     <Link href="/modules/hrmModalV/tutor" onClick={(e) => e.preventDefault()}>
                       <a className="sidebar-link">
@@ -352,7 +352,22 @@ const LeftSidebar = () => {
                     </Link>
 
                   </li>
-                  {/* End Guardian */}
+                  {/* End Tutor */}
+
+
+                                    {/* Request Tutor */}
+                                    <li className="sidebar-item">
+                    <Link href="/modules/hrmModalV/tutorRequest" onClick={(e) => e.preventDefault()}>
+                      <a className="sidebar-link">
+                        <i className="mdi mdi-drawing" />
+                        <span className="hide-menu">Tutor</span>
+                      </a>
+                    </Link>
+
+                  </li>
+                  {/* End Request Tutor */}
+
+                  
 
 
 
