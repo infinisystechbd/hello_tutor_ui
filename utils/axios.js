@@ -47,7 +47,7 @@ export default function Axios() {
 
     function logout(){
         localStorage.clear();
-         router.push("/user/login");
+         router.replace("/");
          router.reload();
       }
 

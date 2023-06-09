@@ -12,6 +12,7 @@ export const useGetAllData =  (queryKey , url) => {
         queryKey: [queryKey , url],
         queryFn: ()=> fetchData(url),
         keepPreviousData: true,
+        refetchOnWindowFocus: true,
         initialData: ()=> {
             const list = queryClient.getQueriesData(queryKey)?.data;
             if(list)
