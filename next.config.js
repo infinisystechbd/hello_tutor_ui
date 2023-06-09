@@ -4,3 +4,10 @@ const nextConfig = {
 }
 
 module.exports = nextConfig
+
+module.exports = {
+  webpack: (config) => {
+    config.resolve.alias['date-fns'] = 'date-fns/esm';
+    return config;
+  },
+};
