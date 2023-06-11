@@ -38,8 +38,8 @@ const AllSubject = () => {
   const [totalRows, setTotalRows] = useState(0);
   const [editData, setEditData] = useState({});
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const handleShow = () =>{
+  const [perPage, setPerPage] = useState(10)
+  const handleShow = () => {
     setIsModalOpen(true)
     setEditData(null);
   };
@@ -50,38 +50,38 @@ const AllSubject = () => {
 
   // handle delete
   const { confirm } = Modal;
-const showDeleteConfirm = (id,name) => {
-  confirm({
-    title: `Are you sure delete this Subject?`,
-    icon: <ExclamationCircleFilled />,
-    content: name,
-    okText: 'Yes',
-    okType: 'danger',
-    cancelText: 'No',
-    async onOk()  {
-      const deleteSubject = await del(SUBJECT_END_POINT.delete(id));
-        try{
+  const showDeleteConfirm = (id, name) => {
+    confirm({
+      title: `Are you sure delete this Subject?`,
+      icon: <ExclamationCircleFilled />,
+      content: name,
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      async onOk() {
+        const deleteSubject = await del(SUBJECT_END_POINT.delete(id));
+        try {
           if (deleteSubject.status === 'SUCCESS') {
             notify('success', deleteSubject.message);
           } else {
             notify('error', 'something went wrong');
           }
-        }catch(error){
+        } catch (error) {
           notify('error', error.message);
         }
-        
-    fetchSubjectList();
-    },
-    onCancel() {
-      console.log('Cancel');
-    },
-  });
-};
+
+        fetchSubjectList();
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  };
 
   //View  Modal form
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
-  const [subject , setSubject] = useState({});
-  
+  const [subject, setSubject] = useState({});
+
   const handleViewOpen = (data) => {
     setIsViewModalOpen(true);
     setSubject(data);
@@ -97,7 +97,8 @@ const showDeleteConfirm = (id,name) => {
     data: subjectList,
     isLoading,
     refetch: fetchSubjectList,
-  } = useGetAllData(QUERY_KEYS.GET_ALL_SUBJECT_LIST, SUBJECT_END_POINT.get(page,limit,search));
+  } = useGetAllData(QUERY_KEYS.GET_ALL_SUBJECT_LIST, SUBJECT_END_POINT.get(search));
+ 
   const reFetchHandler = (isRender) => {
     if (isRender) fetchSubjectList();
   };
@@ -193,17 +194,17 @@ const showDeleteConfirm = (id,name) => {
             </div>
 
             {/* Create Modal Form */}
-           <SubjectForm 
-           isModalOpen={isModalOpen} 
-           setIsModalOpen={setIsModalOpen}
-           isParentRender={reFetchHandler}
-           setEditData={editData}
+            <SubjectForm
+              isModalOpen={isModalOpen}
+              setIsModalOpen={setIsModalOpen}
+              isParentRender={reFetchHandler}
+              setEditData={editData}
             />
             {/* End Create Modal Form */}
 
             {/* View Modal Form */}
 
-            <SubjectView isViewModalOpen={isViewModalOpen} setIsViewModalOpen={setIsViewModalOpen} subject={subject}  />
+            <SubjectView isViewModalOpen={isViewModalOpen} setIsViewModalOpen={setIsViewModalOpen} subject={subject} />
             {/* view Modal Form end */}
 
             <div className="card-body">
@@ -224,9 +225,9 @@ const showDeleteConfirm = (id,name) => {
                   onChangePage={handlePageChange} */
                   subHeaderComponent={
                     <DebouncedSearchInput
-                    allowClear
-                    placeholder="Search subject name "
-                    onChange={setSearch}
+                      allowClear
+                      placeholder="Search subject name "
+                      onChange={setSearch}
                     />
                   }
                   striped
