@@ -2,9 +2,9 @@ import { Button, Form, Input, Modal, Select } from 'antd';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 import ToastMessage from '../../../../../components/Toast';
-import { SUBJECT_END_POINT } from '../../../../../constants/index';
+import { GUARDIAN_END_POINT } from '../../../../../constants/index';
 import { post, put } from '../../../../../helpers/api_helper';
-function SubjectForm(props) {
+function GuardianForm(props) {
   const { isModalOpen, setIsModalOpen, isParentRender, setEditData } = props;
 
   console.log(setEditData);
@@ -127,4 +127,4 @@ function SubjectForm(props) {
     </Modal>
   );
 }
-export default SubjectForm;
+export default GuardianForm;
