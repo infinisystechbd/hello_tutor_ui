@@ -33,7 +33,7 @@ function SubjectForm(props) {
   if (setEditData != null) {
     form.setFieldsValue({
       name: setEditData.name,
-      gender: setEditData.status,
+      status: setEditData.status,
     });
   } else {
     form.resetFields();

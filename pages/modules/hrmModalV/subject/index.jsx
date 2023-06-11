@@ -38,7 +38,7 @@ const AllSubject = () => {
   const [totalRows, setTotalRows] = useState(0);
   const [editData, setEditData] = useState({});
   const [page, setPage] = useState(1);
-  const [perPage,setPerPage] = useState(10)
+  const [limit, setLimit] = useState(10);
   const handleShow = () =>{
     setIsModalOpen(true)
     setEditData(null);
@@ -93,21 +93,23 @@ const showDeleteConfirm = (id,name) => {
     setShowDeleteModal(true);
     setSubjectId(id);
   };
-  const handlePerRowsChange = async (newPerPage, page) => {
-    setPage(page);
-    setPerPage(newPerPage);
-  };
-  const handlePageChange = (page) => {
-    setPage(page)
-  };
   const {
     data: subjectList,
     isLoading,
     refetch: fetchSubjectList,
-  } = useGetAllData(QUERY_KEYS.GET_ALL_SUBJECT_LIST, SUBJECT_END_POINT.get(search));
+  } = useGetAllData(QUERY_KEYS.GET_ALL_SUBJECT_LIST, SUBJECT_END_POINT.get(page,limit,search));
   const reFetchHandler = (isRender) => {
     if (isRender) fetchSubjectList();
   };
+
+  const handlePageChange = (page) => {
+    setPage(page)
+   };
+ 
+   const handlePerRowsChange =  (newLimit, page) => {
+     setPage(page);
+     setLimit(newLimit);
+   };
   const columns = [
     {
       name: <span className="fw-bold">SL</span>,
@@ -210,10 +212,14 @@ const showDeleteConfirm = (id,name) => {
                   columns={columns}
                   data={subjectList?.data}
                   pagination
+                  paginationServer
                   highlightOnHover
                   subHeader
                   progressPending={isLoading}
                   paginationTotalRows={subjectList?.total}
+                  onChangeRowsPerPage={handlePerRowsChange}
+                  onChangePage={handlePageChange}
+                  selectableRows
                   /* onChangeRowsPerPage={handlePerRowsChange}
                   onChangePage={handlePageChange} */
                   subHeaderComponent={
