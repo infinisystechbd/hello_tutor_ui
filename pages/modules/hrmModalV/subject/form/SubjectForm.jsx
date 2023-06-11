@@ -1,5 +1,4 @@
 import { Button, Form, Input, Modal, Select } from 'antd';
-import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 import ToastMessage from '../../../../../components/Toast';
 import { SUBJECT_END_POINT } from '../../../../../constants/index';
@@ -29,6 +28,7 @@ function SubjectForm(props) {
     },
   };
   if (setEditData != null) {
+    console.log({setEditData})
     form.setFieldsValue({
       name: setEditData.name,
       status: setEditData.status,
@@ -110,11 +110,11 @@ function SubjectForm(props) {
               required: true,
             },
           ]}
-          initialValue={'true'}
+          initialValue={true}
         >
           <Select placeholder="Select a option" allowClear>
-            <Option value="true">Active</Option>
-            <Option value="false">Inactive</Option>
+            <Option value={true}>Active</Option>
+            <Option value={false}>Inactive</Option>
           </Select>
         </Form.Item>
 

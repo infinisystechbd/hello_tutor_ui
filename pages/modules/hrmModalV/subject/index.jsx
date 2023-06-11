@@ -1,5 +1,5 @@
 import { ExclamationCircleFilled } from '@ant-design/icons';
-import { Button, Modal } from 'antd';
+import { Button, Modal, Tag } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
@@ -38,7 +38,7 @@ const AllSubject = () => {
   const [totalRows, setTotalRows] = useState(0);
   const [editData, setEditData] = useState({});
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(10)
+  const [limit, setLimit] = useState(10)
   const handleShow = () => {
     setIsModalOpen(true)
     setEditData(null);
@@ -97,7 +97,7 @@ const AllSubject = () => {
     data: subjectList,
     isLoading,
     refetch: fetchSubjectList,
-  } = useGetAllData(QUERY_KEYS.GET_ALL_SUBJECT_LIST, SUBJECT_END_POINT.get(search));
+  } = useGetAllData(QUERY_KEYS.GET_ALL_SUBJECT_LIST, SUBJECT_END_POINT.get(page,limit,search));
  
   const reFetchHandler = (isRender) => {
     if (isRender) fetchSubjectList();
@@ -130,7 +130,7 @@ const AllSubject = () => {
     },
     {
       name: 'Status',
-      selector: (row) => (row.status = true ? 'Active' : 'Inactive'),
+      selector: (row) => (row.status == true ? <Tag color='green'>ACTIVE</Tag> : <Tag color='volcano'>INACTIVE</Tag>),
       sortable: true,
     },
     {
@@ -220,7 +220,6 @@ const AllSubject = () => {
                   paginationTotalRows={subjectList?.total}
                   onChangeRowsPerPage={handlePerRowsChange}
                   onChangePage={handlePageChange}
-                  selectableRows
                   /* onChangeRowsPerPage={handlePerRowsChange}
                   onChangePage={handlePageChange} */
                   subHeaderComponent={
@@ -232,6 +231,8 @@ const AllSubject = () => {
                   }
                   striped
                 />
+
+                
               </div>
             </div>
           </div>
