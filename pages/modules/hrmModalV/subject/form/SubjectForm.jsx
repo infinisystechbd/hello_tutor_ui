@@ -111,6 +111,7 @@ function SubjectForm(props) {
             },
           ]}
           initialValue={true}
+          hasFeedback
         >
           <Select placeholder="Select a option" allowClear>
             <Option value={true}>Active</Option>
