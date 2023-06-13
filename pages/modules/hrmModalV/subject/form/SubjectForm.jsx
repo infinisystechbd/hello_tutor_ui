@@ -27,18 +27,12 @@ function SubjectForm(props) {
       span: 16,
     },
   };
-  if (setEditData != null) {
-    console.log({setEditData})
-    form.setFieldsValue({
-      name: setEditData.name,
-      status: setEditData.status,
-    });
-  } else {
-    form.resetFields();
-  }
+
 
   const onFinish = async (values) => {
     setLoading(true);
+    setEditData.name = values.name;
+    setEditData.status = values.status;
     if (setEditData?._id) {
       try {
         const update = await put(SUBJECT_END_POINT.update(setEditData._id),values);
@@ -69,6 +63,15 @@ function SubjectForm(props) {
     notify('error', errorInfo);
     // console.log('Failed:', errorInfo);
   };
+  if (setEditData != null) {
+    console.log({setEditData})
+    form.setFieldsValue({
+      name: setEditData.name,
+      status: setEditData.status,
+    });
+  } else {
+    form.resetFields();
+  }
   return (
     <Modal
       title={setEditData != null ? 'Update Subject' : 'Add Subject'}
