@@ -2,23 +2,22 @@ import { ExclamationCircleFilled } from '@ant-design/icons';
 import { Button, Modal, Tag } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useCallback, useState,useEffect } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
 import ToastMessage from '../../../../components/Toast';
 import DeleteIcon from '../../../../components/elements/DeleteIcon';
 import EditIcon from '../../../../components/elements/EditIcon';
 import ViewIcon from '../../../../components/elements/ViewIcon';
-import { GUARDIAN_END_POINT } from '../../../../constants/index';
+import { CITY_END_POINT } from '../../../../constants/index';
 import { QUERY_KEYS } from '../../../../constants/queryKeys';
 import { del, get } from '../../../../helpers/api_helper';
 import { useGetAllData } from '../../../../utils/hooks/useGetAllData';
 import DebouncedSearchInput from './../../../../components/elements/DebouncedSearchInput';
 import HeadSection from '../../../../components/HeadSection';
-import GuardianForm from './form/GuardianForm';
-import GuardianView from './view/GuardianView';
+import CityForm from './form/CityFrom';
 
 
-const AllGuardian = () => {
+const AllCity = () => {
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
     }, []);
@@ -26,110 +25,103 @@ const AllGuardian = () => {
     const [pending, setPending] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editData, setEditData] = useState({});
-    const [isViewModalOpen, setIsViewModalOpen] = useState(false);
-    const [guardian, setGuardian] = useState({});
-    console.log("insed",guardian);
+    const [page, setPage] = useState(1);
+    const { confirm } = Modal;
+
+
+    /** Creation modal  */
     const handleShow = () => {
         setIsModalOpen(true)
         setEditData(null);
     };
-/** edit modal function */
+    /** Creation modal end  */
+
+    /** Update modal  */
     const handleOpen = (data) => {
         setEditData(data);
         setIsModalOpen(true)
-      }
-      /**view modal function */
-      const handleViewOpen = (data) => {
-        setIsViewModalOpen(true);
-        setGuardian(data);
-      };
-
-
-    // handle delete
-    const { confirm } = Modal;
-    const showDeleteConfirm = (id, name) => {
-        confirm({
-            title: `Are you sure delete this Subject?`,
-            icon: <ExclamationCircleFilled />,
-            content: name,
-            okText: 'Yes',
-            okType: 'danger',
-            cancelText: 'No',
-            async onOk() {
-                const deleteGuardian = await del(GUARDIAN_END_POINT.delete(id));
-                try {
-                    if (deleteGuardian.status === 'SUCCESS') {
-                        notify('success', deleteGuardian.message);
-                    } else {
-                        notify('error', 'something went wrong');
-                    }
-                } catch (error) {
-                    notify('error', error.message);
-                }
-
-                fetchGuardianList();
-            },
-            onCancel() {
-                console.log('Cancel');
-            },
-        });
-    };
-
-
+    }
+    /** Update modal end  */
     const handlePerRowsChange = async (newPerPage, page) => {
         setPage(page);
         setPerPage(newPerPage);
     };
-    const handlePageChange = (page) => {
-        setPage(page)
-    };
+
+
     const {
-        data: guardianList,
+        data: cityList,
         isLoading,
-        refetch: fetchGuardianList,
-    } = useGetAllData(QUERY_KEYS.GET_ALL_GUARDIAN_LIST, GUARDIAN_END_POINT.get(search));
+        refetch: fetchcityList,
+    } = useGetAllData(QUERY_KEYS.GET_ALL_CITY_LIST, CITY_END_POINT.get(search));
+
 
 
     const reFetchHandler = (isRender) => {
-        if (isRender) fetchGuardianList();
+        if (isRender) fetchcityList();
     };
+
+
+    const handlePageChange = (page) => {
+        setPage(page)
+    };
+
+
+// handle delete
+    const showDeleteConfirm = (id, name) => {
+        confirm({
+          title: `Are you sure delete this Subject?`,
+          icon: <ExclamationCircleFilled />,
+          content: name,
+          okText: 'Yes',
+          okType: 'danger',
+          cancelText: 'No',
+          async onOk() {
+            const deleteSubject = await del(CITY_END_POINT.delete(id));
+            try {
+              if (deleteSubject.status === 'SUCCESS') {
+                notify('success', deleteSubject.message);
+              } else {
+                notify('error', 'something went wrong');
+              }
+            } catch (error) {
+              notify('error', error.message);
+            }
+    
+            fetchcityList();
+          },
+          onCancel() {
+            console.log('Cancel');
+          },
+        });
+      };
+
+
     const columns = [
         {
             name: <span className="fw-bold">SL</span>,
             selector: (row, index) => index + 1,
             sortable: true,
-            width: "70px",
+            width: '70px',
         },
         {
-            name: 'Guardian Id',
-            selector: row => row.guardianId,
+            name: 'City Code',
+            selector: (row) => row.cityId,
             sortable: true,
         },
         {
-            name: 'Guardian Name',
-            selector: row => row.fullName,
-            sortable: true,
-        },
-        {
-            name: 'Guardian Phone',
-            selector: row => row.phone,
-            sortable: true,
-        },
-        {
-            name: 'Guardian Address',
-            selector: row => row.address,
+            name: 'Name',
+            selector: (row) => row.name,
             sortable: true,
         },
         {
             name: 'Status',
-            selector: row => (row.status == true ? <Tag color='green'>ACTIVE</Tag> : <Tag color='volcano'>INACTIVE</Tag>),
+            selector: (row) => (row.status == true ? <Tag color='green'>ACTIVE</Tag> : <Tag color='volcano'>INACTIVE</Tag>),
             sortable: true,
         },
         {
             name: 'Action',
-            selector: row => actionButton(row),
-        }
-
+            selector: (row) => actionButton(row),
+        },
     ];
 
 
@@ -167,17 +159,16 @@ const AllGuardian = () => {
             </ul>
         </>
     }
-
     return (
         <>
-            <HeadSection title="All Guardian-Details" />
+         <HeadSection title="All City-Details" />
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-12">
                         <div className="card shadow">
                             <div className="d-flex border-bottom title-part-padding align-items-center">
                                 <div>
-                                    <h4 class="card-title mb-0">All Guardian</h4>
+                                    <h4 class="card-title mb-0">All Cities</h4>
                                 </div>
                                 <div className="ms-auto flex-shrink-0">
                                     <Button
@@ -186,39 +177,41 @@ const AllGuardian = () => {
                                         onClick={handleShow}
                                         block
                                     >
-                                        Add Guardian
+                                        Add City
                                     </Button>
                                 </div>
                             </div>
 
-                            <GuardianForm
-                                isModalOpen={isModalOpen}
-                                setIsModalOpen={setIsModalOpen}
-                                isParentRender={reFetchHandler}
-                                setEditData={editData}
-                                
+                            {/* Create Modal Form */}
+                            <CityForm
+              isModalOpen={isModalOpen}
+              setIsModalOpen={setIsModalOpen}
+              isParentRender={reFetchHandler}
+              setEditData={editData}
+            />
+                            {/* End Create Modal Form */}
 
-                            />
+                            {/* View Modal Form */}
 
-            {/* View Modal Form */}
-
-            <GuardianView
+                            {/* <SubjectView
              isViewModalOpen={isViewModalOpen}
               setIsViewModalOpen={setIsViewModalOpen}
-              guardian={guardian} />
-            {/* view Modal Form end */}
+               subject={subject} /> */}
+                            {/* view Modal Form end */}
 
                             <div className="card-body">
                                 <div className="">
                                     <DataTable
                                         columns={columns}
-                                        data={guardianList?.data}
+                                        data={cityList?.data}
                                         pagination
                                         paginationServer
                                         highlightOnHover
                                         subHeader
                                         progressPending={isLoading}
-                                        paginationTotalRows={guardianList?.total}
+                                        paginationTotalRows={cityList?.total}
+                                        onChangeRowsPerPage={handlePerRowsChange}
+                                        onChangePage={handlePageChange}
                                         subHeaderComponent={
                                             <DebouncedSearchInput
                                                 allowClear
@@ -228,6 +221,8 @@ const AllGuardian = () => {
                                         }
                                         striped
                                     />
+
+
                                 </div>
                             </div>
                         </div>
@@ -238,4 +233,4 @@ const AllGuardian = () => {
     )
 }
 
-export default AllGuardian
+export default AllCity

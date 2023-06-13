@@ -204,7 +204,10 @@ const AllSubject = () => {
 
             {/* View Modal Form */}
 
-            <SubjectView isViewModalOpen={isViewModalOpen} setIsViewModalOpen={setIsViewModalOpen} subject={subject} />
+            <SubjectView
+             isViewModalOpen={isViewModalOpen}
+              setIsViewModalOpen={setIsViewModalOpen}
+               subject={subject} />
             {/* view Modal Form end */}
 
             <div className="card-body">

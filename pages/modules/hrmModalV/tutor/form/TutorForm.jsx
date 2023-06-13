@@ -2,19 +2,21 @@ import { Button, Form, Input, Modal, Select } from 'antd';
 import { useRouter } from 'next/router';
 import { useCallback, useState, useEffect } from 'react';
 import ToastMessage from '../../../../../components/Toast';
-import { GUARDIAN_END_POINT, LOCATION_END_POINT, CITY_END_POINT } from '../../../../../constants/index';
+import { TUTOR_END_POINT, LOCATION_END_POINT, CITY_END_POINT } from '../../../../../constants/index';
 import { get, post, put } from '../../../../../helpers/api_helper';
-function GuardianForm(props) {
-  const { isModalOpen, setIsModalOpen, isParentRender, setEditData } = props;
-  const notify = useCallback((type, message) => {
-    ToastMessage({ type, message });
-  }, []);
-  const { Option } = Select;
-  const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false);
+
+const TutorForm = (props) => {
+    const { isModalOpen, setIsModalOpen, isParentRender, setEditData } = props;
+    const notify = useCallback((type, message) => {
+        ToastMessage({ type, message });
+      }, []);
+      const { Option } = Select;
+      const [form] = Form.useForm();
+      const [loading, setLoading] = useState(false);
+      
   const [cityList, setAllCityList] = useState([]);
   const [locationList, setAllLocationList] = useState([]);
-
+    
   /** Fetch city */
   useEffect(() => {
     const controller = new AbortController();
@@ -54,8 +56,8 @@ function GuardianForm(props) {
  /** Fetch Location end */
 
 
-/** from design  */
-  const layout = {
+ /** from design  */
+ const layout = {
     labelCol: {
       span: 6,
     },
@@ -91,12 +93,13 @@ function GuardianForm(props) {
 /** create from or edit from end  */
 
 
+
 /** create from or edit from submits  */
-  const onFinish = async (values) => {
+const onFinish = async (values) => {
     setLoading(true);
     if (setEditData?._id) {
       try {
-        const update = await put(GUARDIAN_END_POINT.update(setEditData._id), values);
+        const update = await put(TUTOR_END_POINT.update(setEditData._id), values);
         if (update.status == 'SUCCESS') {
           notify('success', update.message);
         }
@@ -105,7 +108,7 @@ function GuardianForm(props) {
         setLoading(false);
       }
     } else {
-      const response = await post(GUARDIAN_END_POINT.create(), values,);
+      const response = await post(TUTOR_END_POINT.create(), values,);
       if (response.status === 'SUCCESS') {
         notify('success', response.message);
         if (isParentRender) {
@@ -126,11 +129,10 @@ function GuardianForm(props) {
   const onFinishFailed = (errorInfo) => {
     notify('error', errorInfo);
   };
-
   
   return (
     <Modal
-      title={setEditData != null ? 'Update Gaurdian' : 'Add Guardian'}
+      title={setEditData != null ? 'Update Tutor' : 'Add Tutor'}
       style={{ top: 20 }}
       centered
       open={isModalOpen}
@@ -275,4 +277,5 @@ function GuardianForm(props) {
     </Modal>
   );
 }
-export default GuardianForm;
+
+export default TutorForm
