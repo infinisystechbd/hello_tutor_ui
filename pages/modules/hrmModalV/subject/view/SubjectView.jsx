@@ -3,7 +3,7 @@ import moment from 'moment';
 
 function SubjectView(props) {
   const { isViewModalOpen, setIsViewModalOpen, subject } = props;
-  console.log(subject);
+  console.log("subject",subject);
   return (
     <Modal
       title={'Subject Info'}

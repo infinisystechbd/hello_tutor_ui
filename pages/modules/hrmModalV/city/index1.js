@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
-import Axios from '../../../';
+import Axios from '../../..';
 import ToastMessage from '../../../../components/Toast';
 import DeleteIcon from '../../../../components/elements/DeleteIcon';
 import EditIcon from '../../../../components/elements/EditIcon';
