@@ -21,7 +21,7 @@ function SubjectView(props) {
             {subject?.name}
           </Descriptions.Item>
           <Descriptions.Item label="Status">
-            {subject?.status == 'Active' ? (
+            {subject?.status == true ? (
               <Tag color='green'>Active</Tag>
             ) : (
               <Tag color='volcano'>Inactive</Tag>
