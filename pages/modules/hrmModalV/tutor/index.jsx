@@ -2,7 +2,7 @@ import { ExclamationCircleFilled } from '@ant-design/icons';
 import { Button, Modal, Tag } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useCallback, useState,useEffect } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
 import ToastMessage from '../../../../components/Toast';
 import DeleteIcon from '../../../../components/elements/DeleteIcon';
@@ -31,14 +31,14 @@ const AllTutor = () => {
         setIsModalOpen(true)
         setEditData(null);
     };
-/** Creation modal end  */
+    /** Creation modal end  */
 
- /** Update modal  */
- const handleOpen = (data) => {
-    setEditData(data);
-    setIsModalOpen(true)
-  }
- /** Update modal end  */
+    /** Update modal  */
+    const handleOpen = (data) => {
+        setEditData(data);
+        setIsModalOpen(true)
+    }
+    /** Update modal end  */
     const handlePerRowsChange = async (newPerPage, page) => {
         setPage(page);
         setPerPage(newPerPage);
@@ -49,12 +49,12 @@ const AllTutor = () => {
     };
 
     const {
-        data:tutorList,
+        data: tutorList,
         isLoading,
         refetch: fetchTutorList,
     } = useGetAllData(QUERY_KEYS.GET_ALL_TUTOR_LIST, TUTOR_END_POINT.get(search));
-   
-    
+
+
 
     const reFetchHandler = (isRender) => {
         if (isRender) fetchTutorList();
@@ -63,35 +63,35 @@ const AllTutor = () => {
 
 
 
-    
-        // handle delete
-        const showDeleteConfirm = (id, name) => {
-            confirm({
-                title: `Are you sure delete this Subject?`,
-                icon: <ExclamationCircleFilled />,
-                content: name,
-                okText: 'Yes',
-                okType: 'danger',
-                cancelText: 'No',
-                async onOk() {
-                    const deleteTutor = await del(TUTOR_END_POINT.delete(id));
-                    try {
-                        if (deleteTutor.status === 'SUCCESS') {
-                            notify('success', deleteTutor.message);
-                        } else {
-                            notify('error', 'something went wrong');
-                        }
-                    } catch (error) {
-                        notify('error', error.message);
+
+    // handle delete
+    const showDeleteConfirm = (id, name) => {
+        confirm({
+            title: `Are you sure delete this Subject?`,
+            icon: <ExclamationCircleFilled />,
+            content: name,
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            async onOk() {
+                const deleteTutor = await del(TUTOR_END_POINT.delete(id));
+                try {
+                    if (deleteTutor.status === 'SUCCESS') {
+                        notify('success', deleteTutor.message);
+                    } else {
+                        notify('error', 'something went wrong');
                     }
-    
-                    fetchTutorList();
-                },
-                onCancel() {
-                    console.log('Cancel');
-                },
-            });
-        };
+                } catch (error) {
+                    notify('error', error.message);
+                }
+
+                fetchTutorList();
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
+    };
 
 
     const columns = [
@@ -168,68 +168,68 @@ const AllTutor = () => {
             </ul>
         </>
     }
-  return (
-    <>
-    <HeadSection title="All Tutor-Details" />
-    <div className="container-fluid">
-        <div className="row">
-            <div className="col-12">
-                <div className="card shadow">
-                    <div className="d-flex border-bottom title-part-padding align-items-center">
-                        <div>
-                            <h4 class="card-title mb-0">All Tutor</h4>
-                        </div>
-                        <div className="ms-auto flex-shrink-0">
-                            <Button
-                                className="shadow rounded"
-                                type="primary"
-                                onClick={handleShow}
-                                block
-                            >
-                                Add Tutor
-                            </Button>
-                        </div>
-                    </div>
+    return (
+        <>
+            <HeadSection title="All Tutor-Details" />
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col-12">
+                        <div className="card shadow">
+                            <div className="d-flex border-bottom title-part-padding align-items-center">
+                                <div>
+                                    <h4 class="card-title mb-0">All Tutor</h4>
+                                </div>
+                                <div className="ms-auto flex-shrink-0">
+                                    <Button
+                                        className="shadow rounded"
+                                        type="primary"
+                                        onClick={handleShow}
+                                        block
+                                    >
+                                        Add Tutor
+                                    </Button>
+                                </div>
+                            </div>
 
-                    <TutorForm
-                        isModalOpen={isModalOpen}
-                        setIsModalOpen={setIsModalOpen}
-                        isParentRender={reFetchHandler}
-                        setEditData={editData}
-                        
-
-                    />
+                            <TutorForm
+                                isModalOpen={isModalOpen}
+                                setIsModalOpen={setIsModalOpen}
+                                isParentRender={reFetchHandler}
+                                setEditData={editData}
 
 
-
-                    <div className="card-body">
-                        <div className="">
-                            <DataTable
-                                columns={columns}
-                                data={tutorList?.data}
-                                pagination
-                                paginationServer
-                                highlightOnHover
-                                subHeader
-                                progressPending={isLoading}
-                                paginationTotalRows={tutorList?.total}
-                                subHeaderComponent={
-                                    <DebouncedSearchInput
-                                        allowClear
-                                        placeholder="Search subject name "
-                                        onChange={setSearch}
-                                    />
-                                }
-                                striped
                             />
+
+
+
+                            <div className="card-body">
+                                <div className="">
+                                    <DataTable
+                                        columns={columns}
+                                        data={tutorList?.data}
+                                        pagination
+                                        paginationServer
+                                        highlightOnHover
+                                        subHeader
+                                        progressPending={isLoading}
+                                        paginationTotalRows={tutorList?.total}
+                                        subHeaderComponent={
+                                            <DebouncedSearchInput
+                                                allowClear
+                                                placeholder="Search subject name "
+                                                onChange={setSearch}
+                                            />
+                                        }
+                                        striped
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</>
-  )
+        </>
+    )
 }
 
 export default AllTutor
