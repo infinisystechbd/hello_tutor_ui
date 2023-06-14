@@ -1,5 +1,5 @@
 {
-  "name": "hello_tutor_ui",
+  "name": "hello_tutor_admin_dashbord",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,17 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "bootstrap": "^5.2.3",
-    "chart.js": "^4.3.0",
-    "eslint": "8.40.0",
-    "eslint-config-next": "13.4.2",
-    "next": "12.1.6",
-    "react": "17.0.2",
-    "react-bootstrap": "^2.7.4",
-    "react-chartjs-2": "^5.2.0",
-    "react-dom": "17.0.2",
-    "react-icons": "^4.8.0",
-    "react-select": "^5.7.3",
-    "react-toastify": "^9.1.2"
+    "@types/node": "20.3.1",
+    "@types/react": "18.2.12",
+    "@types/react-dom": "18.2.5",
+    "eslint": "8.42.0",
+    "eslint-config-next": "13.4.5",
+    "next": "13.4.5",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "typescript": "5.1.3"
   }
 }
