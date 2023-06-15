@@ -1,5 +1,3 @@
-
-
 import Document, { Head, Html, Main, NextScript } from 'next/document';
 
 class MyDocument extends Document {
@@ -29,7 +27,7 @@ class MyDocument extends Document {
             content="managebeds,hotel-management,hotel,hospitality,datahost-it" />
         <meta name="description" content="Managebeds hospitality management solution for all property types. 2022 Best PMS, Best Hotel Software, Top 10 Hotelier’s Choice, and more." />
         <meta name="robots" content="noindex,nofollow" />
-        <title>Hello Tutor</title>
+        <title>Managebeds</title>
 
         
         <link rel="canonical" href="http://194.233.78.193/" />
@@ -63,7 +61,7 @@ class MyDocument extends Document {
           <Main />
           <NextScript />
 
-        <script src="/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js" async/>
+        <s src="/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js" async/>
         <script src="/assets/libs/jquery/dist/jquery.min.js"defer/>
 
        
