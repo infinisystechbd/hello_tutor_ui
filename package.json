@@ -1,5 +1,5 @@
 {
-  "name": "hello_tutor_admin_dashbord",
+  "name": "ant_design",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,14 +9,22 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@types/node": "20.3.1",
-    "@types/react": "18.2.12",
-    "@types/react-dom": "18.2.5",
-    "eslint": "8.42.0",
-    "eslint-config-next": "13.4.5",
-    "next": "13.4.5",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "typescript": "5.1.3"
+    "@tanstack/react-query": "^4.29.14",
+    "@tanstack/react-query-devtools": "^4.29.14",
+    "antd": "^5.6.1",
+    "axios": "^1.4.0",
+    "bootstrap": "^5.3.0",
+    "jwt-decode": "^3.1.2",
+    "next": "12.1.6",
+    "react": "17.0.2",
+    "react-bootstrap": "^2.7.4",
+    "react-dom": "17.0.2",
+    "react-icons": "^4.9.0",
+    "react-query": "^3.39.3",
+    "react-toastify": "^9.1.3"
+  },
+  "devDependencies": {
+    "eslint": "8.43.0",
+    "eslint-config-next": "13.4.6"
   }
 }
