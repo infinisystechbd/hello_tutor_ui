@@ -1,6 +1,6 @@
 import { ExclamationCircleFilled } from '@ant-design/icons';
-import { Button, Modal, Tag } from 'antd';
-import Link from 'next/link';
+import { Button, Modal, Row, Tag } from 'antd';
+import Link from 'antd/es/typography/Link';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 import DataTable from 'react-data-table-component';
@@ -142,33 +142,27 @@ const AllSubject = () => {
 
   const actionButton = (row) => {
     return (
-      <>
-        <ul className="action align-items-center">
-          <li>
-            <Link href="#">
+      <Row>
+       
+
+            <Link>
               <a onClick={() => handleViewOpen(row)}>
                 <ViewIcon />
               </a>
-            </Link>
-          </li>
+              </Link>
 
-          <li>
-            <Link href="#">
+              <Link>
               <a onClick={() => handleOpen(row)}>
                 <EditIcon />
               </a>
-            </Link>
-          </li>
-
-          <li>
-            <Link href="#">
+              </Link>
+              <Link>
               <a onClick={() => showDeleteConfirm(row._id, row.name)}>
                 <DeleteIcon />
               </a>
-            </Link>
-          </li>
-        </ul>
-      </>
+              </Link>
+            
+      </Row>
     );
   };
 
