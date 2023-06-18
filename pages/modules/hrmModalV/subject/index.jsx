@@ -1,5 +1,5 @@
 import { ExclamationCircleFilled } from '@ant-design/icons';
-import { Button, Modal, Tag,Card  } from 'antd';
+import { Button, Modal, Tag } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
@@ -174,68 +174,74 @@ const AllSubject = () => {
 
   return (
     <div className="container-fluid">
-    <div className="row">
-      <div className="col-12">
-        <Card className="shadow" title="All Subjects">
-          <div className="d-flex title-part-padding align-items-center">
-      
-            <div className="ms-auto flex-shrink-0">
-              <Button
-                className="shadow rounded"
-                type="primary"
-                onClick={handleShow}
-                block
-              >
-                Add Subject
-              </Button>
+      <div className="row">
+        <div className="col-12">
+          <div className="card shadow">
+            <div className="d-flex border-bottom title-part-padding align-items-center">
+              <div>
+                <h4 class="card-title mb-0">All Subjects</h4>
+              </div>
+              <div className="ms-auto flex-shrink-0">
+                <Button
+                  className="shadow rounded"
+                  type="primary"
+                  onClick={handleShow}
+                  block
+                >
+                  Add Subject
+                </Button>
+              </div>
+            </div>
+
+            {/* Create Modal Form */}
+            <SubjectForm
+              isModalOpen={isModalOpen}
+              setIsModalOpen={setIsModalOpen}
+              isParentRender={reFetchHandler}
+              setEditData={editData}
+            />
+            {/* End Create Modal Form */}
+
+            {/* View Modal Form */}
+
+            <SubjectView
+             isViewModalOpen={isViewModalOpen}
+              setIsViewModalOpen={setIsViewModalOpen}
+               subject={subject} />
+            {/* view Modal Form end */}
+
+            <div className="card-body">
+              <div className="">
+                <DataTable
+                  columns={columns}
+                  data={subjectList?.data}
+                  pagination
+                  paginationServer
+                  highlightOnHover
+                  subHeader
+                  progressPending={isLoading}
+                  paginationTotalRows={subjectList?.total}
+                  onChangeRowsPerPage={handlePerRowsChange}
+                  onChangePage={handlePageChange}
+                  /* onChangeRowsPerPage={handlePerRowsChange}
+                  onChangePage={handlePageChange} */
+                  subHeaderComponent={
+                    <DebouncedSearchInput
+                      allowClear
+                      placeholder="Search subject name "
+                      onChange={setSearch}
+                    />
+                  }
+                  striped
+                />
+
+                
+              </div>
             </div>
           </div>
-
-          {/* Create Modal Form */}
-          <SubjectForm
-            isModalOpen={isModalOpen}
-            setIsModalOpen={setIsModalOpen}
-            isParentRender={reFetchHandler}
-            setEditData={editData}
-          />
-          {/* End Create Modal Form */}
-
-          {/* View Modal Form */}
-          <SubjectView
-            isViewModalOpen={isViewModalOpen}
-            setIsViewModalOpen={setIsViewModalOpen}
-            subject={subject}
-          />
-          {/* View Modal Form end */}
-
-          <div className="card-body">
-           
-              <DataTable
-                columns={columns}
-                data={subjectList?.data}
-                pagination
-                paginationServer
-                highlightOnHover
-                subHeader
-                progressPending={isLoading}
-                paginationTotalRows={subjectList?.total}
-                onChangeRowsPerPage={handlePerRowsChange}
-                onChangePage={handlePageChange}
-                // subHeaderComponent={
-                //   <DebouncedSearchInput
-                //     allowClear
-                //     placeholder="Search subject name"
-                //     onChange={setSearch}
-                //   />
-                // }
-                striped
-              />
-           
-          </div>
-        </Card>
+        </div>
       </div>
     </div>
-  </div>
   );
 };
 
