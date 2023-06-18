@@ -6,6 +6,7 @@ import { Slide, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Login from '../pages/user/login';
 import '../styles/globals.css';
+import '../styles/Home.module.css'
 import Axios from '../utils/axios';
 import UserContext from './../components/context/userContext';
 import Layout from "../components/Layout";

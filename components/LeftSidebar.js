@@ -18,10 +18,14 @@ const LeftSidebar = () => {
     const items = [
         getItem('Option 1', '/modules/content', <PieChartOutlined />, null, '/modules/content'),
         getItem('Option 2', '2', <DesktopOutlined />),
-        getItem('User', 'sub1', <UserOutlined />, [
-            getItem('Tom', '3', null, null, '/users/tom'),
-            getItem('Bill', '4', null, null, '/users/bill'),
-            getItem('Alex', '5', null, null, '/users/alex'),
+        getItem('Master Data', 'sub1', <UserOutlined />, [
+            getItem('Subject', '/modules/hrmModalV/subject', null, null, '/modules/hrmModalV/subject'),
+            getItem('Class', '/modules/hrmModalV/class', null, null, '/modules/hrmModalV/class'),
+            getItem('Category', '/modules/hrmModalV/categorie', null, null, '/modules/hrmModalV/categorie'),
+            getItem('City', '/modules/hrmModalV/city', null, null, '/modules/hrmModalV/city'),
+            getItem('Location', '/modules/hrmModalV/location', null, null, '/modules/hrmModalV/location'),
+            getItem('Guardian', '/modules/hrmModalV/guardian', null, null, '/modules/hrmModalV/guardian'),
+            getItem('Tutor', '/modules/hrmModalV/tutor', null, null, '/modules/hrmModalV/tutor'),
           ], '/users'),
         getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
         getItem('Files', '9', <FileOutlined />),
