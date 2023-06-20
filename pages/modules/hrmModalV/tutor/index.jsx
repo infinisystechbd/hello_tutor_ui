@@ -1,13 +1,10 @@
 import { ExclamationCircleFilled } from '@ant-design/icons';
-import { Button, Modal, Tag } from 'antd';
+import { Button, Modal, Tag, Row, Breadcrumb, Layout, theme } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useCallback, useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
 import ToastMessage from '../../../../components/Toast';
-import DeleteIcon from '../../../../components/elements/DeleteIcon';
-import EditIcon from '../../../../components/elements/EditIcon';
-import ViewIcon from '../../../../components/elements/ViewIcon';
 import { TUTOR_END_POINT } from '../../../../constants/index';
 import { QUERY_KEYS } from '../../../../constants/queryKeys';
 import { del, get } from '../../../../helpers/api_helper';
@@ -15,16 +12,20 @@ import { useGetAllData } from '../../../../utils/hooks/useGetAllData';
 import DebouncedSearchInput from './../../../../components/elements/DebouncedSearchInput';
 import HeadSection from '../../../../components/HeadSection';
 import TutorForm from './form/TutorForm';
-
+import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 const AllTutor = () => {
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
     }, []);
+    const {
+        token: { colorBgContainer },
+    } = theme.useToken();
+    const { confirm } = Modal;
+    const { Content } = Layout;
     const [search, setSearch] = useState('');
     const [pending, setPending] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editData, setEditData] = useState({});
-    const { confirm } = Modal;
 
     /** Creation modal  */
     const handleShow = () => {
@@ -137,97 +138,112 @@ const AllTutor = () => {
     const actionButton = (row) => {
         // console.log(id);
         return <>
-            <ul className="action align-items-center">
+            <Row justify="space-between">
+                <a onClick={() => handleViewOpen(row)} style={{ color: 'green', marginRight: '10px' }}>
+                    <EyeOutlined style={{ fontSize: '24px' }} />
+                </a>
 
-                <li>
-                    <Link href="#" >
-                        <a onClick={() => handleOpen(row)}>
-                            <EditIcon />
-                        </a>
-                    </Link>
+                <a onClick={() => handleOpen(row)} className="text-primary" style={{ marginRight: '10px' }}>
+                    <EditOutlined style={{ fontSize: '24px' }} />
+                </a>
 
-                </li>
-
-                <li>
-                    <Link href="#">
-                        <a onClick={() => handleViewOpen(id)}>
-                            <ViewIcon />
-                        </a>
-                    </Link>
-
-                </li>
-                <li>
-                    <Link href="#">
-                        <a onClick={() => showDeleteConfirm(row._id, row.name)} >
-                            <DeleteIcon />
-                        </a>
-                    </Link>
-
-                </li>
-
-            </ul>
+                <a onClick={() => showDeleteConfirm(row._id, row.name)} className="text-danger" style={{ marginRight: '10px' }}>
+                    <DeleteOutlined style={{ fontSize: '24px' }} />
+                </a>
+            </Row>
         </>
     }
     return (
         <>
             <HeadSection title="All Tutor-Details" />
-            <div className="container-fluid">
-                <div className="row">
-                    <div className="col-12">
-                        <div className="card shadow">
-                            <div className="d-flex border-bottom title-part-padding align-items-center">
-                                <div>
-                                    <h4 class="card-title mb-0">All Tutor</h4>
-                                </div>
-                                <div className="ms-auto flex-shrink-0">
-                                    <Button
-                                        className="shadow rounded"
-                                        type="primary"
-                                        onClick={handleShow}
-                                        block
-                                    >
-                                        Add Tutor
-                                    </Button>
-                                </div>
-                            </div>
+            <Content
+                style={{
+                    margin: '0 16px',
+                }}
+            >
+                <Breadcrumb
+                    style={{
+                        margin: '16px 0',
+                    }}
+                >
+                    <Breadcrumb.Item>User</Breadcrumb.Item>
+                    <Breadcrumb.Item>Bill</Breadcrumb.Item>
+                </Breadcrumb>
+                <div
+                    style={{
+                        padding: 15,
+                        minHeight: 360,
+                        background: colorBgContainer,
+                    }}
+                >
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-12">
+                                <div className=" ">
+                                    <div className="d-flex border-bottom title-part-padding align-items-center">
+                                        <div>
+                                            <h4 class="card-title mb-0">All Tutor</h4>
+                                        </div>
+                                        <div className="ms-auto flex-shrink-0">
+                                            <Button
+                                                className="shadow rounded"
+                                                type="primary"
+                                                onClick={handleShow}
+                                                block
+                                            >
+                                                Add Tutor
+                                            </Button>
+                                        </div>
+                                    </div>
 
-                            <TutorForm
-                                isModalOpen={isModalOpen}
-                                setIsModalOpen={setIsModalOpen}
-                                isParentRender={reFetchHandler}
-                                setEditData={editData}
+
+                                    <TutorForm
+                                        isModalOpen={isModalOpen}
+                                        setIsModalOpen={setIsModalOpen}
+                                        isParentRender={reFetchHandler}
+                                        setEditData={editData}
 
 
-                            />
-
-
-
-                            <div className="card-body">
-                                <div className="">
-                                    <DataTable
-                                        columns={columns}
-                                        data={tutorList?.data}
-                                        pagination
-                                        paginationServer
-                                        highlightOnHover
-                                        subHeader
-                                        progressPending={isLoading}
-                                        paginationTotalRows={tutorList?.total}
-                                        subHeaderComponent={
-                                            <DebouncedSearchInput
-                                                allowClear
-                                                placeholder="Search subject name "
-                                                onChange={setSearch}
-                                            />
-                                        }
-                                        striped
                                     />
+
+
+
+
+
+                                    <div className="">
+                                        <DataTable
+                                            columns={columns}
+                                            data={tutorList?.data}
+                                            pagination
+                                            paginationServer
+                                            highlightOnHover
+                                            subHeader
+                                            progressPending={isLoading}
+                                            paginationTotalRows={tutorList?.total}
+                                            subHeaderComponent={
+                                                <DebouncedSearchInput
+                                                    allowClear
+                                                    placeholder="Search subject name "
+                                                    onChange={setSearch}
+                                                />
+                                            }
+                                            striped
+                                        />
+
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+
+
+
+
+
+            </Content>
+
         </>
     )
 }

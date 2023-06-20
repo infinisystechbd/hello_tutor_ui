@@ -1,25 +1,30 @@
 import React from 'react';
-import { Menu } from 'antd';
-import { HomeOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
-// import 'antd/dist/antd?css';
+import { Button, Layout } from 'antd';
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 
-const NavBar = () => {
+const { Header } = Layout;
 
+const Navbar = ({ collapsed, toggleCollapsed }) => {
+    const colorBgContainer = '#ffffff';
   return (
-    // <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-    <Menu style={{ display: 'flex', justifyContent: 'flex-end' }} mode="horizontal" theme="dark" defaultSelectedKeys={['home']}>
-      <Menu.Item key="home" icon={<HomeOutlined />}>
-        Home
-      </Menu.Item>
-      <Menu.Item key="profile" icon={<UserOutlined />}>
-        Profile
-      </Menu.Item>
-      <Menu.Item key="settings" icon={<SettingOutlined />}>
-        Settings
-      </Menu.Item>
-    </Menu>
-  // </div>
-  )
-}
+    <Header
+      style={{
+        padding: 0,
+        background: colorBgContainer,
+      }}
+    >
+      <Button
+        type="text"
+        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+        onClick={toggleCollapsed}
+        style={{
+          fontSize: '16px',
+          width: 64,
+          height: 64,
+        }}
+      />
+    </Header>
+  );
+};
 
-export default NavBar
+export default Navbar;

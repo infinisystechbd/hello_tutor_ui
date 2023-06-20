@@ -1,46 +1,35 @@
-import React, { useState } from 'react';
-import { FileOutlined, PieChartOutlined, UserOutlined, DesktopOutlined, TeamOutlined } from '@ant-design/icons';
-import { Layout, Menu } from 'antd';
+import React from 'react';
+import { Menu, Layout } from 'antd';
+import { FileOutlined, PieChartOutlined, UserOutlined } from '@ant-design/icons';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 const { Sider } = Layout;
 
-const LeftSidebar = () => {
+const Leftsidebar = ({ collapsed }) => {
   const router = useRouter();
-  const [collapsed, setCollapsed] = useState(false);
 
-  const items = [
-    {
-      key: '/modules/content',
-      icon: <PieChartOutlined />,
-      label: 'Option 1',
-      path: '/modules/content',
-    },
+  const menuItems = [
+  
     {
       key: '/modules/hrmModalV',
-      icon: <UserOutlined />,
+      icon: <FileOutlined />,
       label: 'Master Data',
       children: [
-        { key: '/modules/hrmModalV/subject', label: 'Subject' },
-        { key: '/modules/hrmModalV/class', label: 'Class' },
-        { key: '/modules/hrmModalV/categorie', label: 'Category' },
-        { key: '/modules/hrmModalV/city', label: 'City' },
-        { key: '/modules/hrmModalV/location', label: 'Location' },
-        { key: '/modules/hrmModalV/guardian', label: 'Guardian' },
-        { key: '/modules/hrmModalV/tutor', label: 'Tutor' },
+        { key: '/modules/hrmModalV/subject', label: 'Subject', path: '/modules/hrmModalV/subject' },
+        { key: '/modules/hrmModalV/class', label: 'Class', path: '/modules/hrmModalV/class' },
+        { key: '/modules/hrmModalV/categorie', label: 'Category', path: '/modules/hrmModalV/categorie' },
+        { key: '/modules/hrmModalV/city', label: 'City', path: '/modules/hrmModalV/city' },
+        { key: '/modules/hrmModalV/location', label: 'Location', path: '/modules/hrmModalV/location' },
+        { key: '/modules/hrmModalV/guardian', label: 'Guardian', path: '/modules/hrmModalV/guardian' },
+        { key: '/modules/hrmModalV/tutor', label: 'Tutor', path: '/modules/hrmModalV/tutor' },
       ],
     },
-    {
-      key: '/users',
-      icon: <TeamOutlined />,
-      label: 'Team',
-      children: [
-        { key: '6', label: 'Team 1' },
-        { key: '8', label: 'Team 2' },
-      ],
-    },
-    { key: '9', icon: <FileOutlined />, label: 'Files' },
   ];
+
+  const handleMenuItemClick = (path) => {
+    router.push(path, undefined, { shallow: true });
+  };
 
   const renderMenuItems = (menuItems) => {
     return menuItems.map((item) => {
@@ -52,29 +41,21 @@ const LeftSidebar = () => {
         );
       }
       return (
-        <Menu.Item key={item.key} icon={item.icon}>
-          {item.label}
+        <Menu.Item key={item.key} icon={item.icon} onClick={() => handleMenuItemClick(item.path)}>
+          <Link href={item.path}>{item.label}</Link>
         </Menu.Item>
       );
     });
   };
 
-
- 
-
   return (
-    <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed} className="fixed-sidebar">
+    <Sider trigger={null} collapsible collapsed={collapsed}>
       <div className="demo-logo-vertical" />
-      <Menu
-        theme="dark"
-        defaultSelectedKeys={[router.pathname]}
-        mode="inline"
-        onSelect={({ key }) => router.push(key)}
-      >
-        {renderMenuItems(items)}
+      <Menu theme="dark" mode="inline" defaultSelectedKeys={[router.pathname]}>
+        {renderMenuItems(menuItems)}
       </Menu>
     </Sider>
   );
 };
 
-export default LeftSidebar;
+export default Leftsidebar;

@@ -1,29 +1,30 @@
-import React from 'react'
-import LeftSidebar from './LeftSidebar'
-import NavBar from './NavBar'
-import Footer from './Footer'
+import React, { useState } from 'react';
+import { theme,Layout } from 'antd';
+import Leftsidebar from '../components/LeftSidebar';
+import Footer from '../components/Footer';
+import Navbar from '../components/NavBar';
+// import CustomContent from './Content';
 
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+const App = ({ children }) => {
+  const [collapsed, setCollapsed] = useState(false);
+  // const {
+  //   token: { colorBgContainer },
+  // } = theme.useToken();
 
-
-const index = ({ children }) => {
-  const { Header, Content, Sider } = Layout;
+  const toggleCollapsed = () => {
+    setCollapsed(!collapsed);
+  };
+  const colorBgContainer = '#ffffff';
   return (
-    <Layout
-      style={{
-        minHeight: '100vh',
-      }}
-    >
-
-      <LeftSidebar />
-
+    <Layout style={{ minHeight: '100vh' }}>
+      <Leftsidebar collapsed={collapsed} />
       <Layout>
-        <NavBar />
+        <Navbar collapsed={collapsed} toggleCollapsed={toggleCollapsed} colorBgContainer={colorBgContainer} />
         {children}
-        <Footer />
+      <Footer/>
       </Layout>
     </Layout>
-  )
-}
+  );
+};
 
-export default index
+export default App;
