@@ -1,13 +1,10 @@
 import { ExclamationCircleFilled } from '@ant-design/icons';
-import { Button, Modal, Row, Tag } from 'antd';
+import { Button, Modal, Tag, Row, Breadcrumb, Layout, theme } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import ToastMessage from '../../../../components/Toast';
-import DeleteIcon from '../../../../components/elements/DeleteIcon';
-import EditIcon from '../../../../components/elements/EditIcon';
-import ViewIcon from '../../../../components/elements/ViewIcon';
 import { SUBJECT_END_POINT } from '../../../../constants/index';
 import { QUERY_KEYS } from '../../../../constants/queryKeys';
 import { del } from '../../../../helpers/api_helper';
@@ -15,9 +12,15 @@ import { useGetAllData } from '../../../../utils/hooks/useGetAllData';
 import DebouncedSearchInput from './../../../../components/elements/DebouncedSearchInput';
 import SubjectForm from './form/SubjectForm';
 import SubjectView from './view/SubjectView';
-
+import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+import HeadSection from '../../../../components/HeadSection';
 
 const AllSubject = () => {
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+  const { confirm } = Modal;
+  const { Content } = Layout;
   const router = useRouter();
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
@@ -48,8 +51,7 @@ const AllSubject = () => {
     setIsModalOpen(true)
   }
 
-  // handle delete
-  const { confirm } = Modal;
+
   const showDeleteConfirm = (id, name) => {
     confirm({
       title: `Are you sure delete this Subject?`,
@@ -142,100 +144,121 @@ const AllSubject = () => {
 
   const actionButton = (row) => {
     return (
-      <Row>
-       
+      <>
+        <Row justify="space-between">
+          <a onClick={() => handleViewOpen(row)} style={{ color: 'green', marginRight: '10px' }}>
+            <EyeOutlined style={{ fontSize: '24px' }} />
+          </a>
 
-      <Link>
-        <a onClick={() => handleViewOpen(row)}>
-          <ViewIcon />
-        </a>
-        </Link>
+          <a onClick={() => handleOpen(row)} className="text-primary" style={{ marginRight: '10px' }}>
+            <EditOutlined style={{ fontSize: '24px' }} />
+          </a>
 
-        <Link>
-        <a onClick={() => handleOpen(row)}>
-          <EditIcon />
-        </a>
-        </Link>
-        <Link>
-        <a onClick={() => showDeleteConfirm(row._id, row.name)}>
-          <DeleteIcon />
-        </a>
-        </Link>
-      
-</Row>
+          <a onClick={() => showDeleteConfirm(row._id, row.name)} className="text-danger" style={{ marginRight: '10px' }}>
+            <DeleteOutlined style={{ fontSize: '24px' }} />
+          </a>
+        </Row>
+      </>
     );
   };
 
   return (
-    <div className="container-fluid">
-      <div className="row">
-        <div className="col-12">
-          <div className="card shadow">
-            <div className="d-flex border-bottom title-part-padding align-items-center">
-              <div>
-                <h4 class="card-title mb-0">All Subjects</h4>
-              </div>
-              <div className="ms-auto flex-shrink-0">
-                <Button
-                  className="shadow rounded"
-                  type="primary"
-                  onClick={handleShow}
-                  block
-                >
-                  Add Subject
-                </Button>
-              </div>
-            </div>
+    <>
+      <HeadSection title="All Subject-Details" />
 
-            {/* Create Modal Form */}
-            <SubjectForm
-              isModalOpen={isModalOpen}
-              setIsModalOpen={setIsModalOpen}
-              isParentRender={reFetchHandler}
-              setEditData={editData}
-            />
-            {/* End Create Modal Form */}
 
-            {/* View Modal Form */}
+      <Content
+        style={{
+          margin: '0 16px',
+        }}
+      >
+        <Breadcrumb
+          style={{
+            margin: '16px 0',
+          }}
+        >
+          <Breadcrumb.Item>User</Breadcrumb.Item>
+          <Breadcrumb.Item>Subject</Breadcrumb.Item>
+        </Breadcrumb>
+        <div
+          style={{
+            padding: 15,
+            minHeight: 360,
+            background: colorBgContainer,
+          }}
+        >
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-12">
+                <div className=" ">
+                  <div className="d-flex border-bottom title-part-padding align-items-center">
+                    <div>
+                      <h4 class="card-title mb-0">All Subject</h4>
+                    </div>
+                    <div className="ms-auto flex-shrink-0">
+                      <Button
+                        className="shadow rounded"
+                        type="primary"
+                        onClick={handleShow}
+                        block
+                      >
+                        Add Subject
+                      </Button>
+                    </div>
+                  </div>
 
-            <SubjectView
-              isViewModalOpen={isViewModalOpen}
-              setIsViewModalOpen={setIsViewModalOpen}
-              subject={subject} />
-            {/* view Modal Form end */}
 
-            <div className="card-body">
-              <div className="">
-                <DataTable
-                  columns={columns}
-                  data={subjectList?.data}
-                  pagination
-                  paginationServer
-                  highlightOnHover
-                  subHeader
-                  progressPending={isLoading}
-                  paginationTotalRows={subjectList?.total}
-                  onChangeRowsPerPage={handlePerRowsChange}
-                  onChangePage={handlePageChange}
-                  /* onChangeRowsPerPage={handlePerRowsChange}
-                  onChangePage={handlePageChange} */
-                  subHeaderComponent={
-                    <DebouncedSearchInput
-                      allowClear
-                      placeholder="Search subject name "
-                      onChange={setSearch}
+                  <SubjectForm
+                    isModalOpen={isModalOpen}
+                    setIsModalOpen={setIsModalOpen}
+                    isParentRender={reFetchHandler}
+                    setEditData={editData}
+                  />
+
+
+                  <SubjectView
+                    isViewModalOpen={isViewModalOpen}
+                    setIsViewModalOpen={setIsViewModalOpen}
+                    subject={subject} />
+
+
+                  <div className="">
+                    <DataTable
+                      columns={columns}
+                      data={subjectList?.data}
+                      pagination
+                      paginationServer
+                      highlightOnHover
+                      subHeader
+                      progressPending={isLoading}
+                      paginationTotalRows={subjectList?.total}
+                      onChangeRowsPerPage={handlePerRowsChange}
+                      onChangePage={handlePageChange}
+                      subHeaderComponent={
+                        <DebouncedSearchInput
+                          allowClear
+                          placeholder="Search subject name "
+                          onChange={setSearch}
+                        />
+                      }
+                      striped
                     />
-                  }
-                  striped
-                />
 
 
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+
+
+
+
+
+      </Content>
+
+    </>
   );
 };
 
