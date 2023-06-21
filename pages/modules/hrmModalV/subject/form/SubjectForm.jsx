@@ -99,6 +99,15 @@ function SubjectForm(props) {
           rules={[
             {
               required: true,
+              message: 'Subject name is required',
+            },
+            {
+              pattern: /^[A-Za-z\s]+$/,
+              message: 'Subject name should only contain letters and spaces',
+            },
+            {
+              max: 50,
+              message: 'Subject name should not exceed 50 characters',
             },
           ]}
           hasFeedback

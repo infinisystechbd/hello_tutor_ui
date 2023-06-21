@@ -96,6 +96,15 @@ function CityForm(props) {
           rules={[
             {
               required: true,
+              message: 'City name is required',
+            },
+            {
+              pattern: /^[A-Za-z\s]+$/,
+              message: 'City name should only contain letters and spaces',
+            },
+            {
+              max: 50,
+              message: 'City name should not exceed 50 characters',
             },
           ]}
           hasFeedback

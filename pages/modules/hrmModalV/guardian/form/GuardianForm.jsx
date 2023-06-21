@@ -14,7 +14,7 @@ function GuardianForm(props) {
   const [loading, setLoading] = useState(false);
   const [cityList, setAllCityList] = useState([]);
   const [locationList, setAllLocationList] = useState([]);
-
+  const phoneNumberPattern = /^(?:01[3-9])\d{8}$/;
   /** Fetch city */
   useEffect(() => {
     const controller = new AbortController();
@@ -22,6 +22,7 @@ function GuardianForm(props) {
       let isSubscribed = true;
       try {
         const getAllList = await get(CITY_END_POINT.get());
+        console.log(getAllList);
         setAllCityList(getAllList?.data);
 
       } catch (error) {
@@ -155,6 +156,15 @@ function GuardianForm(props) {
           rules={[
             {
               required: true,
+              message: 'Full name is required',
+            },
+            {
+              pattern: /^[A-Za-z\s]+$/,
+              message: 'Full name should only contain letters and spaces',
+            },
+            {
+              max: 50,
+              message: 'Full name should not exceed 50 characters',
             },
           ]}
           hasFeedback
@@ -168,6 +178,8 @@ function GuardianForm(props) {
           rules={[
             {
               required: true,
+              pattern: phoneNumberPattern,
+              message: 'Please enter a valid Bangladeshi phone number!',
             },
           ]}
           hasFeedback
@@ -255,6 +267,7 @@ function GuardianForm(props) {
               required: true,
             },
           ]}
+          hasFeedback
           initialValue={true}
         >
           <Select placeholder="Select a option" allowClear>

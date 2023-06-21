@@ -16,7 +16,7 @@ const TutorForm = (props) => {
       
   const [cityList, setAllCityList] = useState([]);
   const [locationList, setAllLocationList] = useState([]);
-    
+  const phoneNumberPattern = /^(?:01[3-9])\d{8}$/; 
   /** Fetch city */
   useEffect(() => {
     const controller = new AbortController();
@@ -157,6 +157,15 @@ const onFinish = async (values) => {
           rules={[
             {
               required: true,
+              message: 'Full name is required',
+            },
+            {
+              pattern: /^[A-Za-z\s]+$/,
+              message: 'Full name should only contain letters and spaces',
+            },
+            {
+              max: 50,
+              message: 'Full name should not exceed 50 characters',
             },
           ]}
           hasFeedback
@@ -170,6 +179,8 @@ const onFinish = async (values) => {
           rules={[
             {
               required: true,
+              pattern: phoneNumberPattern,
+              message: 'Please enter a valid Bangladeshi phone number!',
             },
           ]}
           hasFeedback
@@ -257,6 +268,7 @@ const onFinish = async (values) => {
               required: true,
             },
           ]}
+          hasFeedback
           initialValue={true}
         >
           <Select placeholder="Select a option" allowClear>
