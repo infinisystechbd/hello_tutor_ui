@@ -22,7 +22,17 @@ const Leftsidebar = ({ collapsed }) => {
         { key: '/modules/hrmModalV/city', label: 'City', path: '/modules/hrmModalV/city' },
         { key: '/modules/hrmModalV/location', label: 'Location', path: '/modules/hrmModalV/location' },
         { key: '/modules/hrmModalV/guardian', label: 'Guardian', path: '/modules/hrmModalV/guardian' },
-        { key: '/modules/hrmModalV/tutor', label: 'Tutor', path: '/modules/hrmModalV/tutor' },
+        { key: '/modules/hrmModalV/job-handler', label: 'Tutor', path: '/modules/hrmModalV/job-handler' },
+      ],
+    },
+
+    {
+      key: 'job',
+      icon: <FileOutlined />,
+      label: 'Job Handeler',
+      children: [
+      
+        { key: 'job', label: 'Tutor', path: '/modules/hrmModalV/job-handler' },
       ],
     },
   ];
