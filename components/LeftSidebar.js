@@ -16,13 +16,13 @@ const Leftsidebar = ({ collapsed }) => {
       icon: <FileOutlined />,
       label: 'Master Data',
       children: [
-        { key: '/modules/hrmModalV/subject', label: 'Subject', path: '/modules/hrmModalV/subject' },
-        { key: '/modules/hrmModalV/class', label: 'Class', path: '/modules/hrmModalV/class' },
-        { key: '/modules/hrmModalV/categorie', label: 'Category', path: '/modules/hrmModalV/categorie' },
-        { key: '/modules/hrmModalV/city', label: 'City', path: '/modules/hrmModalV/city' },
-        { key: '/modules/hrmModalV/location', label: 'Location', path: '/modules/hrmModalV/location' },
-        { key: '/modules/hrmModalV/guardian', label: 'Guardian', path: '/modules/hrmModalV/guardian' },
-        { key: '/modules/hrmModalV/job-handler', label: 'Tutor', path: '/modules/hrmModalV/job-handler' },
+        { key: 'subject', label: 'Subject', path: '/modules/hrmModalV/subject' },
+        { key: 'class', label: 'Class', path: '/modules/hrmModalV/class' },
+        { key: 'categorie', label: 'Category', path: '/modules/hrmModalV/categorie' },
+        { key: 'city', label: 'City', path: '/modules/hrmModalV/city' },
+        { key: 'location', label: 'Location', path: '/modules/hrmModalV/location' },
+        { key: 'guardian', label: 'Guardian', path: '/modules/hrmModalV/guardian' },
+        { key: 'tutor', label: 'Tutor', path: '/modules/hrmModalV/tutor' },
       ],
     },
 
@@ -32,7 +32,7 @@ const Leftsidebar = ({ collapsed }) => {
       label: 'Job Handeler',
       children: [
       
-        { key: 'job', label: 'Tutor', path: '/modules/hrmModalV/job-handler' },
+        { key: 'job', label: 'Tutor', path: '/modules/hrmModalV/jobRequest' },
       ],
     },
   ];
