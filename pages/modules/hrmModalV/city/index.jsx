@@ -28,9 +28,10 @@ const AllCity = () => {
     const [pending, setPending] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editData, setEditData] = useState({});
-    const [page, setPage] = useState(1);
     const { confirm } = Modal;
     const { Content } = Layout;
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(10)
 
     /** Creation modal  */
     const handleShow = () => {
@@ -51,11 +52,12 @@ const AllCity = () => {
     };
 
 
+
     const {
         data: cityList,
         isLoading,
         refetch: fetchcityList,
-    } = useGetAllData(QUERY_KEYS.GET_ALL_CITY_LIST, CITY_END_POINT.get(search));
+      } = useGetAllData(QUERY_KEYS.GET_ALL_CITY_LIST, CITY_END_POINT.get(page, limit, search));
 
 
 

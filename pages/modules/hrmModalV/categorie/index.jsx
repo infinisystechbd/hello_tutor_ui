@@ -7,50 +7,104 @@ import DataTable from 'react-data-table-component';
 import ToastMessage from '../../../../components/Toast';
 import { CATEGORIE_END_POINT } from '../../../../constants/index';
 import { QUERY_KEYS } from '../../../../constants/queryKeys';
-import { del } from '../../../../helpers/api_helper';
+import { del, get, post, put } from '../../../../helpers/api_helper';
 import { useGetAllData } from '../../../../utils/hooks/useGetAllData';
 import DebouncedSearchInput from './../../../../components/elements/DebouncedSearchInput';
 import HeadSection from '../../../../components/HeadSection';
 import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+import CategoryFrom from './form/CategoryFrom';
+// CategoryFrom
 const AllCategory = () => {
+
+
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
     }, []);
-
-        const {
-        token: { colorBgContainer },
-    } = theme.useToken();
+    const { token: { colorBgContainer }, } = theme.useToken();
     const { confirm } = Modal;
     const { Content } = Layout;
-
     const [search, setSearch] = useState('');
     const [pending, setPending] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editData, setEditData] = useState({});
-    
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(10)
 
+    /** Creation modal  */
+    const handleShow = () => {
+        setIsModalOpen(true)
+        setEditData(null);
+    };
+    /** Creation modal end  */
 
+    /** Update modal  */
+    const handleOpen = (data) => {
+        setEditData(data);
+        setIsModalOpen(true)
+    }
     /** Update modal end  */
+
+
+
     const handlePerRowsChange = async (newPerPage, page) => {
         setPage(page);
         setPerPage(newPerPage);
     };
 
-    const handlePageChange = (page) => {
-        setPage(page)
-    };
 
+
+
+    /** Fetch CategoryList */
     const {
-        data: CategoryList,
+        data: categoryList,
         isLoading,
         refetch: fetchCategoryList,
-    } = useGetAllData(QUERY_KEYS.GET_ALL_CATEGORY_LIST, CATEGORIE_END_POINT.get(search));
+    } = useGetAllData(QUERY_KEYS.GET_ALL_CATEGORY_LIST, CATEGORIE_END_POINT.get(page, limit, search));
+    
+
+    /** Fetch CategoryList End */
 
 
 
     const reFetchHandler = (isRender) => {
         if (isRender) fetchCategoryList();
     };
+
+    const handlePageChange = (page) => {
+        setPage(page)
+    };
+
+
+    /** handle delete */
+    const showDeleteConfirm = (id, name) => {
+        confirm({
+            title: `Are you sure delete this Category?`,
+            icon: <ExclamationCircleFilled />,
+            content: name,
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            async onOk() {
+                const deleteClass = await del(CATEGORIE_END_POINT.delete(id));
+                console.log(deleteClass);
+                try {
+                    if (deleteClass.status === 'SUCCESS') {
+                        notify('success', deleteClass.message);
+                    } else {
+                        notify('error', 'something went wrong');
+                    }
+                } catch (error) {
+                    notify('error', error.message);
+                }
+
+                fetchCategoryList();
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
+    };
+    /** handle delete end */
 
 
     const columns = [
@@ -86,7 +140,7 @@ const AllCategory = () => {
     const actionButton = (row) => {
         // console.log(id);
         return <>
-                      <Row justify="space-between">
+            <Row justify="space-between">
                 <a onClick={() => handleViewOpen(row)} style={{ color: 'green', marginRight: '10px' }}>
                     <EyeOutlined style={{ fontSize: '24px' }} />
                 </a>
@@ -102,8 +156,8 @@ const AllCategory = () => {
         </>
     }
     return (
-<>
-            <HeadSection title="All Guardian-Details" />
+        <>
+            <HeadSection title="All Category-Details" />
 
 
             <Content
@@ -138,7 +192,7 @@ const AllCategory = () => {
                                             <Button
                                                 className="shadow rounded"
                                                 type="primary"
-                                                // onClick={handleShow}
+                                                onClick={handleShow}
                                                 block
                                             >
                                                 Add Categoty
@@ -146,25 +200,34 @@ const AllCategory = () => {
                                         </div>
                                     </div>
 
+                                    <CategoryFrom
+                                        isModalOpen={isModalOpen}
+                                        setIsModalOpen={setIsModalOpen}
+                                        isParentRender={reFetchHandler}
+                                        setEditData={editData}
+                                    />
+
                                     <div className="">
-                                    <DataTable
-                                    columns={columns}
-                                    data={CategoryList?.data}
-                                    pagination
-                                    paginationServer
-                                    highlightOnHover
-                                    subHeader
-                                    progressPending={isLoading}
-                                    paginationTotalRows={CategoryList?.total}
-                                    subHeaderComponent={
-                                        <DebouncedSearchInput
-                                            allowClear
-                                            placeholder="Search category name "
-                                            onChange={setSearch}
+                                        <DataTable
+                                            columns={columns}
+                                            data={categoryList?.data}
+                                            pagination
+                                            paginationServer
+                                            highlightOnHover
+                                            subHeader
+                                            progressPending={isLoading}
+                                            paginationTotalRows={categoryList?.total}
+                                            onChangeRowsPerPage={handlePerRowsChange}
+                                            onChangePage={handlePageChange}
+                                            subHeaderComponent={
+                                                <DebouncedSearchInput
+                                                    allowClear
+                                                    placeholder="Search subject name "
+                                                    onChange={setSearch}
+                                                />
+                                            }
+                                            striped
                                         />
-                                    }
-                                    striped
-                                />
 
 
                                     </div>
@@ -179,9 +242,10 @@ const AllCategory = () => {
 
 
             </Content>
-            
+
         </>
     )
 }
 
 export default AllCategory
+// CategoryList

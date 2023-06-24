@@ -5,11 +5,11 @@ import { SUBJECT_END_POINT } from '../../../../../constants/index';
 import { post, put } from '../../../../../helpers/api_helper';
 function SubjectForm(props) {
   const { isModalOpen, setIsModalOpen, isParentRender, setEditData } = props;
-
-  console.log(setEditData);
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
+
+
   const { Option } = Select;
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
@@ -29,15 +29,31 @@ function SubjectForm(props) {
   };
 
 
+
+
+  if (setEditData == null) {
+    form.resetFields();
+  } else {
+    form.setFieldsValue({
+      name: setEditData.name,
+      status: setEditData.status,
+    });
+  }
+
+
+
+
   const onFinish = async (values) => {
     setLoading(true);
-    setEditData.name = values.name;
-    setEditData.status = values.status;
     if (setEditData?._id) {
       try {
         const update = await put(SUBJECT_END_POINT.update(setEditData._id),values);
         if (update.status == 'SUCCESS') {
           notify('success', update.message);
+          if (isParentRender) {
+            isParentRender(true);
+          }
+          setIsModalOpen(false);
         }
       } catch (error) {
         notify('error', update.errorMessage);
@@ -50,10 +66,13 @@ function SubjectForm(props) {
         if (isParentRender) {
           isParentRender(true);
         }
+        setIsModalOpen(false);
       } else {
         notify('error', response.errorMessage);
         setLoading(false);
       }
+      // setLoading(false);
+   
     }
 
     setIsModalOpen(!isModalOpen);
@@ -63,15 +82,6 @@ function SubjectForm(props) {
     notify('error', errorInfo);
     // console.log('Failed:', errorInfo);
   };
-  if (setEditData != null) {
-    console.log({setEditData})
-    form.setFieldsValue({
-      name: setEditData.name,
-      status: setEditData.status,
-    });
-  } else {
-    form.resetFields();
-  }
   return (
     <Modal
       title={setEditData != null ? 'Update Subject' : 'Add Subject'}
@@ -141,3 +151,4 @@ function SubjectForm(props) {
   );
 }
 export default SubjectForm;
+
