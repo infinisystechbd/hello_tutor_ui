@@ -23,15 +23,32 @@ function ClassForm(props) {
   const [city, setCity] = useState([]);
   console.log(setEditData);
 
-  if (setEditData == null) {
-    form.resetFields();
-  } else {
+  // if (setEditData == null) {
+  //   form.resetFields();
+  // } else {
+  //   form.setFieldsValue({
+  //     name: setEditData.name,
+  //     city: setEditData?.city,
+  //     status: setEditData.status,
+  //   });
+  // }
+
+
+
+
+
+
+  if (setEditData != null) {
     form.setFieldsValue({
       name: setEditData.name,
       city: setEditData?.city,
       status: setEditData.status,
     });
+  } else {
+    form.resetFields();
   }
+
+
 
 
 

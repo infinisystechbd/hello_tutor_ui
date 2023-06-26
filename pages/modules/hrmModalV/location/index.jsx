@@ -144,7 +144,7 @@ const Managelocation = () => {
 
 
 
-    const actionButton = (id) => {
+    const actionButton = (row) => {
         // console.log(id);
         return <>
             <Row justify="space-between">
