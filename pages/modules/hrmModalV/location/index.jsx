@@ -3,8 +3,7 @@ import React, { useCallback, useEffect, useState, Fragment } from 'react';
 import { Form } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
 import ToastMessage from '../../../../components/Toast';
-import { LOCATION_END_POINT } from "../../../../constants/api_endpoints/locationEndPoints";
-import { CITY_END_POINT } from "../../../../constants/api_endpoints/cityEndPoints";
+import { LOCATION_END_POINT, CITY_END_POINT } from "../../../../constants/index";
 import { QUERY_KEYS } from "../../../../constants/queryKeys";
 import { del, get, post, put } from '../../../../helpers/api_helper';
 import { useGetAllData } from "../../../../utils/hooks/useGetAllData";
@@ -12,13 +11,15 @@ import HeadSection from '../../../../components/HeadSection';
 import { Button, Modal, Tag, Row, Breadcrumb, Layout, theme } from 'antd';
 import moment from 'moment';
 import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
-
+import LocationForm from './form/LocationForm';
+import { ExclamationCircleFilled } from '@ant-design/icons';
+import DebouncedSearchInput from './../../../../components/elements/DebouncedSearchInput';
+// LocationForm
 
 
 
 const Managelocation = () => {
-    const { confirm } = Modal;
-    const { Content } = Layout;
+
     const {
         token: { colorBgContainer },
     } = theme.useToken();
@@ -28,12 +29,86 @@ const Managelocation = () => {
         ToastMessage({ type, message });
     }, []);
 
+    const [search, setSearch] = useState('');
     const [pending, setPending] = useState(false);
-    const { data: locationList, isLoading, refetch: fetchLocationList } = useGetAllData(QUERY_KEYS.GET_ALL_LOCATION_LIST, LOCATION_END_POINT.get())
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [editData, setEditData] = useState({});
+    const { confirm } = Modal;
+    const { Content } = Layout;
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(10)
+    // const { data: locationList, isLoading, refetch: fetchLocationList } = useGetAllData(QUERY_KEYS.GET_ALL_LOCATION_LIST, LOCATION_END_POINT.get())
 
-    //Form validation
-    const [validated, setValidated] = useState(false);
-    const [location_id, setLocationId] = useState('');
+
+
+    /** Creation modal  */
+    const handleShow = () => {
+        setIsModalOpen(true)
+        setEditData(null);
+    };
+    /** Creation modal end  */
+
+    /** Update modal  */
+    const handleOpen = (data) => {
+        setEditData(data);
+        setIsModalOpen(true)
+    }
+    /** Update modal end  */
+    const handlePerRowsChange = async (newPerPage, page) => {
+        setPage(page);
+        setPerPage(newPerPage);
+    };
+
+    const {
+        data: locationList,
+        isLoading,
+        refetch: fetchLocationList,
+    } = useGetAllData(QUERY_KEYS.GET_ALL_LOCATION_LIST, LOCATION_END_POINT.get(page, limit, search));
+
+
+
+
+
+    const reFetchHandler = (isRender) => {
+        if (isRender) fetchClassList();
+    };
+
+    const handlePageChange = (page) => {
+        setPage(page)
+    };
+
+
+    // handle delete
+    const showDeleteConfirm = (id, name) => {
+        confirm({
+            title: `Are you sure delete this Subject?`,
+            icon: <ExclamationCircleFilled />,
+            content: name,
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            async onOk() {
+                const deleteSubject = await del(LOCATION_END_POINT.delete(id));
+                try {
+                    if (deleteSubject.status === 'SUCCESS') {
+                        notify('success', deleteSubject.message);
+                    } else {
+                        notify('error', 'something went wrong');
+                    }
+                } catch (error) {
+                    notify('error', error.message);
+                }
+
+                fetchcityList();
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
+    };
+
+
+
 
 
 
@@ -56,12 +131,12 @@ const Managelocation = () => {
         },
         {
             name: 'Status',
-            selector: row => row.status = true ? "Active" : "Inactive",
+            selector: (row) => (row.status == true ? <Tag color='green'>ACTIVE</Tag> : <Tag color='volcano'>INACTIVE</Tag>),
             sortable: true,
         },
         {
             name: 'Action',
-            selector: row => actionButton(row._id),
+            selector: row => actionButton(row),
         }
 
     ];
@@ -109,7 +184,7 @@ const Managelocation = () => {
                         margin: '16px 0',
                     }}
                 >
-                    <Breadcrumb.Item>User</Breadcrumb.Item>
+                    <Breadcrumb.Item>Location</Breadcrumb.Item>
                     <Breadcrumb.Item>Bill</Breadcrumb.Item>
                 </Breadcrumb>
                 <div
@@ -132,30 +207,46 @@ const Managelocation = () => {
                                                 className="shadow rounded"
                                                 type="primary"
                                                 block
+                                                onClick={handleShow}
                                             >
                                                 Add Location
                                             </Button>
                                         </div>
                                     </div>
 
+
+
+
+                                    <LocationForm
+                                        isModalOpen={isModalOpen}
+                                        setIsModalOpen={setIsModalOpen}
+                                        isParentRender={reFetchHandler}
+                                        setEditData={editData}
+                                    />
+
                                     <div className="">
+
                                         <DataTable
                                             columns={columns}
                                             data={locationList?.data}
                                             pagination
+                                            paginationServer
                                             highlightOnHover
                                             subHeader
-                                            // conditionalRowStyles={conditionalRowStyles}
+                                            progressPending={isLoading}
+                                            paginationTotalRows={locationList?.total}
+                                            onChangeRowsPerPage={handlePerRowsChange}
+                                            onChangePage={handlePageChange}
                                             subHeaderComponent={
-                                                <input
-                                                    type="text"
-                                                    placeholder="search by subject code"
-                                                    className="w-25 form-control search-input_RESERVATIONS"
-
+                                                <DebouncedSearchInput
+                                                    allowClear
+                                                    placeholder="Search Location name "
+                                                    onChange={setSearch}
                                                 />
                                             }
                                             striped
                                         />
+
 
 
                                     </div>
