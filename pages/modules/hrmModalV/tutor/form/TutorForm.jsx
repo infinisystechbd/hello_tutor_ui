@@ -4,6 +4,9 @@ import { useCallback, useState, useEffect } from 'react';
 import ToastMessage from '../../../../../components/Toast';
 import { TUTOR_END_POINT, LOCATION_END_POINT, CITY_END_POINT } from '../../../../../constants/index';
 import { get, post, put } from '../../../../../helpers/api_helper';
+import { QUERY_KEYS } from '../../../../../constants/queryKeys.js';
+import { mapArrayToDropdown } from '../../../../../helpers/common_Helper.js';
+import { useGetAllData } from '../../../../../utils/hooks/useGetAllData.js';
 
 const TutorForm = (props) => {
     const { isModalOpen, setIsModalOpen, isParentRender, setEditData } = props;
@@ -13,48 +16,70 @@ const TutorForm = (props) => {
       const { Option } = Select;
       const [form] = Form.useForm();
       const [loading, setLoading] = useState(false);
+      const [city, setCity] = useState([]);
+      const [location, setLocation] = useState([]);
       
-  const [cityList, setAllCityList] = useState([]);
-  const [locationList, setAllLocationList] = useState([]);
+  // const [cityList, setAllCityList] = useState([]);
+  // const [locationList, setAllLocationList] = useState([]);
+  console.log(locationList);
   const phoneNumberPattern = /^(?:01[3-9])\d{8}$/; 
+
+
+
+
+
   /** Fetch city */
+  const {
+    data: cityList,
+    isLoading,
+    refetch: fetchCityList,
+  } = useGetAllData(
+    QUERY_KEYS.GET_ALL_CITY_LIST,
+    CITY_END_POINT.get(1, -1, '')
+  );
+
+  /**city dropdown */
   useEffect(() => {
-    const controller = new AbortController();
-    const fetchTotalCities = async () => {
-      let isSubscribed = true;
-      try {
-        const getAllList = await get(CITY_END_POINT.get());
-        setAllCityList(getAllList?.data);
+    const CITYDROPDOWN = mapArrayToDropdown(
+      cityList?.data,
+      'name',
+      '_id'
+    );
+    setCity(CITYDROPDOWN);
+  }, [cityList]);
 
-      } catch (error) {
-        console.log("find the error");
-      }
+ /** end city dropdown */
 
-      return () => isSubscribed = false;
-    }
-    fetchTotalCities();
-  }, [])
-  /** Fetch city end */
 
-  /** Fetch Location */
+
+
+  /**fetch location list */
+
+  const {
+    data: locationList,
+    refetch: fetchLocationList,
+  } = useGetAllData(
+    QUERY_KEYS.GET_ALL_LOCATION_LIST,
+    LOCATION_END_POINT.get(1, -1, '')
+  );
+
+  /**location dropdown */
   useEffect(() => {
-    const controller = new AbortController();
-    const fetchTotalLocation = async () => {
-      let isSubscribed = true;
-      try {
-        const getAllLocationList = await get(LOCATION_END_POINT.get());
-        setAllLocationList(getAllLocationList?.data);
+    const LOCATIONDROPDOWN = mapArrayToDropdown(
+      locationList?.data,
+      'name',
+      '_id'
+    );
+    setLocation(LOCATIONDROPDOWN);
+  }, [locationList]);
 
-      } catch (error) {
-        console.log("find the error");
-      }
 
-      return () => isSubscribed = false;
-    }
-    fetchTotalLocation();
-  }, [])
- /** Fetch Location end */
+  /**fetch location list  End */
 
+
+
+
+  
 
  /** from design  */
  const layout = {
@@ -190,20 +215,21 @@ const onFinish = async (values) => {
 
         <Form.Item
           name="city"
-          label="City"
+          label="Select City"
           rules={[
             {
               required: true,
+              message: 'Please select City!',
+              
             },
           ]}
-
           hasFeedback
         >
-          <Select placeholder="Select a City" allowClear>
-            {cityList?.map((city) => (
-              <Option key={city._id} value={city._id}>{city.name}</Option>
-            ))}
-          </Select>
+          <Select
+            // mode="multiple"
+            placeholder="Please select City"
+            options={city}
+          />
         </Form.Item>
 
 
@@ -214,16 +240,18 @@ const onFinish = async (values) => {
           rules={[
             {
               required: true,
+              message: 'Please select Location!',
+              
             },
           ]}
           hasFeedback
 
         >
-          <Select placeholder="Select a option" allowClear>
-            {locationList?.map((locn) => (
-              <Option key={locn._id} value={locn._id}>{locn.name}</Option>
-            ))}
-          </Select>
+              <Select
+            // mode="multiple"
+            placeholder="Please select Location"
+            options={location}
+          />
         </Form.Item>
 
 

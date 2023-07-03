@@ -1,7 +1,7 @@
 
 import React, { useCallback, useState, useEffect } from 'react';
 import { Button, Col, Form, Input, Modal, Row, Select, InputNumber, Radio, DatePicker, TimePicker } from "antd";
-import { GUARDIAN_END_POINT, TUTOR_END_POINT, LOCATION_END_POINT, CITY_END_POINT, CATEGORIE_END_POINT, CLASS_END_POINT, SUBJECT_END_POINT ,TUTOR_REQUEST_END_POINT} from '../../../../../constants/index';
+import { GUARDIAN_END_POINT, TUTOR_END_POINT, LOCATION_END_POINT, CITY_END_POINT, CATEGORIE_END_POINT, CLASS_END_POINT, SUBJECT_END_POINT, JOB_REQUEST_END_POINT } from '../../../../../constants/index';
 import { get, post, put } from '../../../../../helpers/api_helper';
 import { QUERY_KEYS } from '../../../../../constants/queryKeys.js';
 import { mapArrayToDropdown } from '../../../../../helpers/common_Helper.js';
@@ -10,6 +10,7 @@ import ToastMessage from '../../../../../components/Toast';
 import moment from 'moment';
 const TutorRequestFrom = (props) => {
   const { isModalOpen, setIsModalOpen, isParentRender, setEditData } = props;
+  console.log("setEditData", setEditData);
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
@@ -21,8 +22,12 @@ const TutorRequestFrom = (props) => {
   const [allClassesList, setAllClassesList] = useState([]);
   const [classes, setClasses] = useState([]);
   const [subject, setSubject] = useState([]);
-  const [cityList, setAllCityList] = useState([]);
-  const [locationList, setAllLocationList] = useState([]);
+  const [guardian, setGuardian] = useState([]);
+  const [city, setCity] = useState([]);
+  const [category, setCategory] = useState([]);
+  const [location, setLocation] = useState([]);
+  const phoneNumberPattern = /^(?:01[3-9])\d{8}$/;
+
   // setCity
   const layout = {
     labelCol: {
@@ -45,53 +50,58 @@ const TutorRequestFrom = (props) => {
   };
 
 
+
   /** Fetch Guardian List */
-  useEffect(() => {
-    const controller = new AbortController();
-    const fetchTotalGuardian = async () => {
-      let isSubscribed = true;
-      try {
-        const getAllGuardianList = await get(GUARDIAN_END_POINT.get());
-        setAllGuardianList(getAllGuardianList?.data);
+  const {
+    data: guardianList,
+    isLoading,
+    refetch: fetchGuardianList,
+  } = useGetAllData(QUERY_KEYS.GET_ALL_GUARDIAN_LIST, GUARDIAN_END_POINT.get(1, -1, ''));
 
-      } catch (error) {
-        console.log("find the error");
-      }
 
-      return () => isSubscribed = false;
-    }
-    fetchTotalGuardian();
-  }, [])
+    /**guarian dropdown */
+    useEffect(() => {
+      const GUARDIANDROPDOWN = mapArrayToDropdown(
+        guardianList?.data,
+        'fullName',
+        '_id'
+      );
+      setGuardian(GUARDIANDROPDOWN);
+    }, [guardianList]);
   /** Fetch Guardian List End */
 
 
 
 
-  /** Fetch CategoryList List */
+  /** Fetch category List */
+
+  const {
+    data: categoryList,
+    refetch: fetchTotalCategory,
+  } = useGetAllData(
+    QUERY_KEYS.GET_ALL_CATEGORY_LIST,
+    CATEGORIE_END_POINT.get(1, -1, '')
+  );
+
+  /**category dropdown */
   useEffect(() => {
-    const controller = new AbortController();
-    const fetchTotalCategory = async () => {
-      let isSubscribed = true;
-      try {
-        const getAllCategoryList = await get(CATEGORIE_END_POINT.get());
-        setAllCategoryList(getAllCategoryList?.data);
+    const CATEGORYDROPDOWN = mapArrayToDropdown(
+      categoryList?.data,
+      'name',
+      '_id'
+    );
+    setCategory(CATEGORYDROPDOWN);
+  }, [categoryList]);
 
-      } catch (error) {
-        console.log("find the error");
-      }
 
-      return () => isSubscribed = false;
-    }
-    fetchTotalCategory();
-  }, [])
 
   /** Fetch CategoryList List End */
+
 
 
   // fetch subject list
   const {
     data: subjectList,
-    isLoading,
     refetch: fetchSubjectList,
   } = useGetAllData(
     QUERY_KEYS.GET_ALL_SUBJECT_LIST,
@@ -110,14 +120,14 @@ const TutorRequestFrom = (props) => {
 
 
 
-/**fetch class list */ 
+  /**fetch class list */
   const {
     data: classList,
     // isLoading,
     refetch: fetchClassList,
   } = useGetAllData(
     QUERY_KEYS.GET_ALL_ClASS_LIST,
-    CLASS_END_POINT.get(1, -1, '')
+    CATEGORIE_END_POINT.get(1, -1, '')
   );
   //class dropdown
   useEffect(() => {
@@ -132,46 +142,57 @@ const TutorRequestFrom = (props) => {
 
 
   /** Fetch city */
+  const {
+    data: cityList,
+    refetch: fetchCityList,
+  } = useGetAllData(
+    QUERY_KEYS.GET_ALL_CITY_LIST,
+    CITY_END_POINT.get(1, -1, '')
+  );
+
+  /**city dropdown */
   useEffect(() => {
-    const controller = new AbortController();
-    const fetchTotalCities = async () => {
-      let isSubscribed = true;
-      try {
-        const getAllList = await get(CITY_END_POINT.get());
-        setAllCityList(getAllList?.data);
+    const CITYDROPDOWN = mapArrayToDropdown(
+      cityList?.data,
+      'name',
+      '_id'
+    );
+    setCity(CITYDROPDOWN);
+  }, [cityList]);
 
-      } catch (error) {
-        console.log("find the error");
-      }
-
-      return () => isSubscribed = false;
-    }
-    fetchTotalCities();
-  }, [])
-  /** Fetch city end */
+  /** end city dropdown */
 
 
 
 
+  /**fetch location list */
 
-  /** Fetch Location */
+  const {
+    data: locationList,
+    refetch: fetchLocationList,
+  } = useGetAllData(
+    QUERY_KEYS.GET_ALL_LOCATION_LIST,
+    LOCATION_END_POINT.get(1, -1, '')
+  );
+
+  /**location dropdown */
   useEffect(() => {
-    const controller = new AbortController();
-    const fetchTotalLocation = async () => {
-      let isSubscribed = true;
-      try {
-        const getAllLocationList = await get(LOCATION_END_POINT.get());
-        setAllLocationList(getAllLocationList?.data);
+    const LOCATIONDROPDOWN = mapArrayToDropdown(
+      locationList?.data,
+      'name',
+      '_id'
+    );
+    setLocation(LOCATIONDROPDOWN);
+  }, [locationList]);
 
-      } catch (error) {
-        console.log("find the error");
-      }
 
-      return () => isSubscribed = false;
-    }
-    fetchTotalLocation();
-  }, [])
-  /** Fetch Location end */
+  /**fetch location list  End */
+
+  const handleDateChange = (date, dateString) => {
+    const formattedDate = moment(dateString).format('MM/DD/YYYY');
+    console.log(formattedDate);  // Output: 07/04/2023
+    // You can update the form value or do any other necessary operations here
+  };
 
 
 
@@ -182,20 +203,23 @@ const TutorRequestFrom = (props) => {
 
   if (setEditData != null) {
     form.setFieldsValue({
-      guardian: setEditData.guardian,
-      category: setEditData.category,
+      guardian: setEditData?.guardian?.fullName,
+      category: setEditData?.category?.name,
+      noOfStudent: setEditData?.noOfStudent,
       subject: setEditData?.subject?.map((t) => t.subjectId)?.map((t) => t._id),
-      class: setEditData?.classes?.map((t) => t.classId)?.map((t) => t._id),
+      class: setEditData?.class?.map((t) => t.classId)?.map((t) => t?._id),
       // city: setEditData?.city?.map((t) => t.subjectId)?.map((t) => t._id),
       studentGender: setEditData.studentGender,
-      city: setEditData.city,
-      location: setEditData.location,
+      city: setEditData.city?.name,
+      location: setEditData.location?.name,
       address: setEditData.address,
       teacherGender: setEditData.teacherGender,
       daysPerWeek: setEditData.daysPerWeek,
+      // tutoringTime:setEditData?.tutoringTime,
       preferenceInstitute: setEditData.preferenceInstitute,
       salary: setEditData.salary,
       requirement: setEditData.requirement,
+      phone: setEditData.phone,
       status: setEditData.status,
     });
   } else {
@@ -226,7 +250,7 @@ const TutorRequestFrom = (props) => {
 
     try {
       if (setEditData?._id) {
-        const update = await put(TUTOR_REQUEST_END_POINT.update(setEditData?._id), values, formattedDate, formattedTime);
+        const update = await put(JOB_REQUEST_END_POINT.update(setEditData?._id), values, formattedDate, formattedTime);
         console.log(update)
         if (update.status === 'SUCCESS') {
           notify('success', update.message);
@@ -239,7 +263,7 @@ const TutorRequestFrom = (props) => {
           setLoading(false);
         }
       } else {
-        const response = await post(TUTOR_REQUEST_END_POINT.create(), values, formattedDate, formattedTime);
+        const response = await post(JOB_REQUEST_END_POINT.create(), values, formattedDate, formattedTime);
         if (response.status === 'SUCCESS') {
           notify('success', response.message);
           if (isParentRender) {
@@ -315,11 +339,11 @@ const TutorRequestFrom = (props) => {
 
                       hasFeedback
                     >
-                      <Select placeholder="Select a Guardian" allowClear>
-                        {allGuardianList?.map((guardian) => (
-                          <Option key={guardian._id} value={guardian._id}>{guardian.fullName}</Option>
-                        ))}
-                      </Select>
+                       <Select
+                        // mode="multiple"
+                        placeholder="Please select Guardian"
+                        options={guardian}
+                      />
                     </Form.Item>
 
                     <Form.Item
@@ -333,11 +357,11 @@ const TutorRequestFrom = (props) => {
 
                       hasFeedback
                     >
-                      <Select placeholder="Select a Category" allowClear>
-                        {allCategoryList?.map((category) => (
-                          <Option key={category._id} value={category._id}>{category.name}</Option>
-                        ))}
-                      </Select>
+                      <Select
+                        // mode="multiple"
+                        placeholder="Please select Category"
+                        options={category}
+                      />
                     </Form.Item>
 
 
@@ -418,28 +442,29 @@ const TutorRequestFrom = (props) => {
                       ]}
                     >
                       <Radio.Group>
-                        <Radio value="male">Male</Radio>
-                        <Radio value="female">Female</Radio>
-                        <Radio value="other">Other</Radio>
+                        <Radio value="Male">Male</Radio>
+                        <Radio value="Female">Female</Radio>
+                        <Radio value="Both">Both</Radio>
                       </Radio.Group>
                     </Form.Item>
 
                     <Form.Item
                       name="city"
-                      label="City"
+                      label="Select City"
                       rules={[
                         {
                           required: true,
+                          message: 'Please select City!',
+
                         },
                       ]}
-
                       hasFeedback
                     >
-                      <Select placeholder="Select a City" allowClear>
-                        {cityList?.map((city) => (
-                          <Option key={city._id} value={city._id}>{city.name}</Option>
-                        ))}
-                      </Select>
+                      <Select
+                        // mode="multiple"
+                        placeholder="Please select City"
+                        options={city}
+                      />
                     </Form.Item>
 
 
@@ -449,16 +474,18 @@ const TutorRequestFrom = (props) => {
                       rules={[
                         {
                           required: true,
+                          message: 'Please select Location!',
+
                         },
                       ]}
                       hasFeedback
 
                     >
-                      <Select placeholder="Select a option" allowClear>
-                        {locationList?.map((locn) => (
-                          <Option key={locn._id} value={locn._id}>{locn.name}</Option>
-                        ))}
-                      </Select>
+                      <Select
+                        // mode="multiple"
+                        placeholder="Please select Location"
+                        options={location}
+                      />
                     </Form.Item>
 
 
@@ -477,8 +504,6 @@ const TutorRequestFrom = (props) => {
                         placeholder="Enter Full Address"
                       />
                     </Form.Item>
-
-
 
 
 
@@ -508,9 +533,9 @@ const TutorRequestFrom = (props) => {
                       ]}
                     >
                       <Radio.Group>
-                        <Radio value="male">Male</Radio>
-                        <Radio value="female">Female</Radio>
-                        <Radio value="other">Other</Radio>
+                        <Radio value="Male">Male</Radio>
+                        <Radio value="Female">Female</Radio>
+                        <Radio value="Any">Other</Radio>
                       </Radio.Group>
                     </Form.Item>
 
@@ -585,6 +610,7 @@ const TutorRequestFrom = (props) => {
                       <DatePicker
                         style={{ width: '300px', height: '40px' }}
                         format="DD/MM/YYYY"
+                        onChange={handleDateChange}
                       />
                     </Form.Item>
 
@@ -619,6 +645,22 @@ const TutorRequestFrom = (props) => {
                         placeholder="Enter Full requirement"
                       />
                     </Form.Item>
+                    <Form.Item
+                      name="phone"
+                      label="Phone"
+                      rules={[
+                        {
+                          required: true,
+                          pattern: phoneNumberPattern,
+                          message: 'Please enter a valid Bangladeshi phone number!',
+                        },
+                      ]}
+                      hasFeedback
+                    >
+                      <Input />
+                    </Form.Item>
+
+
 
                     <Form.Item
                       name="status"
