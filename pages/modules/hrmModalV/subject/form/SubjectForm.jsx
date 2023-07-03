@@ -60,7 +60,8 @@ function SubjectForm(props) {
         setLoading(false);
       }
     } else {
-      const response = await post(SUBJECT_END_POINT.create(), values);
+      try{
+        const response = await post(SUBJECT_END_POINT.create(), values);
       if (response.status === 'SUCCESS') {
         notify('success', response.message);
         if (isParentRender) {
@@ -71,6 +72,12 @@ function SubjectForm(props) {
         notify('error', response.errorMessage);
         setLoading(false);
       }
+      }catch(error){
+        console.log(error)
+        notify('error', error.message);
+        setLoading(false);
+      }
+      
       // setLoading(false);
    
     }
