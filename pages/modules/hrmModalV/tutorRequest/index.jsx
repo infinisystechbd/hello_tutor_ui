@@ -14,7 +14,7 @@ import { CITY_END_POINT } from "../../../../constants/api_endpoints/cityEndPoint
 import { CLASS_END_POINT } from "../../../../constants/api_endpoints/classEndPoints";
 import { TUTOR_END_POINT } from "../../../../constants/api_endpoints/tutorEndPoints";
 import { SUBJECT_END_POINT } from "../../../../constants/api_endpoints/subectEndPoints";
-import { TUTOR_REQUEST_END_POINT } from "../../../../constants/api_endpoints/tutorRequestEndPoints";
+import { JOB_REQUEST_END_POINT } from "../../../../constants/api_endpoints/jobRequestEndPoints";
 import { QUERY_KEYS } from "../../../../constants/queryKeys";
 import { del, get, post, put } from '../../../../helpers/api_helper';
 import { useGetAllData } from "../../../../utils/hooks/useGetAllData";
@@ -652,7 +652,7 @@ const ManageRequestTutor = () => {
   }, []);
 
   const [pending, setPending] = useState(false);
-  const { data: tutorRequestList, isLoading, refetch: fetchTutorRequestList } = useGetAllData(QUERY_KEYS.GET_ALL_TUTOR_REQUEST_LIST, TUTOR_REQUEST_END_POINT.get());
+  const { data: tutorRequestList, isLoading, refetch: fetchTutorRequestList } = useGetAllData(QUERY_KEYS.GET_ALL_TUTOR_REQUEST_LIST, JOB_REQUEST_END_POINT.get());
 
   //Form validation
   const [validated, setValidated] = useState(false);
@@ -669,7 +669,7 @@ const ManageRequestTutor = () => {
       const submitForm = async (items) => {
         let isSubscribed = true;
         setLoading(true);
-        const response = await post(TUTOR_REQUEST_END_POINT.create(), items);
+        const response = await post(JOB_REQUEST_END_POINT.create(), items);
         if (response.status === "SUCCESS") {
             notify("success", response.message);
             // router.push(`/modules/hrmModalV/subject`);
