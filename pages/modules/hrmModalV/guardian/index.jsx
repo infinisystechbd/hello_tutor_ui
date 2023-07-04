@@ -30,6 +30,8 @@ const AllGuardian = () => {
     const [editData, setEditData] = useState({});
     const [isViewModalOpen, setIsViewModalOpen] = useState(false);
     const [guardian, setGuardian] = useState({});
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(10);
     console.log("insed", guardian);
     const handleShow = () => {
         setIsModalOpen(true)
@@ -88,7 +90,7 @@ const AllGuardian = () => {
         data: guardianList,
         isLoading,
         refetch: fetchGuardianList,
-    } = useGetAllData(QUERY_KEYS.GET_ALL_GUARDIAN_LIST, GUARDIAN_END_POINT.get(search));
+    } = useGetAllData(QUERY_KEYS.GET_ALL_GUARDIAN_LIST, GUARDIAN_END_POINT.get(1, -1, ''));
 
 
     const reFetchHandler = (isRender) => {
