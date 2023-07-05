@@ -33,7 +33,7 @@ function GuardianView(props) {
 
           <Descriptions >
             <Descriptions.Item label="Status">
-              {guardian?.status == 'Active' ? (
+              {guardian?.status == true ? (
                 <Tag color='green'>Active</Tag>
               ) : (
                 <Tag color='volcano'>Inactive</Tag>

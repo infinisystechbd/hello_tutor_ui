@@ -1,35 +1,29 @@
+import { ExclamationCircleFilled } from '@ant-design/icons';
+import { Button, Modal, Tag, Row, Breadcrumb, Layout, theme } from 'antd';
 import Link from 'next/link';
-import React, { useCallback, useEffect, useState, Fragment } from 'react';
-import { Form } from 'react-bootstrap';
+import { useRouter } from 'next/router';
+import { useCallback, useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
 import ToastMessage from '../../../../components/Toast';
-import { LOCATION_END_POINT, CITY_END_POINT } from "../../../../constants/index";
-import { QUERY_KEYS } from "../../../../constants/queryKeys";
-import { del, get, post, put } from '../../../../helpers/api_helper';
-import { useGetAllData } from "../../../../utils/hooks/useGetAllData";
-import HeadSection from '../../../../components/HeadSection';
-import { Button, Modal, Tag, Row, Breadcrumb, Layout, theme } from 'antd';
-import moment from 'moment';
-import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
-import LocationForm from './form/LocationForm';
-import LocationView from './view/LocationView';
-import { ExclamationCircleFilled } from '@ant-design/icons';
+import DeleteIcon from '../../../../components/elements/DeleteIcon';
+import EditIcon from '../../../../components/elements/EditIcon';
+import ViewIcon from '../../../../components/elements/ViewIcon';
+import { USER_END_POINT } from '../../../../constants/index';
+import { QUERY_KEYS } from '../../../../constants/queryKeys';
+import { del, get } from '../../../../helpers/api_helper';
+import { useGetAllData } from '../../../../utils/hooks/useGetAllData';
 import DebouncedSearchInput from './../../../../components/elements/DebouncedSearchInput';
-// LocationForm
+import HeadSection from '../../../../components/HeadSection';
+import UserFrom from './form/UserFrom';
+import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 
-
-
-const Managelocation = () => {
-
-    const {
-        token: { colorBgContainer },
-    } = theme.useToken();
-
-
+const AllCity = () => {
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
     }, []);
-
+    const {
+        token: { colorBgContainer },
+    } = theme.useToken();
     const [search, setSearch] = useState('');
     const [pending, setPending] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -38,9 +32,6 @@ const Managelocation = () => {
     const { Content } = Layout;
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10)
-    // const { data: locationList, isLoading, refetch: fetchLocationList } = useGetAllData(QUERY_KEYS.GET_ALL_LOCATION_LIST, LOCATION_END_POINT.get())
-
-
 
     /** Creation modal  */
     const handleShow = () => {
@@ -62,30 +53,18 @@ const Managelocation = () => {
 
 
 
-    /**View  Modal form */
-
-    const [isViewModalOpen, setIsViewModalOpen] = useState(false);
-    const [location, setLocation] = useState({});
-
-    const handleViewOpen = (data) => {
-        setIsViewModalOpen(true);
-        setLocation(data);
-    };
-    /**View  Modal form end */
-
     const {
-        data: locationList,
+        data: userList,
         isLoading,
-        refetch: fetchLocationList,
-    } = useGetAllData(QUERY_KEYS.GET_ALL_LOCATION_LIST, LOCATION_END_POINT.get(page, limit, search));
-
-
+        refetch: fetchUserList,
+      } = useGetAllData(QUERY_KEYS.GET_ALL_USER_LIST, USER_END_POINT.get(page, limit, search));
 
 
 
     const reFetchHandler = (isRender) => {
-        if (isRender) fetchClassList();
+        if (isRender) fetchUserList();
     };
+
 
     const handlePageChange = (page) => {
         setPage(page)
@@ -95,14 +74,14 @@ const Managelocation = () => {
     // handle delete
     const showDeleteConfirm = (id, name) => {
         confirm({
-            title: `Are you sure delete this Subject?`,
+            title: `Are you sure delete this User?`,
             icon: <ExclamationCircleFilled />,
             content: name,
             okText: 'Yes',
             okType: 'danger',
             cancelText: 'No',
             async onOk() {
-                const deleteSubject = await del(LOCATION_END_POINT.delete(id));
+                const deleteSubject = await del(USER_END_POINT.delete(id));
                 try {
                     if (deleteSubject.status === 'SUCCESS') {
                         notify('success', deleteSubject.message);
@@ -113,7 +92,7 @@ const Managelocation = () => {
                     notify('error', error.message);
                 }
 
-                fetchcityList();
+                fetchUserList();
             },
             onCancel() {
                 console.log('Cancel');
@@ -122,25 +101,26 @@ const Managelocation = () => {
     };
 
 
-
-
-
-
     const columns = [
         {
             name: <span className="fw-bold">SL</span>,
             selector: (row, index) => index + 1,
             sortable: true,
-            width: "70px",
-        },
-        {
-            name: 'Location Code',
-            selector: row => row.locationId,
-            sortable: true,
+            width: '70px',
         },
         {
             name: 'Name',
-            selector: row => row.name,
+            selector: (row) => row.fullName,
+            sortable: true,
+        },
+        {
+            name: 'Phone',
+            selector: (row) => row.phone,
+            sortable: true,
+        },
+        {
+            name: 'email',
+            selector: (row) => row.email,
             sortable: true,
         },
         {
@@ -150,16 +130,13 @@ const Managelocation = () => {
         },
         {
             name: 'Action',
-            selector: row => actionButton(row),
-        }
-
+            selector: (row) => actionButton(row),
+        },
     ];
 
 
-
-
     const actionButton = (row) => {
-        // console.log(id);
+
         return <>
             <Row justify="space-between">
                 <a onClick={() => handleViewOpen(row)} style={{ color: 'green', marginRight: '10px' }}>
@@ -176,16 +153,9 @@ const Managelocation = () => {
             </Row>
         </>
     }
-
-
-
-
-
-
-
     return (
         <>
-            <HeadSection title="All Location-Details" />
+            <HeadSection title="All User-Details" />
 
 
             <Content
@@ -198,7 +168,7 @@ const Managelocation = () => {
                         margin: '16px 0',
                     }}
                 >
-                    <Breadcrumb.Item>Location</Breadcrumb.Item>
+                    <Breadcrumb.Item>User</Breadcrumb.Item>
                     <Breadcrumb.Item>Bill</Breadcrumb.Item>
                 </Breadcrumb>
                 <div
@@ -214,24 +184,22 @@ const Managelocation = () => {
                                 <div className=" ">
                                     <div className="d-flex border-bottom title-part-padding align-items-center">
                                         <div>
-                                            <h4 class="card-title mb-0">All Location </h4>
+                                            <h4 class="card-title mb-0">All Users</h4>
                                         </div>
                                         <div className="ms-auto flex-shrink-0">
                                             <Button
                                                 className="shadow rounded"
                                                 type="primary"
-                                                block
                                                 onClick={handleShow}
+                                                block
                                             >
-                                                Add Location
+                                                Add user
                                             </Button>
                                         </div>
                                     </div>
 
 
-
-
-                                    <LocationForm
+                                    <UserFrom
                                         isModalOpen={isModalOpen}
                                         setIsModalOpen={setIsModalOpen}
                                         isParentRender={reFetchHandler}
@@ -239,34 +207,30 @@ const Managelocation = () => {
                                     />
 
 
-                                    <LocationView
-                                        isViewModalOpen={isViewModalOpen}
-                                        setIsViewModalOpen={setIsViewModalOpen}
-                                        location={location} />
+
+
 
                                     <div className="">
-
                                         <DataTable
                                             columns={columns}
-                                            data={locationList?.data}
+                                            data={userList?.data}
                                             pagination
                                             paginationServer
                                             highlightOnHover
                                             subHeader
                                             progressPending={isLoading}
-                                            paginationTotalRows={locationList?.total}
+                                            paginationTotalRows={userList?.total}
                                             onChangeRowsPerPage={handlePerRowsChange}
                                             onChangePage={handlePageChange}
                                             subHeaderComponent={
                                                 <DebouncedSearchInput
                                                     allowClear
-                                                    placeholder="Search Location name "
+                                                    placeholder="Search subject name "
                                                     onChange={setSearch}
                                                 />
                                             }
                                             striped
                                         />
-
 
 
                                     </div>
@@ -276,10 +240,16 @@ const Managelocation = () => {
                     </div>
                 </div>
 
+
+
+
+
             </Content>
+
+
 
         </>
     )
 }
 
-export default Managelocation
+export default AllCity

@@ -13,7 +13,13 @@ const DebouncedSearchInput = (props) => {
 
   return (
     <>
-      <Input type="text"  placeholder={placeholder || ''} onChange={debounceSearch} {...rest} />
+      <Input
+        type="text"
+        placeholder={placeholder || ''}
+        onChange={debounceSearch}
+        style={{ width: '300px' }} // Adjust the width as per your requirement
+        {...rest}
+      />
     </>
   );
 };

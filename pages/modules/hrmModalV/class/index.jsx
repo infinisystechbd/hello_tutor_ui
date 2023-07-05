@@ -14,6 +14,9 @@ import { EditOutlined, DeleteOutlined, EyeOutlined, ExclamationCircleFilled } fr
 import { Button, Modal, Tag, Row, Breadcrumb, Layout, theme } from 'antd';
 import DebouncedSearchInput from './../../../../components/elements/DebouncedSearchInput';
 import ClassForm from './form/ClassForm';
+import ClassView from './view/ClassView';
+
+ClassView
 const ManageClass = () => {
 
   const notify = useCallback((type, message) => {
@@ -45,6 +48,17 @@ const ManageClass = () => {
   /** Update modal end  */
 
 
+  /**View  Modal form */
+
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [classes, setClass] = useState({});
+
+  const handleViewOpen = (data) => {
+    setIsViewModalOpen(true);
+    setClass(data);
+  };
+  /**View  Modal form end */
+
   const handlePerRowsChange = async (newPerPage, page) => {
     setPage(page);
     setPerPage(newPerPage);
@@ -75,7 +89,7 @@ const ManageClass = () => {
   // handle delete
   const showDeleteConfirm = (id, name) => {
     confirm({
-      title: `Are you sure delete this Subject?`,
+      title: `Are you sure delete this CLass?`,
       icon: <ExclamationCircleFilled />,
       content: name,
       okText: 'Yes',
@@ -114,7 +128,7 @@ const ManageClass = () => {
       width: "70px",
     },
     {
-      name: 'Subject Code',
+      name: 'Class Code',
       selector: row => row.classId,
       sortable: true,
     },
@@ -224,6 +238,11 @@ const ManageClass = () => {
                     setEditData={editData}
                   />
 
+                  <ClassView
+                    isViewModalOpen={isViewModalOpen}
+                    setIsViewModalOpen={setIsViewModalOpen}
+                    classes={classes} />
+
                   <div className="">
                     <DataTable
                       columns={columns}
@@ -239,7 +258,7 @@ const ManageClass = () => {
                       subHeaderComponent={
                         <DebouncedSearchInput
                           allowClear
-                          placeholder="Search subject name "
+                          placeholder="Search class name "
                           onChange={setSearch}
                         />
                       }

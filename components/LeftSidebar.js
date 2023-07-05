@@ -10,6 +10,16 @@ const Leftsidebar = ({ collapsed }) => {
   const router = useRouter();
 
   const menuItems = [
+
+    {
+      key: 'super_admin',
+      icon: <FileOutlined />,
+      label: 'Super Admin',
+      children: [
+      
+        { key: 'users', label: 'User', path: '/modules/hrmModalV/users' },
+      ],
+    },
   
     {
       key: '/modules/hrmModalV',
