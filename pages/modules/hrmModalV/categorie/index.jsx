@@ -13,7 +13,8 @@ import DebouncedSearchInput from './../../../../components/elements/DebouncedSea
 import HeadSection from '../../../../components/HeadSection';
 import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import CategoryFrom from './form/CategoryFrom';
-// CategoryFrom
+import CategoryView from './view/CategoryView';
+// CategoryView
 const AllCategory = () => {
 
 
@@ -44,6 +45,17 @@ const AllCategory = () => {
     }
     /** Update modal end  */
 
+    /**View  Modal form */
+
+    const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+    const [category, setCategory] = useState({});
+
+    const handleViewOpen = (data) => {
+        setIsViewModalOpen(true);
+        setCategory(data);
+    };
+    /**View  Modal form end */
+
 
 
     const handlePerRowsChange = async (newPerPage, page) => {
@@ -60,7 +72,7 @@ const AllCategory = () => {
         isLoading,
         refetch: fetchCategoryList,
     } = useGetAllData(QUERY_KEYS.GET_ALL_CATEGORY_LIST, CATEGORIE_END_POINT.get(page, limit, search));
-    
+
 
     /** Fetch CategoryList End */
 
@@ -206,6 +218,11 @@ const AllCategory = () => {
                                         isParentRender={reFetchHandler}
                                         setEditData={editData}
                                     />
+
+<CategoryView
+                    isViewModalOpen={isViewModalOpen}
+                    setIsViewModalOpen={setIsViewModalOpen}
+                    category={category} />
 
                                     <div className="">
                                         <DataTable

@@ -12,6 +12,8 @@ import { useGetAllData } from '../../../../utils/hooks/useGetAllData';
 import DebouncedSearchInput from './../../../../components/elements/DebouncedSearchInput';
 import HeadSection from '../../../../components/HeadSection';
 import TutorForm from './form/TutorForm';
+import TutorView from './view/TutorView';
+
 import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 const AllTutor = () => {
     const notify = useCallback((type, message) => {
@@ -44,6 +46,20 @@ const AllTutor = () => {
         setPage(page);
         setPerPage(newPerPage);
     };
+
+
+    /**View  Modal form */
+
+    const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+    const [tutor, setTutor] = useState({});
+
+    const handleViewOpen = (data) => {
+        setIsViewModalOpen(true);
+        setTutor(data);
+    };
+    /**View  Modal form end */
+
+
 
     const handlePageChange = (page) => {
         setPage(page)
@@ -207,6 +223,12 @@ const AllTutor = () => {
                                     />
 
 
+                                    <TutorView
+                                        isViewModalOpen={isViewModalOpen}
+                                        setIsViewModalOpen={setIsViewModalOpen}
+                                        tutor={tutor} />
+
+
 
 
 
@@ -223,7 +245,7 @@ const AllTutor = () => {
                                             subHeaderComponent={
                                                 <DebouncedSearchInput
                                                     allowClear
-                                                    placeholder="Search subject name "
+                                                    placeholder="Search Tutor name "
                                                     onChange={setSearch}
                                                 />
                                             }

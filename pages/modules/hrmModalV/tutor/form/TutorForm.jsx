@@ -9,20 +9,18 @@ import { mapArrayToDropdown } from '../../../../../helpers/common_Helper.js';
 import { useGetAllData } from '../../../../../utils/hooks/useGetAllData.js';
 
 const TutorForm = (props) => {
-    const { isModalOpen, setIsModalOpen, isParentRender, setEditData } = props;
-    const notify = useCallback((type, message) => {
-        ToastMessage({ type, message });
-      }, []);
-      const { Option } = Select;
-      const [form] = Form.useForm();
-      const [loading, setLoading] = useState(false);
-      const [city, setCity] = useState([]);
-      const [location, setLocation] = useState([]);
-      
-  // const [cityList, setAllCityList] = useState([]);
-  // const [locationList, setAllLocationList] = useState([]);
-  console.log(locationList);
-  const phoneNumberPattern = /^(?:01[3-9])\d{8}$/; 
+  const { isModalOpen, setIsModalOpen, isParentRender, setEditData } = props;
+  const notify = useCallback((type, message) => {
+    ToastMessage({ type, message });
+  }, []);
+  const { Option } = Select;
+  const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
+  const [city, setCity] = useState([]);
+  const [location, setLocation] = useState([]);
+
+
+  const phoneNumberPattern = /^(?:01[3-9])\d{8}$/;
 
 
 
@@ -48,7 +46,7 @@ const TutorForm = (props) => {
     setCity(CITYDROPDOWN);
   }, [cityList]);
 
- /** end city dropdown */
+  /** end city dropdown */
 
 
 
@@ -79,10 +77,10 @@ const TutorForm = (props) => {
 
 
 
-  
 
- /** from design  */
- const layout = {
+
+  /** from design  */
+  const layout = {
     labelCol: {
       span: 6,
     },
@@ -96,10 +94,10 @@ const TutorForm = (props) => {
       span: 16,
     },
   };
-/** end from design  */
+  /** end from design  */
 
 
-/** create from or edit from   */
+  /** create from or edit from   */
 
   if (setEditData != null) {
     form.setFieldsValue({
@@ -115,12 +113,12 @@ const TutorForm = (props) => {
   } else {
     form.resetFields();
   }
-/** create from or edit from end  */
+  /** create from or edit from end  */
 
 
 
-/** create from or edit from submits  */
-const onFinish = async (values) => {
+  /** create from or edit from submits  */
+  const onFinish = async (values) => {
     setLoading(true);
     if (setEditData?._id) {
       try {
@@ -148,13 +146,13 @@ const onFinish = async (values) => {
     setIsModalOpen(!isModalOpen);
     setLoading(false);
   };
-/** create from or edit from submits end  */
+  /** create from or edit from submits end  */
 
 
   const onFinishFailed = (errorInfo) => {
     notify('error', errorInfo);
   };
-  
+
   return (
     <Modal
       title={setEditData != null ? 'Update Tutor' : 'Add Tutor'}
@@ -220,7 +218,7 @@ const onFinish = async (values) => {
             {
               required: true,
               message: 'Please select City!',
-              
+
             },
           ]}
           hasFeedback
@@ -241,13 +239,13 @@ const onFinish = async (values) => {
             {
               required: true,
               message: 'Please select Location!',
-              
+
             },
           ]}
           hasFeedback
 
         >
-              <Select
+          <Select
             // mode="multiple"
             placeholder="Please select Location"
             options={location}

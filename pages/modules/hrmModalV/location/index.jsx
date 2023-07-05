@@ -12,6 +12,7 @@ import { Button, Modal, Tag, Row, Breadcrumb, Layout, theme } from 'antd';
 import moment from 'moment';
 import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import LocationForm from './form/LocationForm';
+import LocationView from './view/LocationView';
 import { ExclamationCircleFilled } from '@ant-design/icons';
 import DebouncedSearchInput from './../../../../components/elements/DebouncedSearchInput';
 // LocationForm
@@ -58,6 +59,19 @@ const Managelocation = () => {
         setPage(page);
         setPerPage(newPerPage);
     };
+
+
+
+    /**View  Modal form */
+
+    const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+    const [location, setLocation] = useState({});
+
+    const handleViewOpen = (data) => {
+        setIsViewModalOpen(true);
+        setLocation(data);
+    };
+    /**View  Modal form end */
 
     const {
         data: locationList,
@@ -223,6 +237,12 @@ const Managelocation = () => {
                                         isParentRender={reFetchHandler}
                                         setEditData={editData}
                                     />
+
+
+                                    <LocationView
+                                        isViewModalOpen={isViewModalOpen}
+                                        setIsViewModalOpen={setIsViewModalOpen}
+                                        location={location} />
 
                                     <div className="">
 

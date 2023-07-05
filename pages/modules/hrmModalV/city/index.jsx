@@ -15,6 +15,8 @@ import { useGetAllData } from '../../../../utils/hooks/useGetAllData';
 import DebouncedSearchInput from './../../../../components/elements/DebouncedSearchInput';
 import HeadSection from '../../../../components/HeadSection';
 import CityForm from './form/CityFrom';
+import CityView from './view/CityView';
+
 import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 
 const AllCity = () => {
@@ -46,6 +48,22 @@ const AllCity = () => {
         setIsModalOpen(true)
     }
     /** Update modal end  */
+
+
+      /**View  Modal form */
+
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [city, setCity] = useState({});
+
+  const handleViewOpen = (data) => {
+    setIsViewModalOpen(true);
+    setCity(data);
+  };
+  /**View  Modal form end */
+
+
+
+
     const handlePerRowsChange = async (newPerPage, page) => {
         setPage(page);
         setPerPage(newPerPage);
@@ -200,6 +218,12 @@ const AllCity = () => {
                                         isParentRender={reFetchHandler}
                                         setEditData={editData}
                                     />
+
+
+<CityView
+                    isViewModalOpen={isViewModalOpen}
+                    setIsViewModalOpen={setIsViewModalOpen}
+                    city={city} />
 
 
 

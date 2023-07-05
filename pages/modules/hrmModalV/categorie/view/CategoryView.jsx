@@ -1,11 +1,13 @@
 import { Card, Descriptions, Modal, Tag } from 'antd';
 import moment from 'moment';
+import DataTable from 'react-data-table-component';
 
-function SubjectView(props) {
-  const { isViewModalOpen, setIsViewModalOpen, subject } = props;
+function CategoryView(props) {
+  const { isViewModalOpen, setIsViewModalOpen, category } = props;
+
   return (
     <Modal
-      title={'Subject Info'}
+      title={'category Info'}
       style={{ top: 20 }}
       centered
       open={isViewModalOpen}
@@ -17,24 +19,26 @@ function SubjectView(props) {
       <Card bordered={false}>
         <Descriptions >
           <Descriptions.Item label="Subject Name">
-            {subject?.name}
+            {category?.name}
           </Descriptions.Item>
           <Descriptions.Item label="Status">
-            {subject?.status == true ? (
+            {category?.status == true ? (
               <Tag color='green'>Active</Tag>
             ) : (
               <Tag color='volcano'>Inactive</Tag>
             )}
           </Descriptions.Item>
           <Descriptions.Item label="Created at">
-            {moment(subject?.createdAt).format('DD-MM-YYYY')}
+            {moment(category?.createdAt).format('DD-MM-YYYY')}
           </Descriptions.Item>
           <Descriptions.Item label="Updated at">
-            {moment(subject?.updatedAt).format('DD-MM-YYYY')}
+            {moment(category?.updatedAt).format('DD-MM-YYYY')}
           </Descriptions.Item>
+
+          
         </Descriptions>
       </Card>
     </Modal>
   );
 }
-export default SubjectView;
+export default CategoryView;
