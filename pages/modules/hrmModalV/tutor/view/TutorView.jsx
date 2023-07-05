@@ -3,11 +3,11 @@ import moment from 'moment';
 
 function TutorView(props) {
     const { isViewModalOpen, setIsViewModalOpen, tutor } = props;
-    console.log("guargian", tutor);
+    console.log("tutor", tutor);
     return (
         <div>
             <Modal
-                title={'tutor Info'}
+                title={'Tutor Info'}
                 style={{ top: 20 }}
                 centered
                 open={isViewModalOpen}
