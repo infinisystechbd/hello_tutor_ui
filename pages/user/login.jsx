@@ -153,13 +153,6 @@ const LoginPage = () => {
 
                 }
 
-
-
-
-
-
-
-
                 <div className="d-flex justify-content-between align-items-center">
                   {/* Checkbox */}
                   <div className="form-check mb-0">
@@ -226,13 +219,6 @@ const LoginPage = () => {
                           Login
                         </a>
                       </p>)}
-
-
-
-
-
-
-
 
                 </div>
               </form>
