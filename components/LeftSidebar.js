@@ -42,7 +42,8 @@ const Leftsidebar = ({ collapsed }) => {
       label: 'Job Handeler',
       children: [
       
-        { key: 'job', label: 'Tutor', path: '/modules/hrmModalV/jobRequest' },
+        { key: 'job', label: 'Job Creation', path: '/modules/hrmModalV/jobRequest' },
+        { key: 'job Assign', label: 'Job Assign', path: '/modules/hrmModalV/jobAssign' },
       ],
     },
   ];
