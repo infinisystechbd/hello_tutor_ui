@@ -27,7 +27,7 @@ const TutorRequestFrom = (props) => {
   const [category, setCategory] = useState([]);
   const [location, setLocation] = useState([]);
   const phoneNumberPattern = /^(?:01[3-9])\d{8}$/;
-
+const isApproval = true;
   // setCity
   const layout = {
     labelCol: {
@@ -250,7 +250,7 @@ const TutorRequestFrom = (props) => {
 
     try {
       if (setEditData?._id) {
-        const update = await put(JOB_REQUEST_END_POINT.update(setEditData?._id), values, formattedDate, formattedTime);
+        const update = await put(JOB_REQUEST_END_POINT.update(setEditData?._id), values, formattedDate, formattedTime,isApproval);
         console.log(update)
         if (update.status === 'SUCCESS') {
           notify('success', update.message);
