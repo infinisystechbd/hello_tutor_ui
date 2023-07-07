@@ -84,7 +84,7 @@ const Managelocation = () => {
 
 
     const reFetchHandler = (isRender) => {
-        if (isRender) fetchClassList();
+        if (isRender) fetchLocationList();
     };
 
     const handlePageChange = (page) => {

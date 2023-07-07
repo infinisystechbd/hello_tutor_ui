@@ -103,27 +103,28 @@ function SubjectForm(props) {
           maxWidth: 600,
         }}
       >
-        <Form.Item
-          name="name"
-          label="Subject Name"
-          rules={[
-            {
-              required: true,
-              message: 'Subject name is required',
-            },
-            {
-              pattern: /^[A-Za-z\s]+$/,
-              message: 'Subject name should only contain letters and spaces',
-            },
-            {
-              max: 50,
-              message: 'Subject name should not exceed 50 characters',
-            },
-          ]}
-          hasFeedback
-        >
-          <Input />
-        </Form.Item>
+<Form.Item
+  name="name"
+  label="Subject Name"
+  rules={[
+    {
+      required: true,
+      message: 'Subject name is required',
+    },
+    {
+      pattern: /^[A-Za-z0-9\s]+$/,
+      message: 'Subject name should only contain letters, numbers, and spaces',
+    },
+    {
+      max: 50,
+      message: 'Subject name should not exceed 50 characters',
+    },
+  ]}
+  hasFeedback
+>
+  <Input />
+</Form.Item>
+
         <Form.Item
           name="status"
           label="Status"

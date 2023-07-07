@@ -570,12 +570,7 @@ const TutorRequestFrom = (props) => {
                     <Form.Item
                       label="Preference Institute Name"
                       name="preferenceInstitute"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Preference Institute Name is required',
-                        },
-                      ]}
+          
                     >
                       <Input
                         placeholder="Enter preference institute name"
@@ -633,12 +628,12 @@ const TutorRequestFrom = (props) => {
                     <Form.Item
                       label="More Requirement"
                       name="requirement"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Requirement is required',
-                        },
-                      ]}
+                      // rules={[
+                      //   {
+                      //     required: true,
+                      //     message: 'Requirement is required',
+                      //   },
+                      // ]}
                     >
                       <Input.TextArea
                         rows={2}
