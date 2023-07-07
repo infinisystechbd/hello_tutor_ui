@@ -5,4 +5,5 @@ export const LOCATION_END_POINT = {
     info: (id) => `/location/${id}`,
     update: (id) => `/location/${id}`,
     delete:(id) => `/location/${id}`,
+    getLocationByCityId: (id) => `/location/city/${id}`
 }

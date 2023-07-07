@@ -1,8 +1,8 @@
-import React from 'react';
-import { Menu, Layout } from 'antd';
-import { FileOutlined, PieChartOutlined, UserOutlined } from '@ant-design/icons';
+import { DashboardOutlined, FileOutlined } from '@ant-design/icons';
+import { Layout, Menu } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import React from 'react';
 
 const { Sider } = Layout;
 
@@ -19,6 +19,12 @@ const Leftsidebar = ({ collapsed }) => {
       
         { key: 'users', label: 'User', path: '/modules/hrmModalV/users' },
       ],
+    },
+    {
+      key: 'dashboard',
+      icon: <DashboardOutlined />,
+      label: 'Dashboard',
+      path: '/dashboard/dashboard'
     },
   
     {

@@ -1,11 +1,21 @@
-import React from 'react';
+import { LoginOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Button, Layout } from 'antd';
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/router';
+import React from 'react';
 
 const { Header } = Layout;
 
+
+
 const Navbar = ({ collapsed, toggleCollapsed }) => {
     const colorBgContainer = '#ffffff';
+
+    const router = useRouter();
+const onLogout = async () => {
+  localStorage.clear();
+  await router.replace("/");
+  await router.reload();
+}
   return (
     <Header
       style={{
@@ -23,6 +33,14 @@ const Navbar = ({ collapsed, toggleCollapsed }) => {
           height: 64,
         }}
       />
+
+
+<span className="float-end me-3">
+
+<Button type="link" onClick={onLogout}  icon={<LoginOutlined />} size="large">
+      
+  </Button>
+        </span>
     </Header>
   );
 };

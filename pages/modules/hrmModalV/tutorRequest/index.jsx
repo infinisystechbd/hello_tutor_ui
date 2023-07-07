@@ -1,34 +1,27 @@
+import { DatePicker, TimePicker } from 'antd';
+import { format } from 'date-fns';
 import Link from 'next/link';
-import React, { useCallback, useEffect, useState, Fragment } from 'react';
-import { Button, Modal, Form, Table } from 'react-bootstrap';
+import React, { Fragment, useCallback, useEffect, useState } from 'react';
+import { Button, Form, Modal } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
-import Axios from '../../../';
+import HeadSection from '../../../../components/HeadSection';
 import ToastMessage from '../../../../components/Toast';
 import DeleteIcon from '../../../../components/elements/DeleteIcon';
 import EditIcon from '../../../../components/elements/EditIcon';
-import ViewIcon from '../../../../components/elements/ViewIcon';
-import { GUARDIAN_END_POINT } from '../../../../constants/api_endpoints/guardianEndPoints';
-import { CATEGORIE_END_POINT } from '../../../../constants/api_endpoints/categorieEndPoints';
-import { LOCATION_END_POINT } from "../../../../constants/api_endpoints/locationEndPoints";
-import { CITY_END_POINT } from "../../../../constants/api_endpoints/cityEndPoints";
-import { CLASS_END_POINT } from "../../../../constants/api_endpoints/classEndPoints";
-import { TUTOR_END_POINT } from "../../../../constants/api_endpoints/tutorEndPoints";
-import { SUBJECT_END_POINT } from "../../../../constants/api_endpoints/subectEndPoints";
-import { JOB_REQUEST_END_POINT } from "../../../../constants/api_endpoints/jobRequestEndPoints";
-import { QUERY_KEYS } from "../../../../constants/queryKeys";
-import { del, get, post, put } from '../../../../helpers/api_helper';
-import { useGetAllData } from "../../../../utils/hooks/useGetAllData";
-import HeadSection from '../../../../components/HeadSection';
+import RadioButton from '../../../../components/elements/RadioButton';
 import Select from '../../../../components/elements/Select';
 import Select2 from '../../../../components/elements/Select2';
-import TextInput from '../../../../components/elements/TextInput';
-import Label from '../../../../components/elements/Label';
-import moment from 'moment';
-import RadioButton from '../../../../components/elements/RadioButton';
-import { DatePicker } from 'antd';
-import { TimePicker } from 'antd';
-import { format } from 'date-fns';
-import dayjs from 'dayjs';
+import ViewIcon from '../../../../components/elements/ViewIcon';
+import { CATEGORIE_END_POINT } from '../../../../constants/api_endpoints/categorieEndPoints';
+import { CITY_END_POINT } from "../../../../constants/api_endpoints/cityEndPoints";
+import { CLASS_END_POINT } from "../../../../constants/api_endpoints/classEndPoints";
+import { GUARDIAN_END_POINT } from '../../../../constants/api_endpoints/guardianEndPoints';
+import { JOB_REQUEST_END_POINT } from "../../../../constants/api_endpoints/jobRequestEndPoints";
+import { LOCATION_END_POINT } from "../../../../constants/api_endpoints/locationEndPoints";
+import { SUBJECT_END_POINT } from "../../../../constants/api_endpoints/subectEndPoints";
+import { QUERY_KEYS } from "../../../../constants/queryKeys";
+import { get, post } from '../../../../helpers/api_helper';
+import { useGetAllData } from "../../../../utils/hooks/useGetAllData";
 
 
 
@@ -777,7 +770,7 @@ const ManageRequestTutor = () => {
 
               <div className="d-flex border-bottom title-part-padding align-items-center">
                 <div>
-                  <h4 class="card-title mb-0">All TUTOR</h4>
+                  <h4 className="card-title mb-0">All TUTOR</h4>
                 </div>
                 <div className="ms-auto flex-shrink-0">
                   <Button
