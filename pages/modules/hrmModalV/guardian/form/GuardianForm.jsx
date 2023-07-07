@@ -1,10 +1,9 @@
 import { Button, Form, Input, Modal, Select } from 'antd';
-import { useRouter } from 'next/router';
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import ToastMessage from '../../../../../components/Toast';
-import { GUARDIAN_END_POINT, LOCATION_END_POINT, CITY_END_POINT } from '../../../../../constants/index';
-import { get, post, put } from '../../../../../helpers/api_helper';
+import { CITY_END_POINT, GUARDIAN_END_POINT, LOCATION_END_POINT } from '../../../../../constants/index';
 import { QUERY_KEYS } from '../../../../../constants/queryKeys.js';
+import { get, post, put } from '../../../../../helpers/api_helper';
 import { mapArrayToDropdown } from '../../../../../helpers/common_Helper.js';
 import { useGetAllData } from '../../../../../utils/hooks/useGetAllData.js';
 
@@ -17,10 +16,11 @@ function GuardianForm(props) {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [city, setCity] = useState([]);
+  const [selectCity, setSelectCity] = useState(null);
   const [location, setLocation] = useState([]);
   const phoneNumberPattern = /^(?:01[3-9])\d{8}$/;
-
-
+  const [isEdit , setIsEdit] = useState(false);
+  const [visited, setIsVisited] = useState(false);
 
   /** Fetch city */
   const {
@@ -49,24 +49,16 @@ function GuardianForm(props) {
 
   /**fetch location list */
 
-  const {
-    data: locationList,
-    refetch: fetchLocationList,
-  } = useGetAllData(
-    QUERY_KEYS.GET_ALL_LOCATION_LIST,
-    LOCATION_END_POINT.get(1, -1, '')
+  const handleCity = async (value) => {    
+    setIsVisited(true);
+  const fetchLocation = await get(LOCATION_END_POINT.getLocationByCityId(value));
+   const LOCATIONDROPDOWN = mapArrayToDropdown(
+    fetchLocation.data,
+    'name',
+    '_id'
   );
-
-  /**location dropdown */
-  useEffect(() => {
-    const LOCATIONDROPDOWN = mapArrayToDropdown(
-      locationList?.data,
-      'name',
-      '_id'
-    );
-    setLocation(LOCATIONDROPDOWN);
-  }, [locationList]);
-
+    setLocation(LOCATIONDROPDOWN)
+  }
 
   /**fetch location list  End */
 
@@ -90,21 +82,30 @@ function GuardianForm(props) {
 
 
 /** create from or edit from   */
+  
 
-  if (setEditData != null) {
-    form.setFieldsValue({
-      fullName: setEditData.fullName,
-      phone: setEditData.phone,
-      city: setEditData.city,
-      location: setEditData.location,
-      address: setEditData.address,
-      email: setEditData.email,
-      isPortalAccess: setEditData.isPortalAccess,
-      status: setEditData.status,
-    });
-  } else {
-    form.resetFields();
-  }
+    if (setEditData != null && visited == false ) {
+      form.setFieldsValue({
+        fullName: setEditData?.fullName,
+        phone: setEditData?.phone,
+        city: setEditData?.city,
+        location: setEditData?.location,
+        address: setEditData?.address,
+        email: setEditData?.email,
+        isPortalAccess: setEditData?.isPortalAccess,
+        status: setEditData?.status,
+      });
+    } else if(setEditData == null && visited == false  ) {
+      form.resetFields();
+    }
+
+    const afterModalClose = () => {
+      setIsVisited(false)
+    }
+    
+
+
+ 
 /** create from or edit from end  */
 
 
@@ -152,8 +153,11 @@ function GuardianForm(props) {
       centered
       open={isModalOpen}
       footer={null}
-      onOk={() => setIsModalOpen(false)}
-      onCancel={() => setIsModalOpen(false)}
+      afterClose={afterModalClose}
+      onOk={() => setIsModalOpen(false)
+      }
+      onCancel={() =>setIsModalOpen(false) 
+       }
     >
       <Form
         className='mt-3'
@@ -185,7 +189,7 @@ function GuardianForm(props) {
           ]}
           hasFeedback
         >
-          <Input />
+          <Input  />
         </Form.Item>
 
         <Form.Item
@@ -216,7 +220,7 @@ function GuardianForm(props) {
           hasFeedback
         >
           <Select
-            // mode="multiple"
+            onChange={handleCity}
             placeholder="Please select City"
             options={city}
           />

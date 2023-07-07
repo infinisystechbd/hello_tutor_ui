@@ -1,20 +1,16 @@
-import Link from 'next/link';
-import React, { useCallback, useEffect, useState, Fragment } from 'react';
-import { Form } from 'react-bootstrap';
+import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, EyeOutlined } from '@ant-design/icons';
+import { Breadcrumb, Button, Layout, Modal, Row, Tag, theme } from 'antd';
+import React, { useCallback, useState } from 'react';
 import DataTable from 'react-data-table-component';
-import ToastMessage from '../../../../components/Toast';
-import { LOCATION_END_POINT, CITY_END_POINT } from "../../../../constants/index";
-import { QUERY_KEYS } from "../../../../constants/queryKeys";
-import { del, get, post, put } from '../../../../helpers/api_helper';
-import { useGetAllData } from "../../../../utils/hooks/useGetAllData";
 import HeadSection from '../../../../components/HeadSection';
-import { Button, Modal, Tag, Row, Breadcrumb, Layout, theme } from 'antd';
-import moment from 'moment';
-import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+import ToastMessage from '../../../../components/Toast';
+import { LOCATION_END_POINT } from "../../../../constants/index";
+import { QUERY_KEYS } from "../../../../constants/queryKeys";
+import { del } from '../../../../helpers/api_helper';
+import { useGetAllData } from "../../../../utils/hooks/useGetAllData";
+import DebouncedSearchInput from './../../../../components/elements/DebouncedSearchInput';
 import LocationForm from './form/LocationForm';
 import LocationView from './view/LocationView';
-import { ExclamationCircleFilled } from '@ant-design/icons';
-import DebouncedSearchInput from './../../../../components/elements/DebouncedSearchInput';
 // LocationForm
 
 
@@ -214,7 +210,7 @@ const Managelocation = () => {
                                 <div className=" ">
                                     <div className="d-flex border-bottom title-part-padding align-items-center">
                                         <div>
-                                            <h4 class="card-title mb-0">All Location </h4>
+                                            <h4 className="card-title mb-0">All Location </h4>
                                         </div>
                                         <div className="ms-auto flex-shrink-0">
                                             <Button

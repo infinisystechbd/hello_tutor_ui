@@ -1,20 +1,18 @@
 import { ExclamationCircleFilled } from '@ant-design/icons';
-import { Button, Modal, Tag, Row, Breadcrumb, Layout, theme } from 'antd';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useCallback, useState, useEffect } from 'react';
+import { Breadcrumb, Button, Layout, Modal, Row, Tag, theme } from 'antd';
+import { useCallback, useState } from 'react';
 import DataTable from 'react-data-table-component';
+import HeadSection from '../../../../components/HeadSection';
 import ToastMessage from '../../../../components/Toast';
 import { TUTOR_END_POINT } from '../../../../constants/index';
 import { QUERY_KEYS } from '../../../../constants/queryKeys';
-import { del, get } from '../../../../helpers/api_helper';
+import { del } from '../../../../helpers/api_helper';
 import { useGetAllData } from '../../../../utils/hooks/useGetAllData';
 import DebouncedSearchInput from './../../../../components/elements/DebouncedSearchInput';
-import HeadSection from '../../../../components/HeadSection';
 import TutorForm from './form/TutorForm';
 import TutorView from './view/TutorView';
 
-import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 const AllTutor = () => {
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
@@ -198,7 +196,7 @@ const AllTutor = () => {
                                 <div className=" ">
                                     <div className="d-flex border-bottom title-part-padding align-items-center">
                                         <div>
-                                            <h4 class="card-title mb-0">All Tutor</h4>
+                                            <h4 className="card-title mb-0">All Tutor</h4>
                                         </div>
                                         <div className="ms-auto flex-shrink-0">
                                             <Button
