@@ -88,6 +88,11 @@ height: 100%;
   --card-rgb: 180, 185, 188;
   --card-border-rgb: 131, 134, 135;
 }
+.custom-card .ant-card-head-title {
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 @media (prefers-color-scheme: dark) {
   :root {

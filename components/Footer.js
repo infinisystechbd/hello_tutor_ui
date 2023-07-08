@@ -1,5 +1,5 @@
 import { Layout } from 'antd';
-import React from 'react'
+import React from 'react';
 
 const Footer = () => {
     const { Footer } = Layout;
@@ -9,7 +9,7 @@ const Footer = () => {
                 textAlign: 'center',
             }}
         >
-            Ant Design ©2023 Created by Ant UED
+            Infisis Design ©2023 Created by DEV TEAMS
         </Footer>
     )
 }
