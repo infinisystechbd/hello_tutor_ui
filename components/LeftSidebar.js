@@ -2,12 +2,13 @@ import { DashboardOutlined, FileOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 
 const { Sider } = Layout;
 
-const Leftsidebar = ({ collapsed }) => {
+const Leftsidebar = ({collapsed}) => {
   const router = useRouter();
+  const [collapse, setCollapse] = useState(collapsed);
 
   const menuItems = [
 
@@ -76,7 +77,10 @@ const Leftsidebar = ({ collapsed }) => {
   };
 
   return (
-    <Sider trigger={null} collapsible collapsed={collapsed}>
+    <Sider trigger={null} collapsible collapsed={collapse} breakpoint="md"
+    onBreakpoint={(broken) => {
+      setCollapse(broken);
+    }}>
       <div className="demo-logo-vertical" />
       <Menu theme="dark" mode="inline" defaultSelectedKeys={[router.pathname]}>
         {renderMenuItems(menuItems)}
