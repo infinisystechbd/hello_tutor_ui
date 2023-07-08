@@ -2,6 +2,7 @@ import { DingtalkOutlined, EnvironmentOutlined, ReadOutlined } from '@ant-design
 import { faPerson, faPersonDress } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Card, Col, Row, Typography } from 'antd';
+import { useRouter } from 'next/router';
 import React, { Fragment } from 'react';
 import { DASHBOARD_END_POINT } from '../../constants';
 import { QUERY_KEYS } from '../../constants/queryKeys';
@@ -11,9 +12,11 @@ const dashboard = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const {data: dashboard } = useGetAllData(QUERY_KEYS.GET_ALL_DASHBOARD, DASHBOARD_END_POINT.dashbord(true));
   console.log("dashboard",dashboard);
-  
-  const onDetails = (value) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const router = useRouter();
+  const onDetails = async(value) => {
     console.log(value);
+    await router.push(`/dashboard/jobDetails/${value}`)
   }
   return (
     <Fragment>
