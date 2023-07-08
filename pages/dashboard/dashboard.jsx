@@ -11,12 +11,11 @@ const { Text, Link } = Typography;
 const dashboard = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const {data: dashboard } = useGetAllData(QUERY_KEYS.GET_ALL_DASHBOARD, DASHBOARD_END_POINT.dashbord(true));
-  console.log("dashboard",dashboard);
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter();
   const onDetails = async(value) => {
     console.log(value);
-    await router.push(`/dashboard/jobDetails/${value}`)
+    await router.push(`/dashboard/${value}`)
   }
   return (
     <Fragment>
