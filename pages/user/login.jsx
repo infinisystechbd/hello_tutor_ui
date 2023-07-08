@@ -17,8 +17,9 @@ const LoginPage = () => {
   const [gender, setGender] = useState('female');
   const [guardianFrom, setGuardianFrom] = useState(false);
   const [verify, setVerify] = useState(true);
-  const [id,setId] = useState("")
-  const[vtoken,setVToken] = useState(null)
+  const [id,setId] = useState("");
+  const[otp,setOtp] = useState("")
+  
   console.log(guardianFrom);
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
@@ -75,7 +76,9 @@ const LoginPage = () => {
       //  const res = 
       console.log(guardianReg, "alll", guardianReg.status);
       // setToken(guardianReg.accessToken);
+
       notify("success", "successfully Registration!");
+      setId(guardianReg._id);
       setVerify(false)
     } catch (error) {
       let message;
@@ -89,10 +92,11 @@ const LoginPage = () => {
   const tutorRegForm = async (event) => {
     event.preventDefault();
     try {
-      const guardianReg = await post(SECURITY_END_POINT.tutorReg(), { fullName: fullName, phone: phone, gender: gender, password: password, confirmPassword: confirmPassword });
+      const tutorReg = await post(SECURITY_END_POINT.tutorReg(), { fullName: fullName, phone: phone, gender: gender, password: password, confirmPassword: confirmPassword });
       //  const res = 
-      console.log(guardianReg, "alll", guardianReg.status);
-      // setToken(guardianReg.accessToken);
+      console.log(tutorReg, "alll", tutorReg.status);
+      // setToken(tutorReg.accessToken);
+      setId(tutorReg._id);
       notify("success", "successfully Registration!");
       setVerify(false)
 
@@ -110,6 +114,46 @@ const LoginPage = () => {
 
   const handleRegister = () => {
     setValue(!value); // Toggles the value between true and false
+  };
+
+
+  // const tokenHandeler = async(event) =>{
+  //   event.preventDefault();
+  //   try {
+  //     const tutorReg = await post(SECURITY_END_POINT.verifyOtp(), { fullName: fullName, phone: phone, gender: gender, password: password, confirmPassword: confirmPassword });
+  //     //  const res = 
+  //     console.log(tutorReg, "alll", tutorReg.status);
+  //     // setToken(tutorReg.accessToken);
+  //     setId(tutorReg._id);
+  //     notify("success", "successfully Registration!");
+  //     setVerify(false)
+
+  //   } catch (error) {
+  //     let message;
+  //     console.log(error);
+
+  //     notify("error", message);
+  //   }
+  // }
+  const [loading, setLoading] = useState(false);
+
+
+  const tokenHandeler = async (event) => {
+    // id,otp
+    event.preventDefault();
+    setLoading(true);
+  
+      try {
+        const update = await post(SECURITY_END_POINT.verifyOtp(id),{token:otp});
+        if (update.status == 'SUCCESS') {
+          notify('success', update.message);
+   
+        }
+      } catch (error) {
+        notify('error', update.errorMessage);
+        setLoading(false);
+      }
+    setLoading(false);
   };
 
   return (
@@ -528,7 +572,9 @@ const LoginPage = () => {
 
                     value ?
 
-                      (<p className="small fw-bold mt-2 pt-1 mb-0">
+                      (
+                      
+                      <p className="small fw-bold mt-2 pt-1 mb-0">
                         Dont have an account?{" "}
                         <a onClick={(e) => {
                           e.preventDefault();
@@ -536,7 +582,10 @@ const LoginPage = () => {
                         }} href="#!" className="link-danger">
                           Register
                         </a>
-                      </p>) :
+                      </p>
+                      
+                      
+                      ) :
 
 
                       (<p className="small fw-bold mt-2 pt-1 mb-0">
@@ -562,11 +611,18 @@ const LoginPage = () => {
                           className="form-control form-control-lg"
                           placeholder="Enter Token"
                           // value={phone}
-                           onChange={e => setVToken(e.target.value)}
+                           onChange={e => setOtp(e.target.value)}
                         />
                         <label className="form-label" htmlFor="form3Example3">
                           Token
                         </label>
+
+                        <a onClick={(e) => {
+                          e.preventDefault();
+                          tokenHandeler();
+                        }} href="#!" className="link-danger">
+                          Send
+                        </a>
                       </div>
               </>
               
