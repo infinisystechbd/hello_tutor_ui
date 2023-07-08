@@ -10,6 +10,7 @@ const { Text, Link } = Typography;
 const dashboard = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const {data: dashboard } = useGetAllData(QUERY_KEYS.GET_ALL_DASHBOARD, DASHBOARD_END_POINT.dashbord(true));
+  console.log("dashboard",dashboard);
   
   const onDetails = (value) => {
     console.log(value);

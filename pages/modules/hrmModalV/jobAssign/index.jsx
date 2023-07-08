@@ -8,7 +8,7 @@ import { QUERY_KEYS } from '../../../../constants/queryKeys.js';
 import { mapArrayToDropdown } from '../../../../helpers/common_Helper.js';
 import { useGetAllData } from '../../../../utils/hooks/useGetAllData.js';
 import HeadSection from '../../../../components/HeadSection';
-function GuardianForm(props) {
+function JobAssign(props) {
     const { isModalOpen, setIsModalOpen, isParentRender, setEditData } = props;
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
@@ -19,7 +19,7 @@ function GuardianForm(props) {
     const [loading, setLoading] = useState(false);
     const [jobRequest, setJobRequest] = useState([]);
     const [tutor, setTutor] = useState([]);
-    console.log(tutor);
+    console.log("tutor",tutor);
     const phoneNumberPattern = /^(?:01[3-9])\d{8}$/;
     const { confirm } = Modal;
     const { Content } = Layout;
@@ -50,12 +50,11 @@ function GuardianForm(props) {
     /**TUTOR dropdown */
     useEffect(() => {
         const TUTORDROPDOWN = mapArrayToDropdown(
-            jobRequestList?.data[0]?.requestedTutor,
-            'fullName',
-            '_id'
+            jobRequestList?.data[0]?.requestedTutor[0],
         );
         setTutor(TUTORDROPDOWN);
     }, [jobRequestList]);
+
 
 
     /**fetch TUTOR list  End */
@@ -231,4 +230,4 @@ function GuardianForm(props) {
 
     );
 }
-export default GuardianForm;
+export default JobAssign;
