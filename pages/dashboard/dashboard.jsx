@@ -61,7 +61,7 @@ const dashboard = () => {
                     
                     </Col>
                     <Col>
-                    <Button type="primary" onClick={(t)=> onDetails(t)}>Details</Button>
+                    <Button type="primary" onClick={() =>onDetails(t.jobId)}>Details</Button>
                     </Col>
                   
                   
