@@ -7,9 +7,9 @@ import { useGetAllData } from '../../utils/hooks/useGetAllData';
 const JobDetails = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter();
-  const { id } = router?.query;
-  console.log(id)
-  const {data: jobDetail } = useGetAllData(QUERY_KEYS.GET_JOB_DETAILS, DASHBOARD_END_POINT.jobDetails(id));
+  const { Id } = router?.query;
+ 
+ const {data: jobDetail } = useGetAllData(QUERY_KEYS.GET_JOB_DETAILS, DASHBOARD_END_POINT.jobDetails(Id));
   console.log(jobDetail)
   return (
     <div>jobDetails</div>
