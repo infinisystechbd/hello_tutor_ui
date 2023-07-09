@@ -239,7 +239,7 @@ const AllTutor = () => {
 
                                         <DataTable
                                             columns={columns}
-                                            data={tutorList?.data}
+                                            data={tutorList?.data?.data}
                                             pagination
                                             paginationServer
                                             highlightOnHover

@@ -89,7 +89,7 @@ const AllGuardian = () => {
         isLoading,
         refetch: fetchGuardianList,
     } = useGetAllData(QUERY_KEYS.GET_ALL_GUARDIAN_LIST, GUARDIAN_END_POINT.get(page, limit, search));
-
+console.log(guardianList?.data);
 
     const reFetchHandler = (isRender) => {
         if (isRender) fetchGuardianList();
@@ -243,7 +243,7 @@ const AllGuardian = () => {
 
 <DataTable
                       columns={columns}
-                      data={guardianList?.data}
+                      data={guardianList?.data?.data}
                       pagination
                       paginationServer
                       highlightOnHover
