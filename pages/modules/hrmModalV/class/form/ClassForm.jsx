@@ -1,4 +1,4 @@
-import { Button, Form, Input, Modal, Select } from 'antd';
+import { Button, Form, Input, Modal, Select, InputNumber } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import ToastMessage from '../../../../../components/Toast';
 import {
@@ -146,12 +146,38 @@ function ClassForm(props) {
           rules={[
             {
               required: true,
+              message: 'Class name is required',
+            },
+            {
+              pattern: /^[A-Za-z][A-Za-z0-9\s]*$/,
+              message: 'Class name should start with a letter and can only contain letters, numbers, and spaces',
+            },
+            {
+              max: 50,
+              message: 'Class name should not exceed 50 characters',
             },
           ]}
           hasFeedback
         >
           <Input />
         </Form.Item>
+        {/* <Form.Item
+  name="name"
+  label="Class"
+  rules={[
+    {
+      required: true,
+      message: 'Class is required',
+    },
+    {
+      type: 'number',
+      message: 'Class should be a number',
+    },
+  ]}
+  hasFeedback
+>
+<InputNumber style={{ width: '100%' }} /> 
+</Form.Item>*/}
         <Form.Item
           name="subject"
           label="Select Subject"

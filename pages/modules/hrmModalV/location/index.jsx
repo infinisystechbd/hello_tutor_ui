@@ -109,7 +109,7 @@ const Managelocation = () => {
                     notify('error', error.message);
                 }
 
-                fetchcityList();
+                fetchLocationList();
             },
             onCancel() {
                 console.log('Cancel');

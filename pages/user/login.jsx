@@ -17,7 +17,7 @@ const LoginPage = () => {
   const [gender, setGender] = useState('female');
   const [guardianFrom, setGuardianFrom] = useState(false);
   const [verify, setVerify] = useState(true);
-  const [id,setId] = useState("");
+  const [userId,setUserId] = useState(null);
   const[otp,setOtp] = useState("")
   
   console.log(guardianFrom);
@@ -78,7 +78,7 @@ const LoginPage = () => {
       // setToken(guardianReg.accessToken);
 
       notify("success", "successfully Registration!");
-      setId(guardianReg._id);
+      setUserId(tutorReg?.data?._id);
       setVerify(false)
     } catch (error) {
       let message;
@@ -96,7 +96,7 @@ const LoginPage = () => {
       //  const res = 
       console.log(tutorReg, "alll", tutorReg.status);
       // setToken(tutorReg.accessToken);
-      setId(tutorReg._id);
+      setUserId(tutorReg?.data?._id);
       notify("success", "successfully Registration!");
       setVerify(false)
 
@@ -124,7 +124,7 @@ const LoginPage = () => {
   //     //  const res = 
   //     console.log(tutorReg, "alll", tutorReg.status);
   //     // setToken(tutorReg.accessToken);
-  //     setId(tutorReg._id);
+  //     setUserId(tutorReg._id);
   //     notify("success", "successfully Registration!");
   //     setVerify(false)
 
@@ -144,16 +144,18 @@ const LoginPage = () => {
     setLoading(true);
   
       try {
-        const update = await post(SECURITY_END_POINT.verifyOtp(id),{token:otp});
+        const update = await post(SECURITY_END_POINT.verifyOtp(userId),{token:otp});
+        console.log(update);
         if (update.status == 'SUCCESS') {
           notify('success', update.message);
    
         }
       } catch (error) {
-        notify('error', update.errorMessage);
+        notify('error', update.error);
         setLoading(false);
       }
     setLoading(false);
+    // console.log(id,otp);
   };
 
   return (
@@ -199,44 +201,7 @@ const LoginPage = () => {
                   (
                     /***login from */
                     <div>
-                      <div className="form-outline mb-4 my-4">
-                        <div className="form-check form-check-inline">
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="gender"
-                            id="male"
-                            value="male"
-                          // checked={gender === 'male'} onChange={e => setGender(e.target.value)}
-                          />
-                          <label className="form-check-label" htmlFor="male">
-                            <img
-                              src="https://www.pngitem.com/pimgs/m/351-3513600_transparent-teacher-cartoon-png-teachers-day-clipart-png.png"
-                              alt="Male"
-                              className="gender-image"
-                              style={{ width: '100px', height: '100px', backgroundSize: 'cover' }}
-                            />
-                          </label>
-                        </div>
-                        <div className="form-check form-check-inline">
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="gender"
-                            id="female"
-                            value="female"
-                          // checked={gender === 'female'} onChange={e => setGender(e.target.value)}
-                          />
-                          <label className="form-check-label" htmlFor="female">
-                            <img
-                              src="https://img.favpng.com/2/0/20/lesson-cartoon-student-png-favpng-f1isHzw7i2t29Uygdk4FrSKzP.jpg"
-                              alt="Female"
-                              className="gender-image"
-                              style={{ width: '100px', height: '100px', backgroundSize: 'cover' }}
-                            />
-                          </label>
-                        </div>
-                      </div>
+                    
                       <div className="form-outline mb-4">
                         <input
                           type="name"
@@ -617,12 +582,24 @@ const LoginPage = () => {
                           Token
                         </label>
 
-                        <a onClick={(e) => {
-                          e.preventDefault();
+                        {/* <a onClick={(e) => {
+                          // e.preventDefault();
                           tokenHandeler();
                         }} href="#!" className="link-danger">
                           Send
-                        </a>
+                        </a> */}
+
+
+
+                        <button
+                                type="submit"
+                                className="btn btn-primary btn-lg"
+                                style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
+
+                                onClick={tokenHandeler}
+                              >
+                                 Send
+                              </button>
                       </div>
               </>
               

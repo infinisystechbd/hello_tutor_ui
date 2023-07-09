@@ -169,8 +169,8 @@ console.log("setEditData",setEditData);
                     hasFeedback
                 >
                     <Select placeholder="Select a option" allowClear>
-                        <Option value={1}>Super Admin</Option>
-                        <Option value={2}>Suport</Option>
+                        {/* <Option value={1}>Super Admin</Option>
+                        <Option value={2}>Suport</Option> */}
                         <Option value={3}>Admin</Option>
                         <Option value={4}>Teacher</Option>
                         <Option value={5}>Guardian</Option>

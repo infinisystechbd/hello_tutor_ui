@@ -144,9 +144,18 @@ function CategoryFrom(props) {
                     label="Category"
                     rules={[
                         {
-                            required: true,
+                          required: true,
+                          message: 'Category name is required',
                         },
-                    ]}
+                        {
+                          pattern: /^[A-Za-z][A-Za-z0-9\s]*$/,
+                          message: 'Category name should start with a letter and can only contain letters, numbers, and spaces',
+                        },
+                        {
+                          max: 50,
+                          message: 'Category name should not exceed 50 characters',
+                        },
+                      ]}
                     hasFeedback
                 >
                     <Input />

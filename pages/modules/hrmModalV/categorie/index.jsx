@@ -219,10 +219,10 @@ const AllCategory = () => {
                                         setEditData={editData}
                                     />
 
-<CategoryView
-                    isViewModalOpen={isViewModalOpen}
-                    setIsViewModalOpen={setIsViewModalOpen}
-                    category={category} />
+                                    <CategoryView
+                                        isViewModalOpen={isViewModalOpen}
+                                        setIsViewModalOpen={setIsViewModalOpen}
+                                        category={category} />
 
                                     <div className="">
                                         <DataTable
@@ -239,7 +239,7 @@ const AllCategory = () => {
                                             subHeaderComponent={
                                                 <DebouncedSearchInput
                                                     allowClear
-                                                    placeholder="Search subject name "
+                                                    placeholder="Search category name "
                                                     onChange={setSearch}
                                                 />
                                             }

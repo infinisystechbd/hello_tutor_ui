@@ -174,27 +174,27 @@ const TutorForm = (props) => {
           maxWidth: 600,
         }}
       >
-        <Form.Item
-          name="fullName"
-          label="FullName"
-          rules={[
-            {
-              required: true,
-              message: 'Full name is required',
-            },
-            {
-              pattern: /^[A-Za-z\s]+$/,
-              message: 'Full name should only contain letters and spaces',
-            },
-            {
-              max: 50,
-              message: 'Full name should not exceed 50 characters',
-            },
-          ]}
-          hasFeedback
-        >
-          <Input />
-        </Form.Item>
+<Form.Item
+  name="fullName"
+  label="Full Name"
+  rules={[
+    {
+      required: true,
+      message: 'Full name is required',
+    },
+    {
+      pattern: /^[A-Z][A-Za-z\s]*$/,
+      message: 'Full name should start with an uppercase letter and can only contain letters and spaces',
+    },
+    {
+      max: 50,
+      message: 'Full name should not exceed 50 characters',
+    },
+  ]}
+  hasFeedback
+>
+  <Input />
+</Form.Item>
 
         <Form.Item
           name="phone"

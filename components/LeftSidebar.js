@@ -1,4 +1,4 @@
-import { DashboardOutlined, FileOutlined } from '@ant-design/icons';
+import { DashboardOutlined, FileOutlined,UserOutlined,SettingOutlined,ContainerOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -12,15 +12,7 @@ const Leftsidebar = ({collapsed}) => {
 
   const menuItems = [
 
-    {
-      key: 'super_admin',
-      icon: <FileOutlined />,
-      label: 'Super Admin',
-      children: [
-      
-        { key: 'users', label: 'User', path: '/modules/hrmModalV/users' },
-      ],
-    },
+
     {
       key: 'dashboard',
       icon: <DashboardOutlined />,
@@ -30,7 +22,7 @@ const Leftsidebar = ({collapsed}) => {
   
     {
       key: '/modules/hrmModalV',
-      icon: <FileOutlined />,
+      icon: <SettingOutlined />,
       label: 'Master Data',
       children: [
         { key: 'subject', label: 'Subject', path: '/modules/hrmModalV/subject' },
@@ -45,12 +37,22 @@ const Leftsidebar = ({collapsed}) => {
 
     {
       key: 'job',
-      icon: <FileOutlined />,
+      icon: <ContainerOutlined />,
       label: 'Job Handeler',
       children: [
       
         { key: 'job', label: 'Job Creation', path: '/modules/hrmModalV/jobRequest' },
         { key: 'job Assign', label: 'Job Assign', path: '/modules/hrmModalV/jobAssign' },
+      ],
+    },
+
+    {
+      key: 'user_manage',
+      icon: <UserOutlined />,
+      label: 'User Manager',
+      children: [
+      
+        { key: 'users', label: 'User', path: '/modules/hrmModalV/users' },
       ],
     },
   ];

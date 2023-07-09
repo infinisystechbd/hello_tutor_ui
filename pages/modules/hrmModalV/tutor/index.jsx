@@ -26,6 +26,8 @@ const AllTutor = () => {
     const [pending, setPending] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editData, setEditData] = useState({});
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(10)
 
     /** Creation modal  */
     const handleShow = () => {
@@ -40,9 +42,9 @@ const AllTutor = () => {
         setIsModalOpen(true)
     }
     /** Update modal end  */
-    const handlePerRowsChange = async (newPerPage, page) => {
+    const handlePerRowsChange = (newLimit, page) => {
         setPage(page);
-        setPerPage(newPerPage);
+        setLimit(newLimit);
     };
 
 
@@ -63,12 +65,13 @@ const AllTutor = () => {
         setPage(page)
     };
 
+
+
     const {
         data: tutorList,
         isLoading,
         refetch: fetchTutorList,
-    } = useGetAllData(QUERY_KEYS.GET_ALL_TUTOR_LIST, TUTOR_END_POINT.get(search));
-
+    } = useGetAllData(QUERY_KEYS.GET_ALL_TUTOR_LIST, TUTOR_END_POINT.get(page, limit, search));
 
 
     const reFetchHandler = (isRender) => {
@@ -231,6 +234,9 @@ const AllTutor = () => {
 
 
                                     <div className="">
+
+
+
                                         <DataTable
                                             columns={columns}
                                             data={tutorList?.data}
@@ -240,10 +246,12 @@ const AllTutor = () => {
                                             subHeader
                                             progressPending={isLoading}
                                             paginationTotalRows={tutorList?.total}
+                                            onChangeRowsPerPage={handlePerRowsChange}
+                                            onChangePage={handlePageChange}
                                             subHeaderComponent={
                                                 <DebouncedSearchInput
                                                     allowClear
-                                                    placeholder="Search Tutor name "
+                                                    placeholder="Search  "
                                                     onChange={setSearch}
                                                 />
                                             }

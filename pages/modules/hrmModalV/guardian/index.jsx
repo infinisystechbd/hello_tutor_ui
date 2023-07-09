@@ -76,18 +76,19 @@ const AllGuardian = () => {
     };
 
 
-    const handlePerRowsChange = async (newPerPage, page) => {
+    const handlePerRowsChange = (newLimit, page) => {
         setPage(page);
-        setPerPage(newPerPage);
-    };
-    const handlePageChange = (page) => {
+        setLimit(newLimit);
+      };
+
+      const handlePageChange = (page) => {
         setPage(page)
-    };
+      };
     const {
         data: guardianList,
         isLoading,
         refetch: fetchGuardianList,
-    } = useGetAllData(QUERY_KEYS.GET_ALL_GUARDIAN_LIST, GUARDIAN_END_POINT.get(1, -1, ''));
+    } = useGetAllData(QUERY_KEYS.GET_ALL_GUARDIAN_LIST, GUARDIAN_END_POINT.get(page, limit, search));
 
 
     const reFetchHandler = (isRender) => {
@@ -219,7 +220,7 @@ const AllGuardian = () => {
 
 
                                     <div className="">
-                                        <DataTable
+                                        {/* <DataTable
                                             columns={columns}
                                             data={guardianList?.data}
                                             pagination
@@ -236,7 +237,30 @@ const AllGuardian = () => {
                                                 />
                                             }
                                             striped
-                                        />
+                                        /> */}
+
+
+
+<DataTable
+                      columns={columns}
+                      data={guardianList?.data}
+                      pagination
+                      paginationServer
+                      highlightOnHover
+                      subHeader
+                      progressPending={isLoading}
+                      paginationTotalRows={guardianList?.total}
+                      onChangeRowsPerPage={handlePerRowsChange}
+                      onChangePage={handlePageChange}
+                      subHeaderComponent={
+                        <DebouncedSearchInput
+                          allowClear
+                          placeholder="Search subject name "
+                          onChange={setSearch}
+                        />
+                      }
+                      striped
+                    />
 
 
                                     </div>

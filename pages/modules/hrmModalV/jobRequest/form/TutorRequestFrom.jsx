@@ -27,7 +27,7 @@ const TutorRequestFrom = (props) => {
   const [category, setCategory] = useState([]);
   const [location, setLocation] = useState([]);
   const phoneNumberPattern = /^(?:01[3-9])\d{8}$/;
-const isApproval = true;
+// const isApproval = true;
   // setCity
   const layout = {
     labelCol: {
@@ -220,6 +220,7 @@ const isApproval = true;
       salary: setEditData.salary,
       requirement: setEditData.requirement,
       phone: setEditData.phone,
+      isApproval:setEditData.isApproval,
       status: setEditData.status,
     });
   } else {
@@ -250,7 +251,7 @@ const isApproval = true;
 
     try {
       if (setEditData?._id) {
-        const update = await put(JOB_REQUEST_END_POINT.update(setEditData?._id), values, formattedDate, formattedTime,isApproval);
+        const update = await put(JOB_REQUEST_END_POINT.update(setEditData?._id), values, formattedDate, formattedTime);
         console.log(update)
         if (update.status === 'SUCCESS') {
           notify('success', update.message);
@@ -503,6 +504,25 @@ const isApproval = true;
                         rows={3}
                         placeholder="Enter Full Address"
                       />
+                    </Form.Item>
+
+
+
+                    <Form.Item
+                      name="isApproval"
+                      label="Portal Access"
+                      rules={[
+                        {
+                          required: true,
+                        },
+                      ]}
+                      hasFeedback
+                      initialValue={true}
+                    >
+                      <Select placeholder="Select a option" allowClear>
+                        <Option value={true}>Actice</Option>
+                        <Option value={false}>InActive</Option>
+                      </Select>
                     </Form.Item>
 
 
