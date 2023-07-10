@@ -29,6 +29,7 @@ function CategoryFrom(props) {
     } else {
         form.setFieldsValue({
             name: setEditData.name,
+            code: setEditData.code,
             class: setEditData?.class?.map((t) => t.classId)?.map((t) => t._id),
             status: setEditData.status,
         });
@@ -160,6 +161,27 @@ function CategoryFrom(props) {
                 >
                     <Input />
                 </Form.Item>
+
+
+                <Form.Item
+          name="code"
+          label="Code Id"
+          rules={[
+            {
+              pattern: /^[A-Za-z][A-Za-z0-9\s]*$/,
+              message: 'Class name should start with a letter and can only contain letters, numbers, and spaces',
+            },
+            {
+              max: 50,
+              message: 'Class name should not exceed 50 characters',
+            },
+          ]}
+          hasFeedback
+        >
+          <Input />
+        </Form.Item>
+
+
                 <Form.Item
                     name="class"
                     label="Select Class"
@@ -178,6 +200,8 @@ function CategoryFrom(props) {
                         options={classes}
                     />
                 </Form.Item>
+
+
 
                 <Form.Item
                     name="status"

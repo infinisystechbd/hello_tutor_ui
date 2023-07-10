@@ -52,6 +52,40 @@ function JobAssign(props) {
     };
 
 
+
+
+        // handle delete
+        const showDeleteConfirm = (id, name) => {
+            confirm({
+                title: `Are you sure delete this Subject?`,
+                icon: <ExclamationCircleFilled />,
+                content: name,
+                okText: 'Yes',
+                okType: 'danger',
+                cancelText: 'No',
+                async onOk() {
+                    const deleteGuardian = await del(JOB_ASSIGN_END_POINT.delete(id));
+                    try {
+                        if (deleteGuardian.status === 'SUCCESS') {
+                            notify('success', deleteGuardian.message);
+                        } else {
+                            notify('error', 'something went wrong');
+                        }
+                    } catch (error) {
+                        notify('error', error.message);
+                    }
+    
+                    fetchAssignJobList();
+                },
+                onCancel() {
+                    console.log('Cancel');
+                },
+            });
+        };
+
+
+
+
     const handlePerRowsChange = (newLimit, page) => {
         setPage(page);
         setLimit(newLimit);
@@ -61,15 +95,23 @@ function JobAssign(props) {
         setPage(page)
     };
     const {
-        data: guardianList,
+        data: assignJobList,
         isLoading,
-        refetch: fetchGuardianList,
-    } = useGetAllData(QUERY_KEYS.GET_ALL_GUARDIAN_LIST, JOB_ASSIGN_END_POINT.get(page, limit, search));
-    console.log(guardianList?.data);
+        refetch: fetchAssignJobList,
+    } = useGetAllData(QUERY_KEYS.GET_ALL_JOB_ASSIGN_LIST, JOB_ASSIGN_END_POINT.get(page, limit, search));
+    console.log(assignJobList?.data);
 
     const reFetchHandler = (isRender) => {
-        if (isRender) fetchGuardianList();
+        if (isRender) fetchAssignJobList();
     };
+
+
+
+
+
+
+
+
 
 
     const columns = [
@@ -80,28 +122,18 @@ function JobAssign(props) {
             width: "70px",
         },
         {
-            name: 'Guardian Id',
-            selector: row => row.guardianId,
+            name: 'JobId',
+            selector: row => row?.jobId?.jobId,
             sortable: true,
         },
         {
-            name: 'Guardian Name',
-            selector: row => row.fullName,
+            name: 'Created By',
+            selector: row => row?.createdBy?.fullName,
             sortable: true,
         },
         {
-            name: 'Guardian Phone',
-            selector: row => row.phone,
-            sortable: true,
-        },
-        {
-            name: 'Guardian Address',
-            selector: row => row.address,
-            sortable: true,
-        },
-        {
-            name: 'Status',
-            selector: row => (row.status == true ? <Tag color='green'>ACTIVE</Tag> : <Tag color='volcano'>INACTIVE</Tag>),
+            name: 'Comment',
+            selector: row => row.comment,
             sortable: true,
         },
         {
@@ -167,7 +199,7 @@ function JobAssign(props) {
                     <div className=" ">
                         <div className="d-flex border-bottom title-part-padding align-items-center">
                             <div>
-                                <h4 className="card-title mb-0">All Guardian</h4>
+                                <h4 className="card-title mb-0">All Assign Jobs</h4>
                             </div>
                             <div className="ms-auto flex-shrink-0">
                                 <Button
@@ -176,7 +208,7 @@ function JobAssign(props) {
                                     onClick={handleShow}
                                     block
                                 >
-                                    Add Guardian
+                                    Add 
                                 </Button>
                             </div>
                         </div>
@@ -205,19 +237,19 @@ function JobAssign(props) {
                         <div className="">
                             <DataTable
                                 columns={columns}
-                                data={guardianList?.data?.data}
+                                data={assignJobList?.data}
                                 pagination
                                 paginationServer
                                 highlightOnHover
                                 subHeader
                                 progressPending={isLoading}
-                                paginationTotalRows={guardianList?.total}
+                                paginationTotalRows={assignJobList?.total}
                                 onChangeRowsPerPage={handlePerRowsChange}
                                 onChangePage={handlePageChange}
                                 subHeaderComponent={
                                     <DebouncedSearchInput
                                         allowClear
-                                        placeholder="Search subject name "
+                                        placeholder="Search"
                                         onChange={setSearch}
                                     />
                                 }

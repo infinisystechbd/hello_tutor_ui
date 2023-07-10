@@ -17,7 +17,6 @@ function ClassForm(props) {
     ToastMessage({ type, message });
   }, []);
   const { isModalOpen, setIsModalOpen, isParentRender, setEditData } = props;
-  console.log({ setEditData });
   const { Option } = Select;
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
@@ -25,19 +24,17 @@ function ClassForm(props) {
   const [jobList, setJobList] = useState([]);
   const [visited, setIsVisited] = useState(false);
   const [tutorList, setTutorList] = useState([]);
-  console.log("tutorList",tutorList);
-  console.log(setEditData);
 
-  if (setEditData == null) {
-    form.resetFields();
-  } else {
+  if (setEditData != null && visited == false) {
+    
     form.setFieldsValue({
-      name: setEditData.name,
-      subject: setEditData?.subject?.map((t) => t.subjectId)?.map((t) => t._id),
-      status: setEditData.status,
+      jobId: setEditData.jobId?.name,
+      tutorId: setEditData.tutorId?.name,
+      comment: setEditData.comment,
     });
+  } else if(setEditData == null && visited == false  ) {
+    form.resetFields();
   }
-
 
 
   /**fetch subject list */
@@ -51,6 +48,7 @@ function ClassForm(props) {
     JOB_REQUEST_END_POINT.get(1, -1, '')
   );
 
+
   /**subject dropdown */
   useEffect(() => {
     const JOBROPDOWN = mapArrayToDropdown(
@@ -61,10 +59,7 @@ function ClassForm(props) {
     setJobList(JOBROPDOWN);
   }, [jobRequestList]);
 
-
   /**fetch subject list  End */
-
-
 
   /**fetch tutor list */
 
@@ -73,7 +68,7 @@ function ClassForm(props) {
   const fetchTutor = await get(JOB_REQUEST_END_POINT.getTutorByJobId(value));
    const TUTORDROPDOWN = mapArrayToDropdown(
     fetchTutor.data,
-    'name',
+    'fullName',
     '_id'
   );
     setTutorList(TUTORDROPDOWN)
@@ -81,12 +76,9 @@ function ClassForm(props) {
 
   /**fetch tutor list  End */
 
-
-
-
-
-
-
+  const afterModalClose = () => {
+    setIsVisited(false)
+  }
 
 
 
@@ -101,7 +93,6 @@ function ClassForm(props) {
     try {
       if (setEditData?._id) {
         const update = await put(JOB_ASSIGN_END_POINT.update(setEditData?._id), values);
-        console.log(update)
         if (update.status === 'SUCCESS') {
           notify('success', update.message);
           if (isParentRender) {
@@ -131,6 +122,8 @@ function ClassForm(props) {
       setLoading(false);
     }
   };
+
+
 
   const layout = {
     labelCol: {
@@ -170,12 +163,12 @@ function ClassForm(props) {
      
 
         <Form.Item
-          name="subject"
-          label="Select Subject"
+          name="jobId"
+          label="Select Job"
           rules={[
             {
               required: true,
-              message: 'Please select subject!',
+              message: 'Please select Job!',
              
             },
           ]}
@@ -184,19 +177,35 @@ function ClassForm(props) {
           <Select
             // mode="multiple"
             onChange={handleTutor}
-            placeholder="Please select subject"
+            placeholder="Please select Job"
             options={jobList}
           />
         </Form.Item>
 
         <Form.Item
-          name="name"
-          label="Class"
+          name="tutorId"
+          label="Tutor"
           rules={[
             {
               required: true,
-              message: 'Class name is required',
+              message: 'Please select Tutor!',
+              
             },
+          ]}
+          hasFeedback
+
+        >
+              <Select
+            // mode="multiple"
+            placeholder="Please select Tutor"
+            options={tutorList}
+          />
+        </Form.Item>
+
+        <Form.Item
+          name="comment"
+          label="Comment"
+          rules={[
             {
               pattern: /^[A-Za-z][A-Za-z0-9\s]*$/,
               message: 'Class name should start with a letter and can only contain letters, numbers, and spaces',
