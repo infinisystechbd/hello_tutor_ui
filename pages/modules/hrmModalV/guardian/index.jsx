@@ -30,15 +30,18 @@ const AllGuardian = () => {
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
     console.log("insed", guardian);
+
     const handleShow = () => {
         setIsModalOpen(true)
         setEditData(null);
     };
+
     /** edit modal function */
     const handleOpen = (data) => {
         setEditData(data);
         setIsModalOpen(true)
     }
+    
     /**view modal function */
     const handleViewOpen = (data) => {
         setIsViewModalOpen(true);
@@ -79,17 +82,17 @@ const AllGuardian = () => {
     const handlePerRowsChange = (newLimit, page) => {
         setPage(page);
         setLimit(newLimit);
-      };
+    };
 
-      const handlePageChange = (page) => {
+    const handlePageChange = (page) => {
         setPage(page)
-      };
+    };
     const {
         data: guardianList,
         isLoading,
         refetch: fetchGuardianList,
     } = useGetAllData(QUERY_KEYS.GET_ALL_GUARDIAN_LIST, GUARDIAN_END_POINT.get(page, limit, search));
-console.log(guardianList?.data);
+    console.log(guardianList?.data);
 
     const reFetchHandler = (isRender) => {
         if (isRender) fetchGuardianList();
@@ -220,15 +223,17 @@ console.log(guardianList?.data);
 
 
                                     <div className="">
-                                        {/* <DataTable
+                                        <DataTable
                                             columns={columns}
-                                            data={guardianList?.data}
+                                            data={guardianList?.data?.data}
                                             pagination
                                             paginationServer
                                             highlightOnHover
                                             subHeader
                                             progressPending={isLoading}
                                             paginationTotalRows={guardianList?.total}
+                                            onChangeRowsPerPage={handlePerRowsChange}
+                                            onChangePage={handlePageChange}
                                             subHeaderComponent={
                                                 <DebouncedSearchInput
                                                     allowClear
@@ -237,30 +242,7 @@ console.log(guardianList?.data);
                                                 />
                                             }
                                             striped
-                                        /> */}
-
-
-
-<DataTable
-                      columns={columns}
-                      data={guardianList?.data?.data}
-                      pagination
-                      paginationServer
-                      highlightOnHover
-                      subHeader
-                      progressPending={isLoading}
-                      paginationTotalRows={guardianList?.total}
-                      onChangeRowsPerPage={handlePerRowsChange}
-                      onChangePage={handlePageChange}
-                      subHeaderComponent={
-                        <DebouncedSearchInput
-                          allowClear
-                          placeholder="Search subject name "
-                          onChange={setSearch}
-                        />
-                      }
-                      striped
-                    />
+                                        />
 
 
                                     </div>
@@ -275,7 +257,7 @@ console.log(guardianList?.data);
 
 
             </Content>
-            
+
         </>
     )
 }

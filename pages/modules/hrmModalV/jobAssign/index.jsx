@@ -1,232 +1,243 @@
-import { Button, Form, Input, Modal, Select, Layout, Breadcrumb, theme } from 'antd';
-import { useRouter } from 'next/router';
-import { useCallback, useState, useEffect } from 'react';
-import ToastMessage from '../../../../components/Toast';
-import { GUARDIAN_END_POINT, LOCATION_END_POINT, CITY_END_POINT,JOB_REQUEST_END_POINT,JOB_ASSIGN_END_POINT } from '../../../../constants/index';
-import { get, post, put } from '../../../../helpers/api_helper';
-import { QUERY_KEYS } from '../../../../constants/queryKeys.js';
-import { mapArrayToDropdown } from '../../../../helpers/common_Helper.js';
-import { useGetAllData } from '../../../../utils/hooks/useGetAllData.js';
+import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, EyeOutlined } from '@ant-design/icons';
+import { Breadcrumb, Button, Layout, Modal, Row, Tag, theme } from 'antd';
+import { useCallback, useState } from 'react';
+import DataTable from 'react-data-table-component';
 import HeadSection from '../../../../components/HeadSection';
+import ToastMessage from '../../../../components/Toast';
+import { JOB_ASSIGN_END_POINT } from '../../../../constants/index';
+import { QUERY_KEYS } from '../../../../constants/queryKeys';
+import { del } from '../../../../helpers/api_helper';
+import { useGetAllData } from '../../../../utils/hooks/useGetAllData';
+import DebouncedSearchInput from './../../../../components/elements/DebouncedSearchInput';
+import JobAssignForm from './form/JobAssignForm';
+// import JobAssignView from './view/GuardianView';
+
+
+
+// JobAssignForm.jsx
 function JobAssign(props) {
-    const { isModalOpen, setIsModalOpen, isParentRender, setEditData } = props;
+
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
     }, []);
-    const { token: { colorBgContainer }, } = theme.useToken();
-    const { Option } = Select;
-    const [form] = Form.useForm();
-    const [loading, setLoading] = useState(false);
-    const [jobRequest, setJobRequest] = useState([]);
-    const [tutor, setTutor] = useState([]);
-    console.log("tutor",tutor);
-    const phoneNumberPattern = /^(?:01[3-9])\d{8}$/;
+    const {
+        token: { colorBgContainer },
+    } = theme.useToken();
     const { confirm } = Modal;
     const { Content } = Layout;
+    const [search, setSearch] = useState('');
+    const [pending, setPending] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [editData, setEditData] = useState({});
+    const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(10);
+    const [guardian, setGuardian] = useState({});
+
+    const handleShow = () => {
+        setIsModalOpen(true)
+        setEditData(null);
+    };
+
+    /** edit modal function */
+    const handleOpen = (data) => {
+        setEditData(data);
+        setIsModalOpen(true)
+    }
+    
+    /**view modal function */
+    const handleViewOpen = (data) => {
+        setIsViewModalOpen(true);
+        setGuardian(data);
+    };
 
 
-    /** Fetch Job Id Request */
+    const handlePerRowsChange = (newLimit, page) => {
+        setPage(page);
+        setLimit(newLimit);
+    };
+
+    const handlePageChange = (page) => {
+        setPage(page)
+    };
     const {
-        data: jobRequestList,
+        data: guardianList,
         isLoading,
-        refetch: fetchJobRequestList,
-    } = useGetAllData(
-        QUERY_KEYS.GET_ALL_JOB_REQUEST_LIST,
-        JOB_REQUEST_END_POINT.get(1, -1, '')
-    );
+        refetch: fetchGuardianList,
+    } = useGetAllData(QUERY_KEYS.GET_ALL_GUARDIAN_LIST, JOB_ASSIGN_END_POINT.get(page, limit, search));
+    console.log(guardianList?.data);
 
-    /**Job Request dropdown */
-    useEffect(() => {
-        const JOBREQUESTDROPDOWN = mapArrayToDropdown(
-            jobRequestList?.data,
-            'jobId',
-            '_id'
-        );
-        setJobRequest(JOBREQUESTDROPDOWN);
-    }, [jobRequestList]);
-
-    /** end Job Id dropdown */
-
-    /**TUTOR dropdown */
-    useEffect(() => {
-        const TUTORDROPDOWN = mapArrayToDropdown(
-            jobRequestList?.data[0]?.requestedTutor[0],
-        );
-        setTutor(TUTORDROPDOWN);
-    }, [jobRequestList]);
+    const reFetchHandler = (isRender) => {
+        if (isRender) fetchGuardianList();
+    };
 
 
-
-    /**fetch TUTOR list  End */
-
-
-    /** from design  */
-    const layout = {
-        labelCol: {
-            span: 6,
+    const columns = [
+        {
+            name: <span className="fw-bold">SL</span>,
+            selector: (row, index) => index + 1,
+            sortable: true,
+            width: "70px",
         },
-        wrapperCol: {
-            span: 16,
+        {
+            name: 'Guardian Id',
+            selector: row => row.guardianId,
+            sortable: true,
         },
-    };
-    const tailLayout = {
-        wrapperCol: {
-            offset: 6,
-            span: 16,
+        {
+            name: 'Guardian Name',
+            selector: row => row.fullName,
+            sortable: true,
         },
-    };
-    /** end from design  */
+        {
+            name: 'Guardian Phone',
+            selector: row => row.phone,
+            sortable: true,
+        },
+        {
+            name: 'Guardian Address',
+            selector: row => row.address,
+            sortable: true,
+        },
+        {
+            name: 'Status',
+            selector: row => (row.status == true ? <Tag color='green'>ACTIVE</Tag> : <Tag color='volcano'>INACTIVE</Tag>),
+            sortable: true,
+        },
+        {
+            name: 'Action',
+            selector: row => actionButton(row),
+        }
+
+    ];
 
 
-    /** create from or edit from submits  */
-    const onFinish = async (values) => {
-        setLoading(true);
-       
-            const response = await post(JOB_ASSIGN_END_POINT.create(), values,);
-            if (response.status === 'SUCCESS') {
-                notify('success', response.message);
-                if (isParentRender) {
-                    isParentRender(true);
-                }
-            } else {
-                notify('error', response.errorMessage);
-                setLoading(false);
-            }
+    const actionButton = (row) => {
+        // console.log(id);
+        return <>
+            <Row justify="space-between">
+                <a onClick={() => handleViewOpen(row)} style={{ color: 'green', marginRight: '10px' }}>
+                    <EyeOutlined style={{ fontSize: '24px' }} />
+                </a>
 
-        setLoading(false);
-    };
-    /** create from or edit from submits end  */
+                <a onClick={() => handleOpen(row)} className="text-primary" style={{ marginRight: '10px' }}>
+                    <EditOutlined style={{ fontSize: '24px' }} />
+                </a>
 
-
-    const onFinishFailed = (errorInfo) => {
-        notify('error', errorInfo);
-    };
+                <a onClick={() => showDeleteConfirm(row._id, row.name)} className="text-danger" style={{ marginRight: '10px' }}>
+                    <DeleteOutlined style={{ fontSize: '24px' }} />
+                </a>
+            </Row>
+        </>
+    }
 
 
     return (
 
 
 
+<>
 
-        <>
-            <HeadSection title="All Class-Details" />
-            <Content
-                style={{
-                    margin: '0 20px',
-                }}
-            >
-                <Breadcrumb
-                    style={{
-                        margin: '16px 0',
-                    }}
-                >
-                    <Breadcrumb.Item>class</Breadcrumb.Item>
-                    <Breadcrumb.Item>Bill</Breadcrumb.Item>
-                </Breadcrumb>
-                <div
-                    style={{
-                        padding: 15,
-                        minHeight: 360,
-                        background: colorBgContainer,
-                    }}
-                >
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="col-12">
-                                <div className=" ">
-                                    <div className="d-flex border-bottom title-part-padding align-items-center">
-                                        <div>
-                                            <h4 class="card-title mb-0">Job Assign</h4>
-                                        </div>
-
-                                    </div>
-                                    <Form
-                                        className='mt-3'
-                                        {...layout}
-                                        {...setEditData}
-                                        form={form}
-                                        name="control-hooks"
-                                        onFinish={onFinish}
-                                        style={{
-                                            maxWidth: 600,
-                                        }}
-                                    >
+<HeadSection title="All Guardian-Details" />
 
 
-                                        <Form.Item
-                                            name="jobId"
-                                            label="Select Job"
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message: 'Please select Job Id!',
-
-                                                },
-                                            ]}
-                                            hasFeedback
-                                        >
-                                            <Select
-                                                // mode="multiple"
-                                                placeholder="Please select Job"
-                                                options={jobRequest}
-                                            />
-                                        </Form.Item>
-
-
-                                        <Form.Item
-                                            name="tutorId"
-                                            label="Tutor"
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message: 'Please select Tutor!',
-
-                                                },
-                                            ]}
-                                            hasFeedback
-
-                                        >
-                                            <Select
-                                                // mode="multiple"
-                                                placeholder="Please select Tutor"
-                                                options={tutor}
-                                            />
-                                        </Form.Item>
-
-
-                                        <Form.Item
-                                            name="comment"
-                                            label="Comment"
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                },
-                                            ]}
-                                            hasFeedback
-                                        >
-                                            <Input />
-                                        </Form.Item>
-
-
-                                        <Form.Item {...tailLayout}>
-                                            <Button type="primary" htmlType="submit" loading={loading}>
-                                                Submit
-                                            </Button>
-                                        </Form.Item>
-                                    </Form>
-
-                                </div>
+<Content
+    style={{
+        margin: '0 16px',
+    }}
+>
+    <Breadcrumb
+        style={{
+            margin: '16px 0',
+        }}
+    >
+        <Breadcrumb.Item>User</Breadcrumb.Item>
+        <Breadcrumb.Item>Bill</Breadcrumb.Item>
+    </Breadcrumb>
+    <div
+        style={{
+            padding: 15,
+            minHeight: 360,
+            background: colorBgContainer,
+        }}
+    >
+        <div className="container-fluid">
+            <div className="row">
+                <div className="col-12">
+                    <div className=" ">
+                        <div className="d-flex border-bottom title-part-padding align-items-center">
+                            <div>
+                                <h4 className="card-title mb-0">All Guardian</h4>
                             </div>
+                            <div className="ms-auto flex-shrink-0">
+                                <Button
+                                    className="shadow rounded"
+                                    type="primary"
+                                    onClick={handleShow}
+                                    block
+                                >
+                                    Add Guardian
+                                </Button>
+                            </div>
+                        </div>
+
+
+                        <JobAssignForm
+                            isModalOpen={isModalOpen}
+                            setIsModalOpen={setIsModalOpen}
+                            isParentRender={reFetchHandler}
+                            setEditData={editData}
+
+
+                        />
+
+
+
+                        {/* <GuardianView
+                            isViewModalOpen={isViewModalOpen}
+                            setIsViewModalOpen={setIsViewModalOpen}
+                            guardian={guardian} /> */}
+
+
+
+
+
+                        <div className="">
+                            <DataTable
+                                columns={columns}
+                                data={guardianList?.data?.data}
+                                pagination
+                                paginationServer
+                                highlightOnHover
+                                subHeader
+                                progressPending={isLoading}
+                                paginationTotalRows={guardianList?.total}
+                                onChangeRowsPerPage={handlePerRowsChange}
+                                onChangePage={handlePageChange}
+                                subHeaderComponent={
+                                    <DebouncedSearchInput
+                                        allowClear
+                                        placeholder="Search subject name "
+                                        onChange={setSearch}
+                                    />
+                                }
+                                striped
+                            />
+
+
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
 
 
 
 
 
-            </Content>
-        </>
+</Content>
+</>
 
     );
 }

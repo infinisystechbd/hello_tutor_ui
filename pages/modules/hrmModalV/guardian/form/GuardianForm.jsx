@@ -18,6 +18,7 @@ function GuardianForm(props) {
   const [city, setCity] = useState([]);
   const [selectCity, setSelectCity] = useState(null);
   const [location, setLocation] = useState([]);
+  console.log(location);
   const phoneNumberPattern = /^(?:01[3-9])\d{8}$/;
   const [isEdit , setIsEdit] = useState(false);
   const [visited, setIsVisited] = useState(false);

@@ -5,4 +5,5 @@ export const JOB_REQUEST_END_POINT = {
     info: (id) => `/job/${id}`,
     update: (id) => `/job/${id}`,
     delete:(id) => `/job/${id}`,
+    getTutorByJobId: (id) => `/job/requesttour/${id}`
 }
