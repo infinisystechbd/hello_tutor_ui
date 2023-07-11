@@ -178,7 +178,7 @@ const LoginPage = () => {
                   <>
                     <form onSubmit={submitForm}>
 
-                      {value ?
+                      {!value ?
                         (<>
                           <div className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
                             <p className="lead fw-normal mb-0 me-3">Sign in with</p>
@@ -195,45 +195,11 @@ const LoginPage = () => {
                           <div className="divider d-flex align-items-center my-4">
                             <p className="text-center fw-bold mx-3 mb-0">Or</p>
                           </div>
-                        </>) : ""}
+                        </>) :
+                         ""}
                       {/* Email input */}
                       {value ?
                         (
-                          /***login from */
-                          <div>
-
-                            <div className="form-outline mb-4">
-                              <input
-                                type="name"
-                                id="form3Example3"
-                                className="form-control form-control-lg"
-                                placeholder="Enter a valid Phone Number"
-                                value={phone} onChange={e => setPhone(e.target.value)}
-                              />
-                              <label className="form-label" htmlFor="form3Example3">
-                                Phone Number
-                              </label>
-                            </div>
-
-                            {/* Password input */}
-                            <div className="form-outline mb-3">
-                              <input
-                                type="password"
-                                id="form3Example4"
-                                className="form-control form-control-lg"
-                                placeholder="Enter password"
-                                value={password} onChange={e => setPassword(e.target.value)}
-                              />
-                              <label className="form-label" htmlFor="form3Example4">
-                                Password
-                              </label>
-                            </div>
-
-                          </div>
-
-                        ) :
-                        (
-
                           /**Register from  for teacher */
 
                           <div>
@@ -265,8 +231,8 @@ const LoginPage = () => {
                                   type="radio"
                                   name="type"
                                   id="tutor"
-                                  value="tutor"
-                                  // checked={gender === 'tutor'}
+                                  value="type"
+                                  // checked={true}
                                   onChange={e => setGuardianFrom(!guardianFrom)}
                                 />
                                 <label className="form-check-label" htmlFor="tutor">
@@ -442,7 +408,42 @@ const LoginPage = () => {
 
                           </div>
 
+                        ) :
+                        (
 
+
+
+                          /***login from */
+                          <div>
+
+                            <div className="form-outline mb-4">
+                              <input
+                                type="name"
+                                id="form3Example3"
+                                className="form-control form-control-lg"
+                                placeholder="Enter a valid Phone Number"
+                                value={phone} onChange={e => setPhone(e.target.value)}
+                              />
+                              <label className="form-label" htmlFor="form3Example3">
+                                Phone Number
+                              </label>
+                            </div>
+
+                            {/* Password input */}
+                            <div className="form-outline mb-3">
+                              <input
+                                type="password"
+                                id="form3Example4"
+                                className="form-control form-control-lg"
+                                placeholder="Enter password"
+                                value={password} onChange={e => setPassword(e.target.value)}
+                              />
+                              <label className="form-label" htmlFor="form3Example4">
+                                Password
+                              </label>
+                            </div>
+
+                          </div>
 
 
                         )
@@ -472,45 +473,45 @@ const LoginPage = () => {
 
                           value ?
 
-                            (<button
-                              type="submit"
-                              className="btn btn-primary btn-lg"
-                              style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
-                            >
-                              Login
-                            </button>
-                            ) 
+                            (<>
+                              {!guardianFrom ?
+                                (
+
+                                  <button
+                                    type="submit"
+                                    className="btn btn-primary btn-lg"
+                                    style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
+                                    onClick={guardianRegForm}
+                                  >
+                                    Register Guardian
+                                  </button>) :
+
+                                (
+
+                                  <button
+                                    type="submit"
+                                    className="btn btn-primary btn-lg"
+                                    style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
+
+                                    onClick={tutorRegForm}
+                                  >
+                                    Register Teacher
+                                  </button>)
+
+                              }
+
+                            </>
+                            )
                             :
                             (
+                              <button
+                                type="submit"
+                                className="btn btn-primary btn-lg"
+                                style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
+                              >
+                                Login
+                              </button>
 
-                              <>
-                                {!guardianFrom ?
-                                  (
-
-                                    <button
-                                      type="submit"
-                                      className="btn btn-primary btn-lg"
-                                      style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
-                                      onClick={guardianRegForm}
-                                    >
-                                      Register Guardian
-                                    </button>) :
-
-                                  (
-
-                                    <button
-                                      type="submit"
-                                      className="btn btn-primary btn-lg"
-                                      style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
-
-                                      onClick={tutorRegForm}
-                                    >
-                                      Register Teacher
-                                    </button>)
-
-                                }
-
-                              </>
                             )
 
                         }
@@ -519,6 +520,21 @@ const LoginPage = () => {
 
                           value ?
 
+                            (
+
+
+                              <p className="small fw-bold mt-2 pt-1 mb-0">
+                                Already  have an account?{" "}
+                                <a onClick={(e) => {
+                                  e.preventDefault();
+                                  handleRegister();
+                                }} href="#!" className="link-danger">
+                                  Login
+                                </a>
+                              </p>
+
+                            )
+                            :
                             (
 
                               <p className="small fw-bold mt-2 pt-1 mb-0">
@@ -532,22 +548,12 @@ const LoginPage = () => {
                               </p>
 
 
-                            ) 
-                            :
-                            (<p className="small fw-bold mt-2 pt-1 mb-0">
-                              Already  have an account?{" "}
-                              <a onClick={(e) => {
-                                e.preventDefault();
-                                handleRegister();
-                              }} href="#!" className="link-danger">
-                                Login
-                              </a>
-                            </p>)}
+                            )}
 
                       </div>
                     </form>
-                  </> 
-                  
+                  </>
+
                   :
 
                   <>
