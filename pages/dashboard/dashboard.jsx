@@ -19,7 +19,8 @@ const dashboard = () => {
   }
   return (
     <Fragment>
-      <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} justify="space-between" style={{marginLeft: "4px"}}  >
+      <div className='container'>
+      <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} justify="space-between"  >
         {
             dashboard?.data?.map((t , i)=> (
                 <Col key={i} className="gutter-row" span={11}>
@@ -79,6 +80,7 @@ const dashboard = () => {
 
          
       </Row>
+      </div>
     </Fragment>
   );
 };
