@@ -17,9 +17,9 @@ const LoginPage = () => {
   const [gender, setGender] = useState('female');
   const [guardianFrom, setGuardianFrom] = useState(false);
   const [verify, setVerify] = useState(true);
-  const [userId,setUserId] = useState(null);
-  const[otp,setOtp] = useState("")
-  
+  const [userId, setUserId] = useState(null);
+  const [otp, setOtp] = useState("")
+
   console.log(guardianFrom);
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
@@ -142,18 +142,18 @@ const LoginPage = () => {
     // id,otp
     event.preventDefault();
     setLoading(true);
-  
-      try {
-        const update = await post(SECURITY_END_POINT.verifyOtp(userId),{token:otp});
-        console.log(update);
-        if (update.status == 'SUCCESS') {
-          notify('success', update.message);
-   
-        }
-      } catch (error) {
-        notify('error', update.error);
-        setLoading(false);
+
+    try {
+      const update = await post(SECURITY_END_POINT.verifyOtp(userId), { token: otp });
+      console.log(update);
+      if (update.status == 'SUCCESS') {
+        notify('success', update.message);
+
       }
+    } catch (error) {
+      notify('error', update.error);
+      setLoading(false);
+    }
     setLoading(false);
     // console.log(id,otp);
   };
@@ -173,120 +173,34 @@ const LoginPage = () => {
             <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
 
 
-            {  
-            verify ?
-            <>
-            <form onSubmit={submitForm}>
+              {
+                verify ?
+                  <>
+                    <form onSubmit={submitForm}>
 
-                {value ?
-                  (<>
-                    <div className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-                      <p className="lead fw-normal mb-0 me-3">Sign in with</p>
-                      <button type="button" className="btn btn-primary btn-floating mx-1">
-                        <i className="fab fa-facebook-f" />
-                      </button>
-                      <button type="button" className="btn btn-primary btn-floating mx-1">
-                        <i className="fab fa-twitter" />
-                      </button>
-                      <button type="button" className="btn btn-primary btn-floating mx-1">
-                        <i className="fab fa-linkedin-in" />
-                      </button>
-                    </div>
-                    <div className="divider d-flex align-items-center my-4">
-                      <p className="text-center fw-bold mx-3 mb-0">Or</p>
-                    </div>
-                  </>) : ""}
-                {/* Email input */}
-                {value ?
-                  (
-                    /***login from */
-                    <div>
-                    
-                      <div className="form-outline mb-4">
-                        <input
-                          type="name"
-                          id="form3Example3"
-                          className="form-control form-control-lg"
-                          placeholder="Enter a valid Phone Number"
-                          value={phone} onChange={e => setPhone(e.target.value)}
-                        />
-                        <label className="form-label" htmlFor="form3Example3">
-                          Phone Number
-                        </label>
-                      </div>
-
-                      {/* Password input */}
-                      <div className="form-outline mb-3">
-                        <input
-                          type="password"
-                          id="form3Example4"
-                          className="form-control form-control-lg"
-                          placeholder="Enter password"
-                          value={password} onChange={e => setPassword(e.target.value)}
-                        />
-                        <label className="form-label" htmlFor="form3Example4">
-                          Password
-                        </label>
-                      </div>
-
-                    </div>
-
-                  ) :
-                  (
-
-                    /**Register from  for teacher */
-
-                    <div>
-
-                      <div className="form-outline mb-4 my-4">
-
-                        <div className="form-check form-check-inline">
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="type"
-                            id="guardian"
-                            value="guardian"
-                            // checked={gender === 'guardian'}
-                            onChange={e => setGuardianFrom(!guardianFrom)}
-                          />
-                          <label className="form-check-label" htmlFor="guardian">
-                            <img
-                              src="https://img.favpng.com/2/0/20/lesson-cartoon-student-png-favpng-f1isHzw7i2t29Uygdk4FrSKzP.jpg"
-                              alt="Male"
-                              className="gender-image"
-                              style={{ width: '100px', height: '100px', backgroundSize: 'cover' }}
-                            />
-                          </label>
-                        </div>
-                        <div className="form-check form-check-inline">
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="type"
-                            id="tutor"
-                            value="tutor"
-                            // checked={gender === 'tutor'}
-                            onChange={e => setGuardianFrom(!guardianFrom)}
-                          />
-                          <label className="form-check-label" htmlFor="tutor">
-                            <img
-
-                              src="https://www.pngitem.com/pimgs/m/351-3513600_transparent-teacher-cartoon-png-teachers-day-clipart-png.png"
-                              alt="Female"
-                              className="gender-image"
-                              style={{ width: '100px', height: '100px', backgroundSize: 'cover' }}
-                            />
-                          </label>
-                        </div>
-                      </div>
-
-
-                      {!guardianFrom ?
+                      {value ?
+                        (<>
+                          <div className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+                            <p className="lead fw-normal mb-0 me-3">Sign in with</p>
+                            <button type="button" className="btn btn-primary btn-floating mx-1">
+                              <i className="fab fa-facebook-f" />
+                            </button>
+                            <button type="button" className="btn btn-primary btn-floating mx-1">
+                              <i className="fab fa-twitter" />
+                            </button>
+                            <button type="button" className="btn btn-primary btn-floating mx-1">
+                              <i className="fab fa-linkedin-in" />
+                            </button>
+                          </div>
+                          <div className="divider d-flex align-items-center my-4">
+                            <p className="text-center fw-bold mx-3 mb-0">Or</p>
+                          </div>
+                        </>) : ""}
+                      {/* Email input */}
+                      {value ?
                         (
-
-                          //guardian register from
-                          <>
+                          /***login from */
+                          <div>
 
                             <div className="form-outline mb-4">
                               <input
@@ -294,8 +208,7 @@ const LoginPage = () => {
                                 id="form3Example3"
                                 className="form-control form-control-lg"
                                 placeholder="Enter a valid Phone Number"
-                                // value={phone}
-                                onChange={e => setPhone(e.target.value)}
+                                value={phone} onChange={e => setPhone(e.target.value)}
                               />
                               <label className="form-label" htmlFor="form3Example3">
                                 Phone Number
@@ -309,304 +222,362 @@ const LoginPage = () => {
                                 id="form3Example4"
                                 className="form-control form-control-lg"
                                 placeholder="Enter password"
-                                // value={password} 
-                                onChange={e => setPassword(e.target.value)}
+                                value={password} onChange={e => setPassword(e.target.value)}
                               />
                               <label className="form-label" htmlFor="form3Example4">
                                 Password
                               </label>
                             </div>
 
-                            <div className="form-outline mb-3">
-                              <input
-                                type="password"
-                                id="form3Example4"
-                                className="form-control form-control-lg"
-                                placeholder="confirm password"
-                                // value={password} 
-                                onChange={e => setConfirmPassword(e.target.value)}
-                              />
-                              <label className="form-label" htmlFor="form3Example4">
-                                Confirm Password
-                              </label>
-                            </div>
+                          </div>
 
-
-
-
-                          </>
                         ) :
-
-
-
                         (
 
-                          //tutor register from
-                          <>
+                          /**Register from  for teacher */
 
-
-
-                            <div className="form-outline mb-4">
-                              <input
-                                type="name"
-                                id="form3Example3"
-                                className="form-control form-control-lg"
-                                placeholder="Enter a valid Phone Number"
-                                // value={phone}
-                                onChange={e => setPhone(e.target.value)}
-                              />
-                              <label className="form-label" htmlFor="form3Example3">
-                                Phone Number
-                              </label>
-                            </div>
-
-                            <div className="form-outline mb-3">
-                              <input
-                                type="text"
-                                id="form3ExampleName"
-                                className="form-control form-control-lg"
-                                placeholder="Enter your name"
-                                // value={name}
-                                onChange={e => setFullName(e.target.value)}
-                              />
-                              <label className="form-label" htmlFor="form3ExampleName">
-                                Fullname
-                              </label>
-                            </div>
-
+                          <div>
 
                             <div className="form-outline mb-4 my-4">
-                              <label className="form-label" htmlFor="form3Example5">Gender</label>
+
                               <div className="form-check form-check-inline">
                                 <input
                                   className="form-check-input"
                                   type="radio"
-                                  name="gender"
-                                  id="male"
-                                  value="Male"
-                                  checked={gender === 'Male'}
-                                  onChange={() => setGender('Male')}
+                                  name="type"
+                                  id="guardian"
+                                  value="guardian"
+                                  // checked={gender === 'guardian'}
+                                  onChange={e => setGuardianFrom(!guardianFrom)}
                                 />
-                                <label className="form-check-label" htmlFor="male">
-                                  Male
+                                <label className="form-check-label" htmlFor="guardian">
+                                  <img
+                                    src="https://img.favpng.com/2/0/20/lesson-cartoon-student-png-favpng-f1isHzw7i2t29Uygdk4FrSKzP.jpg"
+                                    alt="Male"
+                                    className="gender-image"
+                                    style={{ width: '100px', height: '100px', backgroundSize: 'cover' }}
+                                  />
                                 </label>
                               </div>
                               <div className="form-check form-check-inline">
                                 <input
                                   className="form-check-input"
                                   type="radio"
-                                  name="gender"
-                                  id="female"
-                                  value="Female"
-                                  checked={gender === 'Female'}
-                                  onChange={() => setGender('Female')}
+                                  name="type"
+                                  id="tutor"
+                                  value="tutor"
+                                  // checked={gender === 'tutor'}
+                                  onChange={e => setGuardianFrom(!guardianFrom)}
                                 />
-                                <label className="form-check-label" htmlFor="female">
-                                  Female
+                                <label className="form-check-label" htmlFor="tutor">
+                                  <img
+
+                                    src="https://www.pngitem.com/pimgs/m/351-3513600_transparent-teacher-cartoon-png-teachers-day-clipart-png.png"
+                                    alt="Female"
+                                    className="gender-image"
+                                    style={{ width: '100px', height: '100px', backgroundSize: 'cover' }}
+                                  />
                                 </label>
                               </div>
                             </div>
 
 
-                            {/* Password input */}
-                            <div className="form-outline mb-3">
-                              <input
-                                type="password"
-                                id="form3Example4"
-                                className="form-control form-control-lg"
-                                placeholder="Enter password"
-                                // value={password} 
-                                onChange={e => setPassword(e.target.value)}
-                              />
-                              <label className="form-label" htmlFor="form3Example4">
-                                Password
-                              </label>
-                            </div>
+                            {!guardianFrom ?
+                              (
 
-                            <div className="form-outline mb-3">
-                              <input
-                                type="password"
-                                id="form3Example4"
-                                className="form-control form-control-lg"
-                                placeholder="Enter password"
-                                // value={password} 
-                                onChange={e => setConfirmPassword(e.target.value)}
-                              />
-                              <label className="form-label" htmlFor="form3Example4">
-                                Confirm Password
-                              </label>
-                            </div>
+                                //guardian register from
+                                <>
+
+                                  <div className="form-outline mb-4">
+                                    <input
+                                      type="name"
+                                      id="form3Example3"
+                                      className="form-control form-control-lg"
+                                      placeholder="Enter a valid Phone Number"
+                                      // value={phone}
+                                      onChange={e => setPhone(e.target.value)}
+                                    />
+                                    <label className="form-label" htmlFor="form3Example3">
+                                      Phone Number
+                                    </label>
+                                  </div>
+
+                                  {/* Password input */}
+                                  <div className="form-outline mb-3">
+                                    <input
+                                      type="password"
+                                      id="form3Example4"
+                                      className="form-control form-control-lg"
+                                      placeholder="Enter password"
+                                      // value={password} 
+                                      onChange={e => setPassword(e.target.value)}
+                                    />
+                                    <label className="form-label" htmlFor="form3Example4">
+                                      Password
+                                    </label>
+                                  </div>
+
+                                  <div className="form-outline mb-3">
+                                    <input
+                                      type="password"
+                                      id="form3Example4"
+                                      className="form-control form-control-lg"
+                                      placeholder="confirm password"
+                                      // value={password} 
+                                      onChange={e => setConfirmPassword(e.target.value)}
+                                    />
+                                    <label className="form-label" htmlFor="form3Example4">
+                                      Confirm Password
+                                    </label>
+                                  </div>
 
 
-                          </>)}
+
+
+                                </>
+                              ) :
+
+
+
+                              (
+
+                                //tutor register from
+                                <>
+
+
+
+                                  <div className="form-outline mb-4">
+                                    <input
+                                      type="name"
+                                      id="form3Example3"
+                                      className="form-control form-control-lg"
+                                      placeholder="Enter a valid Phone Number"
+                                      // value={phone}
+                                      onChange={e => setPhone(e.target.value)}
+                                    />
+                                    <label className="form-label" htmlFor="form3Example3">
+                                      Phone Number
+                                    </label>
+                                  </div>
+
+                                  <div className="form-outline mb-3">
+                                    <input
+                                      type="text"
+                                      id="form3ExampleName"
+                                      className="form-control form-control-lg"
+                                      placeholder="Enter your name"
+                                      // value={name}
+                                      onChange={e => setFullName(e.target.value)}
+                                    />
+                                    <label className="form-label" htmlFor="form3ExampleName">
+                                      Fullname
+                                    </label>
+                                  </div>
+
+
+                                  <div className="form-outline mb-4 my-4">
+                                    <label className="form-label" htmlFor="form3Example5">Gender</label>
+                                    <div className="form-check form-check-inline">
+                                      <input
+                                        className="form-check-input"
+                                        type="radio"
+                                        name="gender"
+                                        id="male"
+                                        value="Male"
+                                        checked={gender === 'Male'}
+                                        onChange={() => setGender('Male')}
+                                      />
+                                      <label className="form-check-label" htmlFor="male">
+                                        Male
+                                      </label>
+                                    </div>
+                                    <div className="form-check form-check-inline">
+                                      <input
+                                        className="form-check-input"
+                                        type="radio"
+                                        name="gender"
+                                        id="female"
+                                        value="Female"
+                                        checked={gender === 'Female'}
+                                        onChange={() => setGender('Female')}
+                                      />
+                                      <label className="form-check-label" htmlFor="female">
+                                        Female
+                                      </label>
+                                    </div>
+                                  </div>
+
+
+                                  {/* Password input */}
+                                  <div className="form-outline mb-3">
+                                    <input
+                                      type="password"
+                                      id="form3Example4"
+                                      className="form-control form-control-lg"
+                                      placeholder="Enter password"
+                                      // value={password} 
+                                      onChange={e => setPassword(e.target.value)}
+                                    />
+                                    <label className="form-label" htmlFor="form3Example4">
+                                      Password
+                                    </label>
+                                  </div>
+
+                                  <div className="form-outline mb-3">
+                                    <input
+                                      type="password"
+                                      id="form3Example4"
+                                      className="form-control form-control-lg"
+                                      placeholder="Enter password"
+                                      // value={password} 
+                                      onChange={e => setConfirmPassword(e.target.value)}
+                                    />
+                                    <label className="form-label" htmlFor="form3Example4">
+                                      Confirm Password
+                                    </label>
+                                  </div>
+
+
+                                </>)}
+
+                          </div>
 
 
 
 
+                        )
 
 
+                      }
 
-                    </div>
+                      <div className="d-flex justify-content-between align-items-center">
+                        {/* Checkbox */}
+                        <div className="form-check mb-0">
+                          <input
+                            className="form-check-input me-2"
+                            type="checkbox"
+                            defaultValue=""
+                            id="form2Example3"
+                          />
+                          <label className="form-check-label" htmlFor="form2Example3">
+                            Remember me
+                          </label>
+                        </div>
+                        <a href="#!" className="text-body" onClick={e => e.preventDefault()} >
+                          Forgot password?
+                        </a>
+                      </div>
+                      <div className="text-center text-lg-start mt-4 pt-2">
+                        {
+
+                          value ?
+
+                            (<button
+                              type="submit"
+                              className="btn btn-primary btn-lg"
+                              style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
+                            >
+                              Login
+                            </button>
+                            ) 
+                            :
+                            (
+
+                              <>
+                                {!guardianFrom ?
+                                  (
+
+                                    <button
+                                      type="submit"
+                                      className="btn btn-primary btn-lg"
+                                      style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
+                                      onClick={guardianRegForm}
+                                    >
+                                      Register Guardian
+                                    </button>) :
+
+                                  (
+
+                                    <button
+                                      type="submit"
+                                      className="btn btn-primary btn-lg"
+                                      style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
+
+                                      onClick={tutorRegForm}
+                                    >
+                                      Register Teacher
+                                    </button>)
+
+                                }
+
+                              </>
+                            )
+
+                        }
+
+                        {
+
+                          value ?
+
+                            (
+
+                              <p className="small fw-bold mt-2 pt-1 mb-0">
+                                Dont have an account?{" "}
+                                <a onClick={(e) => {
+                                  e.preventDefault();
+                                  handleRegister();
+                                }} href="#!" className="link-danger">
+                                  Register
+                                </a>
+                              </p>
 
 
+                            ) 
+                            :
+                            (<p className="small fw-bold mt-2 pt-1 mb-0">
+                              Already  have an account?{" "}
+                              <a onClick={(e) => {
+                                e.preventDefault();
+                                handleRegister();
+                              }} href="#!" className="link-danger">
+                                Login
+                              </a>
+                            </p>)}
+
+                      </div>
+                    </form>
+                  </> 
+                  
+                  :
+
+                  <>
+                    <div className="form-outline mb-4">
+
+                      <input
+                        type="name"
+                        id="form3Example3"
+                        className="form-control form-control-lg"
+                        placeholder="Enter Token"
+                        // value={phone}
+                        onChange={e => setOtp(e.target.value)}
+                      />
+                      <label className="form-label" htmlFor="form3Example3">
+                        Token
+                      </label>
 
 
-                  )
-
-
-                }
-
-                <div className="d-flex justify-content-between align-items-center">
-                  {/* Checkbox */}
-                  <div className="form-check mb-0">
-                    <input
-                      className="form-check-input me-2"
-                      type="checkbox"
-                      defaultValue=""
-                      id="form2Example3"
-                    />
-                    <label className="form-check-label" htmlFor="form2Example3">
-                      Remember me
-                    </label>
-                  </div>
-                  <a href="#!" className="text-body" onClick={e => e.preventDefault()} >
-                    Forgot password?
-                  </a>
-                </div>
-                <div className="text-center text-lg-start mt-4 pt-2">
-                  {
-
-                    value ?
-
-                      (<button
+                      <button
                         type="submit"
                         className="btn btn-primary btn-lg"
                         style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
+
+                        onClick={tokenHandeler}
                       >
-                        Login
+                        Send
                       </button>
-                      ) :
-
-                      (
-
-
-
-                        <>
-                          {!guardianFrom ?
-                            (
-
-                              <button
-                                type="submit"
-                                className="btn btn-primary btn-lg"
-                                style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
-                                onClick={guardianRegForm}
-                              >
-                                Register Guardian
-                              </button>) :
-
-                            (
-
-                              <button
-                                type="submit"
-                                className="btn btn-primary btn-lg"
-                                style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
-
-                                onClick={tutorRegForm}
-                              >
-                                Register Teacher
-                              </button>)
-
-
-                          }
-
-
-
-                        </>
-
-
-
-
-
-
-
-                      )
-
-                  }
-
-                  {
-
-                    value ?
-
-                      (
-                      
-                      <p className="small fw-bold mt-2 pt-1 mb-0">
-                        Dont have an account?{" "}
-                        <a onClick={(e) => {
-                          e.preventDefault();
-                          handleRegister();
-                        }} href="#!" className="link-danger">
-                          Register
-                        </a>
-                      </p>
-                      
-                      
-                      ) :
-
-
-                      (<p className="small fw-bold mt-2 pt-1 mb-0">
-                        Already  have an account?{" "}
-                        <a onClick={(e) => {
-                          e.preventDefault();
-                          handleRegister();
-                        }} href="#!" className="link-danger">
-                          Login
-                        </a>
-                      </p>)}
-
-                </div>
-              </form>
-              </>:
-
-              <>
-                        <div className="form-outline mb-4">
-
-                        <input
-                          type="name"
-                          id="form3Example3"
-                          className="form-control form-control-lg"
-                          placeholder="Enter Token"
-                          // value={phone}
-                           onChange={e => setOtp(e.target.value)}
-                        />
-                        <label className="form-label" htmlFor="form3Example3">
-                          Token
-                        </label>
-
-                        {/* <a onClick={(e) => {
-                          // e.preventDefault();
-                          tokenHandeler();
-                        }} href="#!" className="link-danger">
-                          Send
-                        </a> */}
-
-
-
-                        <button
-                                type="submit"
-                                className="btn btn-primary btn-lg"
-                                style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
-
-                                onClick={tokenHandeler}
-                              >
-                                 Send
-                              </button>
-                      </div>
-              </>
-              
-              
+                    </div>
+                  </>
               }
-
-
 
             </div>
           </div>
