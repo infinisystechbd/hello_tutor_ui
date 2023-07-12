@@ -163,23 +163,26 @@ function CategoryFrom(props) {
                 </Form.Item>
 
 
-                <Form.Item
-          name="code"
-          label="Code Id"
-          rules={[
-            {
-              pattern: /^[A-Za-z][A-Za-z0-9\s]*$/,
-              message: 'Class name should start with a letter and can only contain letters, numbers, and spaces',
-            },
-            {
-              max: 50,
-              message: 'Class name should not exceed 50 characters',
-            },
-          ]}
-          hasFeedback
-        >
-          <Input />
-        </Form.Item>
+        <Form.Item
+                    name="code"
+                    label="Code Id"
+                    rules={[
+                        {
+                            required: true,
+                        },
+                    ]}
+                    initialValue={true}
+                    hasFeedback
+                >
+                    <Select placeholder="Select a option" allowClear>
+                        <Option value={"KT"}>KT</Option>
+                        <Option value={"MT"}>MT</Option>
+                    </Select>
+                </Form.Item>
+
+
+
+
 
 
                 <Form.Item
