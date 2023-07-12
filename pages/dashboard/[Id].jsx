@@ -154,7 +154,6 @@ const JobDetails = () => {
         <Col span={4}>
         <Button type='primary'>Apply</Button>
         </Col>
-          
         </Row>
       </Row>
     </Card>
