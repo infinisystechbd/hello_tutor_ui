@@ -4,7 +4,7 @@ import DataTable from 'react-data-table-component';
 
 function ClassView(props) {
   const { isViewModalOpen, setIsViewModalOpen, classes } = props;
-
+console.log(classes);
   return (
     <Modal
       title={'Classes Info'}

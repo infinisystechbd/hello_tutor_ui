@@ -145,25 +145,25 @@ function CategoryFrom(props) {
                     label="Category"
                     rules={[
                         {
-                          required: true,
-                          message: 'Category name is required',
+                            required: true,
+                            message: 'Category name is required',
                         },
                         {
-                          pattern: /^[A-Za-z][A-Za-z0-9\s]*$/,
-                          message: 'Category name should start with a letter and can only contain letters, numbers, and spaces',
+                            pattern: /^[A-Za-z][A-Za-z0-9\s]*$/,
+                            message: 'Category name should start with a letter and can only contain letters, numbers, and spaces',
                         },
                         {
-                          max: 50,
-                          message: 'Category name should not exceed 50 characters',
+                            max: 50,
+                            message: 'Category name should not exceed 50 characters',
                         },
-                      ]}
+                    ]}
                     hasFeedback
                 >
                     <Input />
                 </Form.Item>
 
 
-        <Form.Item
+                <Form.Item
                     name="code"
                     label="Code Id"
                     rules={[

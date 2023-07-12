@@ -30,15 +30,14 @@ const Leftsidebar = ({collapsed}) => {
         { key: 'categorie', label: 'Category', path: '/modules/hrmModalV/categorie' },
         { key: 'city', label: 'City', path: '/modules/hrmModalV/city' },
         { key: 'location', label: 'Location', path: '/modules/hrmModalV/location' },
-        { key: 'guardian', label: 'Guardian', path: '/modules/hrmModalV/guardian' },
-        { key: 'tutor', label: 'Tutor', path: '/modules/hrmModalV/tutor' },
+        
       ],
     },
 
     {
       key: 'job',
       icon: <ContainerOutlined />,
-      label: 'Job Handeler',
+      label: 'Job Management',
       children: [
       
         { key: 'job', label: 'Job Creation', path: '/modules/hrmModalV/jobRequest' },
@@ -53,6 +52,8 @@ const Leftsidebar = ({collapsed}) => {
       children: [
       
         { key: 'users', label: 'User', path: '/modules/hrmModalV/users' },
+        { key: 'guardian', label: 'Guardian', path: '/modules/hrmModalV/guardian' },
+        { key: 'tutor', label: 'Tutor', path: '/modules/hrmModalV/tutor' },
       ],
     },
   ];

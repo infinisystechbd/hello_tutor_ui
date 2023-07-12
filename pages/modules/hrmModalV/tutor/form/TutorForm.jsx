@@ -18,7 +18,7 @@ const TutorForm = (props) => {
   const [loading, setLoading] = useState(false);
   const [city, setCity] = useState([]);
   const [location, setLocation] = useState([]);
-
+  const [visited, setIsVisited] = useState(false);
 
   const phoneNumberPattern = /^(?:01[3-9])\d{8}$/;
 
@@ -53,23 +53,16 @@ const TutorForm = (props) => {
 
   /**fetch location list */
 
-  const {
-    data: locationList,
-    refetch: fetchLocationList,
-  } = useGetAllData(
-    QUERY_KEYS.GET_ALL_LOCATION_LIST,
-    LOCATION_END_POINT.get(1, -1, '')
+  const handleCity = async (value) => {    
+    setIsVisited(true);
+  const fetchLocation = await get(LOCATION_END_POINT.getLocationByCityId(value));
+   const LOCATIONDROPDOWN = mapArrayToDropdown(
+    fetchLocation.data,
+    'name',
+    '_id'
   );
-
-  /**location dropdown */
-  useEffect(() => {
-    const LOCATIONDROPDOWN = mapArrayToDropdown(
-      locationList?.data,
-      'name',
-      '_id'
-    );
-    setLocation(LOCATIONDROPDOWN);
-  }, [locationList]);
+    setLocation(LOCATIONDROPDOWN)
+  }
 
 
   /**fetch location list  End */
@@ -99,19 +92,25 @@ const TutorForm = (props) => {
 
   /** create from or edit from   */
 
-  if (setEditData != null) {
+  if (setEditData != null && visited == false ) {
     form.setFieldsValue({
-      fullName: setEditData.fullName,
-      phone: setEditData.phone,
-      city: setEditData.city,
-      location: setEditData.location,
-      address: setEditData.address,
-      email: setEditData.email,
-      isPortalAccess: setEditData.isPortalAccess,
-      status: setEditData.status,
+      fullName: setEditData?.fullName,
+      phone: setEditData?.phone,
+      city: setEditData?.city?._id,
+      location: setEditData?.location?._id,
+      address: setEditData?.address,
+      email: setEditData?.email,
+      isPortalAccess: setEditData?.isPortalAccess,
+      status: setEditData?.status,
     });
-  } else {
+  } else if(setEditData == null && visited == false  ) {
     form.resetFields();
+  }
+
+
+
+  const afterModalClose = () => {
+    setIsVisited(false)
   }
   /** create from or edit from end  */
 
@@ -218,18 +217,17 @@ const TutorForm = (props) => {
             {
               required: true,
               message: 'Please select City!',
-
+              
             },
           ]}
           hasFeedback
         >
           <Select
-            // mode="multiple"
+            onChange={handleCity}
             placeholder="Please select City"
             options={city}
           />
         </Form.Item>
-
 
 
         <Form.Item
@@ -239,13 +237,13 @@ const TutorForm = (props) => {
             {
               required: true,
               message: 'Please select Location!',
-
+              
             },
           ]}
           hasFeedback
 
         >
-          <Select
+              <Select
             // mode="multiple"
             placeholder="Please select Location"
             options={location}
