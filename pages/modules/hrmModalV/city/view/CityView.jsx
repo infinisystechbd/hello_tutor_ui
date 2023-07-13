@@ -4,7 +4,7 @@ import DataTable from 'react-data-table-component';
 
 function CityView(props) {
   const { isViewModalOpen, setIsViewModalOpen, city } = props;
-
+console.log(city);
   return (
     <Modal
       title={'City Info'}
@@ -18,7 +18,7 @@ function CityView(props) {
     >
       <Card bordered={false}>
         <Descriptions >
-          <Descriptions.Item label="Subject Name">
+          <Descriptions.Item label="City Name">
             {city?.name}
           </Descriptions.Item>
           <Descriptions.Item label="Status">

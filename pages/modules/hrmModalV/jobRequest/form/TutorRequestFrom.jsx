@@ -387,7 +387,7 @@ const TutorRequestFrom = (props) => {
                       ]}
                       hasFeedback
                     >
-                      <InputNumber />
+                      <InputNumber style={{ width: '100%' }} />
                     </Form.Item>
 
 
@@ -431,16 +431,35 @@ const TutorRequestFrom = (props) => {
 
 
 
+                    <Form.Item
+                      name="xyz"
+                      label="Type version"
+                      // rules={[
+                      //   {
+                      //     required: true,
+                      //   },
+                      // ]}
+                      // hasFeedback
+                      // initialValue={true}
+                    >
+                      <Select placeholder="Select a option" allowClear>
+                        <Option value={"online"}>Online </Option>
+                        <Option value={"ofline"}>Ofline</Option>
+                      </Select>
+                    </Form.Item>
+
+
+
 
                     <Form.Item
                       name="studentGender"
                       label="Gender"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please select a gender',
-                        },
-                      ]}
+                      // rules={[
+                      //   {
+                      //     required: true,
+                      //     message: 'Please select a gender',
+                      //   },
+                      // ]}
                     >
                       <Radio.Group>
                         <Radio value="Male">Male</Radio>
@@ -511,19 +530,22 @@ const TutorRequestFrom = (props) => {
                     <Form.Item
                       name="isApproval"
                       label="Portal Access"
-                      rules={[
-                        {
-                          required: true,
-                        },
-                      ]}
-                      hasFeedback
-                      initialValue={true}
+                      // rules={[
+                      //   {
+                      //     required: true,
+                      //   },
+                      // ]}
+                      // hasFeedback
+                      // initialValue={true}
                     >
                       <Select placeholder="Select a option" allowClear>
                         <Option value={true}>Actice</Option>
                         <Option value={false}>InActive</Option>
                       </Select>
                     </Form.Item>
+
+
+
 
 
 
@@ -545,12 +567,12 @@ const TutorRequestFrom = (props) => {
                     <Form.Item
                       name="teacherGender"
                       label="Gender"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please select a gender',
-                        },
-                      ]}
+                      // rules={[
+                      //   {
+                      //     required: true,
+                      //     message: 'Please select a gender',
+                      //   },
+                      // ]}
                     >
                       <Radio.Group>
                         <Radio value="Male">Male</Radio>
@@ -562,22 +584,22 @@ const TutorRequestFrom = (props) => {
                     <Form.Item
                       label="Days / Week"
                       name="daysPerWeek"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Days per week is required',
-                        },
-                        {
-                          type: 'number',
-                          min: 1,
-                          message: 'Days per week should be at least 1',
-                        },
-                        {
-                          type: 'number',
-                          max: 7,
-                          message: 'Days per week cannot exceed 7',
-                        },
-                      ]}
+                      // rules={[
+                      //   {
+                      //     required: true,
+                      //     message: 'Days per week is required',
+                      //   },
+                      //   {
+                      //     type: 'number',
+                      //     min: 1,
+                      //     message: 'Days per week should be at least 1',
+                      //   },
+                      //   {
+                      //     type: 'number',
+                      //     max: 7,
+                      //     message: 'Days per week cannot exceed 7',
+                      //   },
+                      // ]}
                     >
                       <InputNumber
                         placeholder="Enter days per week"
@@ -600,27 +622,28 @@ const TutorRequestFrom = (props) => {
                     <Form.Item
                       label="Salary (BDT)"
                       name="salary"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Salary is required',
-                        },
-                      ]}
+                      // rules={[
+                      //   {
+                      //     required: true,
+                      //     message: 'Salary is required',
+                      //   },
+                      // ]}
                     >
                       <InputNumber
                         placeholder="Enter expected salary per month"
+                        style={{ width: '100%' }}
                       />
                     </Form.Item>
 
                     <Form.Item
                       label="Hire Date"
                       name="hireDate"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Hire Date is required',
-                        },
-                      ]}
+                      // rules={[
+                      //   {
+                      //     required: true,
+                      //     message: 'Hire Date is required',
+                      //   },
+                      // ]}
                     >
                       <DatePicker
                         style={{ width: '300px', height: '40px' }}
@@ -632,12 +655,12 @@ const TutorRequestFrom = (props) => {
                     <Form.Item
                       label="Tutoring Time"
                       name="tutoringTime"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Tutoring Time is required',
-                        },
-                      ]}
+                      // rules={[
+                      //   {
+                      //     required: true,
+                      //     message: 'Tutoring Time is required',
+                      //   },
+                      // ]}
                     >
                       <TimePicker
                         style={{ width: '300px', height: '40px' }}
@@ -663,14 +686,14 @@ const TutorRequestFrom = (props) => {
                     <Form.Item
                       name="phone"
                       label="Phone"
-                      rules={[
-                        {
-                          required: true,
-                          pattern: phoneNumberPattern,
-                          message: 'Please enter a valid Bangladeshi phone number!',
-                        },
-                      ]}
-                      hasFeedback
+                      // rules={[
+                      //   {
+                      //     required: true,
+                      //     pattern: phoneNumberPattern,
+                      //     message: 'Please enter a valid Bangladeshi phone number!',
+                      //   },
+                      // ]}
+                      // hasFeedback
                     >
                       <Input />
                     </Form.Item>
@@ -680,13 +703,13 @@ const TutorRequestFrom = (props) => {
                     <Form.Item
                       name="status"
                       label="Status"
-                      rules={[
-                        {
-                          required: true,
-                        },
-                      ]}
-                      hasFeedback
-                      initialValue={true}
+                      // rules={[
+                      //   {
+                      //     required: true,
+                      //   },
+                      // ]}
+                      // hasFeedback
+                      // initialValue={true}
                     >
                       <Select placeholder="Select a option" allowClear>
                         <Option value={true}>Active</Option>

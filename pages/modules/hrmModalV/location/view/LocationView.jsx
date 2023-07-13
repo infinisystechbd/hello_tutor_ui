@@ -18,7 +18,7 @@ function LocationView(props) {
     >
       <Card bordered={false}>
         <Descriptions >
-          <Descriptions.Item label="Subject Name">
+          <Descriptions.Item label="Location Name">
             {location?.name}
           </Descriptions.Item>
           <Descriptions.Item label="Status">

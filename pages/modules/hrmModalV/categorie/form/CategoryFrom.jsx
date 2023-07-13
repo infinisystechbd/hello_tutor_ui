@@ -22,7 +22,7 @@ function CategoryFrom(props) {
     const [search, setSearch] = useState('');
     const [subject, setSubject] = useState([]);
     const [classes, setClasses] = useState([]);
-    console.log(setEditData);
+    
 
     if (setEditData == null) {
         form.resetFields();
@@ -30,7 +30,7 @@ function CategoryFrom(props) {
         form.setFieldsValue({
             name: setEditData.name,
             code: setEditData.code,
-            class: setEditData?.class?.map((t) => t.classId)?.map((t) => t._id),
+            class: setEditData?.class?.map((t) => t.classId)?.map((t) => t?._id),
             status: setEditData.status,
         });
     }

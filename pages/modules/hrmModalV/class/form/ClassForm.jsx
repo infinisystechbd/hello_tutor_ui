@@ -28,7 +28,7 @@ function ClassForm(props) {
   } else {
     form.setFieldsValue({
       name: setEditData.name,
-      subject: setEditData?.subject?.map((t) => t.subjectId)?.map((t) => t._id),
+      subject: setEditData?.subject?.map((t) => t.subjectId)?.map((t) => t?._id),
       status: setEditData.status,
     });
   }

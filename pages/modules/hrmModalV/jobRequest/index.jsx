@@ -10,7 +10,8 @@ import { del } from '../../../../helpers/api_helper';
 import { useGetAllData } from '../../../../utils/hooks/useGetAllData';
 import DebouncedSearchInput from './../../../../components/elements/DebouncedSearchInput';
 import TutorRequestFrom from './form/TutorRequestFrom';
-// TutorRequestFrom
+import JobRequestView from './view/JobRequestView';
+// JobRequestView.jsx
 const JobRequestDetails = () => {
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
@@ -26,7 +27,7 @@ const JobRequestDetails = () => {
     const [jobRequest, setJobRequest] = useState({});
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
-
+    const [jobReq, setJobReq] = useState({});
 
     /** Creation modal  */
     const handleShow = () => {
@@ -41,6 +42,19 @@ const JobRequestDetails = () => {
         setIsModalOpen(true)
     }
     /** Update modal end  */
+
+      /**View  Modal form */
+
+
+
+  const handleViewOpen = (data) => {
+    setIsViewModalOpen(true);
+    setJobReq(data);
+  };
+  /**View  Modal form end */
+
+
+
     const handlePerRowsChange = async (newPerPage, page) => {
         setPage(page);
         setPerPage(newPerPage);
@@ -203,7 +217,10 @@ const JobRequestDetails = () => {
                                     />
 
 
-
+<JobRequestView
+                    isViewModalOpen={isViewModalOpen}
+                    setIsViewModalOpen={setIsViewModalOpen}
+                    jobReq={jobReq} />
 
 
                                     <div className="">

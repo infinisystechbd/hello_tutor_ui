@@ -105,7 +105,7 @@ function JobAssign(props) {
         if (isRender) fetchAssignJobList();
     };
 
-
+console.log(assignJobList);
 
 
 
