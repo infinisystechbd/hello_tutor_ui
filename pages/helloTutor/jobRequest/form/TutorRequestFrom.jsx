@@ -432,7 +432,7 @@ const TutorRequestFrom = (props) => {
 
 
                     <Form.Item
-                      name="xyz"
+                      // name="xyz"
                       label="Type version"
                       // rules={[
                       //   {

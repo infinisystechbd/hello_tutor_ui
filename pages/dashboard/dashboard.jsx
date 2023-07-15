@@ -18,65 +18,85 @@ const dashboard = () => {
     await router.push(`/dashboard/${value}`)
   }
   return (
-    <Fragment>
-      <div className='container'>
-        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} justify="space-between"  >
-          {
-            dashboard?.data?.map((t, i) => (
-              <Col key={i} className="gutter-row" span={11} xs={24} md={11}>
-                <Card className='mt-2 custom-card' title={t.title} bordered={false} style={{ width: '500px', height: '300px' }}>
-                  <Row >
-                    <Col md={6} >
-                      <Text type="secondary">Job ID : <Text strong>{t.jobId}</Text></Text>
-                    </Col>
-                    <Col md={1}><Text type="secondary" strong>|</Text></Col>
-                    <Col md={7}>
-                      <Text type="secondary">Posted Date: <Text strong>{t.postedDate}</Text></Text>
-                    </Col>
-                  </Row>
-                  <Row className='mt-2'>
-                    <Col md={6}>
-                      <Text type="secondary">Tuition Type : <Text strong>Home</Text></Text>
-                    </Col>
-                    <Col md={7}>
-                      <DingtalkOutlined style={{ fontSize: '18px', color: '#08c' }} />
-                      <Text type='secondary'> Salary: </Text>
-                      <Text strong>{t.salary}</Text>
-                    </Col>
-                    <Col md={7}>
-                      <ReadOutlined style={{ fontSize: '18px', color: '#08c' }} />
-                      <Text type='secondary'> Subjects: </Text>
-                      <Text strong>{t.subjects}</Text>
-                    </Col>
+    <div className='container'>
+    <Row gutter={[8, 16]} justify="space-between">
+      {dashboard?.data?.map((t, i) => (
+        <Col key={i} className="gutter-row" xs={24} sm={24} md={12} lg={8}>
+          <Card className='mt-2 custom-card' title={t.title} bordered={false} style={{ height: '300px' }}>
 
-                  </Row>
-                  <Row className='mt-2'>
-                    <Col>
-                      <EnvironmentOutlined style={{ fontSize: '18px', color: '#08c' }} />
-                      <Text type='secondary'> Location: </Text>
-                      <Text strong>{t.address}</Text>
-                    </Col>
-                  </Row>
-                  <Row className='mt-2' justify="space-between">
-                    <Col >
-                      <FontAwesomeIcon color={t.preferredGender == "Male" ? "green" : "red"} icon={t.preferredGender == "Male" ? faPerson : faPersonDress} style={{ fontSize: '1rem' }} />
-                      <Text>{" "}</Text>
-                      <Text strong> {t.preferredGender} <Text type='secondary'>tutor preferred</Text></Text>
-
-                    </Col>
-                    <Col>
-                      <Button type="primary" onClick={() => onDetails(t.jobId)}>Details</Button>
-                    </Col>
-
-
-                  </Row>
-                </Card>
+            
+            <Row>
+              <Col md={10}>
+                <Text type="secondary">Job ID: <Text strong>{t.jobId}</Text></Text>
               </Col>
-            ))
-          }
-        </Row>
-      </div>
-    </Fragment>
+              {/* <Col md={1}><Text type="secondary" strong>|</Text></Col>
+              <Col md={10}>
+                <Text type="secondary">Posted Date: <Text strong>{t.postedDate}</Text></Text>
+              </Col> */}
+            </Row>
+
+
+            <Row className="mt-2">
+             
+             <Col md={24}>
+               <ReadOutlined style={{ fontSize: '18px', color: '#08c' }} />
+               <Text type="secondary">Posted Date: <Text strong>{t.postedDate}</Text></Text>
+             </Col>
+           </Row>
+
+
+            <Row className="mt-2">
+             
+              <Col md={24}>
+                <ReadOutlined style={{ fontSize: '18px', color: '#08c' }} />
+                <Text type="secondary"> Subjects: </Text>
+                <Text strong>{t.subjects}</Text>
+              </Col>
+            </Row>
+
+
+            <Row className="mt-2">
+              <Col>
+                <EnvironmentOutlined style={{ fontSize: '18px', color: '#08c' }} />
+                <Text type="secondary"> Location: </Text>
+                <Text strong>{t.address}</Text>
+              </Col>
+            </Row>
+
+            <Row className="mt-2" >
+
+            <Col md={12}>
+                <Text type="secondary">Tuition Type: <Text strong>Home</Text></Text>
+              </Col>
+              <Col md={12}>
+                <DingtalkOutlined style={{ fontSize: '18px', color: '#08c' }} />
+                <Text type="secondary"> Salary: </Text>
+                <Text strong>{t.salary}</Text>
+              </Col>
+            </Row>
+
+
+            <Row className="mt-2" justify="space-between">
+              <Col>
+                <FontAwesomeIcon
+                  color={t.preferredGender === 'Male' ? 'green' : 'red'}
+                  icon={t.preferredGender === 'Male' ? faPerson : faPersonDress}
+                  style={{ fontSize: '1rem' }}
+                />
+                <Text>{" "}</Text>
+                <Text strong> {t.preferredGender} <Text type="secondary">tutor preferred</Text></Text>
+              </Col>
+              <Col>
+                <Button type="primary" onClick={() => onDetails(t.jobId)}>Details</Button>
+              </Col>
+            </Row>
+
+
+          </Card>
+        </Col>
+      ))}
+    </Row>
+  </div>
   );
 };
 

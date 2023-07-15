@@ -1,5 +1,5 @@
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, EyeOutlined } from '@ant-design/icons';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Breadcrumb, Button, Layout, Modal, Row, Tag, theme } from 'antd';
 import React, { useCallback, useState } from 'react';
@@ -226,7 +226,7 @@ console.log(classList);
                         block
                       >
                         Add
-                        <FontAwesomeIcon icon={faPlus} />
+                        <FontAwesomeIcon icon={faPlusCircle} />
                       </Button>
                     </div>
                   </div>
