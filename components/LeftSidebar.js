@@ -21,15 +21,15 @@ const Leftsidebar = ({collapsed}) => {
     },
   
     {
-      key: '/modules/hrmModalV',
+      key: '/helloTutor',
       icon: <SettingOutlined />,
       label: 'Master Data',
       children: [
-        { key: 'subject', label: 'Subject', path: '/modules/hrmModalV/subject' },
-        { key: 'class', label: 'Class', path: '/modules/hrmModalV/class' },
-        { key: 'categorie', label: 'Category', path: '/modules/hrmModalV/categorie' },
-        { key: 'city', label: 'City', path: '/modules/hrmModalV/city' },
-        { key: 'location', label: 'Location', path: '/modules/hrmModalV/location' },
+        { key: 'subject', label: 'Subject', path: '/helloTutor/subject' },
+        { key: 'class', label: 'Class', path: '/helloTutor/class' },
+        { key: 'categorie', label: 'Category', path: '/helloTutor/categorie' },
+        { key: 'city', label: 'City', path: '/helloTutor/city' },
+        { key: 'location', label: 'Location', path: '/helloTutor/location' },
         
       ],
     },
@@ -40,8 +40,8 @@ const Leftsidebar = ({collapsed}) => {
       label: 'Job Management',
       children: [
       
-        { key: 'job', label: 'Job Creation', path: '/modules/hrmModalV/jobRequest' },
-        { key: 'job Assign', label: 'Job Assign', path: '/modules/hrmModalV/jobAssign' },
+        { key: 'job', label: 'Job Creation', path: '/helloTutor/jobRequest' },
+        { key: 'job Assign', label: 'Job Assign', path: '/helloTutor/jobAssign' },
       ],
     },
 
@@ -51,9 +51,9 @@ const Leftsidebar = ({collapsed}) => {
       label: 'User Manager',
       children: [
       
-        { key: 'users', label: 'User', path: '/modules/hrmModalV/users' },
-        { key: 'guardian', label: 'Guardian', path: '/modules/hrmModalV/guardian' },
-        { key: 'tutor', label: 'Tutor', path: '/modules/hrmModalV/tutor' },
+        { key: 'users', label: 'User', path: '/helloTutor/users' },
+        { key: 'guardian', label: 'Guardian', path: '/helloTutor/guardian' },
+        { key: 'tutor', label: 'Tutor', path: '/helloTutor/tutor' },
       ],
     },
   ];
