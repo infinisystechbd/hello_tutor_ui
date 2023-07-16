@@ -1,19 +1,16 @@
-import { ExclamationCircleFilled } from '@ant-design/icons';
-import { Button, Modal, Tag, Row, Breadcrumb, Layout, theme } from 'antd';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, EyeOutlined } from '@ant-design/icons';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Breadcrumb, Button, Layout, Modal, Row, Tag, theme } from 'antd';
 import { useCallback, useState } from 'react';
 import DataTable from 'react-data-table-component';
+import HeadSection from '../../components/HeadSection';
 import ToastMessage from '../../components/Toast';
+import DebouncedSearchInput from '../../components/elements/DebouncedSearchInput';
 import { CATEGORIE_END_POINT } from '../../constants/index';
 import { QUERY_KEYS } from '../../constants/queryKeys';
-import { del, get, post, put } from '../../helpers/api_helper';
+import { del } from '../../helpers/api_helper';
 import { useGetAllData } from '../../utils/hooks/useGetAllData';
-import DebouncedSearchInput from '../../components/elements/DebouncedSearchInput';
-import HeadSection from '../../components/HeadSection';
-import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import CategoryFrom from './form/CategoryFrom';
 import CategoryView from './view/CategoryView';
 
@@ -79,7 +76,7 @@ const AllCategory = () => {
         data: categoryList,
         isLoading,
         refetch: fetchCategoryList,
-    } = useGetAllData(QUERY_KEYS.GET_ALL_CATEGORY_LIST, CATEGORIE_END_POINT.get(page, limit, search,status));
+    } = useGetAllData(QUERY_KEYS.GET_ALL_CATEGORY_LIST, CATEGORIE_END_POINT.get(page, limit, search,""));
     console.log("categoryList", categoryList);
 
     /** Fetch CategoryList End */

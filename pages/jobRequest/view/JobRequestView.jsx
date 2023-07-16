@@ -9,7 +9,7 @@ const { Text, Link } = Typography;
 function ClassView(props) {
     const { isViewModalOpen, setIsViewModalOpen, jobReq } = props;
     const [subjects, setSubjects] = useState([])
-
+console.log(jobReq);
     useEffect(() => {
         setSubjects(jobReq?.subject)
     }, [jobReq])
@@ -29,7 +29,7 @@ function ClassView(props) {
           <Row gutter={[16, 16]}>
             <Col xs={24} md={8}>
               <Text type="secondary">Job ID: </Text>
-              <Text strong>{jobReq.jobId}</Text>
+              <Text strong>{jobReq?.jobId}</Text>
             </Col>
             <Col xs={24} md={8}>
               <Text type="secondary">Guardian Name: </Text>

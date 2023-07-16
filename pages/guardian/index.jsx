@@ -1,16 +1,16 @@
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, EyeOutlined } from '@ant-design/icons';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Breadcrumb, Button, Layout, Modal, Row, Tag, theme } from 'antd';
 import { useCallback, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import HeadSection from '../../components/HeadSection';
 import ToastMessage from '../../components/Toast';
+import DebouncedSearchInput from '../../components/elements/DebouncedSearchInput';
 import { GUARDIAN_END_POINT } from '../../constants/index';
 import { QUERY_KEYS } from '../../constants/queryKeys';
 import { del } from '../../helpers/api_helper';
 import { useGetAllData } from '../../utils/hooks/useGetAllData';
-import DebouncedSearchInput from '../../components/elements/DebouncedSearchInput';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import GuardianForm from './form/GuardianForm';
 import GuardianView from './view/GuardianView';
 
@@ -93,7 +93,7 @@ const AllGuardian = () => {
         data: guardianList,
         isLoading,
         refetch: fetchGuardianList,
-    } = useGetAllData(QUERY_KEYS.GET_ALL_GUARDIAN_LIST, GUARDIAN_END_POINT.get(page, limit, search,status));
+    } = useGetAllData(QUERY_KEYS.GET_ALL_GUARDIAN_LIST, GUARDIAN_END_POINT.get(page, limit, search,""));
     console.log(guardianList?.data);
 
     const reFetchHandler = (isRender) => {

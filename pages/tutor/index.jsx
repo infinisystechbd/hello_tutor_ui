@@ -73,7 +73,7 @@ const AllTutor = () => {
         data: tutorList,
         isLoading,
         refetch: fetchTutorList,
-    } = useGetAllData(QUERY_KEYS.GET_ALL_TUTOR_LIST, TUTOR_END_POINT.get(page, limit, search,status));
+    } = useGetAllData(QUERY_KEYS.GET_ALL_TUTOR_LIST, TUTOR_END_POINT.get(page, limit, search,""));
 
 
     const reFetchHandler = (isRender) => {

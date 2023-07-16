@@ -1,16 +1,16 @@
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, EyeOutlined } from '@ant-design/icons';
-import { Breadcrumb, Button, Layout, Modal, Row, Tag, theme } from 'antd';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Layout, Modal, Row, theme } from 'antd';
 import { useCallback, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import HeadSection from '../../components/HeadSection';
 import ToastMessage from '../../components/Toast';
+import DebouncedSearchInput from '../../components/elements/DebouncedSearchInput';
 import { JOB_ASSIGN_END_POINT } from '../../constants/index';
 import { QUERY_KEYS } from '../../constants/queryKeys';
 import { del } from '../../helpers/api_helper';
 import { useGetAllData } from '../../utils/hooks/useGetAllData';
-import DebouncedSearchInput from '../../components/elements/DebouncedSearchInput';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import JobAssignForm from './form/JobAssignForm';
 // import JobAssignView from './view/GuardianView';
 
@@ -100,7 +100,7 @@ function JobAssign(props) {
         data: assignJobList,
         isLoading,
         refetch: fetchAssignJobList,
-    } = useGetAllData(QUERY_KEYS.GET_ALL_JOB_ASSIGN_LIST, JOB_ASSIGN_END_POINT.get(page, limit, search,status));
+    } = useGetAllData(QUERY_KEYS.GET_ALL_JOB_ASSIGN_LIST, JOB_ASSIGN_END_POINT.get(page, limit, search,""));
     console.log(assignJobList?.data);
 
     const reFetchHandler = (isRender) => {

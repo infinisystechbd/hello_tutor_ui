@@ -1,17 +1,17 @@
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, EyeOutlined } from '@ant-design/icons';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Breadcrumb, Button, Layout, Modal, Row, Tag, theme } from 'antd';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import HeadSection from '../../components/HeadSection';
 import ToastMessage from '../../components/Toast';
+import DebouncedSearchInput from '../../components/elements/DebouncedSearchInput';
 import { SUBJECT_END_POINT } from '../../constants/index';
 import { QUERY_KEYS } from '../../constants/queryKeys';
 import { del } from '../../helpers/api_helper';
 import { useGetAllData } from '../../utils/hooks/useGetAllData';
-import DebouncedSearchInput from '../../components/elements/DebouncedSearchInput';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import SubjectForm from './form/SubjectForm';
 import SubjectView from './view/SubjectView';
 
@@ -99,7 +99,7 @@ const AllSubject = () => {
     data: subjectList,
     isLoading,
     refetch: fetchSubjectList,
-  } = useGetAllData(QUERY_KEYS.GET_ALL_SUBJECT_LIST, SUBJECT_END_POINT.get(page, limit, search,status));
+  } = useGetAllData(QUERY_KEYS.GET_ALL_SUBJECT_LIST, SUBJECT_END_POINT.get(page, limit, search,""));
 
   const reFetchHandler = (isRender) => {
     if (isRender) fetchSubjectList();
