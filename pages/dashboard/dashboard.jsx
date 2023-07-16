@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Card, Col, Row, Typography } from 'antd';
 import { useRouter } from 'next/router';
 import React, { Fragment } from 'react';
-import { DASHBOARD_END_POINT } from '../../constants';
+import { DASHBOARD_END_POINT } from '../../constants/index';
 import { QUERY_KEYS } from '../../constants/queryKeys';
 import { useGetAllData } from '../../utils/hooks/useGetAllData';
 const { Text, Link } = Typography;
