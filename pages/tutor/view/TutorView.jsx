@@ -26,12 +26,6 @@ function TutorView(props) {
                                 <Descriptions.Item label="tutor Phone">
                                     {tutor?.phone}
                                 </Descriptions.Item>
-
-                            </Descriptions>
-                        </Col>
-                        <Col >
-
-                            <Descriptions >
                                 <Descriptions.Item label="Status">
                                     {tutor?.status == true ? (
                                         <Tag color='green'>Active</Tag>
@@ -39,9 +33,35 @@ function TutorView(props) {
                                         <Tag color='volcano'>Inactive</Tag>
                                     )}
                                 </Descriptions.Item>
+
+                            </Descriptions>
+                        </Col>
+
+
+                        <Col >
+                            <Descriptions >
+                                <Descriptions.Item label="Created By">
+                                    {tutor?.createdBy?.fullName}
+                                </Descriptions.Item>
+
                                 <Descriptions.Item label="Created at">
                                     {moment(tutor?.createdAt).format('DD-MM-YYYY')}
                                 </Descriptions.Item>
+
+
+                            </Descriptions>
+                        </Col>
+
+
+
+                        <Col >
+
+                            <Descriptions >
+
+                                <Descriptions.Item label="Updated By">
+                                    {tutor?.updatedBy?.fullName || "No one update"}
+                                </Descriptions.Item>
+
                                 <Descriptions.Item label="Updated at">
                                     {moment(tutor?.updatedAt).format('DD-MM-YYYY')}
                                 </Descriptions.Item>
