@@ -10,7 +10,7 @@ import { del } from '../../../helpers/api_helper';
 import { useGetAllData } from '../../../utils/hooks/useGetAllData';
 import DebouncedSearchInput from '../../../components/elements/DebouncedSearchInput';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import TutorRequestFrom from './form/TutorRequestFrom';
 import JobRequestView from './view/JobRequestView';
 // JobRequestView.jsx
@@ -172,17 +172,10 @@ const JobRequestDetails = () => {
 
             <Content
                 style={{
-                    margin: '0 16px',
+                    margin: '60px 16px',
                 }}
             >
-                <Breadcrumb
-                    style={{
-                        margin: '16px 0',
-                    }}
-                >
-                    <Breadcrumb.Item>User</Breadcrumb.Item>
-                    <Breadcrumb.Item>Bill</Breadcrumb.Item>
-                </Breadcrumb>
+
                 <div
                     style={{
                         padding: 15,
@@ -205,8 +198,12 @@ const JobRequestDetails = () => {
                                                 onClick={handleShow}
                                                 block
                                             >
-                                                Add
-                                                <FontAwesomeIcon icon={faPlus} />
+                                                <span style={{ marginRight: '8px' }}>Add</span>
+                                                <span className="button-icon-space ml-10">
+
+
+                                                    <FontAwesomeIcon icon={faPlusCircle} />
+                                                </span>
                                             </Button>
                                         </div>
                                     </div>

@@ -9,6 +9,8 @@ import { QUERY_KEYS } from "../../../constants/queryKeys";
 import { del } from '../../../helpers/api_helper';
 import { useGetAllData } from "../../../utils/hooks/useGetAllData";
 import DebouncedSearchInput from '../../../components/elements/DebouncedSearchInput';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import LocationForm from './form/LocationForm';
 import LocationView from './view/LocationView';
 // LocationForm
@@ -186,7 +188,7 @@ const Managelocation = () => {
 
             <Content
                 style={{
-                    margin: '0 16px',
+                    margin: '40px 16px',
                 }}
             >
                 <Breadcrumb
@@ -194,8 +196,7 @@ const Managelocation = () => {
                         margin: '16px 0',
                     }}
                 >
-                    <Breadcrumb.Item>Location</Breadcrumb.Item>
-                    <Breadcrumb.Item>Bill</Breadcrumb.Item>
+
                 </Breadcrumb>
                 <div
                     style={{
@@ -219,7 +220,12 @@ const Managelocation = () => {
                                                 block
                                                 onClick={handleShow}
                                             >
-                                                Add Location
+                                                <span style={{ marginRight: '8px' }}>Add</span>
+                                                <span className="button-icon-space ml-10">
+
+
+                                                    <FontAwesomeIcon icon={faPlusCircle} />
+                                                </span>
                                             </Button>
                                         </div>
                                     </div>

@@ -13,13 +13,13 @@ import DebouncedSearchInput from '../../../components/elements/DebouncedSearchIn
 import HeadSection from '../../../components/HeadSection';
 import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import CategoryFrom from './form/CategoryFrom';
 import CategoryView from './view/CategoryView';
 
 /**
  Add
-<FontAwesomeIcon icon={faPlus} />
+<FontAwesomeIcon icon={faPlusCircle} />
 
  */
 // CategoryView
@@ -80,7 +80,7 @@ const AllCategory = () => {
         isLoading,
         refetch: fetchCategoryList,
     } = useGetAllData(QUERY_KEYS.GET_ALL_CATEGORY_LIST, CATEGORIE_END_POINT.get(page, limit, search));
-console.log("categoryList",categoryList);
+    console.log("categoryList", categoryList);
 
     /** Fetch CategoryList End */
 
@@ -182,7 +182,7 @@ console.log("categoryList",categoryList);
 
             <Content
                 style={{
-                    margin: '0 16px',
+                    margin: '40px 16px',
                 }}
             >
                 <Breadcrumb
@@ -190,8 +190,7 @@ console.log("categoryList",categoryList);
                         margin: '16px 0',
                     }}
                 >
-                    <Breadcrumb.Item>User</Breadcrumb.Item>
-                    <Breadcrumb.Item>Category</Breadcrumb.Item>
+
                 </Breadcrumb>
                 <div
                     style={{
@@ -216,8 +215,13 @@ console.log("categoryList",categoryList);
                                                 // icon={<PlusOutlined />}
                                                 block
                                             >
-                                                Add
-                                                <FontAwesomeIcon icon={faPlus} />
+                                                <span style={{ marginRight: '8px' }}>Add</span>
+                                                <span className="button-icon-space ml-10">
+
+
+                                                    <FontAwesomeIcon icon={faPlusCircle} />
+                                                </span>
+                                               
                                             </Button>
                                         </div>
                                     </div>

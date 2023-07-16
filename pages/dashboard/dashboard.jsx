@@ -1,5 +1,5 @@
-import { DingtalkOutlined, EnvironmentOutlined, ReadOutlined } from '@ant-design/icons';
-import { faPerson, faPersonDress } from '@fortawesome/free-solid-svg-icons';
+import { DingtalkOutlined, EnvironmentOutlined, ReadOutlined,CalendarOutlined } from '@ant-design/icons';
+import { faPerson, faPersonDress,faCalendarAlt,faPuzzlePiece } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Card, Col, Row, Typography } from 'antd';
 import { useRouter } from 'next/router';
@@ -27,7 +27,7 @@ const dashboard = () => {
             
             <Row>
               <Col md={10}>
-                <Text type="secondary">Job ID: <Text strong>{t.jobId}</Text></Text>
+                <Text type="secondary">Job ID: <Text strong>{t?.jobId}</Text></Text>
               </Col>
               {/* <Col md={1}><Text type="secondary" strong>|</Text></Col>
               <Col md={10}>
@@ -39,7 +39,7 @@ const dashboard = () => {
             <Row className="mt-2">
              
              <Col md={24}>
-               <ReadOutlined style={{ fontSize: '18px', color: '#08c' }} />
+               <CalendarOutlined style={{ fontSize: '18px', color: '#08c' }} />
                <Text type="secondary">Posted Date: <Text strong>{t.postedDate}</Text></Text>
              </Col>
            </Row>
@@ -64,9 +64,11 @@ const dashboard = () => {
             </Row>
 
             <Row className="mt-2" >
-
+            {/* PuzzleOutlined */}
             <Col md={12}>
-                <Text type="secondary">Tuition Type: <Text strong>Home</Text></Text>
+            <FontAwesomeIcon icon={faPuzzlePiece} style={{ fontSize: '18px', color: '#08c' }} />
+                <Text type="secondary">Tuition Type:</Text>
+                <Text strong>Home</Text>
               </Col>
               <Col md={12}>
                 <DingtalkOutlined style={{ fontSize: '18px', color: '#08c' }} />

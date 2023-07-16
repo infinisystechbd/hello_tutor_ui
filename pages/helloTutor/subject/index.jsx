@@ -11,7 +11,7 @@ import { del } from '../../../helpers/api_helper';
 import { useGetAllData } from '../../../utils/hooks/useGetAllData';
 import DebouncedSearchInput from '../../../components/elements/DebouncedSearchInput';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import SubjectForm from './form/SubjectForm';
 import SubjectView from './view/SubjectView';
 
@@ -132,7 +132,8 @@ const AllSubject = () => {
     },
     {
       name: 'Status',
-      selector: (row) => (row.status == true ? <Tag color='green'>ACTIVE</Tag> : <Tag color='volcano'>INACTIVE</Tag>),
+      selector: (row) =>
+        row.status ? <Tag color='green'>ACTIVE</Tag> : <Tag color='volcano'>INACTIVE</Tag>,
       sortable: true,
     },
     {
@@ -145,17 +146,17 @@ const AllSubject = () => {
   const actionButton = (row) => {
     return (
       <>
-        <Row justify="space-between">
-          <a onClick={() => handleViewOpen(row)} style={{ color: 'green', marginRight: '10px' }}>
-            <EyeOutlined style={{ fontSize: '24px' }} />
+        <Row justify="space-between" style={{ display: 'flex', alignItems: 'center' }}>
+          <a onClick={() => handleViewOpen(row)} style={{ color: 'green', marginRight: '8px' }}>
+            <EyeOutlined style={{ fontSize: '22px' }} />
           </a>
 
-          <a onClick={() => handleOpen(row)} className="text-primary" style={{ marginRight: '10px' }}>
-            <EditOutlined style={{ fontSize: '24px' }} />
+          <a onClick={() => handleOpen(row)} className="text-primary" style={{ marginRight: '8px' }}>
+            <EditOutlined style={{ fontSize: '22px' }} />
           </a>
 
-          <a onClick={() => showDeleteConfirm(row._id, row.name)} className="text-danger" style={{ marginRight: '10px' }}>
-            <DeleteOutlined style={{ fontSize: '24px' }} />
+          <a onClick={() => showDeleteConfirm(row._id, row.name)} className="text-danger" style={{ marginRight: '8px' }}>
+            <DeleteOutlined style={{ fontSize: '22px' }} />
           </a>
         </Row>
       </>
@@ -169,7 +170,7 @@ const AllSubject = () => {
 
       <Content
         style={{
-          margin: '0 16px',
+          margin: '40px 16px',
         }}
       >
         <Breadcrumb
@@ -177,8 +178,8 @@ const AllSubject = () => {
             margin: '16px 0',
           }}
         >
-          <Breadcrumb.Item>User</Breadcrumb.Item>
-          <Breadcrumb.Item>Subject</Breadcrumb.Item>
+          {/* <Breadcrumb.Item>User</Breadcrumb.Item>
+          <Breadcrumb.Item>Subject</Breadcrumb.Item> */}
         </Breadcrumb>
         <div
           style={{
@@ -202,8 +203,12 @@ const AllSubject = () => {
                         onClick={handleShow}
                         block
                       >
-                        Add
-                        <FontAwesomeIcon icon={faPlus} />
+                        <span style={{ marginRight: '8px' }}>Add</span>
+                        <span className="button-icon-space ml-10">
+
+
+                          <FontAwesomeIcon icon={faPlusCircle} />
+                        </span>
                       </Button>
                     </div>
                   </div>
@@ -223,7 +228,8 @@ const AllSubject = () => {
                     subject={subject} />
 
 
-                  <div className="">
+                  <div style={{ overflowX: 'auto' }}>
+                  <div style={{ minWidth: '100%' }}>
                     <DataTable
                       columns={columns}
                       data={subjectList?.data}
@@ -238,14 +244,13 @@ const AllSubject = () => {
                       subHeaderComponent={
                         <DebouncedSearchInput
                           allowClear
-                          placeholder="Search subject name "
+                          placeholder="Search subject name"
                           onChange={setSearch}
                         />
                       }
                       striped
                     />
-
-
+                  </div>
                   </div>
                 </div>
               </div>
@@ -264,3 +269,4 @@ const AllSubject = () => {
 };
 
 export default AllSubject;
+

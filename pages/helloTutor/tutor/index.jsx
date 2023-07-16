@@ -1,5 +1,5 @@
 import { ExclamationCircleFilled } from '@ant-design/icons';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Layout, Modal, Row, Tag, theme } from 'antd';
 import { useCallback, useState } from 'react';
@@ -210,8 +210,12 @@ const AllTutor = () => {
                                                 onClick={handleShow}
                                                 block
                                             >
-                                                Add
-                                                <FontAwesomeIcon icon={faPlus} />
+                                                <span style={{ marginRight: '8px' }}>Add</span>
+                                                <span className="button-icon-space ml-10">
+
+
+                                                    <FontAwesomeIcon icon={faPlusCircle} />
+                                                </span>
                                             </Button>
                                         </div>
                                     </div>

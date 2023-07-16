@@ -34,8 +34,6 @@ const LoginPage = () => {
     event.preventDefault();
     try {
       const login = await post(SECURITY_END_POINT.login(), { phone: phone, password: password });
-      //  const res = 
-      console.log(login, "alll", login.status);
       setToken(login.accessToken);
       notify("success", "successfully Login!");
 
@@ -73,10 +71,6 @@ const LoginPage = () => {
     event.preventDefault();
     try {
       const guardianReg = await post(SECURITY_END_POINT.guardianReg(), { phone: phone, password: password, confirmPassword: confirmPassword });
-      //  const res = 
-      console.log(guardianReg, "alll", guardianReg.status);
-      // setToken(guardianReg.accessToken);
-
       notify("success", "successfully Registration!");
       setUserId(tutorReg?.data?._id);
       setVerify(false)

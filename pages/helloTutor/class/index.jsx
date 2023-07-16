@@ -70,8 +70,8 @@ const ManageClass = () => {
     refetch: fetchClassList,
   } = useGetAllData(QUERY_KEYS.GET_ALL_ClASS_LIST, CLASS_END_POINT.get(page, limit, search));
 
-  
-console.log(classList);
+
+  console.log(classList);
 
 
   const reFetchHandler = (isRender) => {
@@ -192,17 +192,10 @@ console.log(classList);
       <HeadSection title="All Class-Details" />
       <Content
         style={{
-          margin: '0 16px',
+          margin: '60px 16px',
         }}
       >
-        <Breadcrumb
-          style={{
-            margin: '16px 0',
-          }}
-        >
-          <Breadcrumb.Item>class</Breadcrumb.Item>
-          <Breadcrumb.Item>Bill</Breadcrumb.Item>
-        </Breadcrumb>
+
         <div
           style={{
             padding: 15,
@@ -225,8 +218,12 @@ console.log(classList);
                         onClick={handleShow}
                         block
                       >
-                        Add
-                        <FontAwesomeIcon icon={faPlusCircle} />
+                        <span style={{ marginRight: '8px' }}>Add</span>
+                        <span className="button-icon-space ml-10">
+
+
+                          <FontAwesomeIcon icon={faPlusCircle} />
+                        </span>
                       </Button>
                     </div>
                   </div>
@@ -244,7 +241,7 @@ console.log(classList);
                     setIsViewModalOpen={setIsViewModalOpen}
                     classes={classes} />
 
-                  <div className="">
+                  <div style={{ overflowX: 'auto' }}>
                     <DataTable
                       columns={columns}
                       data={classList?.data}

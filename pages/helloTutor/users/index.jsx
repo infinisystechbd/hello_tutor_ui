@@ -10,7 +10,7 @@ import { del } from '../../../helpers/api_helper';
 import { useGetAllData } from '../../../utils/hooks/useGetAllData';
 import DebouncedSearchInput from '../../../components/elements/DebouncedSearchInput';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import UserFrom from './form/UserFrom';
 
 const AllCity = () => {
@@ -156,7 +156,7 @@ const AllCity = () => {
 
             <Content
                 style={{
-                    margin: '0 16px',
+                    margin: '40px 16px',
                 }}
             >
                 <Breadcrumb
@@ -164,8 +164,8 @@ const AllCity = () => {
                         margin: '16px 0',
                     }}
                 >
-                    <Breadcrumb.Item>User</Breadcrumb.Item>
-                    <Breadcrumb.Item>Bill</Breadcrumb.Item>
+                    {/* <Breadcrumb.Item>User</Breadcrumb.Item>
+                    <Breadcrumb.Item>Bill</Breadcrumb.Item> */}
                 </Breadcrumb>
                 <div
                     style={{
@@ -189,8 +189,12 @@ const AllCity = () => {
                                                 onClick={handleShow}
                                                 block
                                             >
-                                                Add
-                                                <FontAwesomeIcon icon={faPlus} />
+                                                <span style={{ marginRight: '8px' }}>Add</span>
+                                                <span className="button-icon-space ml-10">
+
+
+                                                    <FontAwesomeIcon icon={faPlusCircle} />
+                                                </span>
                                             </Button>
                                         </div>
                                     </div>
