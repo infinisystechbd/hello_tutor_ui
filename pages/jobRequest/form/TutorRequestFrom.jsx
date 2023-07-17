@@ -222,6 +222,7 @@ const TutorRequestFrom = (props) => {
       requirement: setEditData.requirement,
       phone: setEditData.phone,
       isApproval: setEditData.isApproval,
+      tuitionType:setEditData.tuitionType,
       status: setEditData.status,
     });
   } else {
@@ -433,19 +434,21 @@ const TutorRequestFrom = (props) => {
 
 
                     <Form.Item
-                      // name="xyz"
+                      name="tuitionType"
                       label="Type version"
-                    // rules={[
-                    //   {
-                    //     required: true,
-                    //   },
-                    // ]}
-                    // hasFeedback
-                    // initialValue={true}
+                    rules={[
+                      {
+                        required: true,
+                      },
+                    ]}
+                    hasFeedback
+                    initialValue={true}
                     >
                       <Select placeholder="Select a option" allowClear>
-                        <Option value={"online"}>Online </Option>
-                        <Option value={"ofline"}>Ofline</Option>
+                        <Option value={"Home Tutoring"}> Home Tutoring </Option>
+                        <Option value={"Online Tutoring"}>Online Tutoring</Option>
+                        <Option value={"Group Tutoring"}>Group Tutoring</Option>
+                        <Option value={"Package Tutoring"}>Package Tutoring</Option>
                       </Select>
                     </Form.Item>
 

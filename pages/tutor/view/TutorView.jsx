@@ -36,8 +36,6 @@ function TutorView(props) {
 
                             </Descriptions>
                         </Col>
-
-
                         <Col >
                             <Descriptions >
                                 <Descriptions.Item label="Created By">
@@ -51,13 +49,8 @@ function TutorView(props) {
 
                             </Descriptions>
                         </Col>
-
-
-
                         <Col >
-
                             <Descriptions >
-
                                 <Descriptions.Item label="Updated By">
                                     {tutor?.updatedBy?.fullName || "No one update"}
                                 </Descriptions.Item>

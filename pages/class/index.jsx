@@ -71,7 +71,7 @@ const ManageClass = () => {
   } = useGetAllData(QUERY_KEYS.GET_ALL_ClASS_LIST, CLASS_END_POINT.get(page, limit, search,""));
 
 
-  console.log(classList);
+
 
 
   const reFetchHandler = (isRender) => {

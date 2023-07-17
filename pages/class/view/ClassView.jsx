@@ -51,8 +51,8 @@ function ClassView(props) {
           </Col>
           <Col >
             <Descriptions >
-              <Descriptions.Item label="Created By">
-                {classes?.updatedBy?.fullName}
+              <Descriptions.Item label="Upadted By ">
+                {classes?.updatedBy?.fullName || "No one update"}
               </Descriptions.Item>
 
               <Descriptions.Item label="Updated at">
