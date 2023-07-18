@@ -1,7 +1,7 @@
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, EyeOutlined } from '@ant-design/icons';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Breadcrumb, Button, Layout, Modal, Row, Tag, theme } from 'antd';
+import { Breadcrumb, Button, Layout, Modal, Row, Tag, theme,Table,Input } from 'antd';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 import DataTable from 'react-data-table-component';
@@ -113,49 +113,131 @@ const AllSubject = () => {
     setPage(page);
     setLimit(newLimit);
   };
+  // const columns = [
+  //   {
+  //     name: <span className="fw-bold">SL</span>,
+  //     selector: (row, index) => index + 1,
+  //     sortable: true,
+  //     width: '70px',
+  //     fixed: 'left',
+  //   },
+  //   {
+  //     name: 'Subject Code',
+  //     selector: (row) => row.subjectId,
+  //     sortable: true,
+  //     fixed: 'left',
+  //   },
+  //   {
+  //     name: 'Name',
+  //     selector: (row) => row.name,
+  //     sortable: true,
+  //   },
+  //   {
+  //     name: 'Status',
+  //     selector: (row) =>
+  //       row.status ? <Tag color='green'>ACTIVE</Tag> : <Tag color='volcano'>INACTIVE</Tag>,
+  //     sortable: true,
+  //   },
+  //   {
+  //     name: 'Action',
+  //     selector: (row) => actionButton(row),
+  //     fixed: 'right',
+  //   width: 100,
+  //   },
+  // ];
+
+
+
+
   const columns = [
     {
-      name: <span className="fw-bold">SL</span>,
-      selector: (row, index) => index + 1,
-      sortable: true,
-      width: '70px',
+      title: <span className="fw-bold">SL</span>,
+      dataIndex: 'index',
+      // width: '70px',
+      fixed: 'left',
     },
     {
-      name: 'Subject Code',
-      selector: (row) => row.subjectId,
-      sortable: true,
+      title: 'Subject Code',
+      dataIndex: 'subjectId',
+      fixed: 'left',
     },
     {
-      name: 'Name',
-      selector: (row) => row.name,
-      sortable: true,
+      title: 'Name',
+      dataIndex: 'name',
     },
     {
-      name: 'Status',
-      selector: (row) =>
-        row.status ? <Tag color='green'>ACTIVE</Tag> : <Tag color='volcano'>INACTIVE</Tag>,
-      sortable: true,
+      title: 'Status',
+      dataIndex: 'status',
+      render: (status) =>
+        status ? <Tag color="green">ACTIVE</Tag> : <Tag color="volcano">INACTIVE</Tag>,
     },
     {
-      name: 'Action',
-      selector: (row) => actionButton(row),
+      title: 'Action',
+      dataIndex: 'action',
+      fixed: 'right',
+      width: 100,
+      render: (_, row) => actionButton(row),
     },
   ];
+
+
+
+
+
+  // const columns = [
+  //   {
+  //     name: <span className="fw-bold">SL</span>,
+  //     selector: (row, index) => index + 1,
+  //     sortable: true,
+  //     width: '70px',
+  //     fixed: 'left',
+  //   },
+  //   {
+  //     name: 'Subject Code',
+  //     selector: (row) => row.subjectId,
+  //     sortable: true,
+  //     fixed: 'left',
+  //   },
+  //   {
+  //     name: 'Name',
+  //     selector: (row) => row.name,
+  //     sortable: true,
+  //   },
+  //   {
+  //     name: 'Status',
+  //     selector: (row) =>
+  //       row.status ? <Tag color='green'>ACTIVE</Tag> : <Tag color='volcano'>INACTIVE</Tag>,
+  //     sortable: true,
+  //   },
+  //   {
+  //     name: 'Action',
+  //     selector: (row) => actionButton(row),
+  //     fixed: 'right',
+  //     width: 100,
+  //   },
+  // ];
+
+
+
+  const data = subjectList?.data?.map((row, index) => ({
+    ...row,
+    index: index + 1,
+  }));
 
 
   const actionButton = (row) => {
     return (
       <>
         <Row justify="space-between" style={{ display: 'flex', alignItems: 'center' }}>
-          <a onClick={() => handleViewOpen(row)} style={{ color: 'green', marginRight: '8px' }}>
+          <a onClick={() => handleViewOpen(row)} style={{ color: 'green'}}>
             <EyeOutlined style={{ fontSize: '22px' }} />
           </a>
 
-          <a onClick={() => handleOpen(row)} className="text-primary" style={{ marginRight: '8px' }}>
+          <a onClick={() => handleOpen(row)} className="text-primary" >
             <EditOutlined style={{ fontSize: '22px' }} />
           </a>
 
-          <a onClick={() => showDeleteConfirm(row._id, row.name)} className="text-danger" style={{ marginRight: '8px' }}>
+          <a onClick={() => showDeleteConfirm(row._id, row.name)} className="text-danger" >
             <DeleteOutlined style={{ fontSize: '22px' }} />
           </a>
         </Row>
@@ -230,7 +312,7 @@ const AllSubject = () => {
 
                   <div style={{ overflowX: 'auto' }}>
                   <div style={{ minWidth: '100%' }}>
-                    <DataTable
+                    {/* <DataTable
                       columns={columns}
                       data={subjectList?.data}
                       pagination
@@ -249,7 +331,37 @@ const AllSubject = () => {
                         />
                       }
                       striped
-                    />
+                    /> */}
+
+<Table
+      columns={columns}
+      dataSource={data}
+      pagination
+      paginationServer
+      highlightOnHover
+      onChangeRowsPerPage={handlePerRowsChange}
+      onChangePage={handlePageChange}
+      scroll={{ x: 'max-content' }}
+      noDataComponent={<span>No data available</span>}
+    />
+
+{/* <>
+      <Input.Search
+        placeholder="Search subject name"
+        allowClear
+        onChange={setSearch}
+        style={{ marginBottom: '16px' }}
+      />
+      <Table
+        columns={columns}
+        dataSource={data}
+        pagination
+        paginationServer
+        highlightOnHover
+        scroll={{ x: 'max-content' }}
+        noDataComponent={<span>No data available</span>}
+      />
+    </> */}
                   </div>
                   </div>
                 </div>
@@ -269,4 +381,3 @@ const AllSubject = () => {
 };
 
 export default AllSubject;
-

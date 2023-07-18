@@ -1,11 +1,10 @@
-
 import { Button, DatePicker, Form, Input, InputNumber, Modal, Radio, Select, TimePicker } from "antd";
 import moment from 'moment';
 import React, { useCallback, useEffect, useState } from 'react';
 import ToastMessage from '../../../components/Toast';
 import { CATEGORIE_END_POINT, CITY_END_POINT, CLASS_END_POINT, GUARDIAN_END_POINT, JOB_REQUEST_END_POINT, LOCATION_END_POINT, SUBJECT_END_POINT } from '../../../constants/index';
 import { QUERY_KEYS } from '../../../constants/queryKeys.js';
-import { post, put } from '../../../helpers/api_helper';
+import { get, post, put } from '../../../helpers/api_helper';
 import { mapArrayToDropdown } from '../../../helpers/common_Helper.js';
 import { useGetAllData } from '../../../utils/hooks/useGetAllData.js';
 const TutorRequestFrom = (props) => {
@@ -27,6 +26,8 @@ const TutorRequestFrom = (props) => {
   const [category, setCategory] = useState([]);
   const [location, setLocation] = useState([]);
   const [status, setStatus] = useState(true);
+  const [visited, setIsVisited] = useState(false);
+  const [numOfStudent, setNumOfStudent] = useState(null);
   const phoneNumberPattern = /^(?:01[3-9])\d{8}$/;
   // const isApproval = true;
   // setCity
@@ -57,7 +58,7 @@ const TutorRequestFrom = (props) => {
     data: guardianList,
     isLoading,
     refetch: fetchGuardianList,
-  } = useGetAllData(QUERY_KEYS.GET_ALL_GUARDIAN_LIST, GUARDIAN_END_POINT.get(1, -1, '',true));
+  } = useGetAllData(QUERY_KEYS.GET_ALL_GUARDIAN_LIST, GUARDIAN_END_POINT.get(1, -1, '', true));
 
 
   /**guarian dropdown */
@@ -81,7 +82,7 @@ const TutorRequestFrom = (props) => {
     refetch: fetchTotalCategory,
   } = useGetAllData(
     QUERY_KEYS.GET_ALL_CATEGORY_LIST,
-    CATEGORIE_END_POINT.get(1, -1, '',true)
+    CATEGORIE_END_POINT.get(1, -1, '', true)
   );
 
   /**category dropdown */
@@ -106,7 +107,7 @@ const TutorRequestFrom = (props) => {
     refetch: fetchSubjectList,
   } = useGetAllData(
     QUERY_KEYS.GET_ALL_SUBJECT_LIST,
-    SUBJECT_END_POINT.get(1, -1, '',true)
+    SUBJECT_END_POINT.get(1, -1, '', true)
   );
   //subject dropdown
   useEffect(() => {
@@ -128,7 +129,7 @@ const TutorRequestFrom = (props) => {
     refetch: fetchClassList,
   } = useGetAllData(
     QUERY_KEYS.GET_ALL_ClASS_LIST,
-    CLASS_END_POINT.get(1, -1, '',true)
+    CLASS_END_POINT.get(1, -1, '', true)
   );
   //class dropdown
   useEffect(() => {
@@ -148,7 +149,7 @@ const TutorRequestFrom = (props) => {
     refetch: fetchCityList,
   } = useGetAllData(
     QUERY_KEYS.GET_ALL_CITY_LIST,
-    CITY_END_POINT.get(1, -1, '',true)
+    CITY_END_POINT.get(1, -1, '', true)
   );
 
   /**city dropdown */
@@ -168,26 +169,25 @@ const TutorRequestFrom = (props) => {
 
   /**fetch location list */
 
-  const {
-    data: locationList,
-    refetch: fetchLocationList,
-  } = useGetAllData(
-    QUERY_KEYS.GET_ALL_LOCATION_LIST,
-    LOCATION_END_POINT.get(1, -1, '',true)
-  );
-
-  /**location dropdown */
-  useEffect(() => {
+  const handleCity = async (value) => {
+    setIsVisited(true);
+    const fetchLocation = await get(LOCATION_END_POINT.getLocationByCityId(value));
     const LOCATIONDROPDOWN = mapArrayToDropdown(
-      locationList?.data,
+      fetchLocation.data,
       'name',
       '_id'
     );
-    setLocation(LOCATIONDROPDOWN);
-  }, [locationList]);
+    setLocation(LOCATIONDROPDOWN)
+  }
 
 
   /**fetch location list  End */
+
+
+  const handleStudetNumber = async (value) => {
+    setIsVisited(true);
+    setNumOfStudent(value);
+  }
 
   const handleDateChange = (date, dateString) => {
     const formattedDate = moment(dateString).format('MM/DD/YYYY');
@@ -202,7 +202,7 @@ const TutorRequestFrom = (props) => {
 
   /** create from or edit from   */
 
-  if (setEditData != null) {
+  if (setEditData != null && visited == false) {
     form.setFieldsValue({
       guardian: setEditData?.guardian?.fullName,
       category: setEditData?.category?.name,
@@ -222,11 +222,14 @@ const TutorRequestFrom = (props) => {
       requirement: setEditData.requirement,
       phone: setEditData.phone,
       isApproval: setEditData.isApproval,
-      tuitionType:setEditData.tuitionType,
+      tuitionType: setEditData.tuitionType,
       status: setEditData.status,
     });
-  } else {
+  } else if (setEditData == null && visited == false) {
     form.resetFields();
+  }
+  const afterModalClose = () => {
+    setIsVisited(false)
   }
   /** create from or edit from end  */
 
@@ -376,20 +379,20 @@ const TutorRequestFrom = (props) => {
                           required: true,
                           message: 'Number of students is required',
                         },
-                        {
-                          type: 'number',
-                          min: 1,
-                          message: 'Number of students should be at least 1',
-                        },
-                        {
-                          type: 'number',
-                          max: 100,
-                          message: 'Number of students cannot exceed 100',
-                        },
+                        // {
+                        //   type: 'number',
+                        //   min: 1,
+                        //   message: 'Number of students should be at least 1',
+                        // },
+                        // {
+                        //   type: 'number',
+                        //   max: 100,
+                        //   message: 'Number of students cannot exceed 100',
+                        // },
                       ]}
                       hasFeedback
                     >
-                      <InputNumber style={{ width: '100%' }} />
+                      <InputNumber onChange={handleStudetNumber} style={{ width: '100%' }} />
                     </Form.Item>
 
 
@@ -399,8 +402,22 @@ const TutorRequestFrom = (props) => {
                       rules={[
                         {
                           required: true,
-                          message: 'Please select class!',
+                          message: 'Please select  class!',
                           type: 'array',
+
+                        },
+                        {
+
+                          type: 'array',
+                          min: 1,
+                          message: 'Please select  class!',
+
+                        },
+                        {
+
+                          type: 'array',
+                          max: numOfStudent,
+                          message: 'You can not select more then your student',
                         },
                       ]}
                       hasFeedback
@@ -436,13 +453,13 @@ const TutorRequestFrom = (props) => {
                     <Form.Item
                       name="tuitionType"
                       label="Type version"
-                    rules={[
-                      {
-                        required: true,
-                      },
-                    ]}
-                    hasFeedback
-                    initialValue={true}
+                      rules={[
+                        {
+                          required: true,
+                        },
+                      ]}
+                      hasFeedback
+                      initialValue={true}
                     >
                       <Select placeholder="Select a option" allowClear>
                         <Option value={"Home Tutoring"}> Home Tutoring </Option>
@@ -486,6 +503,7 @@ const TutorRequestFrom = (props) => {
                     >
                       <Select
                         // mode="multiple"
+                        onChange={handleCity}
                         placeholder="Please select City"
                         options={city}
                       />
@@ -621,12 +639,11 @@ const TutorRequestFrom = (props) => {
                     <Form.Item
                       label="Salary (BDT)"
                       name="salary"
-                    // rules={[
-                    //   {
-                    //     required: true,
-                    //     message: 'Salary is required',
-                    //   },
-                    // ]}
+                      rules={[
+                        { required: true, message: 'Please enter the expected salary per month' },
+                        { type: 'number', min: 3000, max: 200000, message: 'Salary must be between 3000 and 200000' },
+                        { type: 'number', message: 'Salary cannot be negative', transform: value => (value ? Math.abs(value) : value) },
+                      ]}
                     >
                       <InputNumber
                         placeholder="Enter expected salary per month"
@@ -739,4 +756,9 @@ const TutorRequestFrom = (props) => {
 };
 
 export default TutorRequestFrom;
+
+
+
+
+
 

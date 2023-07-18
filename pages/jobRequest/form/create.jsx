@@ -151,12 +151,7 @@ const App = (props) => {
                                 </Col>
 
                             </Row>
-                            {/* 
-                                                <Row className='mt-2' gutter={[16, 16]}>
-                                            <Col xs={24} md={8}></Col>
-                                            <Col xs={24} md={8}></Col>
-                                          
-                                                </Row> */}
+                       
 
                             <Row className='mt-2' gutter={[16, 16]}>
                                 <Col xs={24} md={8}>
@@ -267,60 +262,91 @@ const App = (props) => {
             title: 'Second',
             content: (
                 <>
-                    <Form>
+
+                    <Card className='mt-2 custom-card' bordered={false}>
+                        <Form>
+                            <Row className='mt-2' gutter={[16, 16]}>
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="tuitionType"
+                                        label="Type version"
+
+                                    >
+                                        <Select placeholder="Select a option" allowClear>
+                                            <Option value={"Home Tutoring"}> Home Tutoring </Option>
+                                            <Option value={"Online Tutoring"}>Online Tutoring</Option>
+                                            <Option value={"Group Tutoring"}>Group Tutoring</Option>
+                                            <Option value={"Package Tutoring"}>Package Tutoring</Option>
+                                        </Select>
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={24} md={8} offset={4}>
+                                    <Form.Item
+                                        name="studentGender"
+                                        label="student Gender"
+
+                                    >
+                                        <Radio.Group>
+                                            <Radio value="Male">Male</Radio>
+                                            <Radio value="Female">Female</Radio>
+                                            <Radio value="Any">Any</Radio>
+                                        </Radio.Group>
+                                    </Form.Item>
+                                </Col>
+
+                            </Row>
 
 
-                        <Form.Item
-                            name="tuitionType"
-                            label="Type version"
-
-                        >
-                            <Select placeholder="Select a option" allowClear>
-                                <Option value={"Home Tutoring"}> Home Tutoring </Option>
-                                <Option value={"Online Tutoring"}>Online Tutoring</Option>
-                                <Option value={"Group Tutoring"}>Group Tutoring</Option>
-                                <Option value={"Package Tutoring"}>Package Tutoring</Option>
-                            </Select>
-                        </Form.Item>
+                            <Row className='mt-2' gutter={[16, 16]}>
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="isApproval"
+                                        label="Portal Access"
+                                    >
 
 
+                                        <Radio.Group>
+                                            <Radio value={true}>Active</Radio>
+                                            <Radio value={false}>Inactive</Radio>
+                                        </Radio.Group>
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={24} md={8} offset={4}></Col>
+
+                            </Row>
 
 
-                        <Form.Item
-                            name="studentGender"
-                            label="Gender"
-                        // rules={[
-                        //   {
-                        //     required: true,
-                        //     message: 'Please select a gender',
-                        //   },
-                        // ]}
-                        >
-                            <Radio.Group>
-                                <Radio value="Male">Male</Radio>
-                                <Radio value="Female">Female</Radio>
-                                <Radio value="Any">Any</Radio>
-                            </Radio.Group>
-                        </Form.Item>
+                            <Row className='mt-2' gutter={[16, 16]}>
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        label="Hire Date"
+                                        name="hireDate"
 
+                                    >
+                                        <DatePicker
+                                            style={{ width: '300px', height: '40px' }}
+                                            format="DD/MM/YYYY"
+                                            onChange={handleDateChange}
+                                        />
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={24} md={8} offset={4}>
+                                    <Form.Item
+                                        label="Tutoring Time"
+                                        name="tutoringTime"
 
+                                    >
+                                        <TimePicker
+                                            style={{ width: '300px', height: '40px' }}
+                                            format="h:mm A"
+                                        />
+                                    </Form.Item>
+                                </Col>
 
+                            </Row>
 
-
-                        <Form.Item
-                            name="isApproval"
-                            label="Portal Access"
-                        >
-
-
-                            <Radio.Group>
-                                <Radio value={true}>Active</Radio>
-                                <Radio value={false}>Inactive</Radio>
-                            </Radio.Group>
-                        </Form.Item>
-
-
-                    </Form>
+                        </Form>
+                    </Card>
                 </>
             ),
         },
@@ -328,46 +354,100 @@ const App = (props) => {
             title: 'Last',
             content: (
                 <>
+                    <Card className='mt-2 custom-card' bordered={false}>
+                        <Form>
 
-                    <Form>
+                            <Row className='mt-2' gutter={[16, 16]}>
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="teacherGender"
+                                        label="Tutor Gender"
+
+                                    >
+                                        <Radio.Group>
+                                            <Radio value="Male">Male</Radio>
+                                            <Radio value="Female">Female</Radio>
+                                            <Radio value="Any">Other</Radio>
+                                        </Radio.Group>
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={24} md={8} offset={4}>
+                                    <Form.Item
+                                        label="Preference Institute Name"
+                                        name="preferenceInstitute"
+
+                                    >
+                                        <Input
+                                            placeholder="Enter preference institute name"
+                                        />
+                                    </Form.Item>
+                                </Col>
+
+                            </Row>
 
 
-                        <Form.Item name="studentGender" label="Gender">
-                            <Radio.Group>
-                                <Radio value="Male">Male</Radio>
-                                <Radio value="Female">Female</Radio>
-                                <Radio value="Any">Any</Radio>
-                            </Radio.Group>
-                        </Form.Item>
+                            <Row className='mt-2' gutter={[16, 16]}>
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        label="Salary (BDT)"
+                                        name="salary"
+                                        rules={[
+                                            { required: true, message: 'Please enter the expected salary per month' },
+                                            { type: 'number', min: 3000, max: 200000, message: 'Salary must be between 3000 and 200000' },
+                                            { type: 'number', message: 'Salary cannot be negative', transform: value => (value ? Math.abs(value) : value) },
+                                        ]}
+                                    >
+                                        <InputNumber
+                                            placeholder="Enter expected salary per month"
+                                            style={{ width: '100%' }}
+                                        />
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={24} md={8} offset={4}>
+                                    <Form.Item
+                                        label="More Requirement"
+                                        name="requirement"
 
-                        <Form.Item
-                            name="city"
-                            label="Select City"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please select City!',
-                                },
-                            ]}
-                            hasFeedback
-                        >
-                            <Select placeholder="Please select City" />
-                        </Form.Item>
+                                    >
+                                        <Input.TextArea
+                                            rows={2}
+                                            placeholder="Enter Full requirement"
+                                        />
+                                    </Form.Item>
+                                </Col>
 
-                        <Form.Item
-                            name="location"
-                            label="Location"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please select Location!',
-                                },
-                            ]}
-                            hasFeedback
-                        >
-                            <Select placeholder="Please select Location" />
-                        </Form.Item>
-                    </Form>
+                            </Row>
+
+
+                            <Row className='mt-2' gutter={[16, 16]}>
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="status"
+                                        label="Status"
+                                    // rules={[
+                                    //   {
+                                    //     required: true,
+                                    //   },
+                                    // ]}
+                                    // hasFeedback
+                                    // initialValue={true}
+                                    >
+                                        <Select placeholder="Select a option" allowClear>
+                                            <Option value={true}>Active</Option>
+                                            <Option value={false}>Inactive</Option>
+                                        </Select>
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={24} md={8} offset={4}></Col>
+
+                            </Row>
+
+
+
+
+
+                        </Form>
+                    </Card>
                 </>
             ),
         },
@@ -542,27 +622,6 @@ const App = (props) => {
         console.log(formattedDate);  // Output: 07/04/2023
         // You can update the form value or do any other necessary operations here
     };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
