@@ -25,11 +25,7 @@ const LoginPage = () => {
     ToastMessage({ type, message });
   }, []);
 
-  useEffect(() => {
-    if (token) {
-      router.replace('/');
-    }
-  }, [token])
+
   const submitForm = async (event) => {
     event.preventDefault();
     try {

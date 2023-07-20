@@ -1,21 +1,27 @@
 import { LoginOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { Button, Layout } from 'antd';
+import { Button, Layout, Menu } from 'antd';
 import { useRouter } from 'next/router';
 import React from 'react';
+import Axios from "../utils/axios";
 
 const { Header } = Layout;
 
-
-
 const Navbar = ({ collapsed, toggleCollapsed }) => {
-    const colorBgContainer = '#ffffff';
+  const { http, setToken, token } = Axios();
+  console.log("token",token);
+  const colorBgContainer = '#ffffff';
+  const router = useRouter();
 
-    const router = useRouter();
-const onLogout = async () => {
-  localStorage.clear();
-  await router.replace("/");
-  await router.reload();
-}
+  const onLogout = async () => {
+    localStorage.clear();
+    await router.replace("/");
+    await router.reload();
+  }
+
+  const navigateTo = (path) => {
+    router.push(path);
+  };
+
   return (
     <Header
       style={{
@@ -23,24 +29,32 @@ const onLogout = async () => {
         background: colorBgContainer,
       }}
     >
-      <Button
-        type="text"
-        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-        onClick={toggleCollapsed}
-        style={{
-          fontSize: '16px',
-          width: 64,
-          height: 64,
-        }}
-      />
-
-
-<span className="float-end me-3">
-
-<Button type="link" onClick={onLogout}  icon={<LoginOutlined />} size="large">
-      
-  </Button>
-        </span>
+      <Menu mode="horizontal" theme="light" selectedKeys={[router.pathname]} className="float-start">
+        {token !== null && (
+          <Menu.Item>
+            <Button
+              type="text"
+              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              onClick={toggleCollapsed}
+            />
+          </Menu.Item>
+        )}
+        <Menu.Item key="/" onClick={() => navigateTo('/')}>
+          Home
+        </Menu.Item>
+        {/* <Menu.Item key="/about" onClick={() => navigateTo('/about')}>
+          About
+        </Menu.Item> */}
+        {token === null ? (
+          <Menu.Item className="float-end me-3" key="/login" onClick={() => navigateTo('/login')}>
+            Login
+          </Menu.Item>
+        ) : (
+          <Menu.Item>
+            <Button type="link" onClick={onLogout} icon={<LoginOutlined />} size="large" />
+          </Menu.Item>
+        )}
+      </Menu>
     </Header>
   );
 };

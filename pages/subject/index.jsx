@@ -3,7 +3,7 @@ import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Breadcrumb, Button, Layout, Modal, Row, Tag, theme,Table,Input } from 'antd';
 import { useRouter } from 'next/router';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import HeadSection from '../../components/HeadSection';
 import ToastMessage from '../../components/Toast';
@@ -14,6 +14,7 @@ import { del } from '../../helpers/api_helper';
 import { useGetAllData } from '../../utils/hooks/useGetAllData';
 import SubjectForm from './form/SubjectForm';
 import SubjectView from './view/SubjectView';
+import Axios from '../../utils/axios';
 
 const AllSubject = () => {
   const {
@@ -25,6 +26,13 @@ const AllSubject = () => {
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
+  const { http, setToken, token } = Axios();
+
+  useEffect(() => {
+    if (!token) {
+      router.replace('/login');
+    }
+  }, [token])
   const [search, setSearch] = useState('');
   console.log(search);
   const [itemList, setItemList] = useState([]);
