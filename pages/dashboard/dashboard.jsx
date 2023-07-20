@@ -8,40 +8,18 @@ import { DASHBOARD_END_POINT } from '../../constants/index';
 import { QUERY_KEYS } from '../../constants/queryKeys';
 import { useGetAllData } from '../../utils/hooks/useGetAllData';
 import { get } from '../../helpers/api_helper';
+import Axios from '../../utils/axios';
 const { Text, Link } = Typography;
 const Dashboard = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  // const { data: dashboard } = useGetAllData(QUERY_KEYS.GET_ALL_DASHBOARD, DASHBOARD_END_POINT.dashbord(true));
+  const { data: dashboard } = useGetAllData(QUERY_KEYS.GET_ALL_DASHBOARD, DASHBOARD_END_POINT.dashbord(true));
+  const { http, setToken, token } = Axios();
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter();
   const onDetails = async (value) => {
     console.log(value);
     await router.push(`/dashboard/${value}`)
   }
-
-  // const update = await get(DASHBOARD_END_POINT.dashbord(true));
-
-const[dashboard,setDashboard] = useState([]);
-  useEffect(() => {
-    const fetchAllRoomType = async () => {
-      let isSubscribed = true;
-
-      await get(DASHBOARD_END_POINT.dashbord(true))
-        .then((res) => {
-          if (isSubscribed) {
-            setDashboard(res)
-          }
-        })
-        .catch((err) => {
-          console.log("Server Error ~!")
-        });
-
-      return () => isSubscribed = false;
-
-    };
-
-    fetchAllRoomType();
-  }, []);
   return (
     <div className='container'>
     <Row gutter={[8, 16]} justify="space-between">

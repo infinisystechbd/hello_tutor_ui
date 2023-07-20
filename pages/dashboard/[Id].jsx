@@ -6,11 +6,12 @@ import React, { Fragment } from 'react';
 import { DASHBOARD_END_POINT } from '../../constants';
 import { QUERY_KEYS } from '../../constants/queryKeys';
 import { useGetAllData } from '../../utils/hooks/useGetAllData';
+import Axios from '../../utils/axios';
 
 const JobDetails = () => {
   const router = useRouter();
   const { Id } = router?.query;
-
+  const { http, setToken, token } = Axios();
   const { Text, Link } = Typography;
 
   const { data, isError, isLoading } = useGetAllData(QUERY_KEYS.GET_JOB_DETAILS, DASHBOARD_END_POINT.jobDetails(Id));
@@ -103,7 +104,17 @@ const JobDetails = () => {
                   <Button block>Direction</Button>
                 </Col>
                 <Col span={8}>
+                {token !== null ?  (
+
                   <Button block type='primary'>Apply</Button>
+                  ) : (
+                    <>
+                    <Link href="/login">
+                    <Button block type='primary'>Apply</Button>
+                    </Link>
+                    
+                    </>
+                    )}
                 </Col>
               </Row>
             </Card>
