@@ -1,13 +1,13 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
+import HeadSection from "../components/HeadSection";
+import Stopwatch from "../components/Stopwatch";
 import ToastMessage from '../components/Toast/index';
 import { SECURITY_END_POINT } from "../constants/index";
 import { post } from "../helpers/api_helper";
 import Axios from "../utils/axios";
-import Link from "next/link";
-import Stopwatch from "../components/Stopwatch";
-import HeadSection from "../components/HeadSection";
-import Image from 'next/image';
+//import img from 'next/image';
 
 
 const LoginPage = () => {
@@ -148,7 +148,7 @@ const LoginPage = () => {
                 <div className="container-fluid h-custom">
                     <div className="row d-flex justify-content-center align-items-center h-100">
                         <div className="col-md-8 col-lg-6 col-xl-5">
-                            <Image
+                            <img
                                 src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
                                 className="img-fluid"
                                 alt="Sample image"
@@ -183,7 +183,7 @@ const LoginPage = () => {
                                                                                 <p className="card-text">Select,If you are looking for Tutor</p>
                                                                             </div>
                                                                             <div className="col-md-6 text-center">
-                                                                                <Image
+                                                                                <img
                                                                                     src="https://img.favpng.com/2/0/20/lesson-cartoon-student-png-favpng-f1isHzw7i2t29Uygdk4FrSKzP.jpg"
                                                                                     alt="Male"
                                                                                     className="gender-image img-fluid"
@@ -215,7 +215,7 @@ const LoginPage = () => {
                                                                                 <p className="card-text">Select,If you are looking for Student.</p>
                                                                             </div>
                                                                             <div className="col-md-6">
-                                                                                <Image
+                                                                                <img
                                                                                     src="https://www.pngitem.com/pimgs/m/351-3513600_transparent-teacher-cartoon-png-teachers-day-clipart-png.png"
                                                                                     alt="Female"
                                                                                     className="gender-image img-fluid"

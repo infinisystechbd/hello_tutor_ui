@@ -1,12 +1,12 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
+import HeadSection from "../components/HeadSection";
 import ToastMessage from '../components/Toast/index';
 import { SECURITY_END_POINT } from "../constants/index";
 import { post } from "../helpers/api_helper";
 import Axios from "../utils/axios";
-import Link from "next/link";
-import HeadSection from "../components/HeadSection";
-import Image from 'next/image';
+//import Image from 'next/image';
 
 
 const LoginPage = () => {
@@ -86,7 +86,7 @@ const LoginPage = () => {
         <div className="container-fluid h-custom">
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col-md-9 col-lg-6 col-xl-5">
-              <Image
+              <img
                 src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
                 className="img-fluid"
                 alt="Sample image"

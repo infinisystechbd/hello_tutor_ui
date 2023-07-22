@@ -1,14 +1,14 @@
-import { DingtalkOutlined, EnvironmentOutlined, ReadOutlined,CalendarOutlined } from '@ant-design/icons';
-import { faPerson, faPersonDress,faCalendarAlt,faPuzzlePiece } from '@fortawesome/free-solid-svg-icons';
+import { CalendarOutlined, DingtalkOutlined, EnvironmentOutlined, ReadOutlined } from '@ant-design/icons';
+import { faPerson, faPersonDress, faPuzzlePiece } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Card, Col, Row, Typography } from 'antd';
 import { useRouter } from 'next/router';
-import React, { Fragment,useEffect, useState } from 'react';
+import React from 'react';
+import withAuth from '../../components/withAuth';
 import { DASHBOARD_END_POINT } from '../../constants/index';
 import { QUERY_KEYS } from '../../constants/queryKeys';
-import { useGetAllData } from '../../utils/hooks/useGetAllData';
-import { get } from '../../helpers/api_helper';
 import Axios from '../../utils/axios';
+import { useGetAllData } from '../../utils/hooks/useGetAllData';
 const { Text, Link } = Typography;
 const Dashboard = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -105,4 +105,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default withAuth(Dashboard);
