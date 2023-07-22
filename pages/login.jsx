@@ -70,71 +70,21 @@ const LoginPage = () => {
   }
 
 
-  const guardianRegForm = async (event) => {
-    event.preventDefault();
-    try {
-      const guardianReg = await post(SECURITY_END_POINT.guardianReg(), { phone: phone, password: password, confirmPassword: confirmPassword });
-      notify("success", "successfully Registration!");
-      setUserId(tutorReg?.data?._id);
-      setVerify(false)
-    } catch (error) {
-      let message;
-      console.log(error);
-
-      notify("error", message);
-    }
-  }
-
-
-  const tutorRegForm = async (event) => {
-    event.preventDefault();
-    try {
-      const tutorReg = await post(SECURITY_END_POINT.tutorReg(), { fullName: fullName, phone: phone, gender: gender, password: password, confirmPassword: confirmPassword });
-      //  const res = 
-      console.log(tutorReg, "alll", tutorReg.status);
-      // setToken(tutorReg.accessToken);
-      setUserId(tutorReg?.data?._id);
-      notify("success", "successfully Registration!");
-      setVerify(false)
-
-    } catch (error) {
-      let message;
-      console.log(error);
-
-      notify("error", message);
-    }
-  }
 
 
 
 
 
-  const handleRegister = () => {
-    setValue(!value); // Toggles the value between true and false
-  };
+
+
+
+
+
 
   const [loading, setLoading] = useState(false);
 
 
-  const tokenHandeler = async (event) => {
-    // id,otp
-    event.preventDefault();
-    setLoading(true);
 
-    try {
-      const update = await post(SECURITY_END_POINT.verifyOtp(userId), { token: otp });
-      console.log(update);
-      if (update.status == 'SUCCESS') {
-        notify('success', update.message);
-
-      }
-    } catch (error) {
-      notify('error', update.error);
-      setLoading(false);
-    }
-    setLoading(false);
-    // console.log(id,otp);
-  };
 
   return (
     <>

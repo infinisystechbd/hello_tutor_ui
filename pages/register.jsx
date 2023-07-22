@@ -5,6 +5,7 @@ import { SECURITY_END_POINT } from "../constants/index";
 import { post } from "../helpers/api_helper";
 import Axios from "../utils/axios";
 import Link from "next/link";
+import Stopwatch from "../components/Stopwatch";
 
 const LoginPage = () => {
     const { http, setToken, token } = Axios();
@@ -76,12 +77,11 @@ const LoginPage = () => {
         try {
             const guardianReg = await post(SECURITY_END_POINT.guardianReg(), { phone: phone, password: password, confirmPassword: confirmPassword });
             notify("success", "successfully Registration!");
-            setUserId(tutorReg?.data?._id);
+            setUserId(guardianReg?.data?._id);
             setVerify(false)
         } catch (error) {
             let message;
             console.log(error);
-
             notify("error", message);
         }
     }
@@ -91,11 +91,8 @@ const LoginPage = () => {
         event.preventDefault();
         try {
             const tutorReg = await post(SECURITY_END_POINT.tutorReg(), { fullName: fullName, phone: phone, gender: gender, password: password, confirmPassword: confirmPassword });
-            //  const res = 
-            console.log(tutorReg, "alll", tutorReg.status);
-            // setToken(tutorReg.accessToken);
-            setUserId(tutorReg?.data?._id);
             notify("success", "successfully Registration!");
+            setUserId(tutorReg?.data?._id);
             setVerify(false)
 
         } catch (error) {
@@ -124,9 +121,11 @@ const LoginPage = () => {
 
         try {
             const update = await post(SECURITY_END_POINT.verifyOtp(userId), { token: otp });
-            console.log(update);
+            console.log("update", update);
             if (update.status == 'SUCCESS') {
-                notify('success', update.message);
+                const login = await post(SECURITY_END_POINT.login(), { phone: phone, password: password });
+                setToken(login.accessToken);
+                notify("success", "successfully Login!");
 
             }
         } catch (error) {
@@ -282,9 +281,9 @@ const LoginPage = () => {
                                                                         className="btn btn-primary btn-lg"
                                                                         style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
 
-                                                                        onClick={tutorRegForm}
+                                                                        onClick={guardianRegForm}
                                                                     >
-                                                                        Register Teacher
+                                                                        Register Guardian
                                                                     </button>
                                                                     <p className="small fw-bold mt-2 pt-1 mb-0">
                                                                         Already  have an account?{" "}
@@ -449,30 +448,37 @@ const LoginPage = () => {
                                     :
 
                                     <>
-                                        <div className="form-outline mb-4">
+                                        <div className="card">
+                                            <div className="card-body">
+                                                <div className="row">
+                                                    <div className="form-outline mb-4">
+                                                    <Stopwatch />
+                                                        <input
+                                                            type="name"
+                                                            id="form3Example3"
+                                                            className="form-control form-control-lg"
+                                                            placeholder="Enter Token"
+                                                            // value={phone}
+                                                            onChange={e => setOtp(e.target.value)}
+                                                        />
+                                                        <label className="form-label" htmlFor="form3Example3">
+                                                            Token
+                                                        </label>
 
-                                            <input
-                                                type="name"
-                                                id="form3Example3"
-                                                className="form-control form-control-lg"
-                                                placeholder="Enter Token"
-                                                // value={phone}
-                                                onChange={e => setOtp(e.target.value)}
-                                            />
-                                            <label className="form-label" htmlFor="form3Example3">
-                                                Token
-                                            </label>
+                                                    </div>
+                                                    <div className="row">
+                                                        <button
+                                                            type="submit"
+                                                            className="btn btn-primary btn-lg"
+                                                            style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
 
-
-                                            <button
-                                                type="submit"
-                                                className="btn btn-primary btn-lg"
-                                                style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
-
-                                                onClick={tokenHandeler}
-                                            >
-                                                Send
-                                            </button>
+                                                            onClick={tokenHandeler}
+                                                        >
+                                                            Send
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </>
                             }

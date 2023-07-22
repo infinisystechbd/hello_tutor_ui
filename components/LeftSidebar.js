@@ -4,13 +4,25 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import Axios from "../utils/axios";
+import jwt from 'jsonwebtoken';
 const { Sider } = Layout;
 
 const Leftsidebar = ({ collapsed }) => {
   const router = useRouter();
   const [collapse, setCollapse] = useState(collapsed);
+
   const { http, setToken, token } = Axios();
+
+  const decodedToken = token ? jwt.decode(token) : null;
+  const role = decodedToken?.role;
+
   const menuItems = [
+    {
+      key: 'dashboard',
+      icon: <UserOutlined />,
+      label: decodedToken?.fullName,
+      path: ''
+    },
     {
       key: 'dashboard',
       icon: <DashboardOutlined />,
@@ -21,6 +33,7 @@ const Leftsidebar = ({ collapsed }) => {
       key: '/helloTutor',
       icon: <SettingOutlined />,
       label: 'Master Data',
+      roles: [1], // Show this item for role 1 (admin)
       children: [
         { key: 'subject', label: 'Subject', path: '/subject' },
         { key: 'class', label: 'Class', path: '/class' },
@@ -33,6 +46,7 @@ const Leftsidebar = ({ collapsed }) => {
       key: 'job',
       icon: <ContainerOutlined />,
       label: 'Job Management',
+      roles: [1], // Show this item for role 1 (admin)
       children: [
         { key: 'job', label: 'Job Creation', path: '/jobRequest' },
         { key: 'job Assign', label: 'Job Assign', path: '/jobAssign' },
@@ -54,7 +68,14 @@ const Leftsidebar = ({ collapsed }) => {
     router.push(path, undefined, { shallow: true });
   };
 
-  const renderedMenuItems = token ? menuItems : [menuItems[0]]; // Show all items if token is present, otherwise show only the first item (Dashboard)
+  const renderedMenuItems = token
+    ? menuItems.filter((item) => {
+        if (role === 1 || !item.roles) {
+          return true;
+        }
+        return item.roles.includes(role);
+      })
+    : [menuItems[0]];
 
   const renderMenuItems = (menuItems) => {
     return menuItems.map((item) => {
