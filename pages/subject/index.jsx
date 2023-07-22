@@ -2,7 +2,6 @@ import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, EyeOutlined } fr
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Breadcrumb, Button, Layout, Modal, Row, Tag, theme, Table, Input } from 'antd';
-import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import HeadSection from '../../components/HeadSection';
@@ -22,7 +21,7 @@ const AllSubject = () => {
   } = theme.useToken();
   const { confirm } = Modal;
   const { Content } = Layout;
-  const router = useRouter();
+ 
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
