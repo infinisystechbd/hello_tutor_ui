@@ -25,15 +25,18 @@ const LoginPage = () => {
     const [userId, setUserId] = useState(null);
     const [otp, setOtp] = useState("")
     const [isGuardian, setIsGuardian] = useState(true);
-    const [loading, setLoading] = useState(false);
-
-
+    console.log(isGuardian);
+    // console.log(guardianFrom);
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
     }, []);
 
 
-
+    useEffect(() => {
+        if (token) {
+            router.replace('/');
+        }
+    }, [token])
 
     const submitForm = async (event) => {
         event.preventDefault();
@@ -111,7 +114,8 @@ const LoginPage = () => {
         setValue(!value); //
     };
 
-   
+    const [loading, setLoading] = useState(false);
+
 
     const tokenHandeler = async (event) => {
         // id,otp
@@ -134,12 +138,6 @@ const LoginPage = () => {
         setLoading(false);
         // console.log(id,otp);
     };
-
-    useEffect(() => {
-        if (token) {
-            router.replace('/');
-        }
-    }, [token, router])
 
     return (
         <>

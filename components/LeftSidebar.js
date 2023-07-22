@@ -1,10 +1,10 @@
-import { DashboardOutlined,HomeOutlined, FileOutlined, UserOutlined, SettingOutlined, ContainerOutlined } from '@ant-design/icons';
+import { ContainerOutlined, DashboardOutlined, HomeOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
+import jwt from 'jsonwebtoken';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import Axios from "../utils/axios";
-import jwt from 'jsonwebtoken';
 const { Sider } = Layout;
 
 const Leftsidebar = ({ collapsed }) => {
@@ -13,17 +13,17 @@ const Leftsidebar = ({ collapsed }) => {
 
   const { http, setToken, token } = Axios();
 
-  // const decodedToken = token ? jwt.decode(token) : null;
-  // const role = decodedToken?.role;
-  // console.log("decodedToken",decodedToken);
+  const decodedToken = token ? jwt.decode(token) : null;
+  const role = decodedToken?.role;
+  console.log("decodedToken",decodedToken);
 
   const menuItems = [
-    // {
-    //   key: 'profile',
-    //   icon: <UserOutlined />,
-    //   label: decodedToken?.fullName,
-    //   path: `/profile/${decodedToken?.userId}`
-    // },
+    {
+      key: 'profile',
+      icon: <UserOutlined />,
+      label: decodedToken?.fullName,
+      path: `/profile/${decodedToken?.userId}`
+    },
     {
       key: 'dashboard',
       // icon: <DashboardOutlined />, 
@@ -78,14 +78,14 @@ const Leftsidebar = ({ collapsed }) => {
     router.push(path, undefined, { shallow: true });
   };
 
-  // const renderedMenuItems = token
-  //   ? menuItems.filter((item) => {
-  //       if (role === 1 || !item.roles) {
-  //         return true;
-  //       }
-  //       return item.roles.includes(role);
-  //     })
-  //   : [menuItems[0]];
+  const renderedMenuItems = token
+    ? menuItems.filter((item) => {
+        if (role === 1 || !item.roles) {
+          return true;
+        }
+        return item.roles.includes(role);
+      })
+    : [menuItems[0]];
 
   const renderMenuItems = (menuItems) => {
     return menuItems.map((item) => {

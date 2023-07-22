@@ -24,14 +24,17 @@ const LoginPage = () => {
   const [userId, setUserId] = useState(null);
   const [otp, setOtp] = useState("")
 
-  const [loading, setLoading] = useState(false);
-
+  console.log(guardianFrom);
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
 
 
-
+  useEffect(() => {
+    if (token) {
+      router.replace('/');
+    }
+  }, [token])
 
   const submitForm = async (event) => {
     event.preventDefault();
@@ -71,12 +74,9 @@ const LoginPage = () => {
 
 
 
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (token) {
-      router.replace('/');
-    }
-  }, [token, router])
+
 
 
   return (
