@@ -6,8 +6,6 @@ import { post } from "../helpers/api_helper";
 import Axios from "../utils/axios";
 import Link from "next/link";
 import HeadSection from "../components/HeadSection";
-import Image from 'next/image';
-
 
 const LoginPage = () => {
   const { http, setToken, token } = Axios();
@@ -24,14 +22,17 @@ const LoginPage = () => {
   const [userId, setUserId] = useState(null);
   const [otp, setOtp] = useState("")
 
-  const [loading, setLoading] = useState(false);
-
+  console.log(guardianFrom);
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
 
 
-
+  useEffect(() => {
+    if (token) {
+      router.replace('/');
+    }
+  }, [token])
 
   const submitForm = async (event) => {
     event.preventDefault();
@@ -71,12 +72,9 @@ const LoginPage = () => {
 
 
 
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (token) {
-      router.replace('/');
-    }
-  }, [token, router])
+
 
 
   return (
@@ -86,7 +84,7 @@ const LoginPage = () => {
         <div className="container-fluid h-custom">
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col-md-9 col-lg-6 col-xl-5">
-              <Image
+              <img
                 src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
                 className="img-fluid"
                 alt="Sample image"

@@ -7,8 +7,6 @@ import Axios from "../utils/axios";
 import Link from "next/link";
 import Stopwatch from "../components/Stopwatch";
 import HeadSection from "../components/HeadSection";
-import Image from 'next/image';
-
 
 const LoginPage = () => {
     const { http, setToken, token } = Axios();
@@ -25,15 +23,18 @@ const LoginPage = () => {
     const [userId, setUserId] = useState(null);
     const [otp, setOtp] = useState("")
     const [isGuardian, setIsGuardian] = useState(true);
-    const [loading, setLoading] = useState(false);
-
-
+    console.log(isGuardian);
+    // console.log(guardianFrom);
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
     }, []);
 
 
-
+    useEffect(() => {
+        if (token) {
+            router.replace('/');
+        }
+    }, [token])
 
     const submitForm = async (event) => {
         event.preventDefault();
@@ -111,7 +112,8 @@ const LoginPage = () => {
         setValue(!value); //
     };
 
-   
+    const [loading, setLoading] = useState(false);
+
 
     const tokenHandeler = async (event) => {
         // id,otp
@@ -135,12 +137,6 @@ const LoginPage = () => {
         // console.log(id,otp);
     };
 
-    useEffect(() => {
-        if (token) {
-            router.replace('/');
-        }
-    }, [token, router])
-
     return (
         <>
         <HeadSection title="Registration" />
@@ -148,7 +144,7 @@ const LoginPage = () => {
                 <div className="container-fluid h-custom">
                     <div className="row d-flex justify-content-center align-items-center h-100">
                         <div className="col-md-8 col-lg-6 col-xl-5">
-                            <Image
+                            <img
                                 src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
                                 className="img-fluid"
                                 alt="Sample image"
@@ -183,7 +179,7 @@ const LoginPage = () => {
                                                                                 <p className="card-text">Select,If you are looking for Tutor</p>
                                                                             </div>
                                                                             <div className="col-md-6 text-center">
-                                                                                <Image
+                                                                                <img
                                                                                     src="https://img.favpng.com/2/0/20/lesson-cartoon-student-png-favpng-f1isHzw7i2t29Uygdk4FrSKzP.jpg"
                                                                                     alt="Male"
                                                                                     className="gender-image img-fluid"
@@ -215,7 +211,7 @@ const LoginPage = () => {
                                                                                 <p className="card-text">Select,If you are looking for Student.</p>
                                                                             </div>
                                                                             <div className="col-md-6">
-                                                                                <Image
+                                                                                <img
                                                                                     src="https://www.pngitem.com/pimgs/m/351-3513600_transparent-teacher-cartoon-png-teachers-day-clipart-png.png"
                                                                                     alt="Female"
                                                                                     className="gender-image img-fluid"
