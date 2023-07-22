@@ -5,6 +5,7 @@ import { SECURITY_END_POINT } from "../constants/index";
 import { post } from "../helpers/api_helper";
 import Axios from "../utils/axios";
 import Link from "next/link";
+import HeadSection from "../components/HeadSection";
 
 const LoginPage = () => {
   const { http, setToken, token } = Axios();
@@ -71,16 +72,6 @@ const LoginPage = () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
   const [loading, setLoading] = useState(false);
 
 
@@ -88,6 +79,7 @@ const LoginPage = () => {
 
   return (
     <>
+    <HeadSection title="Login" />
       <section className="vh-100">
         <div className="container-fluid h-custom">
           <div className="row d-flex justify-content-center align-items-center h-100">

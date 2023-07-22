@@ -1,4 +1,4 @@
-import { DashboardOutlined, FileOutlined, UserOutlined, SettingOutlined, ContainerOutlined } from '@ant-design/icons';
+import { DashboardOutlined,HomeOutlined, FileOutlined, UserOutlined, SettingOutlined, ContainerOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -15,17 +15,19 @@ const Leftsidebar = ({ collapsed }) => {
 
   const decodedToken = token ? jwt.decode(token) : null;
   const role = decodedToken?.role;
+  console.log("decodedToken",decodedToken);
 
   const menuItems = [
     {
-      key: 'dashboard',
+      key: 'profile',
       icon: <UserOutlined />,
       label: decodedToken?.fullName,
-      path: ''
+      path: `/profile/${decodedToken?.userId}`
     },
     {
       key: 'dashboard',
-      icon: <DashboardOutlined />,
+      // icon: <DashboardOutlined />, 
+      icon: <HomeOutlined />, 
       label: 'Dashboard',
       path: '/dashboard/dashboard'
     },
@@ -56,11 +58,19 @@ const Leftsidebar = ({ collapsed }) => {
       key: 'user_manage',
       icon: <UserOutlined />,
       label: 'User Manager',
+      roles: [1],
       children: [
         { key: 'users', label: 'User', path: '/users' },
         { key: 'guardian', label: 'Guardian', path: '/guardian' },
         { key: 'tutor', label: 'Tutor', path: '/tutor' },
       ],
+    },
+
+    {
+      key: 'tutorRequest',
+      icon: <DashboardOutlined />,
+      label: 'Tutor Request',
+      path: '/tutorRequest/form/TutorRequestForm'
     },
   ];
 

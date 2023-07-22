@@ -6,6 +6,7 @@ import { post } from "../helpers/api_helper";
 import Axios from "../utils/axios";
 import Link from "next/link";
 import Stopwatch from "../components/Stopwatch";
+import HeadSection from "../components/HeadSection";
 
 const LoginPage = () => {
     const { http, setToken, token } = Axios();
@@ -138,6 +139,7 @@ const LoginPage = () => {
 
     return (
         <>
+        <HeadSection title="Registration" />
             <section className="vh-100">
                 <div className="container-fluid h-custom">
                     <div className="row d-flex justify-content-center align-items-center h-100">

@@ -1,7 +1,7 @@
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, EyeOutlined } from '@ant-design/icons';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Breadcrumb, Button, Layout, Modal, Row, Tag, theme,Table,Input } from 'antd';
+import { Breadcrumb, Button, Layout, Modal, Row, Tag, theme, Table, Input } from 'antd';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
@@ -107,7 +107,7 @@ const AllSubject = () => {
     data: subjectList,
     isLoading,
     refetch: fetchSubjectList,
-  } = useGetAllData(QUERY_KEYS.GET_ALL_SUBJECT_LIST, SUBJECT_END_POINT.get(page, limit, search,""));
+  } = useGetAllData(QUERY_KEYS.GET_ALL_SUBJECT_LIST, SUBJECT_END_POINT.get(page, limit, search, ""));
 
   const reFetchHandler = (isRender) => {
     if (isRender) fetchSubjectList();
@@ -237,7 +237,7 @@ const AllSubject = () => {
     return (
       <>
         <Row justify="space-between" style={{ display: 'flex', alignItems: 'center' }}>
-          <a onClick={() => handleViewOpen(row)} style={{ color: 'green'}}>
+          <a onClick={() => handleViewOpen(row)} style={{ color: 'green' }}>
             <EyeOutlined style={{ fontSize: '22px' }} />
           </a>
 
@@ -319,8 +319,8 @@ const AllSubject = () => {
 
 
                   <div style={{ overflowX: 'auto' }}>
-                  <div style={{ minWidth: '100%' }}>
-                    {/* <DataTable
+                    <div style={{ minWidth: '100%' }}>
+                      {/* <DataTable
                       columns={columns}
                       data={subjectList?.data}
                       pagination
@@ -341,19 +341,19 @@ const AllSubject = () => {
                       striped
                     /> */}
 
-<Table
-      columns={columns}
-      dataSource={data}
-      pagination
-      paginationServer
-      highlightOnHover
-      onChangeRowsPerPage={handlePerRowsChange}
-      onChangePage={handlePageChange}
-      scroll={{ x: 'max-content' }}
-      noDataComponent={<span>No data available</span>}
-    />
+                      <Table
+                        columns={columns}
+                        dataSource={data}
+                        pagination
+                        paginationServer
+                        highlightOnHover
+                        onChangeRowsPerPage={handlePerRowsChange}
+                        onChangePage={handlePageChange}
+                        scroll={{ x: 'max-content' }}
+                        noDataComponent={<span>No data available</span>}
+                      />
 
-{/* <>
+                      {/* <>
       <Input.Search
         placeholder="Search subject name"
         allowClear
@@ -370,7 +370,7 @@ const AllSubject = () => {
         noDataComponent={<span>No data available</span>}
       />
     </> */}
-                  </div>
+                    </div>
                   </div>
                 </div>
               </div>
