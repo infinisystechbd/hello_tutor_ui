@@ -4,7 +4,7 @@ import ToastMessage from '../../components/Toast/index';
 import { SECURITY_END_POINT } from "../../constants/index";
 import { post } from "../../helpers/api_helper";
 import Axios from "../../utils/axios";
-
+import Image from 'next/image';
 const LoginPage = () => {
   const { http, setToken, token } = Axios();
   const router = useRouter();
@@ -154,7 +154,7 @@ const LoginPage = () => {
         <div className="container-fluid h-custom">
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col-md-9 col-lg-6 col-xl-5">
-              <img
+              <Image
                 src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
                 className="img-fluid"
                 alt="Sample image"
@@ -207,7 +207,7 @@ const LoginPage = () => {
                                   onChange={e => setGuardianFrom(!guardianFrom)}
                                 />
                                 <label className="form-check-label" htmlFor="guardian">
-                                  <img
+                                  <Image
                                     src="https://img.favpng.com/2/0/20/lesson-cartoon-student-png-favpng-f1isHzw7i2t29Uygdk4FrSKzP.jpg"
                                     alt="Male"
                                     className="gender-image"
@@ -226,7 +226,7 @@ const LoginPage = () => {
                                   onChange={e => setGuardianFrom(!guardianFrom)}
                                 />
                                 <label className="form-check-label" htmlFor="tutor">
-                                  <img
+                                  <Image
 
                                     src="https://www.pngitem.com/pimgs/m/351-3513600_transparent-teacher-cartoon-png-teachers-day-clipart-png.png"
                                     alt="Female"

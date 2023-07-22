@@ -7,6 +7,8 @@ import Axios from "../utils/axios";
 import Link from "next/link";
 import Stopwatch from "../components/Stopwatch";
 import HeadSection from "../components/HeadSection";
+import Image from 'next/image';
+
 
 const LoginPage = () => {
     const { http, setToken, token } = Axios();
@@ -23,18 +25,15 @@ const LoginPage = () => {
     const [userId, setUserId] = useState(null);
     const [otp, setOtp] = useState("")
     const [isGuardian, setIsGuardian] = useState(true);
-    console.log(isGuardian);
-    // console.log(guardianFrom);
+    const [loading, setLoading] = useState(false);
+
+
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
     }, []);
 
 
-    useEffect(() => {
-        if (token) {
-            router.replace('/');
-        }
-    }, [token])
+
 
     const submitForm = async (event) => {
         event.preventDefault();
@@ -112,8 +111,7 @@ const LoginPage = () => {
         setValue(!value); //
     };
 
-    const [loading, setLoading] = useState(false);
-
+   
 
     const tokenHandeler = async (event) => {
         // id,otp
@@ -136,6 +134,12 @@ const LoginPage = () => {
         setLoading(false);
         // console.log(id,otp);
     };
+
+    useEffect(() => {
+        if (token) {
+            router.replace('/');
+        }
+    }, [token, router])
 
     return (
         <>
@@ -179,7 +183,7 @@ const LoginPage = () => {
                                                                                 <p className="card-text">Select,If you are looking for Tutor</p>
                                                                             </div>
                                                                             <div className="col-md-6 text-center">
-                                                                                <img
+                                                                                <Image
                                                                                     src="https://img.favpng.com/2/0/20/lesson-cartoon-student-png-favpng-f1isHzw7i2t29Uygdk4FrSKzP.jpg"
                                                                                     alt="Male"
                                                                                     className="gender-image img-fluid"
