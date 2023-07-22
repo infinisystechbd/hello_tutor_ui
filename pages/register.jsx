@@ -215,7 +215,7 @@ const LoginPage = () => {
                                                                                 <p className="card-text">Select,If you are looking for Student.</p>
                                                                             </div>
                                                                             <div className="col-md-6">
-                                                                                <img
+                                                                                <Image
                                                                                     src="https://www.pngitem.com/pimgs/m/351-3513600_transparent-teacher-cartoon-png-teachers-day-clipart-png.png"
                                                                                     alt="Female"
                                                                                     className="gender-image img-fluid"
