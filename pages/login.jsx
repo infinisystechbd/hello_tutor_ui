@@ -17,13 +17,6 @@ const LoginPage = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [value, setValue] = useState(false);
-  const [gender, setGender] = useState('female');
-  const [guardianFrom, setGuardianFrom] = useState(false);
-  const [verify, setVerify] = useState(true);
-  const [userId, setUserId] = useState(null);
-  const [otp, setOtp] = useState("")
-  const [loading, setLoading] = useState(false);
 
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
@@ -71,12 +64,6 @@ const LoginPage = () => {
     }
 
   }
-
-
-
-
-
-
 
 
   return (
