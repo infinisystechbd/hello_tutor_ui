@@ -6,7 +6,7 @@ import ToastMessage from '../components/Toast/index';
 import { SECURITY_END_POINT } from "../constants/index";
 import { post } from "../helpers/api_helper";
 import Axios from "../utils/axios";
-//import Image from 'next/image';
+
 
 
 const LoginPage = () => {
@@ -23,8 +23,8 @@ const LoginPage = () => {
   const [verify, setVerify] = useState(true);
   const [userId, setUserId] = useState(null);
   const [otp, setOtp] = useState("")
+  const [loading, setLoading] = useState(false);
 
-  console.log(guardianFrom);
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
@@ -34,7 +34,7 @@ const LoginPage = () => {
     if (token) {
       router.replace('/');
     }
-  }, [token])
+  }, [router,token])
 
   const submitForm = async (event) => {
     event.preventDefault();
@@ -74,7 +74,7 @@ const LoginPage = () => {
 
 
 
-  const [loading, setLoading] = useState(false);
+
 
 
 

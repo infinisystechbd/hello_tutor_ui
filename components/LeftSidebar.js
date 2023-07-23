@@ -3,7 +3,7 @@ import { Layout, Menu } from 'antd';
 import jwt from 'jsonwebtoken';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Axios from "../utils/axios";
 const { Sider } = Layout;
 
@@ -13,9 +13,14 @@ const Leftsidebar = ({ collapsed }) => {
 
   const { http, setToken, token } = Axios();
 
-  const decodedToken = token ? jwt.decode(token) : null;
-  const role = decodedToken?.role;
-  console.log("decodedToken",decodedToken);
+  const [decodedToken, setDecodedToken] = useState(null); // Use state to hold the decoded token
+
+  useEffect(() => {
+    if (token) {
+    const decoded = token ? jwt.decode(token) : null;
+    setDecodedToken(decoded);
+    }
+  }, [token]);
 
   const menuItems = [
     {
