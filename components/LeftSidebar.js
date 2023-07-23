@@ -83,6 +83,8 @@ const Leftsidebar = ({ collapsed }) => {
     router.push(path, undefined, { shallow: true });
   };
 
+  const role = decodedToken?.role;
+
   const renderedMenuItems = token
     ? menuItems.filter((item) => {
         if (role === 1 || !item.roles) {

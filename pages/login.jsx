@@ -23,11 +23,7 @@ const LoginPage = () => {
   }, []);
 
 
-  useEffect(() => {
-    if (token) {
-      router.replace('/');
-    }
-  }, [router,token])
+
 
   const submitForm = async (event) => {
     event.preventDefault();
@@ -64,6 +60,12 @@ const LoginPage = () => {
     }
 
   }
+
+  useEffect(() => {
+    if (token) {
+      router.replace('/');
+    }
+  }, [router,token])
 
 
   return (

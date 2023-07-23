@@ -16,6 +16,7 @@ const Dashboard = () => {
   const { http, setToken, token } = Axios();
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter();
+  
   const onDetails = async (value) => {
     console.log(value);
     await router.push(`/dashboard/${value}`)

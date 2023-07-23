@@ -25,18 +25,14 @@ const LoginPage = () => {
     const [userId, setUserId] = useState(null);
     const [otp, setOtp] = useState("")
     const [isGuardian, setIsGuardian] = useState(true);
-    console.log(isGuardian);
+    const [loading, setLoading] = useState(false);
     // console.log(guardianFrom);
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
     }, []);
 
 
-    useEffect(() => {
-        if (token) {
-            router.replace('/');
-        }
-    }, [token])
+
 
     const submitForm = async (event) => {
         event.preventDefault();
@@ -114,7 +110,7 @@ const LoginPage = () => {
         setValue(!value); //
     };
 
-    const [loading, setLoading] = useState(false);
+    
 
 
     const tokenHandeler = async (event) => {
@@ -139,6 +135,12 @@ const LoginPage = () => {
         // console.log(id,otp);
     };
 
+
+    useEffect(() => {
+        if (token) {
+            router.replace('/');
+        }
+    }, [router,token])
     return (
         <>
         <HeadSection title="Registration" />
