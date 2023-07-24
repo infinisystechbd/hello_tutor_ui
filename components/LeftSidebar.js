@@ -1,33 +1,19 @@
-import { ContainerOutlined, DashboardOutlined, HomeOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import { DashboardOutlined, FileOutlined, UserOutlined, SettingOutlined, ContainerOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
-import jwt from 'jsonwebtoken';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import Axios from "../utils/axios";
+
 const { Sider } = Layout;
 
 const Leftsidebar = ({ collapsed }) => {
   const router = useRouter();
   const [collapse, setCollapse] = useState(collapsed);
 
-  const { http, setToken, token } = Axios();
-
-  const decodedToken = token ? jwt.decode(token) : null;
-  const role = decodedToken?.role;
-  console.log("decodedToken",decodedToken);
-
   const menuItems = [
     {
-      key: 'profile',
-      icon: <UserOutlined />,
-      label: decodedToken?.fullName,
-      path: `/profile/${decodedToken?.userId}`
-    },
-    {
       key: 'dashboard',
-      // icon: <DashboardOutlined />, 
-      icon: <HomeOutlined />, 
+      icon: <DashboardOutlined />,
       label: 'Dashboard',
       path: '/dashboard/dashboard'
     },
@@ -35,7 +21,6 @@ const Leftsidebar = ({ collapsed }) => {
       key: '/helloTutor',
       icon: <SettingOutlined />,
       label: 'Master Data',
-      roles: [1], // Show this item for role 1 (admin)
       children: [
         { key: 'subject', label: 'Subject', path: '/subject' },
         { key: 'class', label: 'Class', path: '/class' },
@@ -48,7 +33,6 @@ const Leftsidebar = ({ collapsed }) => {
       key: 'job',
       icon: <ContainerOutlined />,
       label: 'Job Management',
-      roles: [1], // Show this item for role 1 (admin)
       children: [
         { key: 'job', label: 'Job Creation', path: '/jobRequest' },
         { key: 'job Assign', label: 'Job Assign', path: '/jobAssign' },
@@ -58,34 +42,17 @@ const Leftsidebar = ({ collapsed }) => {
       key: 'user_manage',
       icon: <UserOutlined />,
       label: 'User Manager',
-      roles: [1],
       children: [
         { key: 'users', label: 'User', path: '/users' },
         { key: 'guardian', label: 'Guardian', path: '/guardian' },
         { key: 'tutor', label: 'Tutor', path: '/tutor' },
       ],
     },
-
-    {
-      key: 'tutorRequest',
-      icon: <DashboardOutlined />,
-      label: 'Tutor Request',
-      path: '/tutorRequest/form/TutorRequestForm'
-    },
   ];
 
   const handleMenuItemClick = (path) => {
     router.push(path, undefined, { shallow: true });
   };
-
-  const renderedMenuItems = token
-    ? menuItems.filter((item) => {
-        if (role === 1 || !item.roles) {
-          return true;
-        }
-        return item.roles.includes(role);
-      })
-    : [menuItems[0]];
 
   const renderMenuItems = (menuItems) => {
     return menuItems.map((item) => {
@@ -118,7 +85,7 @@ const Leftsidebar = ({ collapsed }) => {
     >
       <div className="demo-logo-vertical" />
       <Menu theme="dark" mode="inline" defaultSelectedKeys={[router.pathname]}>
-        {renderMenuItems(renderedMenuItems)}
+        {renderMenuItems(menuItems)}
       </Menu>
     </Sider>
   );

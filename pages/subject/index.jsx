@@ -14,6 +14,7 @@ import { useGetAllData } from '../../utils/hooks/useGetAllData';
 import SubjectForm from './form/SubjectForm';
 import SubjectView from './view/SubjectView';
 import Axios from '../../utils/axios';
+import withAuth from '../../components/withAuth';
 
 const AllSubject = () => {
   const {
@@ -387,4 +388,4 @@ const AllSubject = () => {
   );
 };
 
-export default AllSubject;
+export default withAuth (AllSubject);

@@ -1,12 +1,14 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
+import HeadSection from "../components/HeadSection";
+import Stopwatch from "../components/Stopwatch";
 import ToastMessage from '../components/Toast/index';
 import { SECURITY_END_POINT } from "../constants/index";
 import { post } from "../helpers/api_helper";
 import Axios from "../utils/axios";
-import Link from "next/link";
-import Stopwatch from "../components/Stopwatch";
-import HeadSection from "../components/HeadSection";
+//import img from 'next/image';
+
 
 const LoginPage = () => {
     const { http, setToken, token } = Axios();
@@ -23,18 +25,14 @@ const LoginPage = () => {
     const [userId, setUserId] = useState(null);
     const [otp, setOtp] = useState("")
     const [isGuardian, setIsGuardian] = useState(true);
-    console.log(isGuardian);
+    const [loading, setLoading] = useState(false);
     // console.log(guardianFrom);
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
     }, []);
 
 
-    useEffect(() => {
-        if (token) {
-            router.replace('/');
-        }
-    }, [token])
+
 
     const submitForm = async (event) => {
         event.preventDefault();
@@ -112,7 +110,7 @@ const LoginPage = () => {
         setValue(!value); //
     };
 
-    const [loading, setLoading] = useState(false);
+    
 
 
     const tokenHandeler = async (event) => {
@@ -137,6 +135,12 @@ const LoginPage = () => {
         // console.log(id,otp);
     };
 
+
+    useEffect(() => {
+        if (token) {
+            router.replace('/');
+        }
+    }, [router,token])
     return (
         <>
         <HeadSection title="Registration" />

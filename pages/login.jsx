@@ -1,11 +1,13 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
+import HeadSection from "../components/HeadSection";
 import ToastMessage from '../components/Toast/index';
 import { SECURITY_END_POINT } from "../constants/index";
 import { post } from "../helpers/api_helper";
 import Axios from "../utils/axios";
-import Link from "next/link";
-import HeadSection from "../components/HeadSection";
+
+
 
 const LoginPage = () => {
   const { http, setToken, token } = Axios();
@@ -15,24 +17,13 @@ const LoginPage = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [value, setValue] = useState(false);
-  const [gender, setGender] = useState('female');
-  const [guardianFrom, setGuardianFrom] = useState(false);
-  const [verify, setVerify] = useState(true);
-  const [userId, setUserId] = useState(null);
-  const [otp, setOtp] = useState("")
 
-  console.log(guardianFrom);
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
 
 
-  useEffect(() => {
-    if (token) {
-      router.replace('/');
-    }
-  }, [token])
+
 
   const submitForm = async (event) => {
     event.preventDefault();
@@ -70,11 +61,11 @@ const LoginPage = () => {
 
   }
 
-
-
-  const [loading, setLoading] = useState(false);
-
-
+  useEffect(() => {
+    if (token) {
+      router.replace('/');
+    }
+  }, [router,token])
 
 
   return (
