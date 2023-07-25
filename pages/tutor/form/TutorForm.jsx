@@ -33,7 +33,7 @@ const TutorForm = (props) => {
     refetch: fetchCityList,
   } = useGetAllData(
     QUERY_KEYS.GET_ALL_CITY_LIST,
-    CITY_END_POINT.get(1, -1, '',true)
+    CITY_END_POINT.get(1, -1, '', true)
   );
 
   /**city dropdown */
@@ -53,14 +53,14 @@ const TutorForm = (props) => {
 
   /**fetch location list */
 
-  const handleCity = async (value) => {    
+  const handleCity = async (value) => {
     setIsVisited(true);
-  const fetchLocation = await get(LOCATION_END_POINT.getLocationByCityId(value));
-   const LOCATIONDROPDOWN = mapArrayToDropdown(
-    fetchLocation.data,
-    'name',
-    '_id'
-  );
+    const fetchLocation = await get(LOCATION_END_POINT.getLocationByCityId(value));
+    const LOCATIONDROPDOWN = mapArrayToDropdown(
+      fetchLocation.data,
+      'name',
+      '_id'
+    );
     setLocation(LOCATIONDROPDOWN)
   }
 
@@ -92,7 +92,7 @@ const TutorForm = (props) => {
 
   /** create from or edit from   */
 
-  if (setEditData != null && visited == false ) {
+  if (setEditData != null && visited == false) {
     form.setFieldsValue({
       fullName: setEditData?.fullName,
       phone: setEditData?.phone,
@@ -103,7 +103,7 @@ const TutorForm = (props) => {
       isPortalAccess: setEditData?.isPortalAccess,
       status: setEditData?.status,
     });
-  } else if(setEditData == null && visited == false  ) {
+  } else if (setEditData == null && visited == false) {
     form.resetFields();
   }
 
@@ -173,27 +173,27 @@ const TutorForm = (props) => {
           maxWidth: 600,
         }}
       >
-<Form.Item
-  name="fullName"
-  label="Full Name"
-  rules={[
-    {
-      required: true,
-      message: 'Full name is required',
-    },
-    {
-      pattern: /^[A-Z][A-Za-z\s]*$/,
-      message: 'Full name should start with an uppercase letter and can only contain letters and spaces',
-    },
-    {
-      max: 50,
-      message: 'Full name should not exceed 50 characters',
-    },
-  ]}
-  hasFeedback
->
-  <Input />
-</Form.Item>
+        <Form.Item
+          name="fullName"
+          label="Full Name"
+          rules={[
+            {
+              required: true,
+              message: 'Full name is required',
+            },
+            {
+              pattern: /^[A-Z][A-Za-z\s]*$/,
+              message: 'Full name should start with an uppercase letter and can only contain letters and spaces',
+            },
+            {
+              max: 50,
+              message: 'Full name should not exceed 50 characters',
+            },
+          ]}
+          hasFeedback
+        >
+          <Input />
+        </Form.Item>
 
         <Form.Item
           name="phone"
@@ -217,7 +217,7 @@ const TutorForm = (props) => {
             {
               required: true,
               message: 'Please select City!',
-              
+
             },
           ]}
           hasFeedback
@@ -237,13 +237,13 @@ const TutorForm = (props) => {
             {
               required: true,
               message: 'Please select Location!',
-              
+
             },
           ]}
           hasFeedback
 
         >
-              <Select
+          <Select
             // mode="multiple"
             placeholder="Please select Location"
             options={location}

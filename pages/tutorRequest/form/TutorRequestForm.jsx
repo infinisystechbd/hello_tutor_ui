@@ -188,9 +188,26 @@ const TutorRequest = () => {
   };
 
   const onFinish = async (values) => {
-
+    const formattedDate = moment(values.hireDate).format('DD/MM/YYYY');
+    const formattedTime = moment(values.tutoringTime).format('h:mm A');
+    const subjects = values.subject?.map((subjectId) => ({
+      subjectId: subjectId,
+    }));
+    values.subject = subjects;
+    const classes = values.class?.map((classId) => ({
+      classId: classId,
+    }));
+    values.class = classes;
     let body = {...values, guardian:userId,isApproval:false};
     console.log(body);
+    const response = await post(JOB_REQUEST_END_POINT.create(),body);
+    if (response.status === 'SUCCESS') {
+      notify('success', response.message);
+   
+    } else {
+      notify('error', response.errorMessage);
+      setLoading(false);
+    }
 
   }
 
