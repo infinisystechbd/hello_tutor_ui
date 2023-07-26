@@ -1,468 +1,353 @@
-import { Button, Form, Input, Modal, Select, Col, Row } from 'antd';
-import { useRouter } from 'next/router';
-import { useCallback, useState, useEffect } from 'react';
-import ToastMessage from '../../components/Toast';
-import { TUTOR_END_POINT, LOCATION_END_POINT, CITY_END_POINT } from '../../constants/index';
-import { get, post, put } from '../../helpers/api_helper';
-import { QUERY_KEYS } from '../../constants/queryKeys.js';
-import { mapArrayToDropdown } from '../../helpers/common_Helper.js';
-import { useGetAllData } from '../../utils/hooks/useGetAllData.js';
-import Table from "react-bootstrap/Table";
-import Label from '../../components/elements/Label';
-import Button1 from '../../components/elements/Button';
-const Tutor_Create_from = () => {
-    // const { isModalOpen, setIsModalOpen, isParentRender, setEditData } = props;
-    const notify = useCallback((type, message) => {
-        ToastMessage({ type, message });
-    }, []);
-    const { Option } = Select;
-    const [form] = Form.useForm();
-    const [loading, setLoading] = useState(false);
-    const [city, setCity] = useState([]);
-    const [location, setLocation] = useState([]);
-    const [visited, setIsVisited] = useState(false);
+import React, { useState } from 'react';
+import { Button, message, Steps, theme, Layout, Row, Col, Form, Input, Select } from 'antd';
+
+
+
+const App = () => {
+    const { token } = theme.useToken();
+    const {
+        token: { colorBgContainer },
+    } = theme.useToken();
+    const [current, setCurrent] = useState(0);
+    const { Content } = Layout;
+    const contentStyle = {
+        lineHeight: '260px',
+        textAlign: 'center',
+        color: token.colorTextTertiary,
+        backgroundColor: token.colorFillAlter,
+        borderRadius: token.borderRadiusLG,
+        border: `1px dashed ${token.colorBorder}`,
+        marginTop: 16,
+    };
 
     const phoneNumberPattern = /^(?:01[3-9])\d{8}$/;
 
+    const [educationFrom, setEducationFrom] = useState(false);
 
-    /** Fetch city */
-    const {
-        data: cityList,
-        isLoading,
-        refetch: fetchCityList,
-    } = useGetAllData(
-        QUERY_KEYS.GET_ALL_CITY_LIST,
-        CITY_END_POINT.get(1, -1, '', true)
-    );
-
-    /**city dropdown */
-    useEffect(() => {
-        const CITYDROPDOWN = mapArrayToDropdown(
-            cityList?.data,
-            'name',
-            '_id'
-        );
-        setCity(CITYDROPDOWN);
-    }, [cityList]);
-
-    /** end city dropdown */
-
-
-
-
-    /**fetch location list */
-
-    const handleCity = async (value) => {
-        setIsVisited(true);
-        const fetchLocation = await get(LOCATION_END_POINT.getLocationByCityId(value));
-        const LOCATIONDROPDOWN = mapArrayToDropdown(
-            fetchLocation.data,
-            'name',
-            '_id'
-        );
-        setLocation(LOCATIONDROPDOWN)
-    }
-
-
-    /**fetch location list  End */
-
-    /** from design  */
-    const layout = {
-        labelCol: {
-            span: 6,
-        },
-        wrapperCol: {
-            span: 16,
-        },
+    const onChange = (value) => {
+        console.log('onChange:', value);
+        setCurrent(value);
     };
-    const tailLayout = {
-        wrapperCol: {
-            offset: 6,
-            span: 16,
+
+    const steps = [
+        {
+            title: 'Personal',
+            content: (
+
+                <>
+                    <Row className='mt-2' gutter={[16, 16]}>
+                        <Col xs={24} md={12}>
+                            <Form.Item
+                                name="fullName"
+                                label="Full Name"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Full name is required',
+                                    },
+                                    {
+                                        pattern: /^[A-Z][A-Za-z\s]*$/,
+                                        message: 'Full name should start with an uppercase letter and can only contain letters and spaces',
+                                    },
+                                    {
+                                        max: 50,
+                                        message: 'Full name should not exceed 50 characters',
+                                    },
+                                ]}
+                                hasFeedback
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} md={12}>
+                            <Form.Item
+                                name="phone"
+                                label="Phone"
+                                rules={[
+                                    {
+                                        required: true,
+                                        pattern: phoneNumberPattern,
+                                        message: 'Please enter a valid Bangladeshi phone number!',
+                                    },
+                                ]}
+                                hasFeedback
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+
+                    <Row className='mt-2' gutter={[16, 16]}>
+                        <Col xs={24} md={12}>
+                            <Form.Item
+                                name="city"
+                                label="Select City"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please select City!',
+
+                                    },
+                                ]}
+                                hasFeedback
+                            >
+                                <Select
+
+                                    placeholder="Please select City"
+
+                                />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} md={12}>
+                            <Form.Item
+                                name="location"
+                                label="Location"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please select Location!',
+
+                                    },
+                                ]}
+                                hasFeedback
+
+                            >
+                                <Select
+
+                                    placeholder="Please select Location"
+
+                                />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+
+                    <Row className='mt-2' gutter={[16, 16]}>
+                        <Col xs={24} md={12}>
+                            <Form.Item
+                                name="address"
+                                label="Address"
+                                rules={[
+                                    {
+                                        required: true,
+                                    },
+                                ]}
+                                hasFeedback
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} md={12}>
+
+                        </Col>
+                    </Row>
+                </>
+            ),
         },
-    };
-    /** end from design  */
+        {
+            title: 'Education',
+            content: (
+
+                <>
+                    {
+                        educationFrom ?
 
 
-    const onFinish = async (values) => {
-        let body = { status: false, isPortalAccess: false };
-        console.log(values);
-    }
-
-    const [education, setEducation] = useState([]);
-    const [ind, setInd] = useState(1);
-    const [educationName,setEducationName] = useState("");
-    const [board,setBoard] = useState("");
-    const [passingYear,setPassingYear] = useState("");
-    const [result,setResult] = useState("");
-
-    const onEdu = async (values) => {
-        setInd(() => ind + 1)
-        var vBookingId = [];
-        console.log(values);
-
-        setEducation([...education, {
-            educationName: educationName,
-            board: board,
-            passingYear: passingYear,
-            result: result
-        }])
-        console.log(education);
-    }
-
-
-  const StoringData = (e) => {
-
-    setInd(() => ind + 1)
-
-
-  
-    setEducation([...education,
-      {
-        id: ind,
-        educationName: educationName,
-        board: board,
-        passingYear: passingYear,
-        result: result
-
-      }
-      ])
-
-      console.log("education",);
-    // reset();
-
-  }
-    return (
-
-        <>
-            <div className="container-fluid mt-4">
-                <div className="row">
-                    <div className="col-md-6">
-                        <div className="card">
-                            <div className="card-body border-bottom">
-                                <h4 className="card-title">Your General Information </h4>
-                            </div>
-
-                            <div className="card-body">
+                            (
                                 <>
+                                    <Row className='mt-2' gutter={[16, 16]}>
+                                        <Col xs={24} md={12}>
+                                            <Form.Item
+                                                name="educationLevel"
+                                                label="Level"
+                                                rules={[
+                                                    {
+                                                        required: true,
+                                                        message: 'Please Write education Level LIKE SSC/HSC',
+                                                    },
+                                                ]}
+                                                hasFeedback
+                                            >
+                                                <Input
 
-                                    <Form
-                                        className='mt-3'
-                                        {...layout}
+                                                    placeholder='Please Write education Level LIKE SSC/HSC'
 
-                                        form={form}
-                                        name="control-hooks"
-                                        onFinish={onFinish}
-                                        style={{
-                                            maxWidth: 600,
-                                        }}
-                                    >
+                                                />
+                                            </Form.Item>
+                                        </Col>
+                                        <Col xs={24} md={12}>
+                                            <Form.Item
+                                                name="board"
+                                                label="Board"
+                                                rules={[
+                                                    {
+                                                        required: true,
+                                                        message: 'Like Dhaka/Jessore',
+                                                    },
+                                                ]}
+                                                hasFeedback
+                                            >
+                                                <Input
+                                                    // mode="multiple"
+                                                    placeholder='Like Dhaka/Jessore'
 
-                                        <Row className='mt-2' gutter={[16, 16]}>
-
-                                            <Col xs={24} md={12}>
-                                                <Form.Item
-                                                    name="fullName"
-                                                    label="Name"
-                                                    rules={[
-                                                        {
-                                                            required: true,
-                                                            message: 'Full name is required',
-                                                        },
-                                                        {
-                                                            pattern: /^[A-Z][A-Za-z\s]*$/,
-                                                            message: 'Full name should start with an uppercase letter and can only contain letters and spaces',
-                                                        },
-                                                        {
-                                                            max: 50,
-                                                            message: 'Full name should not exceed 50 characters',
-                                                        },
-                                                    ]}
-                                                    hasFeedback
-                                                >
-                                                    <Input />
-                                                </Form.Item>
-
-                                            </Col>
-                                            <Col xs={24} md={12}>
-
-                                                <Form.Item
-                                                    name="phone"
-                                                    label="Phone"
-                                                    rules={[
-                                                        {
-                                                            required: true,
-                                                            pattern: phoneNumberPattern,
-                                                            message: 'Please enter a valid Bangladeshi phone number!',
-                                                        },
-                                                    ]}
-                                                    hasFeedback
-                                                >
-                                                    <Input />
-                                                </Form.Item>
-                                            </Col>
-                                        </Row>
-                                        <Row className='mt-2' gutter={[16, 16]}>
-
-                                            <Col xs={24} md={12}>
-                                                <Form.Item
-                                                    name="city"
-                                                    label=" City"
-                                                    rules={[
-                                                        {
-                                                            required: true,
-                                                            message: 'Please select City!',
-
-                                                        },
-                                                    ]}
-                                                    hasFeedback
-                                                >
-                                                    <Select
-                                                        onChange={handleCity}
-                                                        placeholder="Please select City"
-                                                        options={city}
-                                                    />
-                                                </Form.Item>
-                                            </Col>
-                                            <Col xs={24} md={12}>
-
-                                                <Form.Item
-                                                    name="location"
-                                                    label="Location"
-                                                    rules={[
-                                                        {
-                                                            required: true,
-                                                            message: 'Please select Location!',
-
-                                                        },
-                                                    ]}
-                                                    hasFeedback
-
-                                                >
-                                                    <Select
-                                                        // mode="multiple"
-                                                        placeholder="Please select Location"
-                                                        options={location}
-                                                    />
-                                                </Form.Item>
-                                            </Col>
-                                        </Row>
-
-                                        <Row className='mt-2' gutter={[16, 16]}>
-                                            <Col xs={24} md={12}>
-                                                <Form.Item
-                                                    name="address"
-                                                    label="Address"
-                                                    labelAlign="top" // Set labelAlign to 'top' to display label above the textarea box
-                                                    rules={[
-                                                        {
-                                                            required: true,
-                                                            message: 'Address is required',
-                                                        },
-                                                    ]}
-                                                    hasFeedback
-                                                >
-                                                    <Input.TextArea rows={2} />
-                                                </Form.Item>
-                                            </Col>
-                                        </Row>
+                                                />
+                                            </Form.Item>
+                                        </Col>
 
 
+                                    </Row>
 
+                                    <Row className='mt-2' gutter={[16, 16]}>
+                                        <Col xs={24} md={12}>
+                                            <Form.Item
+                                                name="area"
+                                                label="Area"
+                                                rules={[
+                                                    {
+                                                        required: true,
+                                                        message: 'Please Write education Level LIKE SSC/HSC',
+                                                    },
+                                                ]}
+                                                hasFeedback
+                                            >
+                                                <Input
 
+                                                    placeholder='Concentration / Major / Group '
 
+                                                />
+                                            </Form.Item>
+                                        </Col>
+                                        <Col xs={24} md={12}>
+                                            <Form.Item
+                                                name="result"
+                                                label="Result"
+                                                rules={[
+                                                    {
+                                                        required: true,
+                                                        message: 'Please Write education Level LIKE SSC/HSC',
+                                                    },
+                                                ]}
+                                                hasFeedback
+                                            >
+                                                <Input
 
+                                                    placeholder='Please Write education Level LIKE SSC/HSC'
 
+                                                />
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
 
-                                        <Form.Item {...tailLayout}>
-                                            <Button type="primary" htmlType="submit" loading={loading}>
-                                                Submit
+                                    <Row className='mt-2' gutter={[16, 16]}>
+                                        <Col xs={24} md={12}>
+
+                                        </Col>
+                                        <Col xs={24} md={12}>
+                                            <Button style={{ margin: '0 8px' }} onClick={() => setEducationFrom(!educationFrom)}>
+                                                Cancle
                                             </Button>
-                                        </Form.Item>
-                                    </Form>
-
+                                        </Col>
+                                    </Row>
                                 </>
-                            </div>
-                        </div>
-                        <div className="card mt-4">
-                            <div className="card-body border-bottom">
 
 
+                            ) :
+                            (<Button style={{ margin: '0 8px' }} onClick={() => setEducationFrom(!educationFrom)}>
+                                Add More
+                            </Button>)
+
+                    }
 
 
-                                <h4 className="card-title">Add Educational Information</h4>
+                </>
 
-                            </div>
+            ),
+        },
+        {
+            title: 'Tution',
+            content: (
 
-                            <div className="card-body">
+                <>
+                    <Row className='mt-2' gutter={[16, 16]}>
+                        <Col xs={24} md={12}>
+                            <Form.Item
+                                name="city"
+                                label="City"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please select City!',
+                                    },
+                                ]}
+                                hasFeedback
+                            >
+                                <Select
 
+                                    placeholder="Please select City"
 
-                            <div className="mb-1 mt-4 row">
-                        <Label
-                          className="col-sm-3 col-lg-3 col-md-3 fw-bolder"
-                          text="Booking Charge"
-                        />
-                        <div className="col-sm-8 col-lg-8 col-md-8 ml-2">
+                                />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} md={12}>
+                            <Form.Item
+                                name="location"
+                                label="Location"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please select Location!',
+                                    },
+                                ]}
+                                hasFeedback
+                            >
+                                <Select
+                                    // mode="multiple"
+                                    placeholder="Please select Location"
 
-                          <input
-                            type="text"
-                            name="educationName"
-                            placeholder="education Name"
-                            className="form-control"
-                            defaultValue={educationName}
-                            // onChange={(e) => { setBooking_charge(e.target.value) }}
-                            // required
-                            onChange={(e) => { setEducationName(e.target.value) }}
-                          />
+                                />
+                            </Form.Item>
+                        </Col>
+                    </Row>
 
-                        </div>
+                </>
 
-                      </div>
+            ),
+        },
+    ];
 
-
-                      <div className="mb-1 mt-4 row">
-                        <Label
-                          className="col-sm-3 col-lg-3 col-md-3 fw-bolder"
-                          text="Booking Charge"
-                        />
-                        <div className="col-sm-8 col-lg-8 col-md-8 ml-2">
-
-                          <input
-                            type="text"
-                            name="board"
-                            placeholder="board"
-                            className="form-control"
-                            defaultValue={board}
-                        
-                            onChange={(e) => { setBoard(e.target.value) }}
-                          />
-
-                        </div>
-
-                      </div>
-
-
-                      <div className="mb-1 mt-4 row">
-                        <Label
-                          className="col-sm-3 col-lg-3 col-md-3 fw-bolder"
-                          text="Booking Charge"
-                        />
-                        <div className="col-sm-8 col-lg-8 col-md-8 ml-2">
-
-                          <input
-                            type="text"
-                            name="passingYear"
-                            placeholder="passingYear"
-                            className="form-control"
-                            defaultValue={passingYear}
-                        
-                            onChange={(e) => { setPassingYear(e.target.value) }}
-                          />
-
-                        </div>
-
-                      </div>
-                      <div className="mb-1 mt-4 row">
-                        <Label
-                          className="col-sm-3 col-lg-3 col-md-3 fw-bolder"
-                          text="Booking Charge"
-                        />
-                        <div className="col-sm-8 col-lg-8 col-md-8 ml-2">
-
-                          <input
-                            type="text"
-                            name="result"
-                            placeholder="result"
-                            className="form-control"
-                            defaultValue={result}
-                        
-                            onChange={(e) => { setResult(e.target.value) }}
-                          />
-
-                        </div>
-
-                      </div>
-
-
-                      <div className="p-3">
-                          <div className="text-center">
-                         
-                              <Button1
-                                style={{ float: "right" }}
-                                variant="primary"
-                                type="submit"
-                                onClick={StoringData}
-                                // disabled={disabled2}
-                              >
-                                Add To Table
-                              </Button1>
-                            
-                          </div>
-                        </div>
-
-
-
-
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-6">
-                        <div className="card">
-                            <div className="border-bottom title-part-padding">
-                                <h4 className="card-title mb-0">All Education Information</h4>
-                            </div>
-
-                            <div className="card-body">
-                                <div className="table-responsive">
-                                    <div className="p-3">
-                                        <Table striped bordered hover>
-                                            <thead className="bg-light border-0">
-                                                <tr className="text-center">
-                                                    <th className="fw-bolder">Education Name</th>
-                                                    <th className="fw-bolder">Board</th>
-                                                    <th className="fw-bolder">Passing Year</th>
-                                                    <th className="fw-bolder">Result/CGPA</th>
-
-                                                    <th className="fw-bolder">Action</th>
-
-
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-
-                                            </tbody>
-                                        </Table>
-
-
-                                        <div className="text-end fw-bold mb-3 me-2">
-
-
-
-
-                                            <div className="text-end">
-                                                <Button
-                                                    variant="success"
-                                                    style={{ float: "right" }}
-
-                                                >
-                                                    Create
-                                                </Button>
-                                            </div>
-                                        </div>
-
-
-                                    </div>
+    return (
+        <>
+            <Content style={{ margin: '40px 16px' }}>
+                <div style={{ padding: 15, minHeight: 360, background: colorBgContainer }}>
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-12">
+                                <Steps current={current} onChange={onChange} items={steps} />
+                                <div style={contentStyle}>{steps[current].content}</div>
+                                <div style={{ marginTop: 24 }}>
+                                    {current < steps.length - 1 && (
+                                        <Button type="primary" onClick={() => setCurrent(current + 1)}>
+                                            Next
+                                        </Button>
+                                    )}
+                                    {current === steps.length - 1 && (
+                                        <Button type="primary" onClick={() => message.success('Processing complete!')}>
+                                            Done
+                                        </Button>
+                                    )}
+                                    {current > 0 && (
+                                        <Button style={{ margin: '0 8px' }} onClick={() => setCurrent(current - 1)}>
+                                            Previous
+                                        </Button>
+                                    )}
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
                 </div>
-            </div>
+            </Content>
         </>
-    )
-}
+    );
+};
 
-export default Tutor_Create_from
+export default App;
