@@ -8,6 +8,8 @@ import { QUERY_KEYS } from '../../constants/queryKeys.js';
 import { mapArrayToDropdown } from '../../helpers/common_Helper.js';
 import { useGetAllData } from '../../utils/hooks/useGetAllData.js';
 import Table from "react-bootstrap/Table";
+import Label from '../../components/elements/Label';
+import Button1 from '../../components/elements/Button';
 const Tutor_Create_from = () => {
     // const { isModalOpen, setIsModalOpen, isParentRender, setEditData } = props;
     const notify = useCallback((type, message) => {
@@ -88,6 +90,11 @@ const Tutor_Create_from = () => {
     }
 
     const [education, setEducation] = useState([]);
+    const [ind, setInd] = useState(1);
+    const [educationName,setEducationName] = useState("");
+    const [board,setBoard] = useState("");
+    const [passingYear,setPassingYear] = useState("");
+    const [result,setResult] = useState("");
 
     const onEdu = async (values) => {
         setInd(() => ind + 1)
@@ -102,6 +109,29 @@ const Tutor_Create_from = () => {
         }])
         console.log(education);
     }
+
+
+  const StoringData = (e) => {
+
+    setInd(() => ind + 1)
+
+
+  
+    setEducation([...education,
+      {
+        id: ind,
+        educationName: educationName,
+        board: board,
+        passingYear: passingYear,
+        result: result
+
+      }
+      ])
+
+      console.log("education",);
+    // reset();
+
+  }
     return (
 
         <>
@@ -122,7 +152,7 @@ const Tutor_Create_from = () => {
 
                                         form={form}
                                         name="control-hooks"
-                                        // onFinish={onFinish}
+                                        onFinish={onFinish}
                                         style={{
                                             maxWidth: 600,
                                         }}
@@ -267,84 +297,108 @@ const Tutor_Create_from = () => {
                             <div className="card-body">
 
 
-                                <Form
-                                    className='mt-3'
-                                    {...layout}
+                            <div className="mb-1 mt-4 row">
+                        <Label
+                          className="col-sm-3 col-lg-3 col-md-3 fw-bolder"
+                          text="Booking Charge"
+                        />
+                        <div className="col-sm-8 col-lg-8 col-md-8 ml-2">
 
-                                    form={form}
-                                    name="control-hooks"
-                                    onEdu={onEdu}
-                                    style={{
-                                        maxWidth: 600,
-                                    }}
-                                >
+                          <input
+                            type="text"
+                            name="educationName"
+                            placeholder="education Name"
+                            className="form-control"
+                            defaultValue={educationName}
+                            // onChange={(e) => { setBooking_charge(e.target.value) }}
+                            // required
+                            onChange={(e) => { setEducationName(e.target.value) }}
+                          />
 
-                                    <Row className='mt-2' gutter={[16, 16]}>
+                        </div>
 
-                                        <Col xs={24} md={12}>
-                                            <Form.Item
-                                                name="educationName"
-                                                label="Name"
-
-                                                hasFeedback
-                                            >
-                                                <Input />
-                                            </Form.Item>
-
-                                        </Col>
-                                        <Col xs={24} md={12}>
-
-                                            <Form.Item
-                                                name="board"
-                                                label="board"
-
-                                                hasFeedback
-                                            >
-                                                <Input />
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-                                    <Row className='mt-2' gutter={[16, 16]}>
-
-                                        <Col xs={24} md={12}>
-                                            <Form.Item
-                                                name="passingYear"
-                                                label="Year"
-
-                                            >
-                                                <Input />
-                                            </Form.Item>
-                                        </Col>
-                                        <Col xs={24} md={12}>
-                                            <Form.Item
-                                                name="result"
-                                                label="Result"
-
-                                                hasFeedback
-                                            >
-                                                <Input />
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
+                      </div>
 
 
+                      <div className="mb-1 mt-4 row">
+                        <Label
+                          className="col-sm-3 col-lg-3 col-md-3 fw-bolder"
+                          text="Booking Charge"
+                        />
+                        <div className="col-sm-8 col-lg-8 col-md-8 ml-2">
+
+                          <input
+                            type="text"
+                            name="board"
+                            placeholder="board"
+                            className="form-control"
+                            defaultValue={board}
+                        
+                            onChange={(e) => { setBoard(e.target.value) }}
+                          />
+
+                        </div>
+
+                      </div>
 
 
+                      <div className="mb-1 mt-4 row">
+                        <Label
+                          className="col-sm-3 col-lg-3 col-md-3 fw-bolder"
+                          text="Booking Charge"
+                        />
+                        <div className="col-sm-8 col-lg-8 col-md-8 ml-2">
+
+                          <input
+                            type="text"
+                            name="passingYear"
+                            placeholder="passingYear"
+                            className="form-control"
+                            defaultValue={passingYear}
+                        
+                            onChange={(e) => { setPassingYear(e.target.value) }}
+                          />
+
+                        </div>
+
+                      </div>
+                      <div className="mb-1 mt-4 row">
+                        <Label
+                          className="col-sm-3 col-lg-3 col-md-3 fw-bolder"
+                          text="Booking Charge"
+                        />
+                        <div className="col-sm-8 col-lg-8 col-md-8 ml-2">
+
+                          <input
+                            type="text"
+                            name="result"
+                            placeholder="result"
+                            className="form-control"
+                            defaultValue={result}
+                        
+                            onChange={(e) => { setResult(e.target.value) }}
+                          />
+
+                        </div>
+
+                      </div>
 
 
-
-
-
-
-                                    <Form.Item {...tailLayout}>
-                                        <Button type="primary" htmlType="submit" loading={loading}>
-                                            Submit
-                                        </Button>
-                                    </Form.Item>
-                                </Form>
-
-
-
+                      <div className="p-3">
+                          <div className="text-center">
+                         
+                              <Button1
+                                style={{ float: "right" }}
+                                variant="primary"
+                                type="submit"
+                                onClick={StoringData}
+                                // disabled={disabled2}
+                              >
+                                Add To Table
+                              </Button1>
+                            
+                          </div>
+                        </div>
 
 
 
