@@ -1,4 +1,4 @@
-import { DashboardOutlined, FileOutlined, UserOutlined, SettingOutlined, ContainerOutlined } from '@ant-design/icons';
+import { ContainerOutlined, DashboardOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -74,11 +74,20 @@ const Leftsidebar = ({ collapsed }) => {
   };
 
   return (
+    <Layout hasSider>
     <Sider
       trigger={null}
       collapsible
       collapsed={collapse}
       breakpoint="md"
+      style={{
+        overflow: 'auto',
+        height: '100vh',
+        position: 'fixed',
+        left: 0,
+        top: 0,
+        bottom: 0,
+      }}
       onBreakpoint={(broken) => {
         setCollapse(broken);
       }}
@@ -88,6 +97,7 @@ const Leftsidebar = ({ collapsed }) => {
         {renderMenuItems(menuItems)}
       </Menu>
     </Sider>
+    </Layout>
   );
 };
 

@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
 import { Layout } from 'antd';
-import Navbar from './NavBar'
-import Footer from './Footer'
-import Leftsidebar from './LeftSidebar';
+import React, { useState } from 'react';
 import Axios from "../utils/axios";
+import Footer from './Footer';
+import Leftsidebar from './LeftSidebar';
+import Navbar from './NavBar';
 
 const DefaultLayout = ({children}) => {
   const [collapsed, setCollapsed] = useState(false);
   const { http, setToken, token } = Axios();
+  const {Content} = Layout;
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
   };
-  const colorBgContainer = '#ffffff';
+  const colorBgContainer = '#F2F5FC';
   return (
     <Layout style={{ minHeight: '100vh' }}>
        {/* <Leftsidebar collapsed={collapsed}/> */}
@@ -20,7 +21,17 @@ const DefaultLayout = ({children}) => {
        }
        <Layout>
         <Navbar collapsed={collapsed} toggleCollapsed={toggleCollapsed} colorBgContainer={colorBgContainer}/>
-        {children}
+        <Layout className="site-layout" style={{ marginLeft: 200 }}>
+          <Content
+           style={{ background: colorBgContainer }}
+           className='client-layout'
+           scroll={{ x: true }}
+          >
+
+            {children}
+          </Content>
+          </Layout>
+       
         <Footer/>
         </Layout>
         </Layout>
