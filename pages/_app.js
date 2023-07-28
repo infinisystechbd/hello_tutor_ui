@@ -1,19 +1,15 @@
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { useRouter } from "next/router";
 import { useState } from 'react';
 import { Slide, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 // import Login from '../pages/user/login';
-import '../styles/globals.css';
-import '../styles/Home.module.css'
-import Axios from '../utils/axios';
-import UserContext from './../components/context/userContext';
-import Layout from "../components/Layout";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DefaultLayout from '../components/DefaultLayout';
-import { Provider } from "react-redux";
-import store from "../store";
+import '../components/scss/main.scss';
+import '../styles/Home.module.css';
+import '../styles/globals.css';
+import UserContext from './../components/context/userContext';
 const MyApp = ({ Component, pageProps }) => {
 
   const [queryClient] = useState(() => new QueryClient());

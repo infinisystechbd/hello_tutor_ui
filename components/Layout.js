@@ -1,4 +1,4 @@
-import { Layout } from 'antd';
+import { Breadcrumb, Layout } from 'antd';
 import React, { useState } from 'react';
 import Footer from '../components/Footer';
 import Leftsidebar from '../components/LeftSidebar';
@@ -10,6 +10,7 @@ const App = ({ children }) => {
   // const {
   //   token: { colorBgContainer },
   // } = theme.useToken();
+  const {Content} = Layout;
 
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
@@ -20,7 +21,23 @@ const App = ({ children }) => {
       <Leftsidebar collapsed={collapsed} />
       <Layout>
         <Navbar collapsed={collapsed} toggleCollapsed={toggleCollapsed} colorBgContainer={colorBgContainer} />
-        {children}
+
+        <Layout style={{ padding: '0 24px 24px' }}>
+          <Breadcrumb style={{ margin: '16px 0' }}>
+            <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
+          </Breadcrumb>
+          <Content
+            style={{
+              padding: 24,
+              margin: 0,
+              minHeight: 280,
+              background: colorBgContainer,
+            }}
+          >
+            Content
+          </Content>
+     {/*    {children} */}
+        </Layout>
       <Footer/>
       </Layout>
     </Layout>

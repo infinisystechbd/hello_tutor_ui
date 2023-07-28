@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
 import { LoginOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Button, Layout, Menu } from 'antd';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import Axios from "../utils/axios";
 
 const { Header } = Layout;
@@ -44,10 +44,12 @@ const Navbar = ({ collapsed, toggleCollapsed }) => {
       style={{
         padding: 0,
         background: colorBgContainer,
+        marginLeft: '200px',
+        
       }}
     >
       {/* Set the mode based on isMobileView state */}
-      <Menu mode={isMobileView ? 'inline' : 'horizontal'} theme="light" selectedKeys={[router.pathname]} className="float-start">
+      <Menu mode={isMobileView ? 'inline' : 'horizontal'} theme="light" selectedKeys={[router.pathname]} >
         {token !== null && (
           <Menu.Item>
             <Button
