@@ -9,7 +9,7 @@ import { mapArrayToDropdown } from '../../../helpers/common_Helper.js';
 import { useGetAllData } from '../../../utils/hooks/useGetAllData.js';
 const TutorRequestFrom = (props) => {
   const { isModalOpen, setIsModalOpen, isParentRender, setEditData } = props;
-  console.log("setEditData", setEditData);
+
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
@@ -29,6 +29,8 @@ const TutorRequestFrom = (props) => {
   const [visited, setIsVisited] = useState(false);
   const [numOfStudent, setNumOfStudent] = useState(null);
   const phoneNumberPattern = /^(?:01[3-9])\d{8}$/;
+  const [guardianCity, setGuardianCity] = useState(null);
+  console.log(guardianCity);
   // const isApproval = true;
   // setCity
   const layout = {
@@ -184,6 +186,79 @@ const TutorRequestFrom = (props) => {
   /**fetch location list  End */
 
 
+
+  /**fetch class   End */
+
+  const [classess, setClassess] = useState([]);
+  const [code, setCode] = useState("");
+
+  console.log("classess", classess);
+  const handleCategory = async (value) => {
+
+
+    setIsVisited(true);
+    const fetchCategory = await get(CATEGORIE_END_POINT.info(value));
+    setCode(fetchCategory?.data?.code)
+    const classInfo = fetchCategory?.data?.class.map((item) => ({
+      _id: item?.classId?._id,
+      name: item?.classId?.name,
+    }));
+
+
+    const CATEGORYDROPDOWN = mapArrayToDropdown(
+      classInfo,
+      'name',
+      '_id'
+    );
+
+
+    setClassess(CATEGORYDROPDOWN);
+
+  }
+
+  /**fetch class list  End */
+
+
+
+  // const handleGuardian = async (value) => {
+  //   setIsVisited(true);
+  //   const fetchGuardian = await get(GUARDIAN_END_POINT.info(value));
+
+  //   const city = fetchGuardian?.data?.city;
+  //   console.log("handleGuardian", fetchGuardian?.data?.city);
+  //   setGuardianCity({
+  //     _id: city?._id,
+  //     name: city?.name,
+  //   });
+
+  //   setGuardianCity(city?._id)
+
+  // }
+
+
+
+  const handleGuardian = async (value) => {
+    setIsVisited(true);
+    const fetchGuardian = await get(GUARDIAN_END_POINT.info(value));
+    const city = fetchGuardian?.data?.city;
+
+    console.log("handleGuardian", city);
+
+    if (city) {
+      // Set the guardianCity state with the new data
+      setGuardianCity({
+        _id: city._id,
+        name: city.name,
+      });
+    } else {
+      // If city is not available, set guardianCity to null or any default value
+      setGuardianCity(null); // Change `null` to any default value you prefer
+    }
+  };
+
+
+  // handleGuardian
+
   const handleStudetNumber = async (value) => {
     setIsVisited(true);
     setNumOfStudent(value);
@@ -191,7 +266,7 @@ const TutorRequestFrom = (props) => {
 
   const handleDateChange = (date, dateString) => {
     const formattedDate = moment(dateString).format('MM/DD/YYYY');
-    console.log(formattedDate);  // Output: 07/04/2023
+    // Output: 07/04/2023
     // You can update the form value or do any other necessary operations here
   };
 
@@ -211,7 +286,7 @@ const TutorRequestFrom = (props) => {
       class: setEditData?.class?.map((t) => t.classId)?.map((t) => t?._id),
       // city: setEditData?.city?.map((t) => t.subjectId)?.map((t) => t._id),
       studentGender: setEditData.studentGender,
-      city: setEditData.city?.name,
+      city: guardianCity?.name || setEditData.city?.name,
       location: setEditData.location?.name,
       address: setEditData.address,
       teacherGender: setEditData.teacherGender,
@@ -223,6 +298,7 @@ const TutorRequestFrom = (props) => {
       phone: setEditData.phone,
       isApproval: setEditData.isApproval,
       tuitionType: setEditData.tuitionType,
+      curriculum: setEditData.curriculum,
       status: setEditData.status,
     });
   } else if (setEditData == null && visited == false) {
@@ -243,8 +319,7 @@ const TutorRequestFrom = (props) => {
 
     const formattedDate = moment(values.hireDate).format('DD/MM/YYYY');
     const formattedTime = moment(values.tutoringTime).format('h:mm A');
-    // console.log(formattedDate);tutoringTime
-    console.log(values, formattedDate, formattedTime);
+
     const subjects = values.subject?.map((subjectId) => ({
       subjectId: subjectId,
     }));
@@ -321,20 +396,18 @@ const TutorRequestFrom = (props) => {
       // }}
       >
         <div className="row">
-          <div className="col-12 col-md-7">
+          <div className="col-12 col-md-6">
             <div className="row">
               <div className="col-12">
                 <div className="card shadow">
                   <div className="card-body">
                     <h4 className="card-title border-bottom">
                       {" "}
-                      Guardian Information
+                      {/* Guardian Information */}
                     </h4>
 
-
-
-
                     <Form.Item
+                      className="mt-4"
                       name="guardian"
                       label="Guardian"
                       rules={[
@@ -346,13 +419,97 @@ const TutorRequestFrom = (props) => {
                       hasFeedback
                     >
                       <Select
-                        // mode="multiple"
+                        onChange={handleGuardian}
                         placeholder="Please select Guardian"
                         options={guardian}
                       />
                     </Form.Item>
 
+
+
                     <Form.Item
+                      name="phone"
+                      label="Phone"
+                      rules={[
+                        {
+                          required: true,
+                          pattern: phoneNumberPattern,
+                          message: 'Please enter a valid Bangladeshi phone number!',
+                        },
+                      ]}
+                      hasFeedback
+                    >
+                      <Input />
+                    </Form.Item>
+
+
+                    <Form.Item
+                      name="tuitionType"
+                      label="Tuition Type"
+                      rules={[
+                        {
+                          required: true,
+                        },
+                      ]}
+                      hasFeedback
+                      initialValue={true}
+                    >
+                      <Select placeholder="Select a option" allowClear>
+                        <Option value={"Home Tutoring"}> Home Tutoring </Option>
+                        <Option value={"Online Tutoring"}>Online Tutoring</Option>
+                        <Option value={"Group Tutoring"}>Group Tutoring</Option>
+                        <Option value={"Package Tutoring"}>Package Tutoring</Option>
+                      </Select>
+                    </Form.Item>
+
+
+
+                    <Form.Item
+                      name="city"
+                      label="Select City"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please select City!',
+                        },
+                      ]}
+                      hasFeedback
+                    >
+                      <Select
+                        // mode="multiple"
+                        onChange={handleCity}
+                        placeholder="Please select City"
+                        options={city}
+                        value={guardianCity ? guardianCity._id : undefined}
+                      />
+                    </Form.Item>
+
+
+                    <Form.Item
+                      name="location"
+                      label="Location"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please select Location!',
+
+                        },
+                      ]}
+                      hasFeedback
+
+                    >
+                      <Select
+                        // mode="multiple"
+                        placeholder="Please select Location"
+                        options={location}
+                      />
+                    </Form.Item>
+
+
+
+
+                    <Form.Item
+
                       name="category"
                       label="Category"
                       rules={[
@@ -365,15 +522,44 @@ const TutorRequestFrom = (props) => {
                     >
                       <Select
                         // mode="multiple"
+                        onChange={handleCategory}
                         placeholder="Please select Category"
                         options={category}
                       />
                     </Form.Item>
 
 
+
+                    {code === 'KT' ?
+
+
+                      <Form.Item
+                        name="curriculum"
+                        label="Curriculum "
+                      // rules={[
+                      //   {
+                      //     required: true,
+                      //   },
+                      // ]}
+                      // hasFeedback
+                      // initialValue={true}
+                      >
+                        <Select placeholder="Select a option" allowClear>
+                          <Option value='Ed-Excel'>Ed-Excel</Option>
+                          <Option value='Cambridge'>Cambridge</Option>
+                          <Option value='IB'>IB</Option>
+                        </Select>
+                      </Form.Item>
+
+
+                      :
+                      ""
+                    }
+
                     <Form.Item
                       name="noOfStudent"
                       label="Number of Students"
+                      className="mt-4"
                       rules={[
                         {
                           required: true,
@@ -395,10 +581,9 @@ const TutorRequestFrom = (props) => {
                       <InputNumber onChange={handleStudetNumber} style={{ width: '100%' }} />
                     </Form.Item>
 
-
                     <Form.Item
                       name="class"
-                      label="Select class"
+                      label="Class/Course"
                       rules={[
                         {
                           required: true,
@@ -425,13 +610,13 @@ const TutorRequestFrom = (props) => {
                       <Select
                         mode="multiple"
                         placeholder="Please select class"
-                        options={classes}
+                        options={classess}
                       />
                     </Form.Item>
 
                     <Form.Item
                       name="subject"
-                      label="Select Subject"
+                      label="Required Subject"
                       rules={[
                         {
                           required: true,
@@ -450,85 +635,8 @@ const TutorRequestFrom = (props) => {
 
 
 
-                    <Form.Item
-                      name="tuitionType"
-                      label="Type version"
-                      rules={[
-                        {
-                          required: true,
-                        },
-                      ]}
-                      hasFeedback
-                      initialValue={true}
-                    >
-                      <Select placeholder="Select a option" allowClear>
-                        <Option value={"Home Tutoring"}> Home Tutoring </Option>
-                        <Option value={"Online Tutoring"}>Online Tutoring</Option>
-                        <Option value={"Group Tutoring"}>Group Tutoring</Option>
-                        <Option value={"Package Tutoring"}>Package Tutoring</Option>
-                      </Select>
-                    </Form.Item>
 
 
-
-
-                    <Form.Item
-                      name="studentGender"
-                      label="Gender"
-                    // rules={[
-                    //   {
-                    //     required: true,
-                    //     message: 'Please select a gender',
-                    //   },
-                    // ]}
-                    >
-                      <Radio.Group>
-                        <Radio value="Male">Male</Radio>
-                        <Radio value="Female">Female</Radio>
-                        <Radio value="Any">Any</Radio>
-                      </Radio.Group>
-                    </Form.Item>
-
-                    <Form.Item
-                      name="city"
-                      label="Select City"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please select City!',
-
-                        },
-                      ]}
-                      hasFeedback
-                    >
-                      <Select
-                        // mode="multiple"
-                        onChange={handleCity}
-                        placeholder="Please select City"
-                        options={city}
-                      />
-                    </Form.Item>
-
-
-                    <Form.Item
-                      name="location"
-                      label="Location"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please select Location!',
-
-                        },
-                      ]}
-                      hasFeedback
-
-                    >
-                      <Select
-                        // mode="multiple"
-                        placeholder="Please select Location"
-                        options={location}
-                      />
-                    </Form.Item>
 
 
                     <Form.Item
@@ -549,6 +657,65 @@ const TutorRequestFrom = (props) => {
 
 
 
+
+
+
+
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-12 col-md-6">
+            <div className="row">
+              <div className="col-12">
+                <div className="card shadow">
+                  <div className="card-body ">
+                    <h4 className="card-title border-bottom ">
+                      {" "}
+                      {/* Tutor Information */}
+                    </h4>
+
+                    <Form.Item
+                      name="studentGender"
+                      label="Student Gender"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please select a gender',
+                        },
+                      ]}
+                    >
+                      <Radio.Group>
+                        <Radio value="Male">Male</Radio>
+                        <Radio value="Female">Female</Radio>
+                        <Radio value="Any">Any</Radio>
+                      </Radio.Group>
+                    </Form.Item>
+
+
+
+                    <Form.Item
+                      name="teacherGender"
+                      label="Tutor Gender  "
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please select a gender',
+                        },
+                      ]}
+                    >
+                      <Radio.Group>
+                        <Radio value="Male">Male</Radio>
+                        <Radio value="Female">Female</Radio>
+                        <Radio value="Any">Other</Radio>
+                      </Radio.Group>
+                    </Form.Item>
+
+
                     <Form.Item
                       name="isApproval"
                       label="Portal Access"
@@ -566,37 +733,6 @@ const TutorRequestFrom = (props) => {
 
 
 
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-12 col-md-5">
-            <div className="row">
-              <div className="col-12">
-                <div className="card shadow">
-                  <div className="card-body">
-                    <h4 className="card-title border-bottom">
-                      {" "}
-                      Tutor Information
-                    </h4>
-                    <Form.Item
-                      name="teacherGender"
-                      label="Gender"
-                    // rules={[
-                    //   {
-                    //     required: true,
-                    //     message: 'Please select a gender',
-                    //   },
-                    // ]}
-                    >
-                      <Radio.Group>
-                        <Radio value="Male">Male</Radio>
-                        <Radio value="Female">Female</Radio>
-                        <Radio value="Any">Other</Radio>
-                      </Radio.Group>
-                    </Form.Item>
 
                     <Form.Item
                       label="Days / Week"
@@ -627,7 +763,7 @@ const TutorRequestFrom = (props) => {
                     </Form.Item>
 
                     <Form.Item
-                      label="Preference Institute Name"
+                      label="Preference Institute"
                       name="preferenceInstitute"
 
                     >
@@ -699,20 +835,7 @@ const TutorRequestFrom = (props) => {
                         placeholder="Enter Full requirement"
                       />
                     </Form.Item>
-                    <Form.Item
-                      name="phone"
-                      label="Phone"
-                    // rules={[
-                    //   {
-                    //     required: true,
-                    //     pattern: phoneNumberPattern,
-                    //     message: 'Please enter a valid Bangladeshi phone number!',
-                    //   },
-                    // ]}
-                    // hasFeedback
-                    >
-                      <Input />
-                    </Form.Item>
+
 
 
 
@@ -735,14 +858,14 @@ const TutorRequestFrom = (props) => {
 
 
                     <Form.Item {...tailLayout}>
-                      <Button
-                        type="primary"
-                        htmlType="submit"
-                        loading={loading}
-                      >
-                        Submit
-                      </Button>
+                      <div className="d-flex justify-content-end">
+                        <Button type="primary" htmlType="submit" loading={loading}>
+                          Submit
+                        </Button>
+                      </div>
                     </Form.Item>
+
+
 
                   </div>
                 </div>
