@@ -23,6 +23,26 @@ const App = () => {
         border: `1px dashed ${token.colorBorder}`,
         marginTop: 16,
     };
+    const [isCardHovered, setCardHovered] = useState(false);
+
+    const cardStyle = {
+      border: 'none',
+      borderRadius: '8px',
+      padding: '20px',
+      boxShadow: isCardHovered ? '0 4px 12px rgba(0, 0, 0, 0.2)' : '0 4px 10px rgba(0, 0, 0, 0.1)',
+      transition: 'box-shadow 0.3s ease',
+    };
+  
+    const handleCardHover = () => {
+      setCardHovered(true);
+    };
+  
+    const handleCardLeave = () => {
+      setCardHovered(false);
+    };
+
+
+
     const { Text, Link } = Typography;
     const phoneNumberPattern = /^(?:01[3-9])\d{8}$/;
 
@@ -393,35 +413,37 @@ const App = () => {
                                     <Content style={{ margin: '10px 16px' }}>
                                         <div style={{ padding: 15, minHeight: 100, background: colorBgContainer }}>
                                             <div >
-                                                <div className="row">
-                                                    <div className="col-12">
-                                                        <Card className='mt-2 custom-card' bordered={false}>
-                                                 
-                                                            <Row className='mt-2' gutter={[16, 16]}>
-                                                                <Col xs={24} md={8}>
-                                                                    <FontAwesomeIcon icon={faPuzzlePiece} color='#40a6d9' />
-                                                                    <Text type="secondary">Exam / Degree Title </Text>
-                                                                    <Text strong>BSc. CSE</Text>
-                                                                </Col>
-                                                                <Col xs={24} sm={8}>
-                                                                <FontAwesomeIcon icon={faBars} color='#40a6d9' />
-                                                                    <Text type="secondary">Concentration / Major / Group </Text>
-                                                                    <Text strong>CSE</Text>
-                                                                </Col>
-                                                                <Col xs={24} md={8}>
-                                                                    {/* <DingtalkOutlined style={{ fontSize: '18px', color: '#08c' }} /> */}
-                                                                    <FontAwesomeIcon icon={faUniversity} color='#40a6d9' />
-                                                                    <Text type='secondary'>Institute :</Text>
-                                                                    <Text strong>Aiub</Text>
-                                                                </Col>
-                                                            </Row>
-
-                                                     
-
-
-                                                        </Card>
-                                                    </div>
-                                                </div>
+                                            <div className="row">
+        <div className="row">
+      <div className="col-12">
+        <Card
+          className='mt-2 custom-card'
+          bordered={false}
+          style={cardStyle}
+          onMouseEnter={handleCardHover}
+          onMouseLeave={handleCardLeave}
+        >
+          <Row className='mt-2' gutter={[16, 16]}>
+            <Col xs={24} md={8}>
+              <FontAwesomeIcon icon={faPuzzlePiece} color='#40a6d9' />
+              <Text type="secondary">Exam / Degree Title </Text>
+              <Text strong>BSc. CSE</Text>
+            </Col>
+            <Col xs={24} sm={8}>
+              <FontAwesomeIcon icon={faBars} color='#40a6d9' />
+              <Text type="secondary">Concentration / Major / Group </Text>
+              <Text strong>CSE</Text>
+            </Col>
+            <Col xs={24} md={8}>
+              <FontAwesomeIcon icon={faUniversity} color='#40a6d9' />
+              <Text type='secondary'>Institute :</Text>
+              <Text strong>Aiub</Text>
+            </Col>
+          </Row>
+        </Card>
+      </div>
+    </div>
+    </div>
                                             </div>
                                         </div>
                                             <Button  onClick={() => setEducationFrom(!educationFrom)}>
