@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { Button, message, Steps, theme, Layout, Row, Col, Form, Input, Select } from 'antd';
+import { Button, message, Steps, theme, Layout, Row, Col, Form, Input, Select, Typography, Card, Tag } from 'antd';
+import { DingtalkOutlined, EnvironmentOutlined, ReadOutlined } from '@ant-design/icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPerson, faBars, faPuzzlePiece, faPersonDress, faBangladeshiTakaSign, faMobileAlt, faUser, faUniversity, faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -20,7 +23,7 @@ const App = () => {
         border: `1px dashed ${token.colorBorder}`,
         marginTop: 16,
     };
-
+    const { Text, Link } = Typography;
     const phoneNumberPattern = /^(?:01[3-9])\d{8}$/;
 
     const [educationFrom, setEducationFrom] = useState(false);
@@ -248,6 +251,7 @@ const App = () => {
 
                             (
                                 <>
+
                                     <Row className='mt-2' gutter={[16, 16]}>
                                         <Col xs={24} md={12}>
                                             <Form.Item
@@ -349,19 +353,19 @@ const App = () => {
                                             </Form.Item>
                                         </Col>
                                         <Col xs={24} md={12}>
-                                          
-                                                <Form.Item
-                                                    name="institute"
-                                                    label="institute"
 
-                                                >
-                                                    <Input
+                                            <Form.Item
+                                                name="institute"
+                                                label="institute"
 
-                                                        placeholder='institute '
-                                                        onChange={(e) => { setInstitute(e.target.value) }}
-                                                    />
-                                                </Form.Item>
-                                           
+                                            >
+                                                <Input
+
+                                                    placeholder='institute '
+                                                    onChange={(e) => { setInstitute(e.target.value) }}
+                                                />
+                                            </Form.Item>
+
                                         </Col>
                                     </Row>
 
@@ -381,9 +385,55 @@ const App = () => {
 
 
                             ) :
-                            (<Button style={{ margin: '0 8px' }} onClick={() => setEducationFrom(!educationFrom)}>
-                                Add More
-                            </Button>)
+                            (
+
+                                <>
+
+
+                                    <Content style={{ margin: '10px 16px' }}>
+                                        <div style={{ padding: 15, minHeight: 100, background: colorBgContainer }}>
+                                            <div >
+                                                <div className="row">
+                                                    <div className="col-12">
+                                                        <Card className='mt-2 custom-card' bordered={false}>
+                                                 
+                                                            <Row className='mt-2' gutter={[16, 16]}>
+                                                                <Col xs={24} md={8}>
+                                                                    <FontAwesomeIcon icon={faPuzzlePiece} color='#40a6d9' />
+                                                                    <Text type="secondary">Exam / Degree Title </Text>
+                                                                    <Text strong>BSc. CSE</Text>
+                                                                </Col>
+                                                                <Col xs={24} sm={8}>
+                                                                <FontAwesomeIcon icon={faBars} color='#40a6d9' />
+                                                                    <Text type="secondary">Concentration / Major / Group </Text>
+                                                                    <Text strong>CSE</Text>
+                                                                </Col>
+                                                                <Col xs={24} md={8}>
+                                                                    {/* <DingtalkOutlined style={{ fontSize: '18px', color: '#08c' }} /> */}
+                                                                    <FontAwesomeIcon icon={faUniversity} color='#40a6d9' />
+                                                                    <Text type='secondary'>Institute :</Text>
+                                                                    <Text strong>Aiub</Text>
+                                                                </Col>
+                                                            </Row>
+
+                                                     
+
+
+                                                        </Card>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                            <Button  onClick={() => setEducationFrom(!educationFrom)}>
+                                                Add More
+                                            </Button>
+                                    </Content>
+
+                                  
+
+
+                                </>
+                            )
 
                     }
 
@@ -463,7 +513,7 @@ const App = () => {
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col-12">
-                            <div style={contentStyle}>{steps[current].content}</div>
+                                <div style={contentStyle}>{steps[current].content}</div>
                                 <div style={{ marginTop: 24 }}>
                                     {current < steps.length - 1 && (
                                         <Button type="primary" onClick={() => setCurrent(current + 1)}>
