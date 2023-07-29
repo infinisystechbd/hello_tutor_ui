@@ -1,4 +1,4 @@
-import { Button, DatePicker, Form, Input, InputNumber, Modal, Radio, Select, TimePicker } from "antd";
+import { Button, DatePicker, Form, Input, InputNumber, Modal, Radio, Select, TimePicker, Switch } from "antd";
 import moment from 'moment';
 import React, { useCallback, useEffect, useState } from 'react';
 import ToastMessage from '../../../components/Toast';
@@ -30,9 +30,9 @@ const TutorRequestFrom = (props) => {
   const [numOfStudent, setNumOfStudent] = useState(null);
   const phoneNumberPattern = /^(?:01[3-9])\d{8}$/;
   const [guardianCity, setGuardianCity] = useState(null);
-  console.log(guardianCity);
-  // const isApproval = true;
-  // setCity
+  const [newGuardian, setNewGuardian] = useState(false);
+  console.log("newGuardian", newGuardian);
+
   const layout = {
     labelCol: {
       span: 6,
@@ -220,23 +220,6 @@ const TutorRequestFrom = (props) => {
 
 
 
-  // const handleGuardian = async (value) => {
-  //   setIsVisited(true);
-  //   const fetchGuardian = await get(GUARDIAN_END_POINT.info(value));
-
-  //   const city = fetchGuardian?.data?.city;
-  //   console.log("handleGuardian", fetchGuardian?.data?.city);
-  //   setGuardianCity({
-  //     _id: city?._id,
-  //     name: city?.name,
-  //   });
-
-  //   setGuardianCity(city?._id)
-
-  // }
-
-
-
   const handleGuardian = async (value) => {
     setIsVisited(true);
     const fetchGuardian = await get(GUARDIAN_END_POINT.info(value));
@@ -268,6 +251,13 @@ const TutorRequestFrom = (props) => {
     const formattedDate = moment(dateString).format('MM/DD/YYYY');
     // Output: 07/04/2023
     // You can update the form value or do any other necessary operations here
+  };
+
+
+
+  const handleNewGuardian = async (value) => {
+    //  console.log("handleNewGuardian",value);
+    setNewGuardian(value)
   };
 
 
@@ -384,6 +374,26 @@ const TutorRequestFrom = (props) => {
         xxl: 1400,
       }}
     >
+      <Form.Item
+        // className="mt-4"
+        name="newGuardian"
+        label="newGuardian"
+        valuePropName="checked" // This is necessary for using the Switch with Form.Item
+        // initialValue={true}
+        rules={[
+          {
+            required: true,
+          },
+        ]}
+
+        hasFeedback
+      >
+        <Switch onChange={handleNewGuardian} checkedChildren="Yes" unCheckedChildren="No" />
+      </Form.Item>
+
+
+
+
       <Form
         className="mt-3"
         {...layout}
@@ -406,24 +416,56 @@ const TutorRequestFrom = (props) => {
                       {/* Guardian Information */}
                     </h4>
 
-                    <Form.Item
-                      className="mt-4"
-                      name="guardian"
-                      label="Guardian"
-                      rules={[
-                        {
-                          required: true,
-                        },
-                      ]}
+                    {
+                        !newGuardian ? (
+                        <Form.Item
+                          className="mt-4"
+                          name="guardian"
+                          label="Guardian"
+                          rules={[
+                            {
+                              required: true,
+                            },
+                          ]}
+                          hasFeedback
+                        >
+                          <Select
+                            onChange={handleGuardian}
+                            placeholder="Please select Guardian"
+                            options={guardian}
+                          />
+                        </Form.Item>
+                      ) : (
+                        <Form.Item
+                          name="fullName"
+                          label="FullName"
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Full name is required',
+                            },
+                            {
+                              pattern: /^[A-Za-z\s]+$/,
+                              message: 'Full name should only contain letters and spaces',
+                            },
+                            {
+                              max: 50,
+                              message: 'Full name should not exceed 50 characters',
+                            },
+                          ]}
+                          hasFeedback
+                        >
+                          <Input />
+                        </Form.Item>
+                      )
+                    }
 
-                      hasFeedback
-                    >
-                      <Select
-                        onChange={handleGuardian}
-                        placeholder="Please select Guardian"
-                        options={guardian}
-                      />
-                    </Form.Item>
+
+
+
+
+
+
 
 
 
@@ -464,46 +506,7 @@ const TutorRequestFrom = (props) => {
 
 
 
-                    <Form.Item
-                      name="city"
-                      label="Select City"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please select City!',
-                        },
-                      ]}
-                      hasFeedback
-                    >
-                      <Select
-                        // mode="multiple"
-                        onChange={handleCity}
-                        placeholder="Please select City"
-                        options={city}
-                        value={guardianCity ? guardianCity._id : undefined}
-                      />
-                    </Form.Item>
 
-
-                    <Form.Item
-                      name="location"
-                      label="Location"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please select Location!',
-
-                        },
-                      ]}
-                      hasFeedback
-
-                    >
-                      <Select
-                        // mode="multiple"
-                        placeholder="Please select Location"
-                        options={location}
-                      />
-                    </Form.Item>
 
 
 
@@ -633,7 +636,46 @@ const TutorRequestFrom = (props) => {
                       />
                     </Form.Item>
 
+                    <Form.Item
+                      name="city"
+                      label="City"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please select City!',
+                        },
+                      ]}
+                      hasFeedback
+                    >
+                      <Select
+                        // mode="multiple"
+                        onChange={handleCity}
+                        placeholder="Please select City"
+                        options={city}
+                        value={guardianCity ? guardianCity._id : undefined}
+                      />
+                    </Form.Item>
 
+
+                    <Form.Item
+                      name="location"
+                      label="Location"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please select Location!',
+
+                        },
+                      ]}
+                      hasFeedback
+
+                    >
+                      <Select
+                        // mode="multiple"
+                        placeholder="Please select Location"
+                        options={location}
+                      />
+                    </Form.Item>
 
 
 
@@ -682,12 +724,31 @@ const TutorRequestFrom = (props) => {
                     <Form.Item
                       name="studentGender"
                       label="Student Gender"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please select a gender',
-                        },
-                      ]}
+                    // rules={[
+                    //   {
+                    //     required: true,
+                    //     message: 'Please select a gender',
+                    //   },
+                    // ]}
+                    >
+                      <Radio.Group>
+                        <Radio value="Male">Male</Radio>
+                        <Radio value="Female">Female</Radio>
+                        {numOfStudent > 1 && <Radio value="Both">Both</Radio>}
+                      </Radio.Group>
+                    </Form.Item>
+
+
+
+                    <Form.Item
+                      name="teacherGender"
+                      label="Tutor Gender  "
+                    // rules={[
+                    //   {
+                    //     required: true,
+                    //     message: 'Please select a gender',
+                    //   },
+                    // ]}
                     >
                       <Radio.Group>
                         <Radio value="Male">Male</Radio>
@@ -698,35 +759,6 @@ const TutorRequestFrom = (props) => {
 
 
 
-                    <Form.Item
-                      name="teacherGender"
-                      label="Tutor Gender  "
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please select a gender',
-                        },
-                      ]}
-                    >
-                      <Radio.Group>
-                        <Radio value="Male">Male</Radio>
-                        <Radio value="Female">Female</Radio>
-                        <Radio value="Any">Other</Radio>
-                      </Radio.Group>
-                    </Form.Item>
-
-
-                    <Form.Item
-                      name="isApproval"
-                      label="Portal Access"
-                    >
-
-
-                      <Radio.Group>
-                        <Radio value={true}>Active</Radio>
-                        <Radio value={false}>Inactive</Radio>
-                      </Radio.Group>
-                    </Form.Item>
 
 
 
@@ -855,6 +887,29 @@ const TutorRequestFrom = (props) => {
                         <Option value={false}>Inactive</Option>
                       </Select>
                     </Form.Item>
+
+                    {/* <Form.Item
+                      name="isApproval"
+                      label="Approval"
+                    >
+
+
+                      <Radio.Group>
+                        <Radio value={true}>Active</Radio>
+                        <Radio value={false}>Inactive</Radio>
+                      </Radio.Group>
+                    </Form.Item> */}
+
+
+                    <Form.Item
+                      name="isApproval"
+                      label="Approval"
+                      valuePropName="checked" // This is necessary for using the Switch with Form.Item
+                      initialValue={true} // Set the default value to true (Active)
+                    >
+                      <Switch checkedChildren="Active" unCheckedChildren="Inactive" />
+                    </Form.Item>
+
 
 
                     <Form.Item {...tailLayout}>
