@@ -25,11 +25,13 @@ const App = () => {
     };
     const [isCardHovered, setCardHovered] = useState(false);
 
+    // const [isCardHovered, setCardHovered] = useState(false);
+
     const cardStyle = {
       border: 'none',
       borderRadius: '8px',
       padding: '20px',
-      boxShadow: isCardHovered ? '0 4px 12px rgba(0, 0, 0, 0.2)' : '0 4px 10px rgba(0, 0, 0, 0.1)',
+      boxShadow: isCardHovered ? '0 4px 12px rgba(64, 166, 217, 0.5)' : '0 4px 10px rgba(0, 0, 0, 0.1)',
       transition: 'box-shadow 0.3s ease',
     };
   
@@ -40,7 +42,6 @@ const App = () => {
     const handleCardLeave = () => {
       setCardHovered(false);
     };
-
 
 
     const { Text, Link } = Typography;
@@ -414,7 +415,7 @@ const App = () => {
                                         <div style={{ padding: 15, minHeight: 100, background: colorBgContainer }}>
                                             <div >
                                             <div className="row">
-        <div className="row">
+                                            <div className="row">
       <div className="col-12">
         <Card
           className='mt-2 custom-card'
