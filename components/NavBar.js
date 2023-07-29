@@ -44,8 +44,7 @@ const Navbar = ({ collapsed, toggleCollapsed }) => {
       style={{
         padding: 0,
         background: colorBgContainer,
-        marginLeft: '200px',
-        
+        marginLeft: token !== null ? '200px' : '0',  
       }}
     >
       {/* Set the mode based on isMobileView state */}

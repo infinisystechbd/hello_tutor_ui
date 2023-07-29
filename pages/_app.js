@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // import Login from '../pages/user/login';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DefaultLayout from '../components/DefaultLayout';
-import '../components/scss/main.scss';
+import '../components/scss/main.css';
 import '../styles/Home.module.css';
 import '../styles/globals.css';
 import UserContext from './../components/context/userContext';
