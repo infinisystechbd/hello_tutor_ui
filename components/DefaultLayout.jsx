@@ -13,6 +13,7 @@ const DefaultLayout = ({children}) => {
     setCollapsed(!collapsed);
   };
   const colorBgContainer = '#F2F5FC';
+  const leftSide = token !== null ? {marginLeft: 200} : {marginLeft: 0, marginTop: 100};
   return (
     <Layout style={{ minHeight: '100vh' }}>
        {/* <Leftsidebar collapsed={collapsed}/> */}
@@ -21,7 +22,7 @@ const DefaultLayout = ({children}) => {
        }
        <Layout>
         <Navbar collapsed={collapsed} toggleCollapsed={toggleCollapsed} colorBgContainer={colorBgContainer}/>
-        <Layout className="site-layout" style={{ marginLeft: 200 }}>
+        <Layout className="site-layout" style={leftSide}>
           <Content
            style={{ background: colorBgContainer }}
            className='client-layout'
@@ -32,8 +33,9 @@ const DefaultLayout = ({children}) => {
           </Content>
           </Layout>
        
-        <Footer/>
+        
         </Layout>
+        <Footer/>
         </Layout>
   )
 }
