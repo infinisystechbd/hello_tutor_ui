@@ -575,9 +575,9 @@ const TutorRequestFrom = (props) => {
                       ]}
                       hasFeedback
                     >
-                      <InputNumber  onChange={handleStudetNumber}
-          defaultValue={1} // Set the default value to 1
-          style={{ width: '100%' }} />
+                      <InputNumber onChange={handleStudetNumber}
+                        defaultValue={1} // Set the default value to 1
+                        style={{ width: '100%' }} />
                     </Form.Item>
 
                     <Form.Item
@@ -674,9 +674,6 @@ const TutorRequestFrom = (props) => {
                     </Form.Item>
 
 
-
-
-
                     <Form.Item
                       label="Address"
                       name="address"
@@ -692,14 +689,6 @@ const TutorRequestFrom = (props) => {
                         placeholder="Enter Full Address"
                       />
                     </Form.Item>
-
-
-
-
-
-
-
-
 
                   </div>
                 </div>
@@ -782,12 +771,16 @@ const TutorRequestFrom = (props) => {
                     //   },
                     // ]}
                     >
-                      <InputNumber
-                        placeholder="Enter days per week"
-                        min={1}
-                        max={7}
-                        style={{ width: '100%' }}
-                      />
+    <Select placeholder="Select an option" allowClear>
+                          <Option value={1}>1 Day Per Week</Option>
+                          <Option value={2}>2 Day Per Week</Option>
+                          <Option value={3}>3 Day Per Week</Option>
+                          <Option value={4}>4 Day Per Week</Option>
+                          <Option value={5}>5 Day Per Week</Option>
+                          <Option value={6}>6 Day Per Week</Option>
+                          <Option value={7}>7 Day Per Week</Option>
+                        
+                        </Select>
                     </Form.Item>
 
                     <Form.Item

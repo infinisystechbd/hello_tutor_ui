@@ -38,6 +38,10 @@ const Tutor_Create_from = () => {
   const [classes, setClasses] = useState([]);
   const [subject, setSubject] = useState([]);
   const [preferredLocation, setPreferredLocation] = useState([]);
+  const [objedit, setObjEdit] = useState(false);
+  const [editId, setEditId] = useState('');
+
+
 
   // education data
   const [education, setEducation] = useState([]);
@@ -206,14 +210,30 @@ const Tutor_Create_from = () => {
     // setEducationFrom(!educationFrom)
   }
 
+
+
+
+  function editobj(index, editId) {
+
+    setObjEdit(true)
+    setEditId(editId)
+    setEducationLevel(education[index]?.customer_id)
+
+
+  }
+
+
+
+
   /**education data store end*/
-
-
-
 
   const onFinish = async (values) => {
 
   }
+
+
+
+
   return (
     <>
       <Content
