@@ -20,15 +20,13 @@ const DefaultLayout = ({children}) => {
        {token !== null && 
         <Leftsidebar collapsed={collapsed} />
        }
+       <Navbar collapsed={collapsed} toggleCollapsed={toggleCollapsed} colorBgContainer={colorBgContainer}/>
        <Layout>
-        <Navbar collapsed={collapsed} toggleCollapsed={toggleCollapsed} colorBgContainer={colorBgContainer}/>
         <Layout className="site-layout" style={leftSide}>
           <Content
            style={{ background: colorBgContainer }}
-           className='client-layout'
-           scroll={{ x: true }}
+           className={token !== null ? 'client-layout' : ''}
           >
-
             {children}
           </Content>
           </Layout>
