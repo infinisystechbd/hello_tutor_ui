@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, message, Steps, theme, Layout, Row, Col, Form, Input, Select, Typography, Card, Tag } from 'antd';
+import { Button, message, Steps, theme, Layout, Row, Col, Form, Input, Select, Typography, Card, Tag,Modal } from 'antd';
 import { DingtalkOutlined, EnvironmentOutlined, ReadOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPerson, faBars, faPuzzlePiece, faPersonDress, faBangladeshiTakaSign, faMobileAlt, faUser, faUniversity, faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
@@ -8,7 +8,8 @@ import { QUERY_KEYS } from '../../constants/queryKeys.js';
 import { useGetAllData } from '../../utils/hooks/useGetAllData.js';
 import { mapArrayToDropdown } from '../../helpers/common_Helper.js';
 import { get, post, put } from '../../helpers/api_helper';
-const App = () => {
+const App = (props) => {
+    const { isModalOpen, setIsModalOpen, isParentRender, setEditData } = props;
     const { token } = theme.useToken();
     const {
         token: { colorBgContainer },
@@ -248,6 +249,24 @@ const App = () => {
     }
 
 
+
+    const [customer, setCustomer] = useState({
+        fullName: '',
+        nidNumber: '',
+      });
+
+
+      const handleChange = (e) => {
+        setCustomer((prev) => ({
+          ...prev,
+          [e.target.name]: e.target.value,
+        }));
+      };
+
+
+      console.log("customer",customer);
+
+
     const steps = [
         {
             title: 'Personal',
@@ -285,7 +304,7 @@ const App = () => {
                                     ]}
                                     hasFeedback
                                 >
-                                    <Input />
+                                    <Input  name="fullName" onChange={handleChange} />
                                 </Form.Item>
                             </Col>
                             <Col xs={24} md={12}>
@@ -779,6 +798,27 @@ const App = () => {
 
     return (
         <>
+
+
+<Modal
+      title={setEditData != null ? 'Update Tutor' : 'Add Tutor'}
+      style={{ top: 20 }}
+      centered
+      open={isModalOpen}
+      footer={null}
+      onOk={() => setIsModalOpen(false)}
+      onCancel={() => setIsModalOpen(false)}
+      width={1200}
+      responsive={{
+        // Define different widths for different screen sizes
+        xs: 300,
+        sm: 500,
+        md: 800,
+        lg: 1000,
+        xl: 1200,
+        xxl: 1400,
+      }}
+    >
             <Content style={{ margin: '10px 16px' }}>
                 <div style={{ padding: 15, minHeight: 100, background: colorBgContainer }}>
                     <div >
@@ -819,6 +859,7 @@ const App = () => {
                     </div>
                 </div>
             </Content>
+            </Modal>
         </>
     );
 };
