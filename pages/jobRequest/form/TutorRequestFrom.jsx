@@ -417,7 +417,7 @@ const TutorRequestFrom = (props) => {
                     </h4>
 
                     {
-                        !newGuardian ? (
+                      !newGuardian ? (
                         <Form.Item
                           className="mt-4"
                           name="guardian"
@@ -533,12 +533,10 @@ const TutorRequestFrom = (props) => {
 
 
 
-                    {code === 'KT' ?
-
-
+                    {code === 'KT' && (
                       <Form.Item
                         name="curriculum"
-                        label="Curriculum "
+                        label="Curriculum"
                       // rules={[
                       //   {
                       //     required: true,
@@ -547,17 +545,13 @@ const TutorRequestFrom = (props) => {
                       // hasFeedback
                       // initialValue={true}
                       >
-                        <Select placeholder="Select a option" allowClear>
-                          <Option value='Ed-Excel'>Ed-Excel</Option>
-                          <Option value='Cambridge'>Cambridge</Option>
-                          <Option value='IB'>IB</Option>
+                        <Select placeholder="Select an option" allowClear>
+                          <Option value="Ed-Excel">Ed-Excel</Option>
+                          <Option value="Cambridge">Cambridge</Option>
+                          <Option value="IB">IB</Option>
                         </Select>
                       </Form.Item>
-
-
-                      :
-                      ""
-                    }
+                    )}
 
                     <Form.Item
                       name="noOfStudent"
