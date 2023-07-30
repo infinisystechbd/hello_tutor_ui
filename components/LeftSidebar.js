@@ -65,6 +65,13 @@ const Leftsidebar = ({ collapsed }) => {
       label: 'Tutor Profile From',
       path: '/tutorFrom/Tutor_Create_from'
     },
+
+    {
+      key: 'tutorProfileTry',
+      icon: <UserOutlined />,
+      label: 'Tutor Profile From Try',
+      path: '/tutorFromTry/Tutor_Create_from'
+    },
   ];
 
   const handleMenuItemClick = (path) => {
