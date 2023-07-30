@@ -2,7 +2,7 @@ import { Button, Form, Input, Modal, Select } from 'antd';
 import { useRouter } from 'next/router';
 import { useCallback, useState, useEffect } from 'react';
 import ToastMessage from '../../../components/Toast';
-import { TUTOR_END_POINT, LOCATION_END_POINT, CITY_END_POINT } from '../../../constants/index';
+import { TUTOR_END_POINT, CATEGORIE_END_POINT, CITY_END_POINT, CLASS_END_POINT, GUARDIAN_END_POINT, JOB_REQUEST_END_POINT, LOCATION_END_POINT, SUBJECT_END_POINT } from '../../../constants/index';
 import { get, post, put } from '../../../helpers/api_helper';
 import { QUERY_KEYS } from '../../../constants/queryKeys.js';
 import { mapArrayToDropdown } from '../../../helpers/common_Helper.js';

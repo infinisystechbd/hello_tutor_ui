@@ -6,11 +6,12 @@ import Axios from "../utils/axios";
 
 const { Header } = Layout;
 
-const Navbar = ({ collapsed, toggleCollapsed }) => {
+const Navbar = () => {
   const { http, setToken, token } = Axios();
   console.log("token",token);
   const colorBgContainer = '#ffffff';
   const router = useRouter();
+  const [collapsed , setCollapsed] = useState(false);
 
   const onLogout = async () => {
     localStorage.clear();
@@ -38,13 +39,17 @@ const Navbar = ({ collapsed, toggleCollapsed }) => {
       window.removeEventListener('resize', handleWindowResize); // Remove window resize listener on unmount
     };
   }, []);
+  const toggleCollapsed =() => {
+    setCollapsed(!collapsed)
+  }
 
   return (
     <Header
       style={{
         padding: 0,
         background: colorBgContainer,
-        marginLeft: token !== null ? '200px' : '0',  
+        marginLeft: token !== null ? '200px' : '0px', 
+        width: token === null ? '100%': '' 
       }}
     >
       {/* Set the mode based on isMobileView state */}

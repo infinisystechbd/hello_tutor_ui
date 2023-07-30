@@ -1,60 +1,35 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Button, message, Steps, theme, Layout, Row, Col, Form, Input, Select, Typography, Card, Tag } from 'antd';
 import { DingtalkOutlined, EnvironmentOutlined, ReadOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPerson, faBars, faPuzzlePiece, faPersonDress, faBangladeshiTakaSign, faMobileAlt, faUser, faUniversity, faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-
-
-
+import { CATEGORIE_END_POINT, CITY_END_POINT, CLASS_END_POINT, GUARDIAN_END_POINT, JOB_REQUEST_END_POINT, LOCATION_END_POINT, SUBJECT_END_POINT } from '../../constants/index';
+import { QUERY_KEYS } from '../../constants/queryKeys.js';
+import { useGetAllData } from '../../utils/hooks/useGetAllData.js';
+import { mapArrayToDropdown } from '../../helpers/common_Helper.js';
+import { get, post, put } from '../../helpers/api_helper';
 const App = () => {
     const { token } = theme.useToken();
     const {
         token: { colorBgContainer },
     } = theme.useToken();
     const [form] = Form.useForm();
+    const { Option } = Select;
     const [current, setCurrent] = useState(0);
     const { Content } = Layout;
-    const contentStyle = {
-        lineHeight: '260px',
-        textAlign: 'center',
-        color: token.colorTextTertiary,
-        backgroundColor: token.colorFillAlter,
-        borderRadius: token.borderRadiusLG,
-        border: `1px dashed ${token.colorBorder}`,
-        marginTop: 16,
-    };
     const [isCardHovered, setCardHovered] = useState(false);
-
-    // const [isCardHovered, setCardHovered] = useState(false);
-
-    const cardStyle = {
-      border: 'none',
-      borderRadius: '8px',
-      padding: '20px',
-      boxShadow: isCardHovered ? '0 4px 12px rgba(64, 166, 217, 0.5)' : '0 4px 10px rgba(0, 0, 0, 0.1)',
-      transition: 'box-shadow 0.3s ease',
-    };
-  
-    const handleCardHover = () => {
-      setCardHovered(true);
-    };
-  
-    const handleCardLeave = () => {
-      setCardHovered(false);
-    };
-
-
+    const [city, setCity] = useState([]);
+    const [category, setCategory] = useState([]);
+    const [location, setLocation] = useState([]);
+    const [preferredLocation, setPreferredLocation] = useState([]);
+    const [subject, setSubject] = useState([]);
+    const [classes, setClasses] = useState([]);
     const { Text, Link } = Typography;
     const phoneNumberPattern = /^(?:01[3-9])\d{8}$/;
-
     const [educationFrom, setEducationFrom] = useState(false);
-
     const [education, setEducation] = useState([]);
-
-    const onFinish = async (values) => {
-        console.log(values);
-    }
-
+    const [loading, setLoading] = useState(false);
+    const [visited, setIsVisited] = useState(false);
 
     // education data
     const [ind, setInd] = useState(1)
@@ -64,6 +39,187 @@ const App = () => {
     const [result, setResult] = useState("");
     const [curriculum, setCurriculum] = useState("");
     const [institute, setInstitute] = useState("");
+
+
+    const contentStyle = {
+        lineHeight: '260px',
+        textAlign: 'center',
+        color: token.colorTextTertiary,
+        backgroundColor: token.colorFillAlter,
+        borderRadius: token.borderRadiusLG,
+        border: `1px dashed ${token.colorBorder}`,
+        marginTop: 16,
+    };
+
+
+
+    const cardStyle = {
+        border: 'none',
+        borderRadius: '8px',
+        padding: '20px',
+        boxShadow: isCardHovered ? '0 4px 12px rgba(64, 166, 217, 0.5)' : '0 4px 10px rgba(0, 0, 0, 0.1)',
+        transition: 'box-shadow 0.3s ease',
+    };
+
+    const handleCardHover = () => {
+        setCardHovered(true);
+    };
+
+    const handleCardLeave = () => {
+        setCardHovered(false);
+    };
+
+    const onFinish = async (values) => {
+        console.log(values);
+    }
+
+
+
+
+
+    /** Fetch city */
+    const {
+        data: cityList,
+        isLoading,
+        refetch: fetchCityList,
+    } = useGetAllData(
+        QUERY_KEYS.GET_ALL_CITY_LIST,
+        CITY_END_POINT.get(1, -1, '', true)
+    );
+
+    /**city dropdown */
+    useEffect(() => {
+        const CITYDROPDOWN = mapArrayToDropdown(
+            cityList?.data,
+            'name',
+            '_id'
+        );
+        setCity(CITYDROPDOWN);
+    }, [cityList]);
+
+    /** end city dropdown */
+
+
+
+
+    /**fetch location list */
+
+    const handleCity = async (value) => {
+        setIsVisited(true);
+        const fetchLocation = await get(LOCATION_END_POINT.getLocationByCityId(value));
+        const LOCATIONDROPDOWN = mapArrayToDropdown(
+            fetchLocation.data,
+            'name',
+            '_id'
+        );
+        setLocation(LOCATIONDROPDOWN)
+    }
+
+
+    /**fetch location list  End */
+
+
+
+
+    /** Fetch category List */
+
+    const {
+        data: categoryList,
+        refetch: fetchTotalCategory,
+    } = useGetAllData(
+        QUERY_KEYS.GET_ALL_CATEGORY_LIST,
+        CATEGORIE_END_POINT.get(1, -1, '', true)
+    );
+
+    /**category dropdown */
+    useEffect(() => {
+        const CATEGORYDROPDOWN = mapArrayToDropdown(
+            categoryList?.data,
+            'name',
+            '_id'
+        );
+        setCategory(CATEGORYDROPDOWN);
+    }, [categoryList]);
+
+
+
+    /** Fetch CategoryList List End */
+
+
+
+
+    /** Fetch  subject list*/
+    const {
+        data: subjectList,
+        refetch: fetchSubjectList,
+    } = useGetAllData(
+        QUERY_KEYS.GET_ALL_SUBJECT_LIST,
+        SUBJECT_END_POINT.get(1, -1, '', true)
+    );
+    //subject dropdown
+    useEffect(() => {
+        const SUBJECTDROPDOWN = mapArrayToDropdown(
+            subjectList?.data,
+            'name',
+            '_id'
+        );
+        setSubject(SUBJECTDROPDOWN);
+    }, [subjectList]);
+
+    /** Fetch  subject end*/
+
+
+
+
+    /**fetch class list */
+    const {
+        data: classList,
+        // isLoading,
+        refetch: fetchClassList,
+    } = useGetAllData(
+        QUERY_KEYS.GET_ALL_ClASS_LIST,
+        CLASS_END_POINT.get(1, -1, '', true)
+    );
+    //class dropdown
+    useEffect(() => {
+        const CLASSDROPDOWN = mapArrayToDropdown(
+            classList?.data,
+            'name',
+            '_id'
+        );
+        setClasses(CLASSDROPDOWN);
+    }, [classList]);
+
+    /**fetch class list end */
+
+
+
+
+    /** Fetch category List */
+
+    const {
+        data: preferredLocationList,
+        refetch: fetchpreferredLocation,
+    } = useGetAllData(
+        QUERY_KEYS.GET_ALL_LOCATION_LIST,
+        LOCATION_END_POINT.get(1, -1, '', true)
+    );
+
+    /**category dropdown */
+    useEffect(() => {
+        const LOCATIONDROPDOWN = mapArrayToDropdown(
+            preferredLocationList?.data,
+            'name',
+            '_id'
+        );
+        setPreferredLocation(LOCATIONDROPDOWN);
+    }, [preferredLocationList]);
+
+
+
+    /** Fetch CategoryList List End */
+
+
 
 
     const onChange = (value) => {
@@ -84,9 +240,12 @@ const App = () => {
 
         }
         ])
+        setEducationFrom(!educationFrom)
     }
 
-    console.log(education);
+    const onTution = async (values) => {
+        console.log("onTution", values);
+    }
 
 
     const steps = [
@@ -185,21 +344,22 @@ const App = () => {
                                 <Form.Item
                                     name="city"
                                     label="Select City"
-                                // rules={[
-                                //     {
-                                //         required: true,
-                                //         message: 'Please select City!',
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Please select City!',
 
-                                //     },
-                                // ]}
-                                // hasFeedback
+                                        },
+                                    ]}
+                                    hasFeedback
                                 >
                                     <Select
-
+                                        onChange={handleCity}
                                         placeholder="Please select City"
-
+                                        options={city}
                                     />
                                 </Form.Item>
+
                             </Col>
                         </Row>
 
@@ -209,20 +369,20 @@ const App = () => {
                                 <Form.Item
                                     name="location"
                                     label="Location"
-                                // rules={[
-                                //     {
-                                //         required: true,
-                                //         message: 'Please select Location!',
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Please select Location!',
 
-                                //     },
-                                // ]}
-                                // hasFeedback
+                                        },
+                                    ]}
+                                    hasFeedback
 
                                 >
                                     <Select
-
+                                        // mode="multiple"
                                         placeholder="Please select Location"
-
+                                        options={location}
                                     />
                                 </Form.Item>
                             </Col>
@@ -414,45 +574,45 @@ const App = () => {
                                     <Content style={{ margin: '10px 16px' }}>
                                         <div style={{ padding: 15, minHeight: 100, background: colorBgContainer }}>
                                             <div >
-                                            <div className="row">
-                                            <div className="row">
-      <div className="col-12">
-        <Card
-          className='mt-2 custom-card'
-          bordered={false}
-          style={cardStyle}
-          onMouseEnter={handleCardHover}
-          onMouseLeave={handleCardLeave}
-        >
-          <Row className='mt-2' gutter={[16, 16]}>
-            <Col xs={24} md={8}>
-              <FontAwesomeIcon icon={faPuzzlePiece} color='#40a6d9' />
-              <Text type="secondary">Exam / Degree Title </Text>
-              <Text strong>BSc. CSE</Text>
-            </Col>
-            <Col xs={24} sm={8}>
-              <FontAwesomeIcon icon={faBars} color='#40a6d9' />
-              <Text type="secondary">Concentration / Major / Group </Text>
-              <Text strong>CSE</Text>
-            </Col>
-            <Col xs={24} md={8}>
-              <FontAwesomeIcon icon={faUniversity} color='#40a6d9' />
-              <Text type='secondary'>Institute :</Text>
-              <Text strong>Aiub</Text>
-            </Col>
-          </Row>
-        </Card>
-      </div>
-    </div>
-    </div>
+                                                <div className="row">
+                                                    <div className="row">
+                                                        <div className="col-12">
+                                                            <Card
+                                                                className='mt-2 custom-card'
+                                                                bordered={false}
+                                                                style={cardStyle}
+                                                                onMouseEnter={handleCardHover}
+                                                                onMouseLeave={handleCardLeave}
+                                                            >
+                                                                <Row className='mt-2' gutter={[16, 16]}>
+                                                                    <Col xs={24} md={8}>
+                                                                        <FontAwesomeIcon icon={faPuzzlePiece} color='#40a6d9' />
+                                                                        <Text type="secondary">Exam / Degree Title </Text>
+                                                                        <Text strong>BSc. CSE</Text>
+                                                                    </Col>
+                                                                    <Col xs={24} sm={8}>
+                                                                        <FontAwesomeIcon icon={faBars} color='#40a6d9' />
+                                                                        <Text type="secondary">Concentration / Major / Group </Text>
+                                                                        <Text strong>CSE</Text>
+                                                                    </Col>
+                                                                    <Col xs={24} md={8}>
+                                                                        <FontAwesomeIcon icon={faUniversity} color='#40a6d9' />
+                                                                        <Text type='secondary'>Institute :</Text>
+                                                                        <Text strong>Aiub</Text>
+                                                                    </Col>
+                                                                </Row>
+                                                            </Card>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                            <Button  onClick={() => setEducationFrom(!educationFrom)}>
-                                                Add More
-                                            </Button>
+                                        <Button onClick={() => setEducationFrom(!educationFrom)}>
+                                            Add More
+                                        </Button>
                                     </Content>
 
-                                  
+
 
 
                                 </>
@@ -470,46 +630,146 @@ const App = () => {
             content: (
 
                 <>
-                    <Row className='mt-2' gutter={[16, 16]}>
-                        <Col xs={24} md={12}>
-                            <Form.Item
-                                name="city"
-                                label="City"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Please select City!',
-                                    },
-                                ]}
-                                hasFeedback
-                            >
-                                <Select
 
-                                    placeholder="Please select City"
+                    <Form
+                        // className='mt-3'
 
-                                />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} md={12}>
-                            <Form.Item
-                                name="location"
-                                label="Location"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Please select Location!',
-                                    },
-                                ]}
-                                hasFeedback
-                            >
-                                <Select
-                                    // mode="multiple"
-                                    placeholder="Please select Location"
+                        form={form}
+                        name="control-hooks"
+                        onFinish={onTution}
+                    // style={{
+                    //   maxWidth: 600,
+                    // }}
+                    >
+                        <Row className='mt-2' gutter={[16, 16]}>
+                            <Col xs={24} md={12}>
+                                <Form.Item
 
-                                />
-                            </Form.Item>
-                        </Col>
-                    </Row>
+                                    name="category"
+                                    label="Category"
+                                    rules={[
+                                        {
+                                            required: true,
+                                        },
+                                    ]}
+
+                                    hasFeedback
+                                >
+                                    <Select
+                                        mode="multiple"
+                                        //   onChange={handleCategory}
+                                        placeholder="Please select Category"
+                                        options={category}
+                                    />
+                                </Form.Item>
+                            </Col>
+                            <Col xs={24} md={12}>
+                                <Form.Item
+                                    name="class"
+                                    label="Class/Course"
+
+                                >
+                                    <Select
+                                        mode="multiple"
+                                        placeholder="Please select class"
+                                        options={classes}
+                                    />
+                                </Form.Item>
+                            </Col>
+                        </Row>
+
+                        <Row className='mt-2' gutter={[16, 16]}>
+                            <Col xs={24} md={12}>
+                                <Form.Item
+                                    name="subject"
+                                    label="Required Subject"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Please select subject!',
+                                            type: 'array',
+                                        },
+                                    ]}
+                                    hasFeedback
+                                >
+                                    <Select
+                                        mode="multiple"
+                                        placeholder="Please select subject"
+                                        options={subject}
+                                    />
+                                </Form.Item>
+                            </Col>
+                            <Col xs={24} md={12}>
+
+                                <Form.Item
+                                    name="city"
+                                    label="Select City"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Please select City!',
+
+                                        },
+                                    ]}
+                                    hasFeedback
+                                >
+                                    <Select
+                                        mode="multiple"
+                                        placeholder="Please select City"
+                                        options={city}
+                                    />
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                        <Row className='mt-2' gutter={[16, 16]}>
+                            <Col xs={24} md={12}>
+
+                                <Form.Item
+                                    name="preferredLocation"
+                                    label="preferredLocation"
+
+                                >
+                                    <Select
+                                        mode="multiple"
+                                        placeholder="Please select City"
+                                        options={preferredLocation}
+                                    />
+                                </Form.Item>
+                            </Col>
+                            <Col xs={24} md={12}>
+                                <Form.Item
+                                    name="tuitionType"
+                                    label="Tuition Type"
+                                    rules={[
+                                        {
+                                            required: true,
+                                        },
+                                    ]}
+                                    hasFeedback
+                                    initialValue={true}
+                                >
+                                    <Select placeholder="Select a option" allowClear>
+                                        <Option value={"Home Tutoring"}> Home Tutoring </Option>
+                                        <Option value={"Online Tutoring"}>Online Tutoring</Option>
+                                        <Option value={"Group Tutoring"}>Group Tutoring</Option>
+                                        <Option value={"Package Tutoring"}>Package Tutoring</Option>
+                                    </Select>
+                                </Form.Item>
+                            </Col>
+                        </Row>
+
+                        <Row className='mt-2' gutter={[16, 16]}>
+                            <Col xs={24} md={12}>
+
+                            </Col>
+                            <Col xs={24} md={12}>
+                                <Button type="primary" htmlType="submit" >
+                                    Submit
+                                </Button>
+                            </Col>
+                        </Row>
+
+                    </Form>
 
                 </>
 

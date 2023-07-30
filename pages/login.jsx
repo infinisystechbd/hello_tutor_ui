@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { Card } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
@@ -64,7 +65,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (token) {
-      router.replace('/');
+      router.replace('/dashboard/dashboard');
     }
   }, [router,token])
 
@@ -74,7 +75,7 @@ const LoginPage = () => {
     <HeadSection title="Login" />
       <section className="vh-100">
         <div className="container-fluid h-custom">
-          <div className="row d-flex justify-content-center align-items-center h-100">
+          <div className="row d-flex justify-content-center align-items-center h-80 ">
             <div className="col-md-9 col-lg-6 col-xl-5">
               <img
                 src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
@@ -84,8 +85,7 @@ const LoginPage = () => {
             </div>
             <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
 
-              <div className="card">
-                <div className="card-body">
+              <Card>
 
                   <form onSubmit={submitForm}>
 
@@ -172,8 +172,8 @@ const LoginPage = () => {
                       </p>
                     </div>
                   </form>
-                </div>
-              </div>
+              
+              </Card>
 
             </div>
           </div>
