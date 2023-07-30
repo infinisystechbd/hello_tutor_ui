@@ -575,7 +575,9 @@ const TutorRequestFrom = (props) => {
                       ]}
                       hasFeedback
                     >
-                      <InputNumber onChange={handleStudetNumber} style={{ width: '100%' }} />
+                      <InputNumber  onChange={handleStudetNumber}
+          defaultValue={1} // Set the default value to 1
+          style={{ width: '100%' }} />
                     </Form.Item>
 
                     <Form.Item
