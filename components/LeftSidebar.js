@@ -1,4 +1,4 @@
-import { ContainerOutlined, DashboardOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import { ContainerOutlined, DashboardOutlined, SettingOutlined,GlobalOutlined, UserOutlined,MenuOutlined,AuditOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -13,13 +13,15 @@ const Leftsidebar = ({ collapsed }) => {
   const menuItems = [
     {
       key: 'dashboard',
-      icon: <DashboardOutlined />,
+      // icon: <DashboardOutlined />,
+      icon: <GlobalOutlined />,
       label: 'Dashboard',
       path: '/dashboard/dashboard'
     },
     {
       key: '/helloTutor',
-      icon: <SettingOutlined />,
+      icon: <MenuOutlined />,
+      // icon: <SettingOutlined />,
       label: 'Master Data',
       children: [
         { key: 'subject', label: 'Subject', path: '/subject' },
@@ -51,7 +53,8 @@ const Leftsidebar = ({ collapsed }) => {
 
     {
       key: 'tutorRequest',
-      icon: <DashboardOutlined />,
+      // icon: <DashboardOutlined />,
+      icon: <AuditOutlined />,
       label: 'Tutor Request',
       path: '/tutorRequest/form/TutorRequestForm'
     },

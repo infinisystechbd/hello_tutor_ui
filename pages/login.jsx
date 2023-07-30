@@ -65,7 +65,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (token) {
-      router.replace('/');
+      router.replace('/dashboard/dashboard');
     }
   }, [router,token])
 
