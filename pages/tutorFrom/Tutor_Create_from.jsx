@@ -1,25 +1,31 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, message, Steps, theme, Layout, Row, Col, Form, Input, Select, Typography, Card, Tag,Modal } from 'antd';
+import { Button, message, Steps, theme, Layout, Row, Col, Form, Input, Select, Typography, Card, Tag, Modal } from 'antd';
 import { DingtalkOutlined, EnvironmentOutlined, ReadOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPerson, faBars, faPuzzlePiece, faPersonDress, faBangladeshiTakaSign, faMobileAlt, faUser, faUniversity, faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import { CATEGORIE_END_POINT, CITY_END_POINT, CLASS_END_POINT, GUARDIAN_END_POINT, JOB_REQUEST_END_POINT, LOCATION_END_POINT, SUBJECT_END_POINT } from '../../constants/index';
+import { CATEGORIE_END_POINT, CITY_END_POINT, CLASS_END_POINT, GUARDIAN_END_POINT, JOB_REQUEST_END_POINT, LOCATION_END_POINT, SUBJECT_END_POINT, TUTOR_END_POINT } from '../../constants/index';
 import { QUERY_KEYS } from '../../constants/queryKeys.js';
 import { useGetAllData } from '../../utils/hooks/useGetAllData.js';
 import { mapArrayToDropdown } from '../../helpers/common_Helper.js';
 import { get, post, put } from '../../helpers/api_helper';
+import ToastMessage from '../../components/Toast';
 const App = (props) => {
     const { isModalOpen, setIsModalOpen, isParentRender, setEditData } = props;
     const { token } = theme.useToken();
+
     const {
         token: { colorBgContainer },
     } = theme.useToken();
+    const notify = useCallback((type, message) => {
+        ToastMessage({ type, message });
+      }, []);
     const [form] = Form.useForm();
     const { Option } = Select;
     const [current, setCurrent] = useState(0);
     const { Content } = Layout;
     const [isCardHovered, setCardHovered] = useState(false);
     const [city, setCity] = useState([]);
+    const [cityId, setCityId] = useState("");
     const [category, setCategory] = useState([]);
     const [location, setLocation] = useState([]);
     const [preferredLocation, setPreferredLocation] = useState([]);
@@ -41,7 +47,7 @@ const App = (props) => {
     const [curriculum, setCurriculum] = useState("");
     const [institute, setInstitute] = useState("");
 
-
+    const colorBgContainerr = '#dcf9ff99';
     const contentStyle = {
         lineHeight: '260px',
         textAlign: 'center',
@@ -106,7 +112,9 @@ const App = (props) => {
     /**fetch location list */
 
     const handleCity = async (value) => {
+        console.log(value);
         setIsVisited(true);
+        setCityId(value)
         const fetchLocation = await get(LOCATION_END_POINT.getLocationByCityId(value));
         const LOCATIONDROPDOWN = mapArrayToDropdown(
             fetchLocation.data,
@@ -250,21 +258,76 @@ const App = (props) => {
 
 
 
-    const [customer, setCustomer] = useState({
+    const [tutor, setTutor] = useState({
         fullName: '',
-        nidNumber: '',
-      });
+        phone: '',
+        email: '',
+        // nidNumber: '',
+        // idCardNumber: '',
+        // isPortalAccess:'',
+        // status:'',
+        // city:cityId,
+        location:''
+
+    });
 
 
-      const handleChange = (e) => {
-        setCustomer((prev) => ({
-          ...prev,
-          [e.target.name]: e.target.value,
+    // const handleChange = (e) => {
+    //     if (e.target) {
+    //       const { name, value } = e.target;
+    //       setTutor((prev) => ({
+    //         ...prev,
+    //         [name]: value,
+    //       }));
+    //     } else {
+    //       const { name, value } = e;
+    //       setTutor((prev) => ({
+    //         ...prev,
+    //         [name]: value,
+    //       }));
+    //     }
+    //   };
+    const handleChange = (e) => {
+        setTutor((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
         }));
-      };
+    };
+    const handleChangeLocation = (value) => {
+        setTutor((prev) => ({
+            ...prev,
+            location: value,
+        }));
+    };
 
+    // const handleSelectChange = (name, value) => {
+    //     setTutor((prev) => ({
+    //       ...prev,
+    //       [name]: value,
+    //     }));
+    //   };
 
-      console.log("customer",customer);
+    //   console.log("tutor",tutor,cityId);
+
+console.log(tutor);
+
+    const submitFrom = async () => {
+
+        let body = { ...tutor, city: cityId,isPortalAccess:true,status:true,education}
+        console.log("clickd", body);
+        const response = await post(TUTOR_END_POINT.create(), body,);
+        if (response.status === 'SUCCESS') {
+            notify('success', response.message);
+            if (isParentRender) {
+                isParentRender(true);
+            }
+        } else {
+            notify('error', response.errorMessage);
+            setLoading(false);
+        }
+        setIsModalOpen(!isModalOpen);
+        setLoading(false);
+    }
 
 
     const steps = [
@@ -304,7 +367,7 @@ const App = (props) => {
                                     ]}
                                     hasFeedback
                                 >
-                                    <Input  name="fullName" onChange={handleChange} />
+                                    <Input name="fullName" onChange={handleChange} />
                                 </Form.Item>
                             </Col>
                             <Col xs={24} md={12}>
@@ -320,7 +383,7 @@ const App = (props) => {
                                     ]}
                                     hasFeedback
                                 >
-                                    <Input />
+                                    <Input name="phone" onChange={handleChange} />
                                 </Form.Item>
                             </Col>
                         </Row>
@@ -333,7 +396,7 @@ const App = (props) => {
                                     label="Email"
 
                                 >
-                                    <Input />
+                                    <Input name="email" onChange={handleChange} />
                                 </Form.Item>
 
                             </Col>
@@ -343,7 +406,9 @@ const App = (props) => {
                                     label="Nid Number"
 
                                 >
-                                    <Input />
+                                    <Input name="nidNumber" 
+                                    // onChange={handleChange} 
+                                    />
                                 </Form.Item>
                             </Col>
                         </Row>
@@ -355,7 +420,9 @@ const App = (props) => {
                                     name="idCardNumber"
                                     label="Id Card Number"
                                 >
-                                    <Input />
+                                    <Input name="idCardNumber" 
+                                    // onChange={handleChange} 
+                                    />
                                 </Form.Item>
 
                             </Col>
@@ -399,6 +466,8 @@ const App = (props) => {
 
                                 >
                                     <Select
+                                        name="location"
+                                        onChange={handleChangeLocation}
                                         // mode="multiple"
                                         placeholder="Please select Location"
                                         options={location}
@@ -418,23 +487,55 @@ const App = (props) => {
                                 // ]}
                                 // hasFeedback
                                 >
-                                    <Input />
+                                    <Input name="address" onChange={handleChange} />
                                 </Form.Item>
 
                             </Col>
                         </Row>
 
 
-                        <Row className='mt-2' gutter={[16, 16]}>
+                        {/* <Row className='mt-2' gutter={[16, 16]}>
                             <Col xs={24} md={12}>
-
+                                <Form.Item
+                                    name="isPortalAccess"
+                                    label="Portal Access"
+                                    rules={[  
+                                        {
+                                            required: true,
+                                        },
+                                    ]}
+                                    initialValue={false}
+                                >
+                                    <Select  name="isPortalAccess" placeholder="Select a option" onChange={(value) => handleChange('isPortalAccess', value)} allowClear>
+                                        <Option value={true}>Active</Option>
+                                        <Option value={false}>Inactive</Option>
+                                    </Select>
+                                </Form.Item>
                             </Col>
                             <Col xs={24} md={12}>
-                                <Button type="primary" htmlType="submit" >
-                                    Submit
-                                </Button>
+                            <Form.Item
+    name="status"
+    label="Status"
+    rules={[
+      {
+        required: true,
+      },
+    ]}
+    hasFeedback
+    initialValue={true}
+  >
+    <Select
+      name="status"
+      placeholder="Select a option"
+      onChange={handleChange}
+      allowClear
+    >
+      <Option value={true}>Active</Option>
+      <Option value={false}>Inactive</Option>
+    </Select>
+  </Form.Item> 
                             </Col>
-                        </Row>
+                        </Row>*/}
 
                     </Form>
                 </>
@@ -591,15 +692,20 @@ const App = (props) => {
 
 
                                     <Content style={{ margin: '10px 16px' }}>
-                                        <div style={{ padding: 15, minHeight: 100, background: colorBgContainer }}>
-                                            <div >
+                                      
+                                            
+                                                {education.map((data)=>(
+                                                    <>
+                                                      <div >
                                                 <div className="row">
-                                                    <div className="row">
+                                                    <div className="row" >
                                                         <div className="col-12">
                                                             <Card
                                                                 className='mt-2 custom-card'
                                                                 bordered={false}
-                                                                style={cardStyle}
+                                                                style={{...cardStyle, padding: 15,
+                                                                    minHeight: 100,
+                                                                    background: colorBgContainer}}
                                                                 onMouseEnter={handleCardHover}
                                                                 onMouseLeave={handleCardLeave}
                                                             >
@@ -607,25 +713,29 @@ const App = (props) => {
                                                                     <Col xs={24} md={8}>
                                                                         <FontAwesomeIcon icon={faPuzzlePiece} color='#40a6d9' />
                                                                         <Text type="secondary">Exam / Degree Title </Text>
-                                                                        <Text strong>BSc. CSE</Text>
+                                                                        <Text strong>{data?.educationLevel}</Text>
                                                                     </Col>
                                                                     <Col xs={24} sm={8}>
                                                                         <FontAwesomeIcon icon={faBars} color='#40a6d9' />
                                                                         <Text type="secondary">Concentration / Major / Group </Text>
-                                                                        <Text strong>CSE</Text>
+                                                                        <Text strong>{data?.group}</Text>
                                                                     </Col>
                                                                     <Col xs={24} md={8}>
                                                                         <FontAwesomeIcon icon={faUniversity} color='#40a6d9' />
                                                                         <Text type='secondary'>Institute :</Text>
-                                                                        <Text strong>Aiub</Text>
+                                                                        <Text strong>{data?.institute}</Text>
                                                                     </Col>
                                                                 </Row>
                                                             </Card>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
+                                                </div>
+                                                </>
+                                                
+                                                ))}
+                                           
+                                       
                                         <Button onClick={() => setEducationFrom(!educationFrom)}>
                                             Add More
                                         </Button>
@@ -800,65 +910,75 @@ const App = (props) => {
         <>
 
 
-<Modal
-      title={setEditData != null ? 'Update Tutor' : 'Add Tutor'}
-      style={{ top: 20 }}
-      centered
-      open={isModalOpen}
-      footer={null}
-      onOk={() => setIsModalOpen(false)}
-      onCancel={() => setIsModalOpen(false)}
-      width={1200}
-      responsive={{
-        // Define different widths for different screen sizes
-        xs: 300,
-        sm: 500,
-        md: 800,
-        lg: 1000,
-        xl: 1200,
-        xxl: 1400,
-      }}
-    >
-            <Content style={{ margin: '10px 16px' }}>
-                <div style={{ padding: 15, minHeight: 100, background: colorBgContainer }}>
-                    <div >
-                        <div className="row">
-                            <div className="col-12">
-                                <Steps current={current} onChange={onChange} items={steps} />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </Content>
-
-            <Content style={{ margin: '20px 16px' }}>
-                <div style={{ padding: 15, minHeight: 360, background: colorBgContainer }}>
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="col-12">
-                                <div style={contentStyle}>{steps[current].content}</div>
-                                <div style={{ marginTop: 24 }}>
-                                    {current < steps.length - 1 && (
-                                        <Button type="primary" onClick={() => setCurrent(current + 1)}>
-                                            Next
-                                        </Button>
-                                    )}
-                                    {current === steps.length - 1 && (
-                                        <Button type="primary" onClick={() => message.success('Processing complete!')}>
-                                            Done
-                                        </Button>
-                                    )}
-                                    {current > 0 && (
-                                        <Button style={{ margin: '0 8px' }} onClick={() => setCurrent(current - 1)}>
-                                            Previous
-                                        </Button>
-                                    )}
+            <Modal
+                title={setEditData != null ? 'Update Tutor' : 'Add Tutor'}
+                style={{ top: 20, background: colorBgContainer }}
+                centered
+                open={isModalOpen}
+                footer={null}
+                onOk={() => setIsModalOpen(false)}
+                onCancel={() => setIsModalOpen(false)}
+                width={1200}
+                responsive={{
+                    // Define different widths for different screen sizes
+                    xs: 300,
+                    sm: 500,
+                    md: 800,
+                    lg: 1000,
+                    xl: 1200,
+                    xxl: 1400,
+                }}
+            //   style={{ background: colorBgContainer }}
+            >
+                <Content style={{ margin: '10px 16px' }}>
+                    <div style={{ padding: 15, minHeight: 100, background: colorBgContainer }}>
+                        <div >
+                            <div className="row">
+                                <div className="col-12">
+                                    <Steps current={current} onChange={onChange} items={steps} />
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </Content>
+                </Content>
+
+                <Content style={{ margin: '20px 16px' }}>
+                    <div style={{ padding: 15, minHeight: 360, background: colorBgContainer }}>
+                        <div className="container-fluid">
+                            <div className="row">
+                                <div className="col-12">
+                                    <div style={contentStyle}>{steps[current].content}</div>
+                                    <div style={{ marginTop: 24 }}>
+                                        {current < steps.length - 1 && (
+
+                                            <>
+                                                <Button type="primary" onClick={() => { setCurrent(current + 1); }}>
+                                                    Next
+                                                </Button>
+                                                <Button style={{ margin: '0 8px' }} type="primary" onClick={() => { setCurrent(current + 1); submitFrom() }}>
+                                                    Submit
+                                                </Button>
+
+                                            </>
+
+
+                                        )}
+                                        {current === steps.length - 1 && (
+                                            <Button type="primary" onClick={() => message.success('Processing complete!')}>
+                                                Done
+                                            </Button>
+                                        )}
+                                        {current > 0 && (
+                                            <Button style={{ margin: '0 8px' }} onClick={() => setCurrent(current - 1)}>
+                                                Previous
+                                            </Button>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Content>
             </Modal>
         </>
     );

@@ -24,7 +24,7 @@ const DefaultLayout = ({children}) => {
        <Layout>
         <Layout className="site-layout" style={leftSide}>
           <Content
-           style={{ background: colorBgContainer }}
+          //  style={{ background: colorBgContainer }}
            className={token !== null ? 'client-layout' : ''}
           >
             {children}
