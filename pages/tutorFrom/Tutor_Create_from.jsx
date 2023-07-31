@@ -12,7 +12,7 @@ import ToastMessage from '../../components/Toast';
 const App = (props) => {
     const { isModalOpen, setIsModalOpen, isParentRender, setEditData } = props;
     const { token } = theme.useToken();
-
+console.log(setEditData);
     const {
         token: { colorBgContainer },
     } = theme.useToken();
@@ -317,7 +317,29 @@ const App = (props) => {
 
     //   console.log("tutor",tutor,cityId);
 
-    console.log(tutor);
+
+
+
+    if (setEditData != null && visited == false) {
+        form.setFieldsValue({
+            fullName: setEditData?.fullName,
+
+         email: setEditData.email,
+          city: setEditData.city?.name,
+          location: setEditData.location?.name,
+          address: setEditData.address,
+          phone: setEditData.phone,
+          isApproval: setEditData.isApproval,
+          status: setEditData.status,
+        });
+      } else if (setEditData == null && visited == false) {
+        form.resetFields();
+      }
+      const afterModalClose = () => {
+        setIsVisited(false)
+      }
+
+   
 
     const submitFrom = async () => {
 
