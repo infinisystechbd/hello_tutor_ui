@@ -9,6 +9,7 @@ import { mapArrayToDropdown } from '../../../helpers/common_Helper.js';
 import { useGetAllData } from '../../../utils/hooks/useGetAllData.js';
 import ToastMessage from '../../../components/Toast';
 import Axios from "../../../utils/axios";
+import decodeToken from "../../../utils/decodeToken";
 
 const jwt = require('jsonwebtoken');
 const TutorRequest = () => {
@@ -28,25 +29,32 @@ const TutorRequest = () => {
   const [city, setCity] = useState([]);
   const [location, setLocation] = useState([]);
   const [tokenValue, setTokenValue] = useState({});
-  const userId = tokenValue?.userId;
+  // const userId = tokenValue?.userId;
+  
   const { token: { colorBgContainer } } = theme.useToken();
   const phoneNumberPattern = /^(?:01[3-9])\d{8}$/;
   const handleStudetNumber = async (value) => {
     setNumOfStudent(value);
   }
-  useEffect(() => {
-    if (token) {
-      try {
-        const decodedToken = jwt.decode(token);
-        setTokenValue(decodedToken);
-      } catch (error) {
-        console.error('Failed to decode token:', error.message);
-      }
-    } else {
-      console.error('Token not found.');
-    }
-  }, [token])
 
+  // useEffect(() => {
+  //   if (token) {
+  //     try {
+  //       const decodedToken = jwt.decode(token);
+  //       setTokenValue(decodedToken);
+  //     } catch (error) {
+  //       console.error('Failed to decode token:', error.message);
+  //     }
+  //   } else {
+  //     console.error('Token not found.');
+  //   }
+  // }, [token])
+
+
+ // Replace with your actual JWT token
+
+  const decodedToken = decodeToken(token);
+  const userId = decodedToken?.userId;
 
   const { Content } = Layout;
   const layout = {
@@ -200,7 +208,6 @@ const TutorRequest = () => {
     }));
     values.class = classes;
     let body = { ...values, guardian: userId, isApproval: false };
-    console.log(body);
     const response = await post(JOB_REQUEST_END_POINT.create(), body);
     if (response.status === 'SUCCESS') {
       notify('success', response.message);
