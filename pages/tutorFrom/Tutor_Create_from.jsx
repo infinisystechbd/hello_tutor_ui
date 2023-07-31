@@ -18,7 +18,7 @@ const App = (props) => {
     } = theme.useToken();
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
-      }, []);
+    }, []);
     const [form] = Form.useForm();
     const { Option } = Select;
     const [current, setCurrent] = useState(0);
@@ -264,10 +264,10 @@ const App = (props) => {
         email: '',
         // nidNumber: '',
         // idCardNumber: '',
-        // isPortalAccess:'',
-        // status:'',
+        isPortalAccess:true,
+        status:true,
         // city:cityId,
-        location:''
+        location: ''
 
     });
 
@@ -300,6 +300,14 @@ const App = (props) => {
         }));
     };
 
+    const handleStatusChange = (value) => {
+        // Update the 'status' in the 'tutor' state when the value changes in the Select component
+        setTutor((prevTutor) => ({
+          ...prevTutor,
+          status: value
+        }));
+      };
+
     // const handleSelectChange = (name, value) => {
     //     setTutor((prev) => ({
     //       ...prev,
@@ -309,11 +317,11 @@ const App = (props) => {
 
     //   console.log("tutor",tutor,cityId);
 
-console.log(tutor);
+    console.log(tutor);
 
     const submitFrom = async () => {
 
-        let body = { ...tutor, city: cityId,isPortalAccess:true,status:true,education}
+        let body = { ...tutor, city: cityId,education }
         console.log("clickd", body);
         const response = await post(TUTOR_END_POINT.create(), body,);
         if (response.status === 'SUCCESS') {
@@ -406,7 +414,7 @@ console.log(tutor);
                                     label="Nid Number"
 
                                 >
-                                    <Input name="nidNumber" 
+                                    <Input name="nidNumber"
                                     // onChange={handleChange} 
                                     />
                                 </Form.Item>
@@ -420,7 +428,7 @@ console.log(tutor);
                                     name="idCardNumber"
                                     label="Id Card Number"
                                 >
-                                    <Input name="idCardNumber" 
+                                    <Input name="idCardNumber"
                                     // onChange={handleChange} 
                                     />
                                 </Form.Item>
@@ -494,19 +502,19 @@ console.log(tutor);
                         </Row>
 
 
-                        {/* <Row className='mt-2' gutter={[16, 16]}>
+                        <Row className='mt-2' gutter={[16, 16]}>
                             <Col xs={24} md={12}>
                                 <Form.Item
                                     name="isPortalAccess"
                                     label="Portal Access"
-                                    rules={[  
+                                    rules={[
                                         {
                                             required: true,
                                         },
                                     ]}
                                     initialValue={false}
                                 >
-                                    <Select  name="isPortalAccess" placeholder="Select a option" onChange={(value) => handleChange('isPortalAccess', value)} allowClear>
+                                    <Select name="isPortalAccess" placeholder="Select a option" onChange={handleStatusChange} allowClear  value={tutor.isPortalAccess}>
                                         <Option value={true}>Active</Option>
                                         <Option value={false}>Inactive</Option>
                                     </Select>
@@ -514,28 +522,29 @@ console.log(tutor);
                             </Col>
                             <Col xs={24} md={12}>
                             <Form.Item
-    name="status"
-    label="Status"
-    rules={[
-      {
-        required: true,
-      },
-    ]}
-    hasFeedback
-    initialValue={true}
-  >
-    <Select
-      name="status"
-      placeholder="Select a option"
-      onChange={handleChange}
-      allowClear
-    >
-      <Option value={true}>Active</Option>
-      <Option value={false}>Inactive</Option>
-    </Select>
-  </Form.Item> 
+        name="status"
+        label="Status"
+        rules={[
+          {
+            required: true
+          }
+        ]}
+        hasFeedback
+        initialValue={true}
+      >
+        <Select
+          name="status"
+          placeholder="Select a option"
+          onChange={handleStatusChange}
+          allowClear
+          value={tutor.status} // Set the value of the Select component from the 'status' in the 'tutor' state
+        >
+          <Option value={true}>Active</Option>
+          <Option value={false}>Inactive</Option>
+        </Select>
+      </Form.Item>
                             </Col>
-                        </Row>*/}
+                        </Row>
 
                     </Form>
                 </>
@@ -692,53 +701,61 @@ console.log(tutor);
 
 
                                     <Content style={{ margin: '10px 16px' }}>
-                                      
-                                            
-                                                {education.map((data)=>(
-                                                    <>
-                                                      <div >
-                                                <div className="row">
-                                                    <div className="row" >
-                                                        <div className="col-12">
-                                                            <Card
-                                                                className='mt-2 custom-card'
-                                                                bordered={false}
-                                                                style={{...cardStyle, padding: 15,
-                                                                    minHeight: 100,
-                                                                    background: colorBgContainer}}
-                                                                onMouseEnter={handleCardHover}
-                                                                onMouseLeave={handleCardLeave}
-                                                            >
-                                                                <Row className='mt-2' gutter={[16, 16]}>
-                                                                    <Col xs={24} md={8}>
-                                                                        <FontAwesomeIcon icon={faPuzzlePiece} color='#40a6d9' />
-                                                                        <Text type="secondary">Exam / Degree Title </Text>
-                                                                        <Text strong>{data?.educationLevel}</Text>
-                                                                    </Col>
-                                                                    <Col xs={24} sm={8}>
-                                                                        <FontAwesomeIcon icon={faBars} color='#40a6d9' />
-                                                                        <Text type="secondary">Concentration / Major / Group </Text>
-                                                                        <Text strong>{data?.group}</Text>
-                                                                    </Col>
-                                                                    <Col xs={24} md={8}>
-                                                                        <FontAwesomeIcon icon={faUniversity} color='#40a6d9' />
-                                                                        <Text type='secondary'>Institute :</Text>
-                                                                        <Text strong>{data?.institute}</Text>
-                                                                    </Col>
-                                                                </Row>
-                                                            </Card>
+
+
+                                        {education.map((data) => (
+                                            <>
+                                                <div >
+                                                    <div className="row">
+                                                        <div className="row" >
+                                                            <div className="col-12">
+                                                                <Card
+                                                                    className='mt-2 custom-card'
+                                                                    bordered={false}
+                                                                    style={{
+                                                                        ...cardStyle, padding: 15,
+                                                                        minHeight: 100,
+                                                                        background: colorBgContainer
+                                                                    }}
+                                                                    onMouseEnter={handleCardHover}
+                                                                    onMouseLeave={handleCardLeave}
+                                                                >
+                                                                    <Row className='mt-2' gutter={[16, 16]}>
+                                                                        <Col xs={24} md={8}>
+                                                                            <FontAwesomeIcon icon={faPuzzlePiece} color='#40a6d9' />
+                                                                            <Text type="secondary">Exam / Degree Title </Text>
+                                                                            <Text strong>{data?.educationLevel}</Text>
+                                                                        </Col>
+                                                                        <Col xs={24} sm={8}>
+                                                                            <FontAwesomeIcon icon={faBars} color='#40a6d9' />
+                                                                            <Text type="secondary">Concentration / Major / Group </Text>
+                                                                            <Text strong>{data?.group}</Text>
+                                                                        </Col>
+                                                                        <Col xs={24} md={8}>
+                                                                            <FontAwesomeIcon icon={faUniversity} color='#40a6d9' />
+                                                                            <Text type='secondary'>Institute :</Text>
+                                                                            <Text strong>{data?.institute}</Text>
+                                                                        </Col>
+                                                                    </Row>
+                                                                </Card>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                </div>
-                                                </>
-                                                
-                                                ))}
-                                           
-                                       
-                                        <Button onClick={() => setEducationFrom(!educationFrom)}>
-                                            Add More
-                                        </Button>
+                                            </>
+
+                                        ))}
+
+
+                                        {education.length >= 1 ? (
+                                            <Button onClick={() => setEducationFrom(!educationFrom)}>
+                                                Add More
+                                            </Button>
+                                        ) : (
+                                            <Button onClick={() => setEducationFrom(!educationFrom)}>
+                                                Add Education
+                                            </Button>
+                                        )}
                                     </Content>
 
 
