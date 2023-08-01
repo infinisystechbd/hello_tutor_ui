@@ -12,7 +12,7 @@ import ToastMessage from '../../components/Toast';
 const App = (props) => {
     const { isModalOpen, setIsModalOpen, isParentRender, setEditData } = props;
     const { token } = theme.useToken();
-console.log(setEditData);
+    console.log(setEditData);
     const {
         token: { colorBgContainer },
     } = theme.useToken();
@@ -264,36 +264,24 @@ console.log(setEditData);
         email: '',
         // nidNumber: '',
         // idCardNumber: '',
-        isPortalAccess:true,
-        status:true,
+        isPortalAccess: true,
+        status: true,
         // city:cityId,
         location: ''
 
     });
 
+    console.log("tutor",tutor);
 
-    // const handleChange = (e) => {
-    //     if (e.target) {
-    //       const { name, value } = e.target;
-    //       setTutor((prev) => ({
-    //         ...prev,
-    //         [name]: value,
-    //       }));
-    //     } else {
-    //       const { name, value } = e;
-    //       setTutor((prev) => ({
-    //         ...prev,
-    //         [name]: value,
-    //       }));
-    //     }
-    //   };
     const handleChange = (e) => {
+        setIsVisited(true);
         setTutor((prev) => ({
             ...prev,
             [e.target.name]: e.target.value,
         }));
     };
     const handleChangeLocation = (value) => {
+        setIsVisited(true);
         setTutor((prev) => ({
             ...prev,
             location: value,
@@ -301,12 +289,13 @@ console.log(setEditData);
     };
 
     const handleStatusChange = (value) => {
+        setIsVisited(true);
         // Update the 'status' in the 'tutor' state when the value changes in the Select component
         setTutor((prevTutor) => ({
-          ...prevTutor,
-          status: value
+            ...prevTutor,
+            status: value
         }));
-      };
+    };
 
     // const handleSelectChange = (name, value) => {
     //     setTutor((prev) => ({
@@ -320,40 +309,84 @@ console.log(setEditData);
 
 
 
-    if (setEditData != null && visited == false) {
-        form.setFieldsValue({
+    // if (setEditData != null && visited == false) {
+    //     form.setFieldsValue({
+    //         fullName: setEditData?.fullName,
+    //       email: setEditData.email,
+    //       city: setEditData.city?.name,
+    //       location: setEditData.location?.name,
+    //       address: setEditData.address,
+    //       phone: setEditData.phone,
+    //       isApproval: setEditData.isApproval,
+    //       status: setEditData.status,
+    //     });
+    //   } else if (setEditData == null && visited == false) {
+    //     form.resetFields();
+    //   }
+    //   const afterModalClose = () => {
+    //     setIsVisited(false)
+    //   }
+
+
+
+    useEffect(() => {
+        if (setEditData !== null && !visited) {
+          // Set the form fields with the data from setEditData
+          setTutor({
             fullName: setEditData?.fullName,
+            email: setEditData.email,
+            city: setEditData.city?.name,
+            location: setEditData.location?.name,
+            address: setEditData.address,
+            phone: setEditData.phone,
+            isPortalAccess: setEditData.isPortalAccess,
+            status: setEditData.status,
+          });
+          // Set the form fields value using the form object
+          form.setFieldsValue({
+           fullName: setEditData?.fullName,
+            email: setEditData.email,
+            city: setEditData.city?.name,
+            location: setEditData.location?.name,
+            address: setEditData.address,
+            phone: setEditData.phone,
+            isPortalAccess: setEditData.isPortalAccess,
+            status: setEditData.status,
+          });
+        } else if (setEditData == null && !visited) {
+          // Reset the form fields if setEditData is null and not visited
+          form.resetFields();
+        }
+      }, [form, setEditData, visited]);
 
-         email: setEditData.email,
-          city: setEditData.city?.name,
-          location: setEditData.location?.name,
-          address: setEditData.address,
-          phone: setEditData.phone,
-          isApproval: setEditData.isApproval,
-          status: setEditData.status,
-        });
-      } else if (setEditData == null && visited == false) {
-        form.resetFields();
-      }
-      const afterModalClose = () => {
-        setIsVisited(false)
-      }
 
-   
+
 
     const submitFrom = async () => {
+        setLoading(true);
+        let body = { ...tutor, city: cityId, education }
 
-        let body = { ...tutor, city: cityId,education }
-        console.log("clickd", body);
-        const response = await post(TUTOR_END_POINT.create(), body,);
-        if (response.status === 'SUCCESS') {
-            notify('success', response.message);
-            if (isParentRender) {
-                isParentRender(true);
+        if (setEditData?._id) {
+            try {
+                const update = await put(TUTOR_END_POINT.update(setEditData._id), values);
+                if (update.status == 'SUCCESS') {
+                    notify('success', update.message);
+                }
+            } catch (error) {
+                notify('error', update.errorMessage);
+                setLoading(false);
             }
         } else {
-            notify('error', response.errorMessage);
-            setLoading(false);
+            const response = await post(TUTOR_END_POINT.create(), body,);
+            if (response.status === 'SUCCESS') {
+                notify('success', response.message);
+                if (isParentRender) {
+                    isParentRender(true);
+                }
+            } else {
+                notify('error', response.errorMessage);
+                setLoading(false);
+            }
         }
         setIsModalOpen(!isModalOpen);
         setLoading(false);
@@ -371,10 +404,9 @@ console.log(setEditData);
 
                         form={form}
                         name="control-hooks"
-                        onFinish={onFinish}
-                    // style={{
-                    //   maxWidth: 600,
-                    // }}
+                        {...setEditData}
+                    onFinish={onFinish}
+                    initialValues={tutor}
                     >
                         <Row className='mt-2' gutter={[16, 16]}>
                             <Col xs={24} md={12}>
@@ -397,7 +429,7 @@ console.log(setEditData);
                                     ]}
                                     hasFeedback
                                 >
-                                    <Input name="fullName" onChange={handleChange} />
+                                    <Input name="fullName" onChange={handleChange}   />
                                 </Form.Item>
                             </Col>
                             <Col xs={24} md={12}>
@@ -536,35 +568,35 @@ console.log(setEditData);
                                     ]}
                                     initialValue={false}
                                 >
-                                    <Select name="isPortalAccess" placeholder="Select a option" onChange={handleStatusChange} allowClear  value={tutor.isPortalAccess}>
+                                    <Select name="isPortalAccess" placeholder="Select a option" onChange={handleStatusChange} allowClear value={tutor.isPortalAccess}>
                                         <Option value={true}>Active</Option>
                                         <Option value={false}>Inactive</Option>
                                     </Select>
                                 </Form.Item>
                             </Col>
                             <Col xs={24} md={12}>
-                            <Form.Item
-        name="status"
-        label="Status"
-        rules={[
-          {
-            required: true
-          }
-        ]}
-        hasFeedback
-        initialValue={true}
-      >
-        <Select
-          name="status"
-          placeholder="Select a option"
-          onChange={handleStatusChange}
-          allowClear
-          value={tutor.status} // Set the value of the Select component from the 'status' in the 'tutor' state
-        >
-          <Option value={true}>Active</Option>
-          <Option value={false}>Inactive</Option>
-        </Select>
-      </Form.Item>
+                                <Form.Item
+                                    name="status"
+                                    label="Status"
+                                    rules={[
+                                        {
+                                            required: true
+                                        }
+                                    ]}
+                                    hasFeedback
+                                    initialValue={true}
+                                >
+                                    <Select
+                                        name="status"
+                                        placeholder="Select a option"
+                                        onChange={handleStatusChange}
+                                        allowClear
+                                        value={tutor.status} // Set the value of the Select component from the 'status' in the 'tutor' state
+                                    >
+                                        <Option value={true}>Active</Option>
+                                        <Option value={false}>Inactive</Option>
+                                    </Select>
+                                </Form.Item>
                             </Col>
                         </Row>
 
