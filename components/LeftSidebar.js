@@ -11,6 +11,14 @@ const Leftsidebar = ({ collapsed }) => {
   const [collapse, setCollapse] = useState(collapsed);
 
   const menuItems = [
+
+    {
+      key: 'profile',
+      // icon: <DashboardOutlined />,
+      icon: <GlobalOutlined />,
+      label: 'Profile',
+      path: '/profile'
+    },
     {
       key: 'dashboard',
       // icon: <DashboardOutlined />,

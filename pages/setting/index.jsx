@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Card, Col, Row, Layout, theme } from 'antd';
+import { Card, Col, Row, Layout, theme, Form, Input, Button } from 'antd';
 import { KeyOutlined, LockOutlined, PhoneOutlined, UserOutlined } from '@ant-design/icons';
+import HeadSection from '../../components/HeadSection';
 
 const Setting = () => {
     const { Content } = Layout;
@@ -50,6 +51,7 @@ const Setting = () => {
 
     return (
         <>
+        <HeadSection title="Settings" />
             <Row gutter={22}>
                 <Col span={6} onClick={isNameVis}>
                     <Card bordered={false} style={{ height: '120px' }}>
@@ -64,25 +66,25 @@ const Setting = () => {
                     </Card>
                 </Col>
                 <Col span={6} onClick={isNumberVis}>
-                <Card bordered={false} style={{ height: '120px' }}>
-                    <Row >
+                    <Card bordered={false} style={{ height: '120px' }}>
+                        <Row >
                             <Col span={8} style={iconStyle}>
                                 <PhoneOutlined style={iconSize} />
-                                
+
                             </Col>
                             <Col span={16} style={textStyle}>
                                 Number
-                            </Col>  
+                            </Col>
                         </Row>
                     </Card>
                 </Col>
 
                 <Col span={6} onClick={isPasswordVis}>
-                <Card bordered={false} style={{ height: '120px' }}>
-                    <Row >
+                    <Card bordered={false} style={{ height: '120px' }}>
+                        <Row >
                             <Col span={8} style={iconStyle}>
                                 <LockOutlined style={iconSize} />
-                                
+
                             </Col>
                             <Col span={16} style={textStyle}>
                                 Password
@@ -102,7 +104,16 @@ const Setting = () => {
                     <Row gutter={22}>
                         <Col span={18}>
                             <Card title="Name" bordered={false}>
-                                Name
+                                <Form.Item
+                                    name="fullName"
+                                    label="Name"
+
+                                >
+                                    <Input />
+                                </Form.Item>
+                                <Button type="primary" htmlType="submit" >
+                                    Update
+                                </Button>
                             </Card>
                         </Col>
 
@@ -120,7 +131,16 @@ const Setting = () => {
                     <Row gutter={22}>
                         <Col span={18}>
                             <Card title="Number" bordered={false}>
-                                Number
+                                <Form.Item
+                                    name="number"
+                                    label="Number"
+
+                                >
+                                    <Input />
+                                </Form.Item>
+                                <Button type="primary" htmlType="submit" >
+                                    Update
+                                </Button>
                             </Card>
                         </Col>
 
@@ -137,7 +157,30 @@ const Setting = () => {
                     <Row gutter={22}>
                         <Col span={18}>
                             <Card title="Password" bordered={false}>
-                                Password
+                                <Form.Item
+                                    name="number"
+                                    label="Current Password"
+
+                                >
+                                    <Input />
+                                </Form.Item>
+                                <Form.Item
+                                    name="number"
+                                    label="New Password"
+
+                                >
+                                    <Input />
+                                </Form.Item>
+                                <Form.Item
+                                    name="number"
+                                    label="Confirm Password"
+
+                                >
+                                    <Input />
+                                </Form.Item>
+                                <Button type="primary" htmlType="submit" >
+                                    Update
+                                </Button>
                             </Card>
                         </Col>
 

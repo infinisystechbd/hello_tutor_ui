@@ -8,7 +8,6 @@ function UserForm(props) {
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
     }, []);
-console.log("setEditData",setEditData);
 
     const { Option } = Select;
     const [form] = Form.useForm();
@@ -176,7 +175,7 @@ console.log("setEditData",setEditData);
                         <Option value={5}>Guardian</Option>
                     </Select>
                 </Form.Item>
- 
+
 
                 <Form.Item {...tailLayout}>
                     <Button type="primary" htmlType="submit" loading={loading}>
