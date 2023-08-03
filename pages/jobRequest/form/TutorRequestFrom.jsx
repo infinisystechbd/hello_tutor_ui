@@ -192,7 +192,7 @@ const TutorRequestFrom = (props) => {
   const [classess, setClassess] = useState([]);
   const [code, setCode] = useState("");
 
-  console.log("classess", classess);
+  console.log("classess", code);
   const handleCategory = async (value) => {
 
 
@@ -533,7 +533,7 @@ const TutorRequestFrom = (props) => {
 
 
 
-                    {code === 'KT' && (
+                    {code === 'MT' && (
                       <Form.Item
                         name="curriculum"
                         label="Curriculum"

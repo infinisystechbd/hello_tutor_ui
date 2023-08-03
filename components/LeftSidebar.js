@@ -72,6 +72,12 @@ const Leftsidebar = ({ collapsed }) => {
       label: 'Tutor Profile From Try',
       path: '/tutorFromTry/Tutor_Create_from'
     },
+    {
+      key: 'setting',
+      icon: <SettingOutlined />,
+      label: 'Setting',
+      path: '/setting'
+    },
   ];
 
   const handleMenuItemClick = (path) => {
