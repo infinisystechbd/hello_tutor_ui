@@ -1,38 +1,39 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Card, Col, Row, Layout, theme, Form, Input, Button } from 'antd';
+import { Card, Col, Row, Layout, Form, Input, Button } from 'antd';
 import { KeyOutlined, LockOutlined, PhoneOutlined, UserOutlined } from '@ant-design/icons';
 import HeadSection from '../../components/HeadSection';
 import Axios from '../../utils/axios';
 import decodeToken from '../../utils/decodeToken';
 import { USER_END_POINT } from '../../constants/index';
 import { post, put } from '../../helpers/api_helper';
-import ToastMessage from '../../components/Toast';
-const Setting = () => {
-    const { Content } = Layout;
-    const iconStyle = {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#f0f0f0',
-        height: '80px',
-        width: '80px',
-        borderRadius: '50%',
-    };
-    const iconSize = {
-        fontSize: '24px',
-    };
-    const textStyle = {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    };
+import ToastMessage from '../../components/Toast'; // Corrected the import here
 
-    const notify = useCallback((type, message) => {
-        ToastMessage({ type, message });
-    }, []);
-    const [form] = Form.useForm();
-    const { http, setToken, token } = Axios();
-    const [profile, setProfile] = useState({})
+const Setting = () => {
+  const { Content } = Layout;
+  const iconStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#f0f0f0',
+    height: '80px',
+    width: '80px',
+    borderRadius: '50%',
+  };
+  const iconSize = {
+    fontSize: '24px',
+  };
+  const textStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  };
+
+  const notify = useCallback((type, message) => {
+    ToastMessage({ type, message });
+  }, []);
+  const [form] = Form.useForm();
+  const { http, setToken, token } = Axios();
+  const [profile, setProfile] = useState({});
 
 
 
