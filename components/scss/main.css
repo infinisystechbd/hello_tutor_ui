@@ -1,7 +1,4 @@
 .client-layout {
     height: calc(100vh - 80px);
-    overflow-y: scroll;
-    margin: 16px;
-    padding: 16px;
   }
   
