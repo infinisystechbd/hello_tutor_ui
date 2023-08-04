@@ -2,21 +2,32 @@ import { faBangladeshiTakaSign, faBars, faBook, faCalendarDays, faClock, faLocat
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Card, Col, Row, Spin, Typography, Watermark, Layout } from 'antd';
 import { useRouter } from 'next/router';
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { DASHBOARD_END_POINT } from '../../constants';
 
 import { QUERY_KEYS } from '../../constants/queryKeys';
 import { useGetAllData } from '../../utils/hooks/useGetAllData';
 import Axios from '../../utils/axios'
 import HeadSection from '../../components/HeadSection';
+import decodeToken from '../../utils/decodeToken';
 
 
 const Profile = () => {
-  const router = useRouter();
-  const { Id } = router?.query;
+
   const { http, setToken, token } = Axios();
   const { Text, Link } = Typography;
   const { Content } = Layout;
+  const[profile,setProfile]=useState({})
+  console.log("profile",profile);
+
+  useEffect(() => {
+    // Sample JWT token. Replace this with your actual token.
+    const jwtToken = token;
+
+    // Decode the JWT token
+    const decodedToken = decodeToken(jwtToken);
+    setProfile(decodedToken);
+  }, []);
   return (
 <>
 <HeadSection title="Profile" />

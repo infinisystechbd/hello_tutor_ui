@@ -2,7 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Card, Col, Row, Layout, theme, Form, Input, Button } from 'antd';
 import { KeyOutlined, LockOutlined, PhoneOutlined, UserOutlined } from '@ant-design/icons';
 import HeadSection from '../../components/HeadSection';
-
+import Axios from '../../utils/axios';
+import decodeToken from '../../utils/decodeToken';
+import { USER_END_POINT } from '../../constants/index';
+import { post } from '../../helpers/api_helper';
 const Setting = () => {
     const { Content } = Layout;
     const { token: { colorBgContainer } } = theme.useToken();
@@ -26,9 +29,17 @@ const Setting = () => {
     };
 
 
+    const [form] = Form.useForm();
+    const { http, setToken, token } = Axios();
+    const [profile, setProfile] = useState({})
+    console.log("profile", profile);
+
+
+
     const [nameVis, setNameVis] = useState(true);
     const [numberVis, setNumberVis] = useState(false);
     const [passwordVis, setPasswordVis] = useState(false);
+    const phone = profile?.phone?.slice(3);
 
     const isNameVis = () => {
         setNameVis(true);
@@ -47,11 +58,99 @@ const Setting = () => {
         setNumberVis(false);
         setPasswordVis(true)
     }
+    
+
+
+
+
+
+        useEffect(() => {
+            // Sample JWT token. Replace this with your actual token.
+            const jwtToken = token;
+
+            // Decode the JWT token
+            const decodedToken = decodeToken(jwtToken);
+            setProfile(decodedToken);
+        }, []);
+
+
+
+    //     useEffect(() => {
+    //         // if (profile !== null) {
+    //         // Set the form fields with the data from setEditData
+    //         setProfile({
+    //             fullName: profile?.fullName,
+    //             phone: profile.phone,
+    //         });
+    //         // Set the form fields value using the form object
+    //         form.setFieldsValue({
+    //         fullName: profile?.fullName,
+    //         phone: profile.phone,
+                
+    //         });
+    //         // } 
+    //     }, []);
+
+
+
+    //   const handleChange = (e) => {
+    //     // setIsVisited(true);
+    //     setProfile((prev) => ({
+    //         ...prev,
+    //         [e.target.name]: e.target.value,
+    //     }));
+    // };
+
+
+
+
+
+
+
+    // State to handle form submission status
+    const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+
+    // Function to handle form submission
+    const handlePasswordUpdate = async (values) => {
+        setIsFormSubmitting(true);
+
+        let body = { ...values, phone: phone, role: profile.role }
+
+        console.log("body", body);
+        const response = await post(USER_END_POINT.changePassword(), body);
+        if (response.status === 'SUCCESS') {
+            notify('success', response.message);
+        
+        } else {
+            notify('error', response.errorMessage);
+            // setLoading(false);
+        }
+
+        // Perform your API call or password update logic here using the values object
+        // For example, you can use the "fetch" function to send the data to your backend API.
+        // Replace 'your_api_endpoint' with the actual endpoint to handle the password update.
+        // fetch('your_api_endpoint', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify(values),
+        // })
+        //     .then((response) => response.json())
+        //     .then((data) => {
+        //         setIsFormSubmitting(false);
+        //         // Handle the response from the server here (success or error)
+        //     })
+        //     .catch((error) => {
+        //         setIsFormSubmitting(false);
+        //         // Handle any errors that occurred during the API call
+        //     });
+    };
 
 
     return (
         <>
-        <HeadSection title="Settings" />
+            <HeadSection title="Settings" />
             <Row gutter={22}>
                 <Col span={6} onClick={isNameVis}>
                     <Card bordered={false} style={{ height: '120px' }}>
@@ -94,6 +193,19 @@ const Setting = () => {
                 </Col>
             </Row>
 
+
+
+            <Form
+                        // className='mt-3'
+
+                        form={form}
+                        name="control-hooks"
+                        // {...profile}
+                    // onFinish={onFinish}
+                    // initialValues={profile}
+                    >
+
+
             {nameVis &&
                 <Content
                     style={{
@@ -109,7 +221,7 @@ const Setting = () => {
                                     label="Name"
 
                                 >
-                                    <Input />
+                                    <Input  />
                                 </Form.Item>
                                 <Button type="primary" htmlType="submit" >
                                     Update
@@ -147,6 +259,11 @@ const Setting = () => {
                     </Row>
 
                 </Content>}
+
+                </Form>
+
+
+
             {passwordVis &&
                 <Content
                     style={{
@@ -157,30 +274,63 @@ const Setting = () => {
                     <Row gutter={22}>
                         <Col span={18}>
                             <Card title="Password" bordered={false}>
-                                <Form.Item
-                                    name="number"
-                                    label="Current Password"
-
+                                <Form
+                                    onFinish={(values) => handlePasswordUpdate(values)}
+                                    initialValues={{
+                                        oldPassword: "",
+                                        newPassword: "",
+                                        confirmPassword: ""
+                                    }}
                                 >
-                                    <Input />
-                                </Form.Item>
-                                <Form.Item
-                                    name="number"
-                                    label="New Password"
-
-                                >
-                                    <Input />
-                                </Form.Item>
-                                <Form.Item
-                                    name="number"
-                                    label="Confirm Password"
-
-                                >
-                                    <Input />
-                                </Form.Item>
-                                <Button type="primary" htmlType="submit" >
-                                    Update
-                                </Button>
+                                    <Form.Item
+                                        name="oldPassword"
+                                        label="Current Password"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Please enter your current password!',
+                                            },
+                                        ]}
+                                    >
+                                        <Input type="password" />
+                                    </Form.Item>
+                                    <Form.Item
+                                        name="newPassword"
+                                        label="New Password"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Please enter your new password!',
+                                            },
+                                        ]}
+                                    >
+                                        <Input type="password" />
+                                    </Form.Item>
+                                    <Form.Item
+                                        name="confirmPassword"
+                                        label="Confirm Password"
+                                        dependencies={['newPassword']}
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Please confirm your new password!',
+                                            },
+                                            ({ getFieldValue }) => ({
+                                                validator(_, value) {
+                                                    if (!value || getFieldValue('newPassword') === value) {
+                                                        return Promise.resolve();
+                                                    }
+                                                    return Promise.reject(new Error('The passwords do not match!'));
+                                                },
+                                            }),
+                                        ]}
+                                    >
+                                        <Input type="password" />
+                                    </Form.Item>
+                                    <Button type="primary" htmlType="submit">
+                                        Update
+                                    </Button>
+                                </Form>
                             </Card>
                         </Col>
 

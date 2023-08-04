@@ -27,7 +27,7 @@ const Leftsidebar = ({ collapsed }) => {
       path: '/dashboard/dashboard'
     },
     {
-      key: '/helloTutor',
+      key: 'helloTutor',
       icon: <MenuOutlined />,
       // icon: <SettingOutlined />,
       label: 'Master Data',
