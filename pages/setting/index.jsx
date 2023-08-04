@@ -78,11 +78,11 @@ const Setting = () => {
 
 
         const handleFormSubmit =  (values) => {
-            if (nameVis) {
+            // if (nameVis) {
               setProfile((prevProfile) => ({ ...prevProfile, fullName: values.fullName }));
-            } else if (numberVis) {
+            // } else if (numberVis) {
               setProfile((prevProfile) => ({ ...prevProfile, phone: values.number }));
-            }
+            // }
 
             FormSubmit();
              
@@ -91,15 +91,8 @@ const Setting = () => {
 
 
           const FormSubmit = async () => {
-        //     const update = await put(USER_END_POINT.update(profile?.userId), profile);
-        //     if (update.status == 'SUCCESS') {
-        //         notify('success', update.message);
-        //     }
-        // else {
-        //     notify('error', update.errorMessage);
-        //     // setLoading(false);
-        // }
-        console.log("FormSubmit",profile);
+
+
           }
 
 

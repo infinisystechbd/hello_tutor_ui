@@ -18,7 +18,6 @@ const Profile = () => {
   const { Text, Link } = Typography;
   const { Content } = Layout;
   const[profile,setProfile]=useState({})
-  console.log("profile",profile);
 
   useEffect(() => {
     // Sample JWT token. Replace this with your actual token.
