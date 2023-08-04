@@ -22,13 +22,10 @@ const DefaultLayout = ({children}) => {
        }
        <Navbar collapsed={collapsed} toggleCollapsed={toggleCollapsed} colorBgContainer={colorBgContainer}/>
        <Layout>
-        <Layout className="site-layout" style={leftSide}>
-          <Content
-          //  style={{ background: colorBgContainer }}
-           className={token !== null ? 'client-layout' : ''}
-          >
+        <Layout className={'site-layout '} style={leftSide} >
+         
             {children}
-          </Content>
+         
           </Layout>
        
         

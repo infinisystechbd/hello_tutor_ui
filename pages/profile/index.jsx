@@ -1,22 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Button, Card, Col, Row, Spin, Typography, Watermark, Layout } from 'antd';
 import HeadSection from '../../components/HeadSection';
-import Axios from '../../utils/axios';
-import decodeToken from '../../utils/decodeToken';
 
 const Profile = () => {
- const { http, token } = Axios();
-   const [profile, setProfile] = useState({});
+
     const { Text, Link } = Typography;
     const { Content } = Layout;
-        useEffect(() => {
-        // Sample JWT token. Replace this with your actual token.
-        const jwtToken = token;
-
-        // Decode the JWT token
-        const decodedToken = decodeToken(jwtToken);
-        setProfile(decodedToken);
-    }, [token]);
 
     return (
         <>

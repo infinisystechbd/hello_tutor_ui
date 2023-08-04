@@ -49,7 +49,7 @@ const Navbar = () => {
         padding: 0,
         background: colorBgContainer,
         marginLeft: token !== null ? '200px' : '0px', 
-        width: token === null ? '100%': '' 
+        /* width: token === null ? '100%': '' */ 
       }}
     >
       {/* Set the mode based on isMobileView state */}
