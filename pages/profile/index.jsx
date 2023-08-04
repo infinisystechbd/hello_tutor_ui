@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card, Col, Row, Spin, Typography, Watermark, Layout } from 'antd';
 import HeadSection from '../../components/HeadSection';
 import Axios from '../../utils/axios';
