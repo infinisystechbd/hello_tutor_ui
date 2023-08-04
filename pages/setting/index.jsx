@@ -6,7 +6,7 @@ import Axios from '../../utils/axios';
 import decodeToken from '../../utils/decodeToken';
 import { USER_END_POINT } from '../../constants/index';
 import { post, put } from '../../helpers/api_helper';
-import ToastMessage from '../../components/Toast'; // Corrected the import here
+import tost from '../../components/Toast'; // Corrected the import here
 
 const Setting = () => {
   const { Content } = Layout;
@@ -29,7 +29,7 @@ const Setting = () => {
   };
 
   const notify = useCallback((type, message) => {
-    ToastMessage({ type, message });
+    tost({ type, message });
   }, []);
 //   const [form] = Form.useForm();
   const { http, setToken, token } = Axios();
