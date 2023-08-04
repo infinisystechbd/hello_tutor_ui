@@ -5,7 +5,8 @@ import HeadSection from '../../components/HeadSection';
 import Axios from '../../utils/axios';
 import decodeToken from '../../utils/decodeToken';
 import { USER_END_POINT } from '../../constants/index';
-import { post } from '../../helpers/api_helper';
+import { post, put } from '../../helpers/api_helper';
+import ToastMessage from '../../components/Toast';
 const Setting = () => {
     const { Content } = Layout;
     const { token: { colorBgContainer } } = theme.useToken();
@@ -28,11 +29,13 @@ const Setting = () => {
         justifyContent: 'center',
     };
 
-
+    const notify = useCallback((type, message) => {
+        ToastMessage({ type, message });
+    }, []);
     const [form] = Form.useForm();
     const { http, setToken, token } = Axios();
     const [profile, setProfile] = useState({})
-    console.log("profile", profile);
+    
 
 
 
@@ -74,49 +77,41 @@ const Setting = () => {
         }, []);
 
 
+        const handleFormSubmit =  (values) => {
+            if (nameVis) {
+              setProfile((prevProfile) => ({ ...prevProfile, fullName: values.fullName }));
+            } else if (numberVis) {
+              setProfile((prevProfile) => ({ ...prevProfile, phone: values.number }));
+            }
 
-    //     useEffect(() => {
-    //         // if (profile !== null) {
-    //         // Set the form fields with the data from setEditData
-    //         setProfile({
-    //             fullName: profile?.fullName,
-    //             phone: profile.phone,
-    //         });
-    //         // Set the form fields value using the form object
-    //         form.setFieldsValue({
-    //         fullName: profile?.fullName,
-    //         phone: profile.phone,
-                
-    //         });
-    //         // } 
-    //     }, []);
+            FormSubmit();
+             
+
+          };
 
 
-
-    //   const handleChange = (e) => {
-    //     // setIsVisited(true);
-    //     setProfile((prev) => ({
-    //         ...prev,
-    //         [e.target.name]: e.target.value,
-    //     }));
-    // };
-
-
-
+          const FormSubmit = async () => {
+        //     const update = await put(USER_END_POINT.update(profile?.userId), profile);
+        //     if (update.status == 'SUCCESS') {
+        //         notify('success', update.message);
+        //     }
+        // else {
+        //     notify('error', update.errorMessage);
+        //     // setLoading(false);
+        // }
+        console.log("FormSubmit",profile);
+          }
 
 
 
 
     // State to handle form submission status
     const [isFormSubmitting, setIsFormSubmitting] = useState(false);
-
-    // Function to handle form submission
+// Function to handle form submission
     const handlePasswordUpdate = async (values) => {
         setIsFormSubmitting(true);
 
-        let body = { ...values, phone: phone, role: profile.role }
-
-        console.log("body", body);
+        let body = { ...values, phone: profile.phone, role: profile.role }
         const response = await post(USER_END_POINT.changePassword(), body);
         if (response.status === 'SUCCESS') {
             notify('success', response.message);
@@ -146,6 +141,8 @@ const Setting = () => {
         //         // Handle any errors that occurred during the API call
         //     });
     };
+
+
 
 
     return (
@@ -195,72 +192,37 @@ const Setting = () => {
 
 
 
-            <Form
-                        // className='mt-3'
+            <Form onFinish={handleFormSubmit}>
+      {nameVis && (
+        <Card title="Name" bordered={false} style={{ margin: '60px 0px' }}>
+          <Row gutter={22}>
+            <Col span={18}>
+              <Form.Item name="fullName" label="Name" initialValue={profile.fullName}>
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Button type="primary" htmlType="submit">
+            Update Name
+          </Button>
+        </Card>
+      )}
 
-                        form={form}
-                        name="control-hooks"
-                        // {...profile}
-                    // onFinish={onFinish}
-                    // initialValues={profile}
-                    >
-
-
-            {nameVis &&
-                <Content
-                    style={{
-                        margin: '60px 0px',
-                    }}
-                >
-
-                    <Row gutter={22}>
-                        <Col span={18}>
-                            <Card title="Name" bordered={false}>
-                                <Form.Item
-                                    name="fullName"
-                                    label="Name"
-
-                                >
-                                    <Input  />
-                                </Form.Item>
-                                <Button type="primary" htmlType="submit" >
-                                    Update
-                                </Button>
-                            </Card>
-                        </Col>
-
-                    </Row>
-
-                </Content>}
-
-            {numberVis &&
-                <Content
-                    style={{
-                        margin: '60px 0px',
-                    }}
-                >
-
-                    <Row gutter={22}>
-                        <Col span={18}>
-                            <Card title="Number" bordered={false}>
-                                <Form.Item
-                                    name="number"
-                                    label="Number"
-
-                                >
-                                    <Input />
-                                </Form.Item>
-                                <Button type="primary" htmlType="submit" >
-                                    Update
-                                </Button>
-                            </Card>
-                        </Col>
-
-                    </Row>
-
-                </Content>}
-
-                </Form>
+      {numberVis && (
+        <Card title="Number" bordered={false} style={{ margin: '60px 0px' }}>
+          <Row gutter={22}>
+            <Col span={18}>
+              <Form.Item name="number" label="Number" initialValue={profile.phone}>
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Button type="primary" htmlType="submit">
+            Update Number
+          </Button>
+        </Card>
+      )}
+    </Form>
 
 
 
