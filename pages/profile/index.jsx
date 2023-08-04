@@ -7,7 +7,7 @@ import { DASHBOARD_END_POINT } from '../../constants';
 
 import { QUERY_KEYS } from '../../constants/queryKeys';
 import { useGetAllData } from '../../utils/hooks/useGetAllData';
-import Axios from '../../utils/axios'
+// import Axios from '../../utils/axios'
 import HeadSection from '../../components/HeadSection';
 import decodeToken from '../../utils/decodeToken';
 

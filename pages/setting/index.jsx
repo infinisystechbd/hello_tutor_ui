@@ -72,7 +72,7 @@ const Setting = () => {
         // Decode the JWT token
         const decodedToken = decodeToken(jwtToken);
         setProfile(decodedToken);
-    }, []);
+    }, [token]);
 
 
     const handleFormSubmit = (values) => {
