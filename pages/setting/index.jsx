@@ -31,7 +31,7 @@ const Setting = () => {
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
-  const [form] = Form.useForm();
+//   const [form] = Form.useForm();
   const { http, setToken, token } = Axios();
   const [profile, setProfile] = useState({});
 
