@@ -9,19 +9,17 @@ import { post, put } from '../../helpers/api_helper';
 import ToastMessage from '../../components/Toast';
 const Setting = () => {
     const { Content } = Layout;
-    const { token: { colorBgContainer } } = theme.useToken();
-
     const iconStyle = {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#f0f0f0', // Add your desired background color here
-        height: '80px', // Set the height and width to make it a square container
+        backgroundColor: '#f0f0f0',
+        height: '80px',
         width: '80px',
-        borderRadius: '50%',  // Add a 50% radius for rounded corners
+        borderRadius: '50%',
     };
     const iconSize = {
-        fontSize: '24px', // Add your desired icon size here
+        fontSize: '24px',
     };
     const textStyle = {
         display: 'flex',
@@ -35,7 +33,7 @@ const Setting = () => {
     const [form] = Form.useForm();
     const { http, setToken, token } = Axios();
     const [profile, setProfile] = useState({})
-    
+
 
 
 
@@ -61,78 +59,57 @@ const Setting = () => {
         setNumberVis(false);
         setPasswordVis(true)
     }
-    
 
 
 
 
 
-        useEffect(() => {
-            // Sample JWT token. Replace this with your actual token.
-            const jwtToken = token;
 
-            // Decode the JWT token
-            const decodedToken = decodeToken(jwtToken);
-            setProfile(decodedToken);
-        }, []);
+    useEffect(() => {
+        // Sample JWT token. Replace this with your actual token.
+        const jwtToken = token;
 
-
-        const handleFormSubmit =  (values) => {
-            // if (nameVis) {
-              setProfile((prevProfile) => ({ ...prevProfile, fullName: values.fullName }));
-            // } else if (numberVis) {
-              setProfile((prevProfile) => ({ ...prevProfile, phone: values.number }));
-            // }
-
-            FormSubmit();
-             
-
-          };
+        // Decode the JWT token
+        const decodedToken = decodeToken(jwtToken);
+        setProfile(decodedToken);
+    }, []);
 
 
-          const FormSubmit = async () => {
+    const handleFormSubmit = (values) => {
+        // if (nameVis) {
+        setProfile((prevProfile) => ({ ...prevProfile, fullName: values.fullName }));
+        // } else if (numberVis) {
+        setProfile((prevProfile) => ({ ...prevProfile, phone: values.number }));
+        // }
+
+        FormSubmit();
 
 
-          }
+    };
 
 
+    const FormSubmit = async () => {
 
 
-    // State to handle form submission status
+    }
+
     const [isFormSubmitting, setIsFormSubmitting] = useState(false);
-// Function to handle form submission
+
     const handlePasswordUpdate = async (values) => {
         setIsFormSubmitting(true);
 
         let body = { ...values, phone: profile.phone, role: profile.role }
         const response = await post(USER_END_POINT.changePassword(), body);
         if (response.status === 'SUCCESS') {
+            setIsFormSubmitting(false);
             notify('success', response.message);
-        
+
         } else {
             notify('error', response.errorMessage);
             // setLoading(false);
+            setIsFormSubmitting(false);
         }
 
-        // Perform your API call or password update logic here using the values object
-        // For example, you can use the "fetch" function to send the data to your backend API.
-        // Replace 'your_api_endpoint' with the actual endpoint to handle the password update.
-        // fetch('your_api_endpoint', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify(values),
-        // })
-        //     .then((response) => response.json())
-        //     .then((data) => {
-        //         setIsFormSubmitting(false);
-        //         // Handle the response from the server here (success or error)
-        //     })
-        //     .catch((error) => {
-        //         setIsFormSubmitting(false);
-        //         // Handle any errors that occurred during the API call
-        //     });
     };
 
 
@@ -186,36 +163,36 @@ const Setting = () => {
 
 
             <Form onFinish={handleFormSubmit}>
-      {nameVis && (
-        <Card title="Name" bordered={false} style={{ margin: '60px 0px' }}>
-          <Row gutter={22}>
-            <Col span={18}>
-              <Form.Item name="fullName" label="Name" initialValue={profile.fullName}>
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Button type="primary" htmlType="submit">
-            Update Name
-          </Button>
-        </Card>
-      )}
+                {nameVis && (
+                    <Card title="Name" bordered={false} style={{ margin: '60px 0px' }}>
+                        <Row gutter={22}>
+                            <Col span={18}>
+                                <Form.Item name="fullName" label="Name" initialValue={profile.fullName}>
+                                    <Input />
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                        <Button type="primary" htmlType="submit">
+                            Update Name
+                        </Button>
+                    </Card>
+                )}
 
-      {numberVis && (
-        <Card title="Number" bordered={false} style={{ margin: '60px 0px' }}>
-          <Row gutter={22}>
-            <Col span={18}>
-              <Form.Item name="number" label="Number" initialValue={profile.phone}>
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Button type="primary" htmlType="submit">
-            Update Number
-          </Button>
-        </Card>
-      )}
-    </Form>
+                {numberVis && (
+                    <Card title="Number" bordered={false} style={{ margin: '60px 0px' }}>
+                        <Row gutter={22}>
+                            <Col span={18}>
+                                <Form.Item name="number" label="Number" initialValue={profile.phone}>
+                                    <Input />
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                        <Button type="primary" htmlType="submit">
+                            Update Number
+                        </Button>
+                    </Card>
+                )}
+            </Form>
 
 
 

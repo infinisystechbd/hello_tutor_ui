@@ -15,7 +15,6 @@ function ClassForm(props) {
     ToastMessage({ type, message });
   }, []);
   const { isModalOpen, setIsModalOpen, isParentRender, setEditData } = props;
-  console.log({ setEditData });
   const { Option } = Select;
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
@@ -74,7 +73,6 @@ function ClassForm(props) {
     try {
       if (setEditData?._id) {
         const update = await put(CLASS_END_POINT.update(setEditData?._id), values);
-        console.log(update)
         if (update.status === 'SUCCESS') {
           notify('success', update.message);
           if (isParentRender) {

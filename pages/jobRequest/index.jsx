@@ -72,7 +72,7 @@ const JobRequestDetails = () => {
         refetch: fetchJobRequestList,
     } = useGetAllData(QUERY_KEYS.GET_ALL_JOB_REQUEST_LIST, JOB_REQUEST_END_POINT.get(page, limit, search,""));
 
-    console.log("jobRequestList", jobRequestList);
+    
 
     const reFetchHandler = (isRender) => {
         if (isRender) fetchJobRequestList();

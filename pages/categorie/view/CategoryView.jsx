@@ -6,7 +6,6 @@ import DataTable from 'react-data-table-component';
 function CategoryView(props) {
   const { isViewModalOpen, setIsViewModalOpen, category } = props;
   const [classes, setClasses] = useState([]);
-  console.log(category)
   useEffect(() => {
     setClasses(category?.class)
   }, [category])

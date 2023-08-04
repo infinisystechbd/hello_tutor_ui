@@ -31,7 +31,6 @@ const AllGuardian = () => {
     const [guardian, setGuardian] = useState({});
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
-    console.log("insed", guardian);
 
     const handleShow = () => {
         setIsModalOpen(true)
@@ -94,7 +93,7 @@ const AllGuardian = () => {
         isLoading,
         refetch: fetchGuardianList,
     } = useGetAllData(QUERY_KEYS.GET_ALL_GUARDIAN_LIST, GUARDIAN_END_POINT.get(page, limit, search,""));
-    console.log(guardianList?.data);
+  
 
     const reFetchHandler = (isRender) => {
         if (isRender) fetchGuardianList();
@@ -140,7 +139,7 @@ const AllGuardian = () => {
 
 
     const actionButton = (row) => {
-        // console.log(id);
+        
         return <>
             <Row justify="space-between">
                 <a onClick={() => handleViewOpen(row)} style={{ color: 'green', marginRight: '10px' }}>

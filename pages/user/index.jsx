@@ -20,7 +20,7 @@ const LoginPage = () => {
   const [userId, setUserId] = useState(null);
   const [otp, setOtp] = useState("")
 
-  console.log(guardianFrom);
+
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
@@ -83,8 +83,7 @@ const LoginPage = () => {
     event.preventDefault();
     try {
       const tutorReg = await post(SECURITY_END_POINT.tutorReg(), { fullName: fullName, phone: phone, gender: gender, password: password, confirmPassword: confirmPassword });
-      //  const res = 
-      console.log(tutorReg, "alll", tutorReg.status);
+
       // setToken(tutorReg.accessToken);
       setUserId(tutorReg?.data?._id);
       notify("success", "successfully Registration!");
@@ -135,7 +134,6 @@ const LoginPage = () => {
 
     try {
       const update = await post(SECURITY_END_POINT.verifyOtp(userId), { token: otp });
-      console.log(update);
       if (update.status == 'SUCCESS') {
         notify('success', update.message);
 
@@ -186,7 +184,7 @@ const LoginPage = () => {
                             <p className="text-center fw-bold mx-3 mb-0">Or</p>
                           </div>
                         </>) :
-                         ""}
+                        ""}
                       {/* Email input */}
                       {value ?
                         (

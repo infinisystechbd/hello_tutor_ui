@@ -27,7 +27,6 @@ const LoginPage = () => {
     const [otp, setOtp] = useState("")
     const [isGuardian, setIsGuardian] = useState(true);
     const [loading, setLoading] = useState(false);
-    // console.log(guardianFrom);
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
     }, []);
@@ -121,7 +120,6 @@ const LoginPage = () => {
 
         try {
             const update = await post(SECURITY_END_POINT.verifyOtp(userId), { token: otp });
-            console.log("update", update);
             if (update.status == 'SUCCESS') {
                 const login = await post(SECURITY_END_POINT.login(), { phone: phone, password: password });
                 setToken(login.accessToken);
@@ -133,7 +131,6 @@ const LoginPage = () => {
             setLoading(false);
         }
         setLoading(false);
-        // console.log(id,otp);
     };
 
 

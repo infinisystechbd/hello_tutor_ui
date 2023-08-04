@@ -44,8 +44,8 @@ const Leftsidebar = ({ collapsed }) => {
       icon: <ContainerOutlined />,
       label: 'Job Management',
       children: [
-        { key: 'job', label: 'Job Creation', path: '/jobRequest' },
-        { key: 'job Assign', label: 'Job Assign', path: '/jobAssign' },
+        { key: 'jobCreate', label: 'Job Creation', path: '/jobRequest' },
+        { key: 'jobAssign', label: 'Job Assign', path: '/jobAssign' },
       ],
     },
     {

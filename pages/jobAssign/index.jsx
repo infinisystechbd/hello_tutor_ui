@@ -101,13 +101,13 @@ function JobAssign(props) {
         isLoading,
         refetch: fetchAssignJobList,
     } = useGetAllData(QUERY_KEYS.GET_ALL_JOB_ASSIGN_LIST, JOB_ASSIGN_END_POINT.get(page, limit, search,""));
-    console.log(assignJobList?.data);
+  
 
     const reFetchHandler = (isRender) => {
         if (isRender) fetchAssignJobList();
     };
 
-    console.log(assignJobList);
+   
 
 
 
@@ -147,7 +147,7 @@ function JobAssign(props) {
 
 
     const actionButton = (row) => {
-        // console.log(id);
+       
         return <>
             <Row justify="space-between">
                 <a onClick={() => handleViewOpen(row)} style={{ color: 'green', marginRight: '10px' }}>

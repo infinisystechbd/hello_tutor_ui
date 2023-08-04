@@ -3,7 +3,6 @@ import moment from 'moment';
 
 function TutorView(props) {
     const { isViewModalOpen, setIsViewModalOpen, tutor } = props;
-    console.log("tutor", tutor);
     return (
         <div>
             <Modal

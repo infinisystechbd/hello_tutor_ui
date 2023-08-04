@@ -3,7 +3,6 @@ import moment from 'moment';
 
 function CityView(props) {
   const { isViewModalOpen, setIsViewModalOpen, city } = props;
-  console.log(city);
   return (
     <Modal
       title={'City Info'}

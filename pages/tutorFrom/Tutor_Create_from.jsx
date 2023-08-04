@@ -12,7 +12,6 @@ import ToastMessage from '../../components/Toast';
 const App = (props) => {
     const { isModalOpen, setIsModalOpen, isParentRender, setEditData } = props;
     const { token } = theme.useToken();
-    console.log(setEditData);
     const {
         token: { colorBgContainer },
     } = theme.useToken();
@@ -77,7 +76,7 @@ const App = (props) => {
     };
 
     const onFinish = async (values) => {
-        console.log(values);
+
     }
 
 
@@ -112,7 +111,7 @@ const App = (props) => {
     /**fetch location list */
 
     const handleCity = async (value) => {
-        console.log(value);
+
         setIsVisited(true);
         setCityId(value)
         const fetchLocation = await get(LOCATION_END_POINT.getLocationByCityId(value));
@@ -271,7 +270,7 @@ const App = (props) => {
 
     });
 
-    console.log("tutor",tutor);
+
 
     const handleChange = (e) => {
         setIsVisited(true);
@@ -331,33 +330,33 @@ const App = (props) => {
 
     useEffect(() => {
         if (setEditData !== null && !visited) {
-          // Set the form fields with the data from setEditData
-          setTutor({
-            fullName: setEditData?.fullName,
-            email: setEditData.email,
-            city: setEditData.city?.name,
-            location: setEditData.location?.name,
-            address: setEditData.address,
-            phone: setEditData.phone,
-            isPortalAccess: setEditData.isPortalAccess,
-            status: setEditData.status,
-          });
-          // Set the form fields value using the form object
-          form.setFieldsValue({
-           fullName: setEditData?.fullName,
-            email: setEditData.email,
-            city: setEditData.city?.name,
-            location: setEditData.location?.name,
-            address: setEditData.address,
-            phone: setEditData.phone,
-            isPortalAccess: setEditData.isPortalAccess,
-            status: setEditData.status,
-          });
+            // Set the form fields with the data from setEditData
+            setTutor({
+                fullName: setEditData?.fullName,
+                email: setEditData.email,
+                city: setEditData.city?.name,
+                location: setEditData.location?.name,
+                address: setEditData.address,
+                phone: setEditData.phone,
+                isPortalAccess: setEditData.isPortalAccess,
+                status: setEditData.status,
+            });
+            // Set the form fields value using the form object
+            form.setFieldsValue({
+                fullName: setEditData?.fullName,
+                email: setEditData.email,
+                city: setEditData.city?.name,
+                location: setEditData.location?.name,
+                address: setEditData.address,
+                phone: setEditData.phone,
+                isPortalAccess: setEditData.isPortalAccess,
+                status: setEditData.status,
+            });
         } else if (setEditData == null && !visited) {
-          // Reset the form fields if setEditData is null and not visited
-          form.resetFields();
+            // Reset the form fields if setEditData is null and not visited
+            form.resetFields();
         }
-      }, [form, setEditData, visited]);
+    }, [form, setEditData, visited]);
 
 
 
@@ -405,8 +404,8 @@ const App = (props) => {
                         form={form}
                         name="control-hooks"
                         {...setEditData}
-                    onFinish={onFinish}
-                    initialValues={tutor}
+                        onFinish={onFinish}
+                        initialValues={tutor}
                     >
                         <Row className='mt-2' gutter={[16, 16]}>
                             <Col xs={24} md={12}>
@@ -429,7 +428,7 @@ const App = (props) => {
                                     ]}
                                     hasFeedback
                                 >
-                                    <Input name="fullName" onChange={handleChange}   />
+                                    <Input name="fullName" onChange={handleChange} />
                                 </Form.Item>
                             </Col>
                             <Col xs={24} md={12}>

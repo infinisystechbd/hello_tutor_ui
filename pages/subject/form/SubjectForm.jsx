@@ -87,7 +87,6 @@ function SubjectForm(props) {
   };
   const onFinishFailed = (errorInfo) => {
     notify('error', errorInfo);
-    // console.log('Failed:', errorInfo);
   };
   return (
     <Modal

@@ -3,7 +3,7 @@ import moment from 'moment';
 
 function GuardianView(props) {
     const { isViewModalOpen, setIsViewModalOpen, guardian } = props;
-    console.log("guargian",guardian);
+   
     return (
         <div>
         <Modal

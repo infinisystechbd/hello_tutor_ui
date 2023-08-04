@@ -8,9 +8,7 @@ import {
   import { FaMinus, FaPlus } from 'react-icons/fa';
 
 export default function FloatingButton({isOpen,fontSize,subIcon,supplier_Id, selectedRowId,...rest}) {
-  // console.log(selectedRowId)
-  // console.log(rowId)
-
+ 
   return (
     <FloatingMenu
     // className="bg-primary top-50 right-50"

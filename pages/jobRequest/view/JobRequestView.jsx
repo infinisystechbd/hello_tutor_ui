@@ -9,11 +9,11 @@ const { Text, Link } = Typography;
 function ClassView(props) {
   const { isViewModalOpen, setIsViewModalOpen, jobReq } = props;
   const [subjects, setSubjects] = useState([])
-  console.log(jobReq);
+
   useEffect(() => {
     setSubjects(jobReq?.subject)
   }, [jobReq])
-  console.log("jobReq", jobReq);
+
   return (
     <Modal
       title={'Job Info'}

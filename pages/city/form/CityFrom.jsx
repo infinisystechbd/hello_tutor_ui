@@ -6,7 +6,6 @@ import { post, put } from '../../../helpers/api_helper';
 function CityForm(props) {
   const { isModalOpen, setIsModalOpen, isParentRender, setEditData } = props;
 
-  console.log(setEditData);
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
@@ -28,7 +27,6 @@ function CityForm(props) {
     },
   };
   if (setEditData != null) {
-    console.log({setEditData})
     form.setFieldsValue({
       name: setEditData.name,
       status: setEditData.status,
@@ -67,7 +65,6 @@ function CityForm(props) {
   };
   const onFinishFailed = (errorInfo) => {
     notify('error', errorInfo);
-    // console.log('Failed:', errorInfo);
   };
   return (
     <Modal

@@ -31,7 +31,7 @@ const TutorRequestFrom = (props) => {
   const phoneNumberPattern = /^(?:01[3-9])\d{8}$/;
   const [guardianCity, setGuardianCity] = useState(null);
   const [newGuardian, setNewGuardian] = useState(false);
-  console.log("newGuardian", newGuardian);
+
 
   const layout = {
     labelCol: {
@@ -191,8 +191,6 @@ const TutorRequestFrom = (props) => {
 
   const [classess, setClassess] = useState([]);
   const [code, setCode] = useState("");
-
-  console.log("classess", code);
   const handleCategory = async (value) => {
 
 
@@ -225,7 +223,6 @@ const TutorRequestFrom = (props) => {
     const fetchGuardian = await get(GUARDIAN_END_POINT.info(value));
     const city = fetchGuardian?.data?.city;
 
-    console.log("handleGuardian", city);
 
     if (city) {
       // Set the guardianCity state with the new data
@@ -256,7 +253,7 @@ const TutorRequestFrom = (props) => {
 
 
   const handleNewGuardian = async (value) => {
-    //  console.log("handleNewGuardian",value);
+
     setNewGuardian(value)
   };
 
@@ -322,7 +319,6 @@ const TutorRequestFrom = (props) => {
     try {
       if (setEditData?._id) {
         const update = await put(JOB_REQUEST_END_POINT.update(setEditData?._id), values, formattedDate, formattedTime);
-        console.log(update)
         if (update.status === 'SUCCESS') {
           notify('success', update.message);
           if (isParentRender) {
@@ -771,16 +767,16 @@ const TutorRequestFrom = (props) => {
                     //   },
                     // ]}
                     >
-    <Select placeholder="Select an option" allowClear>
-                          <Option value={1}>1 Day Per Week</Option>
-                          <Option value={2}>2 Day Per Week</Option>
-                          <Option value={3}>3 Day Per Week</Option>
-                          <Option value={4}>4 Day Per Week</Option>
-                          <Option value={5}>5 Day Per Week</Option>
-                          <Option value={6}>6 Day Per Week</Option>
-                          <Option value={7}>7 Day Per Week</Option>
-                        
-                        </Select>
+                      <Select placeholder="Select an option" allowClear>
+                        <Option value={1}>1 Day Per Week</Option>
+                        <Option value={2}>2 Day Per Week</Option>
+                        <Option value={3}>3 Day Per Week</Option>
+                        <Option value={4}>4 Day Per Week</Option>
+                        <Option value={5}>5 Day Per Week</Option>
+                        <Option value={6}>6 Day Per Week</Option>
+                        <Option value={7}>7 Day Per Week</Option>
+
+                      </Select>
                     </Form.Item>
 
                     <Form.Item

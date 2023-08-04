@@ -13,11 +13,17 @@ import UserContext from './../components/context/userContext';
 const MyApp = ({ Component, pageProps }) => {
 
   const [queryClient] = useState(() => new QueryClient());
+    // Assuming user is an object with some user data
+    const user = {
+      name: 'John Doe',
+      role: 'admin',
+      // Add other user properties if needed
+    };
 
 
   return (
     <>
-      <UserContext.Provider>
+      <UserContext.Provider value={user}>
         <DefaultLayout>
           <QueryClientProvider client={queryClient}>
             <Hydrate state={pageProps.dehydratedState}>

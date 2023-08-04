@@ -77,7 +77,6 @@ const AllCategory = () => {
         isLoading,
         refetch: fetchCategoryList,
     } = useGetAllData(QUERY_KEYS.GET_ALL_CATEGORY_LIST, CATEGORIE_END_POINT.get(page, limit, search,""));
-    console.log("categoryList", categoryList);
 
     /** Fetch CategoryList End */
 
@@ -103,7 +102,6 @@ const AllCategory = () => {
             cancelText: 'No',
             async onOk() {
                 const deleteClass = await del(CATEGORIE_END_POINT.delete(id));
-                console.log(deleteClass);
                 try {
                     if (deleteClass.status === 'SUCCESS') {
                         notify('success', deleteClass.message);
@@ -155,7 +153,6 @@ const AllCategory = () => {
 
 
     const actionButton = (row) => {
-        // console.log(id);
         return <>
             <Row justify="space-between">
                 <a onClick={() => handleViewOpen(row)} style={{ color: 'green', marginRight: '10px' }}>

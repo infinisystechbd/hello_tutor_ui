@@ -155,7 +155,6 @@ const AllTutor = () => {
 
 
     const actionButton = (row) => {
-        // console.log(id);
         return <>
             <Row justify="space-between">
                 <a onClick={() => handleViewOpen(row)} style={{ color: 'green', marginRight: '10px' }}>

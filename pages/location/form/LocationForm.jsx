@@ -2,8 +2,8 @@ import { Button, Form, Input, Modal, Select } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import ToastMessage from '../../../components/Toast';
 import {
-    LOCATION_END_POINT,
-     CITY_END_POINT
+  LOCATION_END_POINT,
+  CITY_END_POINT
 } from '../../../constants/index.js';
 import { QUERY_KEYS } from '../../../constants/queryKeys.js';
 import { post, put } from '../../../helpers/api_helper.js';
@@ -15,13 +15,13 @@ function ClassForm(props) {
     ToastMessage({ type, message });
   }, []);
   const { isModalOpen, setIsModalOpen, isParentRender, setEditData } = props;
-  console.log({ setEditData });
+
   const { Option } = Select;
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
   const [city, setCity] = useState([]);
-  console.log(setEditData);
+
 
 
   if (setEditData != null) {
@@ -46,7 +46,7 @@ function ClassForm(props) {
     refetch: fetchCityList,
   } = useGetAllData(
     QUERY_KEYS.GET_ALL_CITY_LIST,
-    CITY_END_POINT.get(1, -1, '',true)
+    CITY_END_POINT.get(1, -1, '', true)
   );
 
   /**city dropdown */
@@ -71,7 +71,6 @@ function ClassForm(props) {
     try {
       if (setEditData?._id) {
         const update = await put(LOCATION_END_POINT.update(setEditData?._id), values);
-        console.log(update)
         if (update.status === 'SUCCESS') {
           notify('success', update.message);
           if (isParentRender) {
@@ -156,7 +155,7 @@ function ClassForm(props) {
             {
               required: true,
               message: 'Please select City!',
-              
+
             },
           ]}
           hasFeedback

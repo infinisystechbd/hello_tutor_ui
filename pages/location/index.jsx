@@ -75,7 +75,7 @@ const Managelocation = () => {
         data: locationList,
         isLoading,
         refetch: fetchLocationList,
-    } = useGetAllData(QUERY_KEYS.GET_ALL_LOCATION_LIST, LOCATION_END_POINT.get(page, limit, search,""));
+    } = useGetAllData(QUERY_KEYS.GET_ALL_LOCATION_LIST, LOCATION_END_POINT.get(page, limit, search, ""));
 
 
 
@@ -157,7 +157,7 @@ const Managelocation = () => {
 
 
     const actionButton = (row) => {
-        // console.log(id);
+
         return <>
             <Row justify="space-between">
                 <a onClick={() => handleViewOpen(row)} style={{ color: 'green', marginRight: '10px' }}>

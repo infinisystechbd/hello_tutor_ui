@@ -22,7 +22,7 @@ const AllSubject = () => {
   } = theme.useToken();
   const { confirm } = Modal;
   const { Content } = Layout;
- 
+
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
@@ -34,7 +34,6 @@ const AllSubject = () => {
     }
   }, [token])
   const [search, setSearch] = useState('');
-  console.log(search);
   const [itemList, setItemList] = useState([]);
   const [pending, setPending] = useState(false);
   const handleExitDelete = () => setShowDeleteModal(false);
@@ -388,4 +387,4 @@ const AllSubject = () => {
   );
 };
 
-export default withAuth (AllSubject);
+export default withAuth(AllSubject);

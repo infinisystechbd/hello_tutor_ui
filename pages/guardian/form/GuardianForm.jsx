@@ -21,7 +21,7 @@ function GuardianForm(props) {
   const phoneNumberPattern = /^(?:01[3-9])\d{8}$/;
   const [isEdit , setIsEdit] = useState(false);
   const [visited, setIsVisited] = useState(false);
-console.log(setEditData);
+
 
 
 

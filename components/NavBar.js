@@ -8,7 +8,7 @@ const { Header } = Layout;
 
 const Navbar = () => {
   const { http, setToken, token } = Axios();
-  console.log("token",token);
+
   const colorBgContainer = '#ffffff';
   const router = useRouter();
   const [collapsed , setCollapsed] = useState(false);
@@ -44,7 +44,7 @@ const Navbar = () => {
   }
 
   return (
-    <Header
+<Header
       style={{
         padding: 0,
         background: colorBgContainer,
@@ -55,7 +55,7 @@ const Navbar = () => {
       {/* Set the mode based on isMobileView state */}
       <Menu mode={isMobileView ? 'inline' : 'horizontal'} theme="light" selectedKeys={[router.pathname]} >
         {token !== null && (
-          <Menu.Item>
+          <Menu.Item key="toggle">
             <Button
               type="text"
               icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -70,11 +70,11 @@ const Navbar = () => {
           About
         </Menu.Item> */}
         {token === null ? (
-          <Menu.Item className="float-end me-3" key="/login" onClick={() => navigateTo('/login')}>
+          <Menu.Item key="/login" className="float-end me-3" onClick={() => navigateTo('/login')}>
             Login
           </Menu.Item>
         ) : (
-          <Menu.Item>
+          <Menu.Item key="logout">
             <Button type="link" onClick={onLogout} icon={<LoginOutlined />} size="large" />
           </Menu.Item>
         )}
