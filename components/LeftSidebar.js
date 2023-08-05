@@ -13,17 +13,21 @@ const Leftsidebar = ({ collapsed }) => {
   const [collapse, setCollapse] = useState(collapsed);
   const { http, setToken, token } = Axios();
   const [profile, setProfile] = useState({});
-  const[role,setRole] = useState(null);
+  const [role, setRole] = useState(null);
   console.log(profile);
-  useEffect(() => {
-    // Sample JWT token. Replace this with your actual token.
-    const jwtToken = token;
 
-    // Decode the JWT token
-    const decodedToken = decodeToken(jwtToken);
-    setProfile(decodedToken);
-    setRole(decodedToken?.role)
-}, [token]);
+  useEffect(() => {
+    if (token) {
+      try {
+        // Decode the JWT token using the correct decodeToken function
+        const decodedToken = decodeToken(token);
+        setProfile(decodedToken);
+        setRole(decodedToken?.role);
+      } catch (error) {
+        console.error("Error decoding token:", error);
+      }
+    }
+  }, [token]);
 
 
   const menuItems = [
