@@ -35,6 +35,7 @@ const AllSubject = () => {
   }, [token])
   const [search, setSearch] = useState('');
   const [itemList, setItemList] = useState([]);
+  
   const [pending, setPending] = useState(false);
   const handleExitDelete = () => setShowDeleteModal(false);
   //Form validation
