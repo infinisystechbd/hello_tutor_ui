@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Card, Col, Row, Layout, Form, Input, Button } from 'antd';
 import { KeyOutlined, LockOutlined, PhoneOutlined, UserOutlined } from '@ant-design/icons';
-import HeadSection from '../../components/HeadSection';
 import Axios from '../../utils/axios';
 import decodeToken from '../../utils/decodeToken';
 import { USER_END_POINT } from '../../constants/index';
 import { post, put } from '../../helpers/api_helper';
 import tost from '../../components/Toast'; // Corrected the import here
+
 
 const Setting = () => {
   const { Content } = Layout;
@@ -118,7 +118,7 @@ const Setting = () => {
 
     return (
         <>
-            <HeadSection title="Settings" />
+            
             <Row gutter={22}>
                 <Col span={6} onClick={isNameVis}>
                     <Card bordered={false} style={{ height: '120px' }}>
