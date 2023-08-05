@@ -11,23 +11,24 @@ const { Sider } = Layout;
 const Leftsidebar = ({ collapsed }) => {
   const router = useRouter();
   const [collapse, setCollapse] = useState(collapsed);
-  const { http, setToken, token } = Axios();
+  const { http, setToken, token, getToken } = Axios();
   const [profile, setProfile] = useState({});
   const [role, setRole] = useState(null);
-  console.log(profile);
 
   useEffect(() => {
-    if (token) {
+    const jwtToken = getToken();
+
+    if (jwtToken) {
       try {
         // Decode the JWT token using the correct decodeToken function
-        const decodedToken = decodeToken(token);
+        const decodedToken = decodeToken(jwtToken);
         setProfile(decodedToken);
         setRole(decodedToken?.role);
       } catch (error) {
         console.error("Error decoding token:", error);
       }
     }
-  }, [token]);
+  }, [getToken]);
 
 
   const menuItems = [
