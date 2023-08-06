@@ -23,10 +23,10 @@ const DefaultLayout = ({children}) => {
        }
       
        <Layout>
-        <Layout className={'site-layout '} style={leftSide} >
+        <Layout className='site-layout' style={leftSide} >
          <Content>
             {children}
-            </Content>
+          </Content>
           </Layout>
        
         

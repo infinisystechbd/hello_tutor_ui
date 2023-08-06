@@ -370,22 +370,30 @@ const TutorRequestFrom = (props) => {
         xxl: 1400,
       }}
     >
-      <Form.Item
-        // className="mt-4"
-        name="newGuardian"
-        label="newGuardian"
-        valuePropName="checked" // This is necessary for using the Switch with Form.Item
-        // initialValue={true}
-        rules={[
-          {
-            required: true,
-          },
-        ]}
 
-        hasFeedback
-      >
-        <Switch onChange={handleNewGuardian} checkedChildren="Yes" unCheckedChildren="No" />
-      </Form.Item>
+      {
+
+        setEditData != null ? "" :
+
+
+          <Form.Item
+            // className="mt-4"
+            name="newGuardian"
+            label="newGuardian"
+            valuePropName="checked" // This is necessary for using the Switch with Form.Item
+            // initialValue={true}
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+
+            hasFeedback
+          >
+            <Switch onChange={handleNewGuardian} checkedChildren="Yes" unCheckedChildren="No" />
+          </Form.Item>
+
+      }
 
 
 
@@ -435,36 +443,13 @@ const TutorRequestFrom = (props) => {
                         <Form.Item
                           name="fullName"
                           label="FullName"
-                          rules={[
-                            {
-                              required: true,
-                              message: 'Full name is required',
-                            },
-                            {
-                              pattern: /^[A-Za-z\s]+$/,
-                              message: 'Full name should only contain letters and spaces',
-                            },
-                            {
-                              max: 50,
-                              message: 'Full name should not exceed 50 characters',
-                            },
-                          ]}
-                          hasFeedback
                         >
                           <Input />
                         </Form.Item>
                       )
                     }
 
-
-
-
-
-
-
-
-
-
+ 
                     <Form.Item
                       name="phone"
                       label="Phone"
@@ -721,22 +706,14 @@ const TutorRequestFrom = (props) => {
 
 
 
-                    <Form.Item
-                      name="teacherGender"
-                      label="Tutor Gender  "
-                    // rules={[
-                    //   {
-                    //     required: true,
-                    //     message: 'Please select a gender',
-                    //   },
-                    // ]}
-                    >
-                      <Radio.Group>
+                    <Form.Item name="teacherGender" label="Tutor Gender">
+                      <Radio.Group defaultValue="Any">
                         <Radio value="Male">Male</Radio>
                         <Radio value="Female">Female</Radio>
                         <Radio value="Any">Any</Radio>
                       </Radio.Group>
                     </Form.Item>
+
 
 
 
@@ -856,18 +833,8 @@ const TutorRequestFrom = (props) => {
 
 
 
-                    <Form.Item
-                      name="status"
-                      label="Status"
-                    // rules={[
-                    //   {
-                    //     required: true,
-                    //   },
-                    // ]}
-                    // hasFeedback
-                    // initialValue={true}
-                    >
-                      <Select placeholder="Select a option" allowClear>
+                    <Form.Item name="status" label="Status">
+                      <Select placeholder="Select an option" allowClear defaultValue={true}>
                         <Option value={true}>Active</Option>
                         <Option value={false}>Inactive</Option>
                       </Select>

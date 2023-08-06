@@ -34,7 +34,7 @@ const Setting = () => {
 //   const [form] = Form.useForm();
   const { http, setToken, token } = Axios();
   const [profile, setProfile] = useState({});
-
+console.log(profile);
 
 
 
@@ -77,22 +77,17 @@ const Setting = () => {
 
 
     const handleFormSubmit = (values) => {
-        // if (nameVis) {
+        if (nameVis) {
         setProfile((prevProfile) => ({ ...prevProfile, fullName: values.fullName }));
-        // } else if (numberVis) {
+        } else if (numberVis) {
         setProfile((prevProfile) => ({ ...prevProfile, phone: values.number }));
-        // }
+        }
 
-        FormSubmit();
+       
 
 
     };
 
-
-    const FormSubmit = async () => {
-
-
-    }
 
     const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 

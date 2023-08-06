@@ -1,4 +1,4 @@
-import { ContainerOutlined, DashboardOutlined, SettingOutlined,GlobalOutlined, UserOutlined,MenuOutlined,AuditOutlined } from '@ant-design/icons';
+import { ContainerOutlined, DashboardOutlined, SettingOutlined,GlobalOutlined, UserOutlined,MenuOutlined,AuditOutlined,UserAddOutlined, UsergroupAddOutlined} from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -22,7 +22,7 @@ const Leftsidebar = ({ collapsed }) => {
     {
       key: 'dashboard',
       // icon: <DashboardOutlined />,
-      icon: <GlobalOutlined />,
+      icon: <DashboardOutlined />,
       label: 'Dashboard',
       path: '/dashboard/dashboard'
     },
@@ -50,7 +50,8 @@ const Leftsidebar = ({ collapsed }) => {
     },
     {
       key: 'user_manage',
-      icon: <UserOutlined />,
+      
+      icon: <UsergroupAddOutlined />,
       label: 'User Manager',
       children: [
         { key: 'users', label: 'User', path: '/users' },
@@ -140,3 +141,21 @@ const Leftsidebar = ({ collapsed }) => {
 };
 
 export default Leftsidebar;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
