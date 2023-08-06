@@ -23,6 +23,7 @@ const DefaultLayout = ({children}) => {
        <Navbar collapsed={collapsed} toggleCollapsed={toggleCollapsed} colorBgContainer={colorBgContainer}/>
        <Layout>
         <Layout className={'site-layout '} style={leftSide} >
+        {/* <Layout className={'site-layout '}  > */}
          
             {children}
          
