@@ -30,7 +30,7 @@ const Profile = () => {
                             <Col span={24} >
                                 <div data-spy="affix" data-offset-top={290}>
                                     <Menu  mode="vertical" style={{ width: '350px' }}>
-                                        <Menu.Item style={{ height: '150px', background: '#075982', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                                        <Menu.Item style={{ height: '150px', background: '#adadade6', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                                             <Link to="/customer/profile">
                                                 <div className="rounded-circle" style={{ width: '70px', height: '70px', marginBottom: '10px' }}>
                                                     <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&s=80" alt="Profile Avatar" className="profile-avatar" style={{ objectFit: 'cover', width: '100%', height: '100%', borderRadius: '50%' }} />
