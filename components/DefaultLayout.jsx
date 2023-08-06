@@ -17,15 +17,16 @@ const DefaultLayout = ({children}) => {
   return (
     <Layout style={{ minHeight: '100vh' }}>
        {/* <Leftsidebar collapsed={collapsed}/> */}
+       <Navbar collapsed={collapsed} toggleCollapsed={toggleCollapsed} colorBgContainer={colorBgContainer}/>
        {token !== null && 
         <Leftsidebar collapsed={collapsed} />
        }
-       <Navbar collapsed={collapsed} toggleCollapsed={toggleCollapsed} colorBgContainer={colorBgContainer}/>
+      
        <Layout>
         <Layout className={'site-layout '} style={leftSide} >
-         
+         <Content>
             {children}
-         
+            </Content>
           </Layout>
        
         
