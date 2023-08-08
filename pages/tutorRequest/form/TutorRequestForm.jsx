@@ -15,7 +15,7 @@ import decodeToken from "../../../utils/decodeToken";
 const jwt = require('jsonwebtoken');
 const TutorRequest = () => {
 
-  const { http, setToken, token } = Axios();
+  const { http} = Axios();
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
@@ -40,20 +40,34 @@ const TutorRequest = () => {
     setNumOfStudent(value);
   }
 
-    useEffect(() => {
-        // Sample JWT token. Replace this with your actual token.
-        const jwtToken = token;
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        // Fetch the token from your Axios instance
+        const { token } = Axios();
 
-        // Decode the JWT token
-        const decodedToken = decodeToken(jwtToken);
-        setProfile(decodedToken);
-    }, [token]);
+        if (token) {
+          // Decode the JWT token
+          const decodedToken = decodeToken(token);
+
+          if (decodedToken) {
+            setProfile(decodedToken);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching and decoding token:', error);
+      }
+    };
+
+    fetchProfile();
+  }, []);
 
 
- // Replace with your actual JWT token
 
-  // const decodedToken = decodeToken(token);
-  // const userId = decodedToken?.userId;
+
+
+
+
 
   const { Content } = Layout;
   const layout = {
