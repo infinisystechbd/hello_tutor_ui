@@ -9,32 +9,32 @@ import { post, put } from '../../helpers/api_helper';
 import tost from '../../components/Toast'; // Corrected the import here
 
 const Setting = () => {
-  const { Content } = Layout;
-  const iconStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#f0f0f0',
-    height: '80px',
-    width: '80px',
-    borderRadius: '50%',
-  };
-  const iconSize = {
-    fontSize: '24px',
-  };
-  const textStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  };
+    const { Content } = Layout;
+    const iconStyle = {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#f0f0f0',
+        height: '80px',
+        width: '80px',
+        borderRadius: '50%',
+    };
+    const iconSize = {
+        fontSize: '24px',
+    };
+    const textStyle = {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    };
 
-  const notify = useCallback((type, message) => {
-    tost({ type, message });
-  }, []);
-//   const [form] = Form.useForm();
-  const { http, setToken, token } = Axios();
-  const [profile, setProfile] = useState({});
-console.log(profile);
+    const notify = useCallback((type, message) => {
+        tost({ type, message });
+    }, []);
+    //   const [form] = Form.useForm();
+    const { http, setToken, token } = Axios();
+    const [profile, setProfile] = useState({});
+    console.log(profile);
 
 
 
@@ -78,12 +78,12 @@ console.log(profile);
 
     const handleFormSubmit = (values) => {
         if (nameVis) {
-        setProfile((prevProfile) => ({ ...prevProfile, fullName: values.fullName }));
+            setProfile((prevProfile) => ({ ...prevProfile, fullName: values.fullName }));
         } else if (numberVis) {
-        setProfile((prevProfile) => ({ ...prevProfile, phone: values.number }));
+            setProfile((prevProfile) => ({ ...prevProfile, phone: values.number }));
         }
 
-       
+
 
 
     };
@@ -114,20 +114,27 @@ console.log(profile);
     return (
         <>
             <HeadSection title="Settings" />
-            <Row gutter={22}>
-                <Col span={6} onClick={isNameVis}>
-                    <Card bordered={false} style={{ height: '120px' }}>
-                        <Row >
-                            <Col span={8} style={iconStyle}>
-                                <UserOutlined style={iconSize} />
-                            </Col>
-                            <Col span={16} style={textStyle}>
-                                Name
-                            </Col>
-                        </Row>
-                    </Card>
-                </Col>
-                <Col span={6} onClick={isNumberVis}>
+
+            <Content
+                style={{
+                    margin: ' 40px',
+                }}
+            >
+
+                <Row gutter={22}>
+                    <Col span={6} onClick={isNameVis}>
+                        <Card bordered={false} style={{ height: '120px' }}>
+                            <Row >
+                                <Col span={8} style={iconStyle}>
+                                    <UserOutlined style={iconSize} />
+                                </Col>
+                                <Col span={16} style={textStyle}>
+                                    Name
+                                </Col>
+                            </Row>
+                        </Card>
+                    </Col>
+                    {/* <Col span={6} onClick={isNumberVis}>
                     <Card bordered={false} style={{ height: '120px' }}>
                         <Row >
                             <Col span={8} style={iconStyle}>
@@ -139,42 +146,47 @@ console.log(profile);
                             </Col>
                         </Row>
                     </Card>
-                </Col>
+                </Col> */}
 
-                <Col span={6} onClick={isPasswordVis}>
-                    <Card bordered={false} style={{ height: '120px' }}>
-                        <Row >
-                            <Col span={8} style={iconStyle}>
-                                <LockOutlined style={iconSize} />
+                    <Col span={6} onClick={isPasswordVis}>
+                        <Card bordered={false} style={{ height: '120px' }}>
+                            <Row  >
+                                <Col span={8} style={iconStyle}>
+                                    <LockOutlined style={iconSize} />
 
-                            </Col>
-                            <Col span={16} style={textStyle}>
-                                Password
-                            </Col>
-                        </Row>
-                    </Card>
-                </Col>
-            </Row>
+                                </Col>
+                                <Col span={16} style={textStyle}>
+                                    Password
+                                </Col>
+                            </Row>
+                        </Card>
+                    </Col>
+                </Row>
 
 
+                <Row gutter={22}>
+                    <Col span={18}>
+                        <Form onFinish={handleFormSubmit}>
+                            {nameVis && (
 
-            <Form onFinish={handleFormSubmit}>
-                {nameVis && (
-                    <Card title="Name" bordered={false} style={{ margin: '60px 0px' }}>
-                        <Row gutter={22}>
-                            <Col span={18}>
-                                <Form.Item name="fullName" label="Name" initialValue={profile.fullName}>
-                                    <Input />
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                        <Button type="primary" htmlType="submit">
-                            Update Name
-                        </Button>
-                    </Card>
-                )}
+                                <Card title="Name" bordered={false} style={{ margin: '60px 0px' }}>
 
-                {numberVis && (
+                                    <Row gutter={22}>
+                                        <Col span={18}>
+                                            <Form.Item name="fullName" label="Name" initialValue={profile.fullName}>
+                                                <Input />
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+                                    <Button type="primary" htmlType="submit">
+                                        Update Name
+                                    </Button>
+
+                                </Card>
+
+                            )}
+
+                            {/* {numberVis && (
                     <Card title="Number" bordered={false} style={{ margin: '60px 0px' }}>
                         <Row gutter={22}>
                             <Col span={18}>
@@ -187,84 +199,85 @@ console.log(profile);
                             Update Number
                         </Button>
                     </Card>
-                )}
-            </Form>
+                )} */}
+                        </Form>
+                    </Col>
+
+                </Row>
 
 
+                {passwordVis &&
+                    <Content
 
-            {passwordVis &&
-                <Content
-                    style={{
-                        margin: '60px 0px',
-                    }}
-                >
+                    >
 
-                    <Row gutter={22}>
-                        <Col span={18}>
-                            <Card title="Password" bordered={false}>
-                                <Form
-                                    onFinish={(values) => handlePasswordUpdate(values)}
-                                    initialValues={{
-                                        oldPassword: "",
-                                        newPassword: "",
-                                        confirmPassword: ""
-                                    }}
-                                >
-                                    <Form.Item
-                                        name="oldPassword"
-                                        label="Current Password"
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Please enter your current password!',
-                                            },
-                                        ]}
+                        <Row gutter={22}>
+                            <Col span={18}>
+                                <Card title="Password" bordered={false}>
+                                    <Form
+                                        onFinish={(values) => handlePasswordUpdate(values)}
+                                        initialValues={{
+                                            oldPassword: "",
+                                            newPassword: "",
+                                            confirmPassword: ""
+                                        }}
                                     >
-                                        <Input type="password" />
-                                    </Form.Item>
-                                    <Form.Item
-                                        name="newPassword"
-                                        label="New Password"
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Please enter your new password!',
-                                            },
-                                        ]}
-                                    >
-                                        <Input type="password" />
-                                    </Form.Item>
-                                    <Form.Item
-                                        name="confirmPassword"
-                                        label="Confirm Password"
-                                        dependencies={['newPassword']}
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Please confirm your new password!',
-                                            },
-                                            ({ getFieldValue }) => ({
-                                                validator(_, value) {
-                                                    if (!value || getFieldValue('newPassword') === value) {
-                                                        return Promise.resolve();
-                                                    }
-                                                    return Promise.reject(new Error('The passwords do not match!'));
+                                        <Form.Item
+                                            name="oldPassword"
+                                            label="Current Password"
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: 'Please enter your current password!',
                                                 },
-                                            }),
-                                        ]}
-                                    >
-                                        <Input type="password" />
-                                    </Form.Item>
-                                    <Button type="primary" htmlType="submit">
-                                        Update
-                                    </Button>
-                                </Form>
-                            </Card>
-                        </Col>
+                                            ]}
+                                        >
+                                            <Input type="password" />
+                                        </Form.Item>
+                                        <Form.Item
+                                            name="newPassword"
+                                            label="New Password"
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: 'Please enter your new password!',
+                                                },
+                                            ]}
+                                        >
+                                            <Input type="password" />
+                                        </Form.Item>
+                                        <Form.Item
+                                            name="confirmPassword"
+                                            label="Confirm Password"
+                                            dependencies={['newPassword']}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: 'Please confirm your new password!',
+                                                },
+                                                ({ getFieldValue }) => ({
+                                                    validator(_, value) {
+                                                        if (!value || getFieldValue('newPassword') === value) {
+                                                            return Promise.resolve();
+                                                        }
+                                                        return Promise.reject(new Error('The passwords do not match!'));
+                                                    },
+                                                }),
+                                            ]}
+                                        >
+                                            <Input type="password" />
+                                        </Form.Item>
+                                        <Button type="primary" htmlType="submit">
+                                            Update
+                                        </Button>
+                                    </Form>
+                                </Card>
+                            </Col>
 
-                    </Row>
+                        </Row>
 
-                </Content>}
+                    </Content>}
+            </Content>
         </>
     )
 }

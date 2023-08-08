@@ -34,6 +34,25 @@ const LoginPage = () => {
 
 
 
+
+    const handleNewPasswordChange = (e) => {
+        setPassword(e.target.value);
+    };
+
+    const handleConfirmPasswordChange = (e) => {
+        setConfirmPassword(e.target.value);
+    };
+
+    const confirmPasswordValidator = (value) => {
+        if (!value || newPassword === value) {
+            return Promise.resolve();
+        }
+        return Promise.reject(new Error('The passwords do not match!'));
+    };
+
+
+
+
     const submitForm = async (event) => {
         event.preventDefault();
         try {
@@ -110,7 +129,7 @@ const LoginPage = () => {
         setValue(!value); //
     };
 
-    
+
 
 
     const tokenHandeler = async (event) => {
@@ -138,10 +157,10 @@ const LoginPage = () => {
         if (token) {
             router.replace('/');
         }
-    }, [router,token])
+    }, [router, token])
     return (
         <>
-        <HeadSection title="Registration" />
+            <HeadSection title="Registration" />
             <section className="vh-100">
                 <div className="container-fluid h-custom">
                     <div className="row d-flex justify-content-center align-items-center h-100">
@@ -251,32 +270,39 @@ const LoginPage = () => {
                                                                 </div>
 
 
-                                                                <div className="form-outline mb-3">
-                                                                    <input
-                                                                        type="password"
-                                                                        id="form3Example4"
-                                                                        className="form-control form-control-lg"
-                                                                        placeholder="Enter password"
-                                                                        value={password}
-                                                                        onChange={(e) => setPassword(e.target.value)}
-                                                                    />
-                                                                    <label className="form-label" htmlFor="form3Example4">
-                                                                        Password
-                                                                    </label>
-                                                                </div>
+                                                                <div>
+                                                                    <div className="mb-3">
+                                                                        <label htmlFor="newPassword" className="form-label">
+                                                                            New Password
+                                                                        </label>
+                                                                        <input
+                                                                            type="password"
+                                                                            id="newPassword"
+                                                                            className="form-control"
+                                                                            placeholder="Enter new password"
+                                                                            value={password}
+                                                                            onChange={handleNewPasswordChange}
+                                                                        />
+                                                                    </div>
 
-                                                                <div className="form-outline mb-3">
-                                                                    <input
-                                                                        type="password"
-                                                                        id="form3Example5"
-                                                                        className="form-control form-control-lg"
-                                                                        placeholder="Confirm password"
-                                                                        value={confirmPassword}
-                                                                        onChange={(e) => setConfirmPassword(e.target.value)}
-                                                                    />
-                                                                    <label className="form-label" htmlFor="form3Example5">
-                                                                        Confirm Password
-                                                                    </label>
+                                                                    <div className="mb-3">
+                                                                        <label htmlFor="confirmPassword" className="form-label">
+                                                                            Confirm Password
+                                                                        </label>
+                                                                        <input
+                                                                            type="password"
+                                                                            id="confirmPassword"
+                                                                            className="form-control"
+                                                                            placeholder="Confirm new password"
+                                                                            value={confirmPassword}
+                                                                            onChange={handleConfirmPasswordChange}
+                                                                        />
+                                                                        {password && (
+                                                                            <div className="text-danger">
+                                                                                {confirmPassword && password !== confirmPassword && 'The passwords do not match!'}
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
                                                                 </div>
 
                                                                 <div className="text-center text-lg-start mt-4 pt-2">
@@ -384,36 +410,38 @@ const LoginPage = () => {
 
 
                                                                     {/* Password input */}
-                                                                    <div className="row">
-                                                                        <div className="col-md-6">
-                                                                            <div className="form-outline mb-3">
-                                                                                <input
-                                                                                    type="password"
-                                                                                    id="form3Example4"
-                                                                                    className="form-control form-control-lg"
-                                                                                    placeholder="Enter password"
-                                                                                    value={password}
-                                                                                    onChange={e => setPassword(e.target.value)}
-                                                                                />
-                                                                                <label className="form-label" htmlFor="form3Example4">
-                                                                                    Password
-                                                                                </label>
-                                                                            </div>
+                                                                    <div>
+                                                                        <div className="mb-3">
+                                                                            <label htmlFor="newPassword" className="form-label">
+                                                                                New Password
+                                                                            </label>
+                                                                            <input
+                                                                                type="password"
+                                                                                id="newPassword"
+                                                                                className="form-control"
+                                                                                placeholder="Enter new password"
+                                                                                value={password}
+                                                                                onChange={handleNewPasswordChange}
+                                                                            />
                                                                         </div>
-                                                                        <div className="col-md-6">
-                                                                            <div className="form-outline mb-3">
-                                                                                <input
-                                                                                    type="password"
-                                                                                    id="form3Example4"
-                                                                                    className="form-control form-control-lg"
-                                                                                    placeholder="Enter password"
-                                                                                    value={confirmPassword}
-                                                                                    onChange={e => setConfirmPassword(e.target.value)}
-                                                                                />
-                                                                                <label className="form-label" htmlFor="form3Example4">
-                                                                                    Confirm Password
-                                                                                </label>
-                                                                            </div>
+
+                                                                        <div className="mb-3">
+                                                                            <label htmlFor="confirmPassword" className="form-label">
+                                                                                Confirm Password
+                                                                            </label>
+                                                                            <input
+                                                                                type="password"
+                                                                                id="confirmPassword"
+                                                                                className="form-control"
+                                                                                placeholder="Confirm new password"
+                                                                                value={confirmPassword}
+                                                                                onChange={handleConfirmPasswordChange}
+                                                                            />
+                                                                            {password && (
+                                                                                <div className="text-danger">
+                                                                                    {confirmPassword && password !== confirmPassword && 'The passwords do not match!'}
+                                                                                </div>
+                                                                            )}
                                                                         </div>
                                                                     </div>
 
@@ -456,7 +484,7 @@ const LoginPage = () => {
                                             <div className="card-body">
                                                 <div className="row">
                                                     <div className="form-outline mb-4">
-                                                    <Stopwatch />
+                                                        <Stopwatch />
                                                         <input
                                                             type="name"
                                                             id="form3Example3"
