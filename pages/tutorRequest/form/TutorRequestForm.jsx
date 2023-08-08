@@ -30,8 +30,8 @@ const TutorRequest = () => {
   const [city, setCity] = useState([]);
   const [location, setLocation] = useState([]);
   const [tokenValue, setTokenValue] = useState({});
-  const [profile, setProfile] = useState({});
-  console.log(profile);
+  // const [profile, setProfile] = useState({});
+  // console.log(profile);
   // const userId = tokenValue?.userId;
   
   const { token: { colorBgContainer } } = theme.useToken();
@@ -40,27 +40,27 @@ const TutorRequest = () => {
     setNumOfStudent(value);
   }
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        // Fetch the token from your Axios instance
-        const { token } = Axios();
+  // useEffect(() => {
+  //   const fetchProfile = async () => {
+  //     try {
+  //       // Fetch the token from your Axios instance
+  //       const { token } = Axios();
 
-        if (token) {
-          // Decode the JWT token
-          const decodedToken = decodeToken(token);
+  //       if (token) {
+  //         // Decode the JWT token
+  //         const decodedToken = decodeToken(token);
 
-          if (decodedToken) {
-            setProfile(decodedToken);
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching and decoding token:', error);
-      }
-    };
+  //         if (decodedToken) {
+  //           setProfile(decodedToken);
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching and decoding token:', error);
+  //     }
+  //   };
 
-    fetchProfile();
-  }, []);
+  //   fetchProfile();
+  // }, []);
 
 
 
@@ -220,7 +220,7 @@ const TutorRequest = () => {
       classId: classId,
     }));
     values.class = classes;
-    let body = { ...values, isApproval: false };
+    let body = { ...values,  isApproval: false };
     const response = await post(JOB_REQUEST_END_POINT.create(), body);
     if (response.status === 'SUCCESS') {
       notify('success', response.message);
