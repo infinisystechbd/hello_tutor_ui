@@ -1,4 +1,4 @@
-import { Button, Form, Input, Modal, Select, InputNumber } from 'antd';
+import { Button, Form, Input, Modal, Select, InputNumber, AutoComplete } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import ToastMessage from '../../../components/Toast';
 import {
@@ -21,7 +21,7 @@ function ClassForm(props) {
   const [search, setSearch] = useState('');
   const [subject, setSubject] = useState([]);
   const [status, setStatus] = useState(true);
-
+  console.log(subject);
   if (setEditData == null) {
     form.resetFields();
   } else {
@@ -42,7 +42,7 @@ function ClassForm(props) {
     refetch: fetchSubjectList,
   } = useGetAllData(
     QUERY_KEYS.GET_ALL_SUBJECT_LIST,
-    SUBJECT_END_POINT.get(1, -1, '',status)
+    SUBJECT_END_POINT.get(1, -1, '', status)
   );
 
   /**subject dropdown */
@@ -194,6 +194,29 @@ function ClassForm(props) {
             options={subject}
           />
         </Form.Item>
+
+
+        {/* <Form.Item
+        name="subject"
+        label="Select Subject"
+        rules={[
+          {
+            required: true,
+            message: 'Please select subject!',
+            type: 'array',
+          },
+        ]}
+        hasFeedback
+      >
+        <AutoComplete
+          mode="multiple"
+          placeholder="Please select subject"
+          options={subject.map(option => ({ value: option.value, label: option.label }))} // Mapping options for AutoComplete
+        />
+      </Form.Item> */}
+
+
+
 
         <Form.Item
           name="status"

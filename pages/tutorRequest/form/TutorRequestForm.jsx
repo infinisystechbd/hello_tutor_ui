@@ -11,6 +11,7 @@ import ToastMessage from '../../../components/Toast';
 import Axios from "../../../utils/axios";
 import decodeToken from "../../../utils/decodeToken";
 
+
 const jwt = require('jsonwebtoken');
 const TutorRequest = () => {
 
@@ -29,6 +30,8 @@ const TutorRequest = () => {
   const [city, setCity] = useState([]);
   const [location, setLocation] = useState([]);
   const [tokenValue, setTokenValue] = useState({});
+  const [profile, setProfile] = useState({});
+  console.log(profile);
   // const userId = tokenValue?.userId;
   
   const { token: { colorBgContainer } } = theme.useToken();
@@ -37,24 +40,20 @@ const TutorRequest = () => {
     setNumOfStudent(value);
   }
 
-  // useEffect(() => {
-  //   if (token) {
-  //     try {
-  //       const decodedToken = jwt.decode(token);
-  //       setTokenValue(decodedToken);
-  //     } catch (error) {
-  //       console.error('Failed to decode token:', error.message);
-  //     }
-  //   } else {
-  //     console.error('Token not found.');
-  //   }
-  // }, [token])
+    useEffect(() => {
+        // Sample JWT token. Replace this with your actual token.
+        const jwtToken = token;
+
+        // Decode the JWT token
+        const decodedToken = decodeToken(jwtToken);
+        setProfile(decodedToken);
+    }, [token]);
 
 
  // Replace with your actual JWT token
 
-  const decodedToken = decodeToken(token);
-  const userId = decodedToken?.userId;
+  // const decodedToken = decodeToken(token);
+  // const userId = decodedToken?.userId;
 
   const { Content } = Layout;
   const layout = {
@@ -207,7 +206,7 @@ const TutorRequest = () => {
       classId: classId,
     }));
     values.class = classes;
-    let body = { ...values, guardian: userId, isApproval: false };
+    let body = { ...values, guardian: profile?._id, isApproval: false };
     const response = await post(JOB_REQUEST_END_POINT.create(), body);
     if (response.status === 'SUCCESS') {
       notify('success', response.message);
@@ -250,7 +249,7 @@ const TutorRequest = () => {
                       <div className="card-body">
                         <h4 className="card-title border-bottom">
                           {" "}
-                          Guardian Information
+                          Guardian Information (try to fix)
                         </h4>
 
 
