@@ -220,7 +220,7 @@ const TutorRequest = () => {
       classId: classId,
     }));
     values.class = classes;
-    let body = { ...values, guardian: profile?._id, isApproval: false };
+    let body = { ...values, isApproval: false };
     const response = await post(JOB_REQUEST_END_POINT.create(), body);
     if (response.status === 'SUCCESS') {
       notify('success', response.message);
