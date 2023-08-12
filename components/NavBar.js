@@ -49,11 +49,11 @@ const Navbar = () => {
         padding: 0,
         background: colorBgContainer,
         marginLeft: token !== null ? '200px' : '0px', 
-        /* width: token === null ? '100%': '' */ 
       }}
+      className='navbar'
     >
       {/* Set the mode based on isMobileView state */}
-      <Menu mode={isMobileView ? 'inline' : 'horizontal'} theme="light" selectedKeys={[router.pathname]} >
+      <Menu mode={isMobileView ? 'horizontal' : 'horizontal'} theme="light" selectedKeys={[router.pathname]} >
         {token !== null && (
           <Menu.Item key="toggle">
             <Button
