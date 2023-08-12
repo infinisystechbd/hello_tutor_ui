@@ -191,11 +191,13 @@ const TutorRequestFrom = (props) => {
 
   const [classess, setClassess] = useState([]);
   const [code, setCode] = useState("");
+  console.log(code);
   const handleCategory = async (value) => {
 
 
     setIsVisited(true);
     const fetchCategory = await get(CATEGORIE_END_POINT.info(value));
+    console.log("fetchCategory", fetchCategory);
     setCode(fetchCategory?.data?.code)
     const classInfo = fetchCategory?.data?.class.map((item) => ({
       _id: item?.classId?._id,
@@ -280,6 +282,7 @@ const TutorRequestFrom = (props) => {
       daysPerWeek: setEditData.daysPerWeek,
       // tutoringTime:setEditData?.tutoringTime,
       preferenceInstitute: setEditData.preferenceInstitute,
+      salaryType: setEditData.salaryType,
       salary: setEditData.salary,
       requirement: setEditData.requirement,
       phone: setEditData.phone,
@@ -449,7 +452,7 @@ const TutorRequestFrom = (props) => {
                       )
                     }
 
- 
+
                     <Form.Item
                       name="phone"
                       label="Phone"
@@ -518,13 +521,6 @@ const TutorRequestFrom = (props) => {
                       <Form.Item
                         name="curriculum"
                         label="Curriculum"
-                      // rules={[
-                      //   {
-                      //     required: true,
-                      //   },
-                      // ]}
-                      // hasFeedback
-                      // initialValue={true}
                       >
                         <Select placeholder="Select an option" allowClear>
                           <Option value="Ed-Excel">Ed-Excel</Option>
@@ -664,6 +660,7 @@ const TutorRequestFrom = (props) => {
                           message: 'Please enter the full permanent address',
                         },
                       ]}
+                      style={{ marginBottom: '115px' }}
                     >
                       <Input.TextArea
                         rows={3}
@@ -690,12 +687,7 @@ const TutorRequestFrom = (props) => {
                     <Form.Item
                       name="studentGender"
                       label="Student Gender"
-                    // rules={[
-                    //   {
-                    //     required: true,
-                    //     message: 'Please select a gender',
-                    //   },
-                    // ]}
+
                     >
                       <Radio.Group>
                         <Radio value="Male">Male</Radio>
@@ -715,34 +707,9 @@ const TutorRequestFrom = (props) => {
                     </Form.Item>
 
 
-
-
-
-
-
-
-
-
-
                     <Form.Item
                       label="Days / Week"
                       name="daysPerWeek"
-                    // rules={[
-                    //   {
-                    //     required: true,
-                    //     message: 'Days per week is required',
-                    //   },
-                    //   {
-                    //     type: 'number',
-                    //     min: 1,
-                    //     message: 'Days per week should be at least 1',
-                    //   },
-                    //   {
-                    //     type: 'number',
-                    //     max: 7,
-                    //     message: 'Days per week cannot exceed 7',
-                    //   },
-                    // ]}
                     >
                       <Select placeholder="Select an option" allowClear>
                         <Option value={1}>1 Day Per Week</Option>
@@ -766,19 +733,37 @@ const TutorRequestFrom = (props) => {
                       />
                     </Form.Item>
 
+
+                    <Form.Item
+                      label="Salary Type"
+                      name="salaryType"
+                    >
+                      <Select placeholder="Select an option" allowClear>
+                        <Option value="Fixed">Fixed</Option>
+                        <Option value="Range">Range</Option>
+                        <Option value="Negotiable">Negotiable</Option>
+
+
+                      </Select>
+                    </Form.Item>
+
+
+
                     <Form.Item
                       label="Salary (BDT)"
                       name="salary"
-                      rules={[
-                        { required: true, message: 'Please enter the expected salary per month' },
-                        { type: 'number', min: 3000, max: 200000, message: 'Salary must be between 3000 and 200000' },
-                        { type: 'number', message: 'Salary cannot be negative', transform: value => (value ? Math.abs(value) : value) },
-                      ]}
+                    // rules={[
+                    //   { required: true, message: 'Please enter the expected salary per month' },
+                    //   { type: 'number', min: 3000, max: 200000, message: 'Salary must be between 3000 and 200000' },
+                    //   { type: 'number', message: 'Salary cannot be negative', transform: value => (value ? Math.abs(value) : value) },
+                    // ]}
                     >
-                      <InputNumber
+                      {/* <InputNumber
                         placeholder="Enter expected salary per month"
                         style={{ width: '100%' }}
-                      />
+                      /> */}
+
+                      <Input />
                     </Form.Item>
 
                     <Form.Item
