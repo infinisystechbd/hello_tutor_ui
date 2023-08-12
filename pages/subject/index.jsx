@@ -1,20 +1,20 @@
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, EyeOutlined } from '@ant-design/icons';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Breadcrumb, Button, Layout, Modal, Row, Tag, theme, Table, Input } from 'antd';
+import { Breadcrumb, Button, Layout, Modal, Row, Tag, theme } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import HeadSection from '../../components/HeadSection';
 import ToastMessage from '../../components/Toast';
 import DebouncedSearchInput from '../../components/elements/DebouncedSearchInput';
+import withAuth from '../../components/withAuth';
 import { SUBJECT_END_POINT } from '../../constants/index';
 import { QUERY_KEYS } from '../../constants/queryKeys';
 import { del } from '../../helpers/api_helper';
+import Axios from '../../utils/axios';
 import { useGetAllData } from '../../utils/hooks/useGetAllData';
 import SubjectForm from './form/SubjectForm';
 import SubjectView from './view/SubjectView';
-import Axios from '../../utils/axios';
-import withAuth from '../../components/withAuth';
 
 const AllSubject = () => {
   const {
@@ -121,42 +121,42 @@ const AllSubject = () => {
     setPage(page);
     setLimit(newLimit);
   };
-  // const columns = [
-  //   {
-  //     name: <span className="fw-bold">SL</span>,
-  //     selector: (row, index) => index + 1,
-  //     sortable: true,
-  //     width: '70px',
-  //     fixed: 'left',
-  //   },
-  //   {
-  //     name: 'Subject Code',
-  //     selector: (row) => row.subjectId,
-  //     sortable: true,
-  //     fixed: 'left',
-  //   },
-  //   {
-  //     name: 'Name',
-  //     selector: (row) => row.name,
-  //     sortable: true,
-  //   },
-  //   {
-  //     name: 'Status',
-  //     selector: (row) =>
-  //       row.status ? <Tag color='green'>ACTIVE</Tag> : <Tag color='volcano'>INACTIVE</Tag>,
-  //     sortable: true,
-  //   },
-  //   {
-  //     name: 'Action',
-  //     selector: (row) => actionButton(row),
-  //     fixed: 'right',
-  //   width: 100,
-  //   },
-  // ];
+  const columns = [
+    {
+      name: <span className="fw-bold">SL</span>,
+      selector: (row, index) => index + 1,
+      sortable: true,
+      width: '70px',
+      fixed: 'left',
+    },
+    {
+      name: 'Subject Code',
+      selector: (row) => row.subjectId,
+      sortable: true,
+      fixed: 'left',
+    },
+    {
+      name: 'Name',
+      selector: (row) => row.name,
+      sortable: true,
+    },
+    {
+      name: 'Status',
+      selector: (row) =>
+        row.status ? <Tag color='green'>ACTIVE</Tag> : <Tag color='volcano'>INACTIVE</Tag>,
+      sortable: true,
+    },
+    {
+      name: 'Action',
+      selector: (row) => actionButton(row),
+      fixed: 'right',
+    width: 100,
+    },
+  ];
 
 
 
-
+/* 
   const columns = [
     {
       title: <span className="fw-bold">SL</span>,
@@ -186,7 +186,7 @@ const AllSubject = () => {
       width: 100,
       render: (_, row) => actionButton(row),
     },
-  ];
+  ]; */
 
 
 
@@ -320,7 +320,7 @@ const AllSubject = () => {
 
                   <div style={{ overflowX: 'auto' }}>
                     <div style={{ minWidth: '100%' }}>
-                      {/* <DataTable
+                      <DataTable
                       columns={columns}
                       data={subjectList?.data}
                       pagination
@@ -339,9 +339,9 @@ const AllSubject = () => {
                         />
                       }
                       striped
-                    /> */}
+                    />
 
-                      <Table
+                    {/*   <Table
                         columns={columns}
                         dataSource={data}
                         pagination
@@ -351,7 +351,7 @@ const AllSubject = () => {
                         onChangePage={handlePageChange}
                         scroll={{ x: 'max-content' }}
                         noDataComponent={<span>No data available</span>}
-                      />
+                      /> */}
 
                       {/* <>
       <Input.Search

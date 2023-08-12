@@ -1,4 +1,15 @@
 .client-layout {
     height: calc(100vh - 80px);
   }
-  
+
+.side-nav{
+  margin-left: 200px;
+}
+@media (max-width: 767px) {
+  .side-nav {
+    margin-left: 80px;
+  }
+  .navbar {
+    margin-left: 80px !important;
+  }
+}

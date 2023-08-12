@@ -13,7 +13,6 @@ const DefaultLayout = ({children}) => {
     setCollapsed(!collapsed);
   };
   const colorBgContainer = '#F2F5FC';
-  const leftSide = token !== null ? {marginLeft: 200} : {marginLeft: 0, marginTop: 100};
   return (
     <Layout style={{ minHeight: '100vh' }}>
        {/* <Leftsidebar collapsed={collapsed}/> */}
@@ -23,7 +22,7 @@ const DefaultLayout = ({children}) => {
        }
       
        <Layout>
-        <Layout className='site-layout' style={leftSide} >
+        <Layout className='site-layout side-nav' >
          <Content>
             {children}
           </Content>

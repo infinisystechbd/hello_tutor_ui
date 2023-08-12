@@ -1,4 +1,4 @@
-import { Button, DatePicker, Form, Input, InputNumber, Modal, Radio, Select, TimePicker, Switch } from "antd";
+import { Button, DatePicker, Form, Input, InputNumber, Modal, Radio, Select, Switch, TimePicker } from "antd";
 import moment from 'moment';
 import React, { useCallback, useEffect, useState } from 'react';
 import ToastMessage from '../../../components/Toast';
@@ -221,15 +221,19 @@ const TutorRequestFrom = (props) => {
   const handleGuardian = async (value) => {
     setIsVisited(true);
     const fetchGuardian = await get(GUARDIAN_END_POINT.info(value));
-    const city = fetchGuardian?.data?.city;
+    const getGuardian = guardianList?.data?.data.find(t=> t._id === value);
+    console.log(getGuardian)
+    const city = getGuardian?.city;
+    console.log(city)
 
 
     if (city) {
       // Set the guardianCity state with the new data
-      setGuardianCity({
+   await setGuardianCity({
         _id: city._id,
         name: city.name,
       });
+      console.log(guardianCity)
     } else {
       // If city is not available, set guardianCity to null or any default value
       setGuardianCity(null); // Change `null` to any default value you prefer
@@ -629,7 +633,7 @@ const TutorRequestFrom = (props) => {
                         onChange={handleCity}
                         placeholder="Please select City"
                         options={city}
-                        value={guardianCity ? guardianCity._id : undefined}
+                        defaultValue={guardianCity ? guardianCity._id : undefined}
                       />
                     </Form.Item>
 
