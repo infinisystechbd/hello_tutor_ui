@@ -1,7 +1,7 @@
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, EyeOutlined } from '@ant-design/icons';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Breadcrumb, Button, Layout, Modal, Row, Tag, theme } from 'antd';
+import { Breadcrumb, Button, Input, Layout, Modal, Row, Table, Tag, theme } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import HeadSection from '../../components/HeadSection';
@@ -35,7 +35,7 @@ const AllSubject = () => {
   }, [token])
   const [search, setSearch] = useState('');
   const [itemList, setItemList] = useState([]);
-  
+
   const [pending, setPending] = useState(false);
   const handleExitDelete = () => setShowDeleteModal(false);
   //Form validation
@@ -121,77 +121,6 @@ const AllSubject = () => {
     setPage(page);
     setLimit(newLimit);
   };
-  const columns = [
-    {
-      name: <span className="fw-bold">SL</span>,
-      selector: (row, index) => index + 1,
-      sortable: true,
-      width: '70px',
-      fixed: 'left',
-    },
-    {
-      name: 'Subject Code',
-      selector: (row) => row.subjectId,
-      sortable: true,
-      fixed: 'left',
-    },
-    {
-      name: 'Name',
-      selector: (row) => row.name,
-      sortable: true,
-    },
-    {
-      name: 'Status',
-      selector: (row) =>
-        row.status ? <Tag color='green'>ACTIVE</Tag> : <Tag color='volcano'>INACTIVE</Tag>,
-      sortable: true,
-    },
-    {
-      name: 'Action',
-      selector: (row) => actionButton(row),
-      fixed: 'right',
-    width: 100,
-    },
-  ];
-
-
-
-/* 
-  const columns = [
-    {
-      title: <span className="fw-bold">SL</span>,
-      dataIndex: 'index',
-      // width: '70px',
-      fixed: 'left',
-    },
-    {
-      title: 'Subject Code',
-      dataIndex: 'subjectId',
-      fixed: 'left',
-    },
-    {
-      title: 'Name',
-      dataIndex: 'name',
-    },
-    {
-      title: 'Status',
-      dataIndex: 'status',
-      render: (status) =>
-        status ? <Tag color="green">ACTIVE</Tag> : <Tag color="volcano">INACTIVE</Tag>,
-    },
-    {
-      title: 'Action',
-      dataIndex: 'action',
-      fixed: 'right',
-      width: 100,
-      render: (_, row) => actionButton(row),
-    },
-  ]; */
-
-
-
-
-
   // const columns = [
   //   {
   //     name: <span className="fw-bold">SL</span>,
@@ -227,10 +156,82 @@ const AllSubject = () => {
 
 
 
-  const data = subjectList?.data?.map((row, index) => ({
-    ...row,
-    index: index + 1,
-  }));
+  /* 
+    const columns = [
+      {
+        title: <span className="fw-bold">SL</span>,
+        dataIndex: 'index',
+        // width: '70px',
+        fixed: 'left',
+      },
+      {
+        title: 'Subject Code',
+        dataIndex: 'subjectId',
+        fixed: 'left',
+      },
+      {
+        title: 'Name',
+        dataIndex: 'name',
+      },
+      {
+        title: 'Status',
+        dataIndex: 'status',
+        render: (status) =>
+          status ? <Tag color="green">ACTIVE</Tag> : <Tag color="volcano">INACTIVE</Tag>,
+      },
+      {
+        title: 'Action',
+        dataIndex: 'action',
+        fixed: 'right',
+        width: 100,
+        render: (_, row) => actionButton(row),
+      },
+    ]; */
+
+
+    const data = subjectList?.data?.map((row, index) => ({
+      ...row,
+      index: index + 1,
+    }));
+
+
+    const columns = [
+      {
+        title: 'SL',
+        dataIndex: 'index',
+        width: '70px',
+        fixed: 'left',
+      },
+      {
+        title: 'Subject Code',
+        dataIndex: 'subjectId',
+        // fixed: 'left',
+      },
+      {
+        title: 'Name',
+        dataIndex: 'name',
+      },
+      {
+        title: 'Status',
+        dataIndex: 'status',
+        render: (status) => (
+          status ? <Tag color='green'>ACTIVE</Tag> : <Tag color='volcano'>INACTIVE</Tag>
+        ),
+      },
+      {
+        title: 'Action',
+        key: 'action',
+        fixed: 'right',
+        width: 100,
+        render: (row) => actionButton(row), // You need to define actionButton function
+      },
+    ];
+
+
+
+
+
+  console.log("data",data);
 
 
   const actionButton = (row) => {
@@ -260,7 +261,7 @@ const AllSubject = () => {
 
       <Content
         style={{
-          margin: '40px 16px',
+          margin: '20px 16px',
         }}
       >
         <Breadcrumb
@@ -320,30 +321,30 @@ const AllSubject = () => {
 
                   <div style={{ overflowX: 'auto' }}>
                     <div style={{ minWidth: '100%' }}>
-                      <DataTable
-                      columns={columns}
-                      data={subjectList?.data}
-                      pagination
-                      paginationServer
-                      highlightOnHover
-                      subHeader
-                      progressPending={isLoading}
-                      paginationTotalRows={subjectList?.total}
-                      onChangeRowsPerPage={handlePerRowsChange}
-                      onChangePage={handlePageChange}
-                      subHeaderComponent={
-                        <DebouncedSearchInput
-                          allowClear
-                          placeholder="Search subject name"
-                          onChange={setSearch}
-                        />
-                      }
-                      striped
-                    />
-
-                    {/*   <Table
+                      {/* <DataTable
                         columns={columns}
-                        dataSource={data}
+                        data={subjectList?.data}
+                        pagination
+                        paginationServer
+                        highlightOnHover
+                        subHeader
+                        progressPending={isLoading}
+                        paginationTotalRows={subjectList?.total}
+                        onChangeRowsPerPage={handlePerRowsChange}
+                        onChangePage={handlePageChange}
+                        subHeaderComponent={
+                          <DebouncedSearchInput
+                            allowClear
+                            placeholder="Search subject name"
+                            onChange={setSearch}
+                          />
+                        }
+                        striped
+                      /> */}
+
+                        {/* <Table
+                        columns={columns}
+                        dataSource={subjectList?.data}
                         pagination
                         paginationServer
                         highlightOnHover
@@ -353,23 +354,19 @@ const AllSubject = () => {
                         noDataComponent={<span>No data available</span>}
                       /> */}
 
-                      {/* <>
-      <Input.Search
+                      <>
+      {/* <Input.Search
         placeholder="Search subject name"
         allowClear
         onChange={setSearch}
         style={{ marginBottom: '16px' }}
-      />
-      <Table
-        columns={columns}
-        dataSource={data}
-        pagination
-        paginationServer
-        highlightOnHover
-        scroll={{ x: 'max-content' }}
-        noDataComponent={<span>No data available</span>}
-      />
-    </> */}
+      /> */}
+    <Table
+      columns={columns}
+      dataSource={data}
+      scroll={{ x: 'max-content' }}
+    />
+    </>
                     </div>
                   </div>
                 </div>
