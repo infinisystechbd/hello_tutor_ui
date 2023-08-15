@@ -60,6 +60,7 @@ const Navbar = () => {
         background: colorBgContainer,
         marginLeft: token !== null ? '200px' : '0px',
         zIndex: 1000, // Add a high z-index to ensure it's above other content
+        marginBottom: '100px',
       }}
       className='navbar'
     >

@@ -12,7 +12,7 @@ import Axios from "../../../utils/axios";
 import decodeToken from "../../../utils/decodeToken";
 
 const TutorRequest = () => {
-
+  const router = useRouter()
   const { http} = Axios();
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
@@ -32,11 +32,15 @@ const TutorRequest = () => {
   console.log(profile);
   // const userId = tokenValue?.userId;
   const { token } = Axios();
-  // const { token: { colorBgContainer } } = theme.useToken();
+  const  { colorBgContainer }  = theme.useToken();
   const phoneNumberPattern = /^(?:01[3-9])\d{8}$/;
   const handleStudetNumber = async (value) => {
     setNumOfStudent(value);
   }
+
+
+
+
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -56,6 +60,37 @@ const TutorRequest = () => {
 
     fetchProfile();
   }, [token]);
+
+
+
+
+
+
+
+  // const fetchProfile = async () => {
+  //   try {
+  //     if (token) {
+  //       const decodedToken = decodeToken(token);
+  //       if (decodedToken) {
+  //         setProfile(decodedToken);
+  //       } else {
+  //         console.error('Error decoding token:', decodedToken);
+  //         setLoading(false);
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching and decoding token:', error);
+  //     setLoading(false);
+  //   }
+  // };
+
+
+  
+  
+
+  // useEffect(()=>{
+  //   fetchProfile()
+  // },[])
 
 
 
@@ -199,6 +234,39 @@ const TutorRequest = () => {
 
 
 
+    /**fetch class   End */
+
+    const [classess, setClassess] = useState([]);
+    const [code, setCode] = useState("");
+    console.log(code);
+    const handleCategory = async (value) => {
+  
+  
+      setIsVisited(true);
+      const fetchCategory = await get(CATEGORIE_END_POINT.info(value));
+      console.log("fetchCategory", fetchCategory);
+      setCode(fetchCategory?.data?.code)
+      const classInfo = fetchCategory?.data?.class.map((item) => ({
+        _id: item?.classId?._id,
+        name: item?.classId?.name,
+      }));
+  
+  
+      const CATEGORYDROPDOWN = mapArrayToDropdown(
+        classInfo,
+        'name',
+        '_id'
+      );
+  
+  
+      setClassess(CATEGORYDROPDOWN);
+  
+    }
+  
+    /**fetch class list  End */
+
+
+
 
   const handleDateChange = (date, dateString) => {
     const formattedDate = moment(dateString).format('MM/DD/YYYY');
@@ -217,10 +285,11 @@ const TutorRequest = () => {
       classId: classId,
     }));
     values.class = classes;
-    let body = { ...values,  isApproval: false };
+    let body = { ...values,guardian:profile.userId, status:false,isApproval: false };
     const response = await post(JOB_REQUEST_END_POINT.create(), body);
     if (response.status === 'SUCCESS') {
       notify('success', response.message);
+      router.push('/dashboard/dashboard');
 
     } else {
       notify('error', response.errorMessage);
@@ -250,7 +319,7 @@ const TutorRequest = () => {
           style={{
             padding: 15,
             minHeight: 600,
-            // background: colorBgContainer,
+            background: colorBgContainer,
           }}
         >
           <Form
@@ -274,10 +343,27 @@ const TutorRequest = () => {
 
 
 
-
-
+                        <Form.Item
+                          name="tuitionType"
+                          label="Type version"
+                          rules={[
+                            {
+                              required: true,
+                            },
+                          ]}
+                          hasFeedback
+                          initialValue={true}
+                        >
+                          <Select placeholder="Select a option" allowClear>
+                            <Option value={"Home Tutoring"}> Home Tutoring </Option>
+                            <Option value={"Online Tutoring"}>Online Tutoring</Option>
+                            <Option value={"Group Tutoring"}>Group Tutoring</Option>
+                            <Option value={"Package Tutoring"}>Package Tutoring</Option>
+                          </Select>
+                        </Form.Item>
 
                         <Form.Item
+
                           name="category"
                           label="Category"
                           rules={[
@@ -290,10 +376,25 @@ const TutorRequest = () => {
                         >
                           <Select
                             // mode="multiple"
+                            onChange={handleCategory}
                             placeholder="Please select Category"
                             options={category}
                           />
                         </Form.Item>
+
+
+                        {code === 'MT' && (
+                          <Form.Item
+                            name="curriculum"
+                            label="Curriculum"
+                          >
+                            <Select placeholder="Select an option" allowClear>
+                              <Option value="Ed-Excel">Ed-Excel</Option>
+                              <Option value="Cambridge">Cambridge</Option>
+                              <Option value="IB">IB</Option>
+                            </Select>
+                          </Form.Item>
+                        )}
 
 
                         <Form.Item
@@ -304,16 +405,6 @@ const TutorRequest = () => {
                               required: true,
                               message: 'Number of students is required',
                             },
-                            // {
-                            //   type: 'number',
-                            //   min: 1,
-                            //   message: 'Number of students should be at least 1',
-                            // },
-                            // {
-                            //   type: 'number',
-                            //   max: 100,
-                            //   message: 'Number of students cannot exceed 100',
-                            // },
                           ]}
                           hasFeedback
                         >
@@ -375,44 +466,6 @@ const TutorRequest = () => {
 
 
 
-                        <Form.Item
-                          name="tuitionType"
-                          label="Type version"
-                          rules={[
-                            {
-                              required: true,
-                            },
-                          ]}
-                          hasFeedback
-                          initialValue={true}
-                        >
-                          <Select placeholder="Select a option" allowClear>
-                            <Option value={"Home Tutoring"}> Home Tutoring </Option>
-                            <Option value={"Online Tutoring"}>Online Tutoring</Option>
-                            <Option value={"Group Tutoring"}>Group Tutoring</Option>
-                            <Option value={"Package Tutoring"}>Package Tutoring</Option>
-                          </Select>
-                        </Form.Item>
-
-
-
-
-                        <Form.Item
-                          name="studentGender"
-                          label="Gender"
-                        // rules={[
-                        //   {
-                        //     required: true,
-                        //     message: 'Please select a gender',
-                        //   },
-                        // ]}
-                        >
-                          <Radio.Group>
-                            <Radio value="Male">Male</Radio>
-                            <Radio value="Female">Female</Radio>
-                            <Radio value="Any">Any</Radio>
-                          </Radio.Group>
-                        </Form.Item>
 
                         <Form.Item
                           name="city"
@@ -472,20 +525,28 @@ const TutorRequest = () => {
                         </Form.Item>
 
 
+                        <Form.Item
+                          name="studentGender"
+                          label="Student Gender"
 
-                        {/* <Form.Item
-                            name="isApproval"
-                            label="Portal Access"
-                          >
+                        >
+                          <Radio.Group>
+                            <Radio value="Male">Male</Radio>
+                            <Radio value="Female">Female</Radio>
+                            {numOfStudent > 1 && <Radio value="Both">Both</Radio>}
+                          </Radio.Group>
+                        </Form.Item>
+                        <Form.Item
+                          name="teacherGender"
+                          label="Tutor Gender"
 
-
-                            <Radio.Group>
-                              <Radio value={true}>Active</Radio>
-                              <Radio value={false}>Inactive</Radio>
-                            </Radio.Group>
-                          </Form.Item> */}
-
-
+                        >
+                          <Radio.Group>
+                            <Radio value="Male">Male</Radio>
+                            <Radio value="Female">Female</Radio>
+                            <Radio value="Any">Any</Radio>
+                          </Radio.Group>
+                        </Form.Item>
 
 
 
@@ -505,22 +566,8 @@ const TutorRequest = () => {
                           {" "}
                           Tutor Information
                         </h4>
-                        <Form.Item
-                          name="teacherGender"
-                          label="Gender"
-                        // rules={[
-                        //   {
-                        //     required: true,
-                        //     message: 'Please select a gender',
-                        //   },
-                        // ]}
-                        >
-                          <Radio.Group>
-                            <Radio value="Male">Male</Radio>
-                            <Radio value="Female">Female</Radio>
-                            <Radio value="Any">Other</Radio>
-                          </Radio.Group>
-                        </Form.Item>
+
+
 
                         <Form.Item
                           label="Days / Week"
@@ -546,29 +593,32 @@ const TutorRequest = () => {
                         </Form.Item>
 
                         <Form.Item
+                          label="Salary Type"
+                          name="salaryType"
+                        >
+                          <Select placeholder="Select an option" allowClear>
+                            <Option value="Fixed">Fixed</Option>
+                            <Option value="Range">Range</Option>
+                            <Option value="Negotiable">Negotiable</Option>
+
+
+                          </Select>
+                        </Form.Item>
+
+
+
+                        <Form.Item
                           label="Salary (BDT)"
                           name="salary"
-                          rules={[
-                            { required: true, message: 'Please enter the expected salary per month' },
-                            { type: 'number', min: 3000, max: 200000, message: 'Salary must be between 3000 and 200000' },
-                            { type: 'number', message: 'Salary cannot be negative', transform: value => (value ? Math.abs(value) : value) },
-                          ]}
                         >
-                          <InputNumber
-                            placeholder="Enter expected salary per month"
-                            style={{ width: '100%' }}
-                          />
+
+                          <Input />
                         </Form.Item>
 
                         <Form.Item
                           label="Hire Date"
                           name="hireDate"
-                        // rules={[
-                        //   {
-                        //     required: true,
-                        //     message: 'Hire Date is required',
-                        //   },
-                        // ]}
+                          className="responsive-datepicker"
                         >
                           <DatePicker
                             style={{ width: '300px', height: '40px' }}
@@ -580,12 +630,7 @@ const TutorRequest = () => {
                         <Form.Item
                           label="Tutoring Time"
                           name="tutoringTime"
-                        // rules={[
-                        //   {
-                        //     required: true,
-                        //     message: 'Tutoring Time is required',
-                        //   },
-                        // ]}
+                          className="responsive-datepicker"
                         >
                           <TimePicker
                             style={{ width: '300px', height: '40px' }}
@@ -623,34 +668,24 @@ const TutorRequest = () => {
                           <Input />
                         </Form.Item>
 
+                       
 
 
-                        <Form.Item
-                          name="status"
-                          label="Status"
-                        // rules={[
-                        //   {
-                        //     required: true,
-                        //   },
-                        // ]}
-                        // hasFeedback
-                        // initialValue={true}
-                        >
-                          <Select placeholder="Select a option" allowClear>
-                            <Option value={true}>Active</Option>
-                            <Option value={false}>Inactive</Option>
-                          </Select>
-                        </Form.Item>
 
 
                         <Form.Item {...tailLayout}>
-                          <Button
-                            type="primary"
-                            htmlType="submit"
-                            loading={loading}
-                          >
-                            Submit
-                          </Button>
+                          <div className="container mb-5">
+                            <div className="row">
+                              <div className="col-md-12">
+                                <div className="d-flex justify-content-md-end">
+                                  <Button type="primary" htmlType="submit" loading={loading}>
+                                    Submit
+                                  </Button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                         </Form.Item>
 
                       </div>

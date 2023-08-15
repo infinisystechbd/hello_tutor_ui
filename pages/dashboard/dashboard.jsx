@@ -1,7 +1,7 @@
 import { CalendarOutlined, DingtalkOutlined, EnvironmentOutlined, ReadOutlined } from '@ant-design/icons';
 import { faPerson, faPersonDress, faPuzzlePiece } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Card, Col, Row, Typography } from 'antd';
+import { Button, Card, Col, Row, Typography,Layout } from 'antd';
 import { useRouter } from 'next/router';
 import React from 'react';
 import withAuth from '../../components/withAuth';
@@ -12,6 +12,7 @@ import { useGetAllData } from '../../utils/hooks/useGetAllData';
 import HeadSection from '../../components/HeadSection';
 const { Text, Link } = Typography;
 const Dashboard = () => {
+  const { Content } = Layout;
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data: dashboard } = useGetAllData(QUERY_KEYS.GET_ALL_DASHBOARD, DASHBOARD_END_POINT.dashbord(true));
   const { http, setToken, token } = Axios();
@@ -24,6 +25,12 @@ const Dashboard = () => {
   }
   return (
     <>
+      <Content
+        style={{
+          margin: '60px 16px',
+        }}
+      >
+
       <HeadSection title="Dashboard" />
       <div className='container'>
         <Row gutter={[8, 16]} justify="space-between">
@@ -106,7 +113,7 @@ const Dashboard = () => {
           ))}
         </Row>
       </div>
-
+      </Content>
     </>
   );
 };

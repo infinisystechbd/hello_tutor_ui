@@ -1,4 +1,4 @@
-import { Button, DatePicker, Form, Input, InputNumber, Layout, Modal, Radio, Select, Switch, TimePicker,theme } from "antd";
+import { Button, DatePicker, Form, Input, InputNumber, Layout, Modal, Radio, Select, Switch, TimePicker, theme } from "antd";
 import moment from 'moment';
 import React, { useCallback, useEffect, useState } from 'react';
 import ToastMessage from '../../../components/Toast';
@@ -317,7 +317,7 @@ const TutorRequestFrom = () => {
         }}
       >
 
-<div
+        <div
           style={{
             padding: 15,
             minHeight: 500,
@@ -325,486 +325,467 @@ const TutorRequestFrom = () => {
           }}
         >
 
-        {
+          {
 
-          // setEditData != null ? "" :
+            // setEditData != null ? "" :
 
 
-          <Form.Item
-            // className="mt-4"
-            name="newGuardian"
-            label="newGuardian"
-            valuePropName="checked" // This is necessary for using the Switch with Form.Item
-            // initialValue={true}
-            rules={[
-              {
-                required: true,
-              },
-            ]}
+            <Form.Item
+              // className="mt-4"
+              name="newGuardian"
+              label="newGuardian"
+              valuePropName="checked" // This is necessary for using the Switch with Form.Item
+              // initialValue={true}
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
 
-            hasFeedback
+              hasFeedback
+            >
+              <Switch onChange={handleNewGuardian} checkedChildren="Yes" unCheckedChildren="No" />
+            </Form.Item>
+
+          }
+
+
+
+
+          <Form
+            className="mt-3"
+            {...layout}
+            // {...setEditData}
+            form={form}
+            name="control-hooks"
+            onFinish={onFinish}
+          // style={{
+          //   maxWidth: 800,
+          // }}
           >
-            <Switch onChange={handleNewGuardian} checkedChildren="Yes" unCheckedChildren="No" />
-          </Form.Item>
+            <div className="row">
+              <div className="col-12 col-md-6">
+                <div className="row">
+                  <div className="col-12">
+                    <div className="card shadow">
+                      <div className="card-body">
+                        <h4 className="card-title border-bottom">
+                          {" "}
+                          {/* Guardian Information */}
+                        </h4>
 
-        }
-
-
-
-
-        <Form
-          className="mt-3"
-          {...layout}
-          // {...setEditData}
-          form={form}
-          name="control-hooks"
-          onFinish={onFinish}
-        // style={{
-        //   maxWidth: 800,
-        // }}
-        >
-          <div className="row">
-            <div className="col-12 col-md-6">
-              <div className="row">
-                <div className="col-12">
-                  <div className="card shadow">
-                    <div className="card-body">
-                      <h4 className="card-title border-bottom">
-                        {" "}
-                        {/* Guardian Information */}
-                      </h4>
-
-                      {
-                        !newGuardian ? (
-                          <Form.Item
-                            className="mt-4"
-                            name="guardian"
-                            label="Guardian"
-                            rules={[
-                              {
-                                required: true,
-                              },
-                            ]}
-                            hasFeedback
-                          >
-                            <Select
-                              onChange={handleGuardian}
-                              placeholder="Please select Guardian"
-                              options={guardian}
-                            />
-                          </Form.Item>
-                        ) : (
-                          <Form.Item
-                            name="fullName"
-                            label="FullName"
-                          >
-                            <Input />
-                          </Form.Item>
-                        )
-                      }
+                        {
+                          !newGuardian ? (
+                            <Form.Item
+                              className="mt-4"
+                              name="guardian"
+                              label="Guardian"
+                              rules={[
+                                {
+                                  required: true,
+                                },
+                              ]}
+                              hasFeedback
+                            >
+                              <Select
+                                onChange={handleGuardian}
+                                placeholder="Please select Guardian"
+                                options={guardian}
+                              />
+                            </Form.Item>
+                          ) : (
+                            <Form.Item
+                              name="fullName"
+                              label="FullName"
+                            >
+                              <Input />
+                            </Form.Item>
+                          )
+                        }
 
 
-                      <Form.Item
-                        name="phone"
-                        label="Phone"
-                        rules={[
-                          {
-                            required: true,
-                            pattern: phoneNumberPattern,
-                            message: 'Please enter a valid Bangladeshi phone number!',
-                          },
-                        ]}
-                        hasFeedback
-                      >
-                        <Input />
-                      </Form.Item>
-
-
-                      <Form.Item
-                        name="tuitionType"
-                        label="Tuition Type"
-                        rules={[
-                          {
-                            required: true,
-                          },
-                        ]}
-                        hasFeedback
-                        initialValue={true}
-                      >
-                        <Select placeholder="Select a option" allowClear>
-                          <Option value={"Home Tutoring"}> Home Tutoring </Option>
-                          <Option value={"Online Tutoring"}>Online Tutoring</Option>
-                          <Option value={"Group Tutoring"}>Group Tutoring</Option>
-                          <Option value={"Package Tutoring"}>Package Tutoring</Option>
-                        </Select>
-                      </Form.Item>
-
-
-
-
-
-
-
-
-                      <Form.Item
-
-                        name="category"
-                        label="Category"
-                        rules={[
-                          {
-                            required: true,
-                          },
-                        ]}
-
-                        hasFeedback
-                      >
-                        <Select
-                          // mode="multiple"
-                          onChange={handleCategory}
-                          placeholder="Please select Category"
-                          options={category}
-                        />
-                      </Form.Item>
-
-
-
-                      {code === 'MT' && (
                         <Form.Item
-                          name="curriculum"
-                          label="Curriculum"
+                          name="phone"
+                          label="Phone"
+                          rules={[
+                            {
+                              required: true,
+                              pattern: phoneNumberPattern,
+                              message: 'Please enter a valid Bangladeshi phone number!',
+                            },
+                          ]}
+                          hasFeedback
                         >
-                          <Select placeholder="Select an option" allowClear>
-                            <Option value="Ed-Excel">Ed-Excel</Option>
-                            <Option value="Cambridge">Cambridge</Option>
-                            <Option value="IB">IB</Option>
+                          <Input />
+                        </Form.Item>
+
+
+                        <Form.Item
+                          name="tuitionType"
+                          label="Tuition Type"
+                          rules={[
+                            {
+                              required: true,
+                            },
+                          ]}
+                          hasFeedback
+                          initialValue={true}
+                        >
+                          <Select placeholder="Select a option" allowClear>
+                            <Option value={"Home Tutoring"}> Home Tutoring </Option>
+                            <Option value={"Online Tutoring"}>Online Tutoring</Option>
+                            <Option value={"Group Tutoring"}>Group Tutoring</Option>
+                            <Option value={"Package Tutoring"}>Package Tutoring</Option>
                           </Select>
                         </Form.Item>
-                      )}
-
-                      <Form.Item
-                        name="noOfStudent"
-                        label="Number of Students"
-                        className="mt-4"
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Number of students is required',
-                          },
-                          // {
-                          //   type: 'number',
-                          //   min: 1,
-                          //   message: 'Number of students should be at least 1',
-                          // },
-                          // {
-                          //   type: 'number',
-                          //   max: 100,
-                          //   message: 'Number of students cannot exceed 100',
-                          // },
-                        ]}
-                        hasFeedback
-                      >
-                        <InputNumber onChange={handleStudetNumber}
-                          defaultValue={1} // Set the default value to 1
-                          style={{ width: '100%' }} />
-                      </Form.Item>
-
-                      <Form.Item
-                        name="class"
-                        label="Class/Course"
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Please select  class!',
-                            type: 'array',
-
-                          },
-                          {
-
-                            type: 'array',
-                            min: 1,
-                            message: 'Please select  class!',
-
-                          },
-                          {
-
-                            type: 'array',
-                            max: numOfStudent,
-                            message: 'You can not select more then your student',
-                          },
-                        ]}
-                        hasFeedback
-                      >
-                        <Select
-                          mode="multiple"
-                          placeholder="Please select class"
-                          options={classess}
-                        />
-                      </Form.Item>
-
-                      <Form.Item
-                        name="subject"
-                        label="Required Subject"
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Please select subject!',
-                            type: 'array',
-                          },
-                        ]}
-                        hasFeedback
-                      >
-                        <Select
-                          mode="multiple"
-                          placeholder="Please select subject"
-                          options={subject}
-                        />
-                      </Form.Item>
-
-                      <Form.Item
-                        name="city"
-                        label="City"
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Please select City!',
-                          },
-                        ]}
-                        hasFeedback
-                      >
-                        <Select
-                          // mode="multiple"
-                          onChange={handleCity}
-                          placeholder="Please select City"
-                          options={city}
-                          defaultValue={guardianCity ? guardianCity._id : undefined}
-                        />
-                      </Form.Item>
 
 
-                      <Form.Item
-                        name="location"
-                        label="Location"
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Please select Location!',
-
-                          },
-                        ]}
-                        hasFeedback
-
-                      >
-                        <Select
-                          // mode="multiple"
-                          placeholder="Please select Location"
-                          options={location}
-                        />
-                      </Form.Item>
 
 
-                      <Form.Item
-                        label="Address"
-                        name="address"
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Please enter the full permanent address',
-                          },
-                        ]}
-                        style={{ marginBottom: '115px' }}
-                      >
-                        <Input.TextArea
-                          rows={3}
-                          placeholder="Enter Full Address"
-                        />
-                      </Form.Item>
 
+
+
+
+                        <Form.Item
+
+                          name="category"
+                          label="Category"
+                          rules={[
+                            {
+                              required: true,
+                            },
+                          ]}
+
+                          hasFeedback
+                        >
+                          <Select
+                            // mode="multiple"
+                            onChange={handleCategory}
+                            placeholder="Please select Category"
+                            options={category}
+                          />
+                        </Form.Item>
+
+
+
+                        {code === 'MT' && (
+                          <Form.Item
+                            name="curriculum"
+                            label="Curriculum"
+                          >
+                            <Select placeholder="Select an option" allowClear>
+                              <Option value="Ed-Excel">Ed-Excel</Option>
+                              <Option value="Cambridge">Cambridge</Option>
+                              <Option value="IB">IB</Option>
+                            </Select>
+                          </Form.Item>
+                        )}
+
+                        <Form.Item
+                          name="noOfStudent"
+                          label="Number of Students"
+                          className="mt-4"
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Number of students is required',
+                            },
+
+                          ]}
+                          hasFeedback
+                        >
+                          <InputNumber onChange={handleStudetNumber}
+                            defaultValue={1} // Set the default value to 1
+                            style={{ width: '100%' }} />
+                        </Form.Item>
+
+                        <Form.Item
+                          name="class"
+                          label="Class/Course"
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Please select  class!',
+                              type: 'array',
+
+                            },
+                            {
+
+                              type: 'array',
+                              min: 1,
+                              message: 'Please select  class!',
+
+                            },
+                            {
+
+                              type: 'array',
+                              max: numOfStudent,
+                              message: 'You can not select more then your student',
+                            },
+                          ]}
+                          hasFeedback
+                        >
+                          <Select
+                            mode="multiple"
+                            placeholder="Please select class"
+                            options={classess}
+                          />
+                        </Form.Item>
+
+                        <Form.Item
+                          name="subject"
+                          label="Required Subject"
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Please select subject!',
+                              type: 'array',
+                            },
+                          ]}
+                          hasFeedback
+                        >
+                          <Select
+                            mode="multiple"
+                            placeholder="Please select subject"
+                            options={subject}
+                          />
+                        </Form.Item>
+
+                        <Form.Item
+                          name="city"
+                          label="City"
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Please select City!',
+                            },
+                          ]}
+                          hasFeedback
+                        >
+                          <Select
+                            // mode="multiple"
+                            onChange={handleCity}
+                            placeholder="Please select City"
+                            options={city}
+                            defaultValue={guardianCity ? guardianCity._id : undefined}
+                          />
+                        </Form.Item>
+
+
+                        <Form.Item
+                          name="location"
+                          label="Location"
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Please select Location!',
+
+                            },
+                          ]}
+                          hasFeedback
+
+                        >
+                          <Select
+                            // mode="multiple"
+                            placeholder="Please select Location"
+                            options={location}
+                          />
+                        </Form.Item>
+
+
+                        <Form.Item
+                          label="Address"
+                          name="address"
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Please enter the full permanent address',
+                            },
+                          ]}
+                          style={{ marginBottom: '115px' }}
+                        >
+                          <Input.TextArea
+                            rows={3}
+                            placeholder="Enter Full Address"
+                          />
+                        </Form.Item>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-12 col-md-6">
+                <div className="row">
+                  <div className="col-12">
+                    <div className="card shadow">
+                      <div className="card-body ">
+                        <h4 className="card-title border-bottom ">
+                          {" "}
+                          {/* Tutor Information */}
+                        </h4>
+
+                        <Form.Item
+                          name="studentGender"
+                          label="Student Gender"
+
+                        >
+                          <Radio.Group>
+                            <Radio value="Male">Male</Radio>
+                            <Radio value="Female">Female</Radio>
+                            {numOfStudent > 1 && <Radio value="Both">Both</Radio>}
+                          </Radio.Group>
+                        </Form.Item>
+
+
+
+                        <Form.Item name="teacherGender" label="Tutor Gender">
+                          <Radio.Group defaultValue="Any">
+                            <Radio value="Male">Male</Radio>
+                            <Radio value="Female">Female</Radio>
+                            <Radio value="Any">Any</Radio>
+                          </Radio.Group>
+                        </Form.Item>
+
+
+                        <Form.Item
+                          label="Days / Week"
+                          name="daysPerWeek"
+                        >
+                          <Select placeholder="Select an option" allowClear>
+                            <Option value={1}>1 Day Per Week</Option>
+                            <Option value={2}>2 Day Per Week</Option>
+                            <Option value={3}>3 Day Per Week</Option>
+                            <Option value={4}>4 Day Per Week</Option>
+                            <Option value={5}>5 Day Per Week</Option>
+                            <Option value={6}>6 Day Per Week</Option>
+                            <Option value={7}>7 Day Per Week</Option>
+
+                          </Select>
+                        </Form.Item>
+
+                        <Form.Item
+                          label="Preference Institute"
+                          name="preferenceInstitute"
+
+                        >
+                          <Input
+                            placeholder="Enter preference institute name"
+                          />
+                        </Form.Item>
+
+
+                        <Form.Item
+                          label="Salary Type"
+                          name="salaryType"
+                        >
+                          <Select placeholder="Select an option" allowClear>
+                            <Option value="Fixed">Fixed</Option>
+                            <Option value="Range">Range</Option>
+                            <Option value="Negotiable">Negotiable</Option>
+
+
+                          </Select>
+                        </Form.Item>
+
+
+
+                        <Form.Item
+                          label="Salary (BDT)"
+                          name="salary"
+                        >
+
+                          <Input />
+                        </Form.Item>
+
+                        <Form.Item
+                          label="Hire Date"
+                          name="hireDate"
+                        >
+                          <DatePicker
+                            // style={{ width: '300px', height: '40px' }}
+                            className="responsive-datepicker"
+                            format="DD/MM/YYYY"
+                            onChange={handleDateChange}
+                          />
+                        </Form.Item>
+
+                        <Form.Item
+                          label="Tutoring Time"
+                          name="tutoringTime"
+                        >
+                          <TimePicker
+                            // style={{ width: '300px', height: '40px' }}
+                            className="responsive-datepicker"
+                            format="h:mm A"
+                          />
+                        </Form.Item>
+
+                        <Form.Item
+                          label="More Requirement"
+                          name="requirement"
+                        // rules={[
+                        //   {
+                        //     required: true,
+                        //     message: 'Requirement is required',
+                        //   },
+                        // ]}
+                        >
+                          <Input.TextArea
+                            rows={2}
+                            placeholder="Enter Full requirement"
+                          />
+                        </Form.Item>
+
+
+
+
+                        <Form.Item name="status" label="Status">
+                          <Select placeholder="Select an option" allowClear defaultValue={true}>
+                            <Option value={true}>Active</Option>
+                            <Option value={false}>Inactive</Option>
+                          </Select>
+                        </Form.Item>
+
+
+
+
+                        <Form.Item
+                          name="isApproval"
+                          label="Approval"
+                          valuePropName="checked" // This is necessary for using the Switch with Form.Item
+                          initialValue={true} // Set the default value to true (Active)
+                        >
+                          <Switch checkedChildren="Active" unCheckedChildren="Inactive" />
+                        </Form.Item>
+
+
+
+                        <Form.Item {...tailLayout}>
+                          <div className="container">
+                            <div className="row">
+                              <div className="col-md-12">
+                                <div className="d-flex justify-content-md-end">
+                                  <Button type="primary" htmlType="submit" loading={loading}>
+                                    Submit
+                                  </Button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        </Form.Item>
+
+
+
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
-            <div className="col-12 col-md-6">
-              <div className="row">
-                <div className="col-12">
-                  <div className="card shadow">
-                    <div className="card-body ">
-                      <h4 className="card-title border-bottom ">
-                        {" "}
-                        {/* Tutor Information */}
-                      </h4>
-
-                      <Form.Item
-                        name="studentGender"
-                        label="Student Gender"
-
-                      >
-                        <Radio.Group>
-                          <Radio value="Male">Male</Radio>
-                          <Radio value="Female">Female</Radio>
-                          {numOfStudent > 1 && <Radio value="Both">Both</Radio>}
-                        </Radio.Group>
-                      </Form.Item>
-
-
-
-                      <Form.Item name="teacherGender" label="Tutor Gender">
-                        <Radio.Group defaultValue="Any">
-                          <Radio value="Male">Male</Radio>
-                          <Radio value="Female">Female</Radio>
-                          <Radio value="Any">Any</Radio>
-                        </Radio.Group>
-                      </Form.Item>
-
-
-                      <Form.Item
-                        label="Days / Week"
-                        name="daysPerWeek"
-                      >
-                        <Select placeholder="Select an option" allowClear>
-                          <Option value={1}>1 Day Per Week</Option>
-                          <Option value={2}>2 Day Per Week</Option>
-                          <Option value={3}>3 Day Per Week</Option>
-                          <Option value={4}>4 Day Per Week</Option>
-                          <Option value={5}>5 Day Per Week</Option>
-                          <Option value={6}>6 Day Per Week</Option>
-                          <Option value={7}>7 Day Per Week</Option>
-
-                        </Select>
-                      </Form.Item>
-
-                      <Form.Item
-                        label="Preference Institute"
-                        name="preferenceInstitute"
-
-                      >
-                        <Input
-                          placeholder="Enter preference institute name"
-                        />
-                      </Form.Item>
-
-
-                      <Form.Item
-                        label="Salary Type"
-                        name="salaryType"
-                      >
-                        <Select placeholder="Select an option" allowClear>
-                          <Option value="Fixed">Fixed</Option>
-                          <Option value="Range">Range</Option>
-                          <Option value="Negotiable">Negotiable</Option>
-
-
-                        </Select>
-                      </Form.Item>
-
-
-
-                      <Form.Item
-                        label="Salary (BDT)"
-                        name="salary"
-                      >
-
-                        <Input />
-                      </Form.Item>
-
-                      <Form.Item
-                        label="Hire Date"
-                        name="hireDate"
-                      >
-                        <DatePicker
-                          // style={{ width: '300px', height: '40px' }}
-                          className="responsive-datepicker"
-                          format="DD/MM/YYYY"
-                          onChange={handleDateChange}
-                        />
-                      </Form.Item>
-
-                      <Form.Item
-                        label="Tutoring Time"
-                        name="tutoringTime"
-                      >
-                        <TimePicker
-                          // style={{ width: '300px', height: '40px' }}
-                          className="responsive-datepicker"
-                          format="h:mm A"
-                        />
-                      </Form.Item>
-
-                      <Form.Item
-                        label="More Requirement"
-                        name="requirement"
-                      // rules={[
-                      //   {
-                      //     required: true,
-                      //     message: 'Requirement is required',
-                      //   },
-                      // ]}
-                      >
-                        <Input.TextArea
-                          rows={2}
-                          placeholder="Enter Full requirement"
-                        />
-                      </Form.Item>
-
-
-
-
-                      <Form.Item name="status" label="Status">
-                        <Select placeholder="Select an option" allowClear defaultValue={true}>
-                          <Option value={true}>Active</Option>
-                          <Option value={false}>Inactive</Option>
-                        </Select>
-                      </Form.Item>
-
-                      {/* <Form.Item
-                      name="isApproval"
-                      label="Approval"
-                    >
-
-
-                      <Radio.Group>
-                        <Radio value={true}>Active</Radio>
-                        <Radio value={false}>Inactive</Radio>
-                      </Radio.Group>
-                    </Form.Item> */}
-
-
-                      <Form.Item
-                        name="isApproval"
-                        label="Approval"
-                        valuePropName="checked" // This is necessary for using the Switch with Form.Item
-                        initialValue={true} // Set the default value to true (Active)
-                      >
-                        <Switch checkedChildren="Active" unCheckedChildren="Inactive" />
-                      </Form.Item>
-
-
-
-                      <Form.Item {...tailLayout}>
-                      <div className="container">
-  <div className="row">
-    <div className="col-md-12">
-      <div className="d-flex justify-content-md-end">
-        <Button type="primary" htmlType="submit" loading={loading}>
-          Submit
-        </Button>
-      </div>
-    </div>
-  </div>
-</div>
-
-                      </Form.Item>
-
-
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Form>
+          </Form>
         </div>
       </Content>
     </>
