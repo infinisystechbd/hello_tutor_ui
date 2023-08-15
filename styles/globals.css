@@ -159,3 +159,36 @@ body {
     color-scheme: dark;
   }
 }
+
+
+
+
+
+
+
+/* job request pages */
+
+/* styles.css */
+.responsive-datepicker {
+  width: 100%;
+  height: 40px;
+}
+
+@media (max-width: 768px) {
+  .responsive-datepicker {
+    height: 30px;
+    font-size: 14px;
+    /* Add any other adjustments you need */
+  }
+}
+
+@media (max-width: 480px) {
+  .responsive-datepicker {
+    height: 25px;
+    font-size: 12px;
+    /* Add any other adjustments you need */
+  }
+}
+
+/* job request pages end */
+

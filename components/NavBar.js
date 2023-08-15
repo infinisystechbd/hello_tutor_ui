@@ -11,7 +11,7 @@ const Navbar = () => {
 
   const colorBgContainer = '#ffffff';
   const router = useRouter();
-  const [collapsed , setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
 
   const onLogout = async () => {
     localStorage.clear();
@@ -39,16 +39,27 @@ const Navbar = () => {
       window.removeEventListener('resize', handleWindowResize); // Remove window resize listener on unmount
     };
   }, []);
-  const toggleCollapsed =() => {
+  const toggleCollapsed = () => {
     setCollapsed(!collapsed)
   }
 
   return (
-<Header
+    <Header
+      // style={{
+      //   padding: 0,
+      //   background: colorBgContainer,
+      //   marginLeft: token !== null ? '200px' : '0px', 
+      // }}
+
+
       style={{
+        position: 'fixed', // Set the position to fixed
+        top: 0, // Stick it to the top
+        width: '100%', // Make it full width
         padding: 0,
         background: colorBgContainer,
-        marginLeft: token !== null ? '200px' : '0px', 
+        marginLeft: token !== null ? '200px' : '0px',
+        zIndex: 1000, // Add a high z-index to ensure it's above other content
       }}
       className='navbar'
     >
