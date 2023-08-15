@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Card, Col, Row, Spin, Typography, Watermark, Layout } from 'antd';
+import { Card, Col, Layout, Menu, Row, Typography } from 'antd';
+import React, { useEffect, useState } from 'react';
 import HeadSection from '../../components/HeadSection';
+import { parseJwt } from '../../helpers/common_Helper';
 import Axios from '../../utils/axios';
-import decodeToken from '../../utils/decodeToken';
-import { Menu } from 'antd';
 const Profile = () => {
 
     const { Text, Link } = Typography;
@@ -14,9 +13,8 @@ const Profile = () => {
 
 
     useEffect(() => {
-        const jwtToken = token;
-        const decodedToken = decodeToken(jwtToken);
-        setProfile(decodedToken);
+       const decode = parseJwt(token);
+       console.log(decode);
     }, [token]);
 
     return (
