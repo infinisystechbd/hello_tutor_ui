@@ -9,6 +9,7 @@ import { mapArrayToDropdown } from '../../../helpers/common_Helper.js';
 import { useGetAllData } from '../../../utils/hooks/useGetAllData.js';
 import ToastMessage from '../../../components/Toast';
 import Axios from "../../../utils/axios";
+import decodeToken from "../../../utils/decodeToken";
 
 const TutorRequest = () => {
 
@@ -27,37 +28,36 @@ const TutorRequest = () => {
   const [city, setCity] = useState([]);
   const [location, setLocation] = useState([]);
   const [tokenValue, setTokenValue] = useState({});
-  // const [profile, setProfile] = useState({});
-  // console.log(profile);
+  const [profile, setProfile] = useState({});
+  console.log(profile);
   // const userId = tokenValue?.userId;
-  
-  const { token: { colorBgContainer } } = theme.useToken();
+  const { token } = Axios();
+  // const { token: { colorBgContainer } } = theme.useToken();
   const phoneNumberPattern = /^(?:01[3-9])\d{8}$/;
   const handleStudetNumber = async (value) => {
     setNumOfStudent(value);
   }
 
-  // useEffect(() => {
-  //   const fetchProfile = async () => {
-  //     try {
-  //       // Fetch the token from your Axios instance
-  //       const { token } = Axios();
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        if (token) {
+          const decodedToken = decodeToken(token);
+          if (decodedToken) {
+            setProfile(decodedToken);
+            setLoading(false);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching and decoding token:', error);
+        setLoading(false);
+      }
+    };
 
-  //       if (token) {
-  //         // Decode the JWT token
-  //         const decodedToken = decodeToken(token);
+    fetchProfile();
+  }, [token]);
 
-  //         if (decodedToken) {
-  //           setProfile(decodedToken);
-  //         }
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching and decoding token:', error);
-  //     }
-  //   };
 
-  //   fetchProfile();
-  // }, []);
 
 
 
@@ -229,6 +229,15 @@ const TutorRequest = () => {
 
   }
 
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (Object.keys(profile).length === 0) {
+    return <div>Error loading profile data.</div>;
+  }
+
   return (
     <>
       <Content
@@ -241,7 +250,7 @@ const TutorRequest = () => {
           style={{
             padding: 15,
             minHeight: 600,
-            background: colorBgContainer,
+            // background: colorBgContainer,
           }}
         >
           <Form
