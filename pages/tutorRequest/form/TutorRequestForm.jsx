@@ -9,10 +9,7 @@ import { mapArrayToDropdown } from '../../../helpers/common_Helper.js';
 import { useGetAllData } from '../../../utils/hooks/useGetAllData.js';
 import ToastMessage from '../../../components/Toast';
 import Axios from "../../../utils/axios";
-import decodeToken from "../../../utils/decodeToken";
 
-
-const jwt = require('jsonwebtoken');
 const TutorRequest = () => {
 
   const { http} = Axios();
