@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Axios from '../utils/axios';
-import decodeToken from '../utils/decodeToken';
 import { parseJwt } from '../helpers/common_Helper';
 
 
@@ -15,7 +14,6 @@ const Leftsidebar = ({ collapsed }) => {
   const [loading, setLoading] = useState(false);
   const { token } = Axios();
   const [profile, setProfile] = useState({});
-
 
   useEffect(() => {
     const decode = parseJwt(token);
