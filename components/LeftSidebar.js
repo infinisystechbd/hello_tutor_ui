@@ -2,57 +2,26 @@ import { ContainerOutlined, DashboardOutlined, SettingOutlined,GlobalOutlined, U
 import { Layout, Menu } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import Axios from '../utils/axios';
-import decodeToken from '../utils/decodeToken';
+import React, { useState } from 'react';
 
 const { Sider } = Layout;
 
 const Leftsidebar = ({ collapsed }) => {
   const router = useRouter();
   const [collapse, setCollapse] = useState(collapsed);
-  const [loading, setLoading] = useState(false);
-  const { token } = Axios();
-  const [profile, setProfile] = useState({});
-  const fetchProfile = async () => {
-    try {
-      if (token) {
-        const decodedToken = decodeToken(token);
-        if (decodedToken) {
-          setProfile(decodedToken);
-        } else {
-          console.error('Error decoding token:', decodedToken);
-          setLoading(false);
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching and decoding token:', error);
-      setLoading(false);
-    }
-  };
-
-
-  
-  
-
-  useEffect(()=>{
-    fetchProfile();
-  },[token])
-
-  console.log("profile",profile);
-
-
 
   const menuItems = [
 
     {
       key: 'profile',
+      // icon: <DashboardOutlined />,
       icon: <GlobalOutlined />,
       label: 'Profile',
       path: '/profile'
     },
     {
       key: 'dashboard',
+      // icon: <DashboardOutlined />,
       icon: <DashboardOutlined />,
       label: 'Dashboard',
       path: '/dashboard/dashboard'
@@ -60,6 +29,7 @@ const Leftsidebar = ({ collapsed }) => {
     {
       key: 'helloTutor',
       icon: <MenuOutlined />,
+      // icon: <SettingOutlined />,
       label: 'Master Data',
       children: [
         { key: 'subject', label: 'Subject', path: '/subject' },
@@ -92,6 +62,7 @@ const Leftsidebar = ({ collapsed }) => {
 
     {
       key: 'tutorRequest',
+      // icon: <DashboardOutlined />,
       icon: <AuditOutlined />,
       label: 'Tutor Request',
       path: '/tutorRequest/form/TutorRequestForm'
@@ -123,15 +94,7 @@ const Leftsidebar = ({ collapsed }) => {
   };
 
   const renderMenuItems = (menuItems) => {
-    const filteredMenuItems = menuItems.filter((item) => {
-      if (item.key === 'user_manage' || item.key === 'tutorRequest' || item.key === 'tutorProfile') {
-        // Hide "User Manager", "Tutor Request", and "Tutor Profile" if profile.role is 1
-        return profile.role !== 1;
-      }
-      return true;
-    });
-
-    return filteredMenuItems.map((item) => {
+    return menuItems.map((item) => {
       if (item.children) {
         return (
           <Menu.SubMenu key={item.key} icon={item.icon} title={item.label}>
