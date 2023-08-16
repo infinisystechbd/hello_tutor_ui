@@ -9,12 +9,12 @@ const Profile = () => {
     const { Content } = Layout;
     const { http, setToken, token } = Axios();
     const [profile, setProfile] = useState({});
-    console.log(profile);
+    console.log("profile",profile);
 
 
     useEffect(() => {
        const decode = parseJwt(token);
-       console.log(decode);
+       setProfile(decode);
     }, [token]);
 
     return (

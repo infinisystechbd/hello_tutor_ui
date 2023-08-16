@@ -5,11 +5,11 @@ import { CATEGORIE_END_POINT, CITY_END_POINT, CLASS_END_POINT, GUARDIAN_END_POIN
 import moment from 'moment';
 import { QUERY_KEYS } from '../../../constants/queryKeys.js';
 import { get, post, put } from '../../../helpers/api_helper';
-import { mapArrayToDropdown } from '../../../helpers/common_Helper.js';
+import { mapArrayToDropdown, parseJwt } from '../../../helpers/common_Helper.js';
 import { useGetAllData } from '../../../utils/hooks/useGetAllData.js';
 import ToastMessage from '../../../components/Toast';
 import Axios from "../../../utils/axios";
-import decodeToken from "../../../utils/decodeToken";
+
 
 const TutorRequest = () => {
   const router = useRouter()
@@ -41,62 +41,10 @@ const TutorRequest = () => {
 
 
 
-
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        if (token) {
-          const decodedToken = decodeToken(token);
-          if (decodedToken) {
-            setProfile(decodedToken);
-            setLoading(false);
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching and decoding token:', error);
-        setLoading(false);
-      }
-    };
-
-    fetchProfile();
-  }, [token]);
-
-
-
-
-
-
-
-  // const fetchProfile = async () => {
-  //   try {
-  //     if (token) {
-  //       const decodedToken = decodeToken(token);
-  //       if (decodedToken) {
-  //         setProfile(decodedToken);
-  //       } else {
-  //         console.error('Error decoding token:', decodedToken);
-  //         setLoading(false);
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching and decoding token:', error);
-  //     setLoading(false);
-  //   }
-  // };
-
-
-  
-  
-
-  // useEffect(()=>{
-  //   fetchProfile()
-  // },[])
-
-
-
-
-
-
+    const decode = parseJwt(token);
+    setProfile(decode);
+ }, [token]);
 
 
 
