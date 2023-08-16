@@ -61,7 +61,7 @@ const Leftsidebar = ({ collapsed }) => {
     },
     {
       key: 'user_manage',
-      
+
       icon: <UsergroupAddOutlined />,
       label: 'User Manager',
       children: [
@@ -104,19 +104,29 @@ const Leftsidebar = ({ collapsed }) => {
   };
 
   const renderMenuItems = (menuItems) => {
-    const filteredMenuItems = menuItems.filter((item) => {
-      if (item.key === 'user_manage' || item.key === 'tutorRequest' || item.key === 'tutorProfile') {
-        // Hide "User Manager", "Tutor Request", and "Tutor Profile" if profile.role is 1
-        return profile.role !== 1;
-      }
-      return true;
-    });
-
+    const allowedKeys = [];
+    
+    if (profile.role === 1) {
+      allowedKeys.push('helloTutor', 'job', 'user_manage');
+    } else if (profile.role === 4) {
+      allowedKeys.push('profile', 'dashboard', 'tutorRequest', 'setting');
+    } else if (profile.role === 5) {
+      allowedKeys.push('profile', 'dashboard', 'tutorProfile', 'tutorProfileTry', 'setting');
+    }
+  
+    const filteredMenuItems = menuItems.filter((item) => allowedKeys.includes(item.key));
+  
     return filteredMenuItems.map((item) => {
       if (item.children) {
         return (
           <Menu.SubMenu key={item.key} icon={item.icon} title={item.label}>
-            {renderMenuItems(item.children)}
+            {item.children.map((child) => (
+              <Menu.Item key={child.key} onClick={() => handleMenuItemClick(child.path)}>
+                <Link href={child.path}>
+                  <a style={{ textDecoration: 'none' }}>{child.label}</a>
+                </Link>
+              </Menu.Item>
+            ))}
           </Menu.SubMenu>
         );
       }
@@ -129,6 +139,7 @@ const Leftsidebar = ({ collapsed }) => {
       );
     });
   };
+  
 
   return (
     <Layout hasSider>

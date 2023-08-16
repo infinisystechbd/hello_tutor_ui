@@ -27,7 +27,7 @@ const Dashboard = () => {
     <>
       <Content
         style={{
-          margin: '60px 16px',
+          margin: '60px 60px',
         }}
       >
 

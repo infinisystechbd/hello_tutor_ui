@@ -117,7 +117,7 @@ const Setting = () => {
 
             <Content
                 style={{
-                    margin: ' 40px',
+                    margin: '40px 40px', 
                 }}
             >
 
@@ -208,7 +208,9 @@ const Setting = () => {
 
                 {passwordVis &&
                     <Content
-
+                    // style={{
+                    //     margin: '40px', 
+                    // }}
                     >
 
                         <Row gutter={22}>

@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { Card } from "antd";
+import { Card, Layout } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
@@ -19,7 +19,7 @@ const LoginPage = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-
+ const { Content } = Layout;
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
@@ -73,6 +73,12 @@ const LoginPage = () => {
   return (
     <>
     <HeadSection title="Login" />
+      <Content
+        style={{
+          margin: '90px 40px',
+        }}
+      >
+
       <section className="vh-100">
         <div className="container-fluid h-custom">
           <div className="row d-flex justify-content-center align-items-center h-80 ">
@@ -180,7 +186,8 @@ const LoginPage = () => {
         </div>
 
       </section>
-
+      
+      </Content>
     </>
   );
 };

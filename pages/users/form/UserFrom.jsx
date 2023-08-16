@@ -171,8 +171,8 @@ function UserForm(props) {
                         {/* <Option value={1}>Super Admin</Option>
                         <Option value={2}>Suport</Option> */}
                         <Option value={3}>Admin</Option>
-                        <Option value={4}>Teacher</Option>
-                        <Option value={5}>Guardian</Option>
+                        <Option value={5}>Teacher</Option>
+                        <Option value={4}>Guardian</Option>
                     </Select>
                 </Form.Item>
 
