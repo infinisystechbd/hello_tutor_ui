@@ -2,26 +2,40 @@ import { ContainerOutlined, DashboardOutlined, SettingOutlined,GlobalOutlined, U
 import { Layout, Menu } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import Axios from '../utils/axios';
+import decodeToken from '../utils/decodeToken';
+import { parseJwt } from '../helpers/common_Helper';
 
-const { Sider } = Layout;
 
 const Leftsidebar = ({ collapsed }) => {
   const router = useRouter();
+  const { Sider } = Layout;
   const [collapse, setCollapse] = useState(collapsed);
+  const [loading, setLoading] = useState(false);
+  const { token } = Axios();
+  const [profile, setProfile] = useState({});
+
+
+  useEffect(() => {
+    const decode = parseJwt(token);
+    setProfile(decode);
+ }, [token]);
+
+  console.log("profile",profile);
+
+
 
   const menuItems = [
 
     {
       key: 'profile',
-      // icon: <DashboardOutlined />,
       icon: <GlobalOutlined />,
       label: 'Profile',
       path: '/profile'
     },
     {
       key: 'dashboard',
-      // icon: <DashboardOutlined />,
       icon: <DashboardOutlined />,
       label: 'Dashboard',
       path: '/dashboard/dashboard'
@@ -29,7 +43,6 @@ const Leftsidebar = ({ collapsed }) => {
     {
       key: 'helloTutor',
       icon: <MenuOutlined />,
-      // icon: <SettingOutlined />,
       label: 'Master Data',
       children: [
         { key: 'subject', label: 'Subject', path: '/subject' },
@@ -62,7 +75,6 @@ const Leftsidebar = ({ collapsed }) => {
 
     {
       key: 'tutorRequest',
-      // icon: <DashboardOutlined />,
       icon: <AuditOutlined />,
       label: 'Tutor Request',
       path: '/tutorRequest/form/TutorRequestForm'
@@ -94,7 +106,15 @@ const Leftsidebar = ({ collapsed }) => {
   };
 
   const renderMenuItems = (menuItems) => {
-    return menuItems.map((item) => {
+    const filteredMenuItems = menuItems.filter((item) => {
+      if (item.key === 'user_manage' || item.key === 'tutorRequest' || item.key === 'tutorProfile') {
+        // Hide "User Manager", "Tutor Request", and "Tutor Profile" if profile.role is 1
+        return profile.role !== 1;
+      }
+      return true;
+    });
+
+    return filteredMenuItems.map((item) => {
       if (item.children) {
         return (
           <Menu.SubMenu key={item.key} icon={item.icon} title={item.label}>
