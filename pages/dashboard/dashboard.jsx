@@ -1,22 +1,101 @@
 import { CalendarOutlined, DingtalkOutlined, EnvironmentOutlined, ReadOutlined } from '@ant-design/icons';
 import { faPerson, faPersonDress, faPuzzlePiece } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Card, Col, Row, Typography,Layout } from 'antd';
+import { Button, Card, Col, Row, Typography,Layout, Spin } from 'antd';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import withAuth from '../../components/withAuth';
 import { DASHBOARD_END_POINT } from '../../constants/index';
 import { QUERY_KEYS } from '../../constants/queryKeys';
 import Axios from '../../utils/axios';
 import { useGetAllData } from '../../utils/hooks/useGetAllData';
 import HeadSection from '../../components/HeadSection';
+import { get } from '../../helpers/api_helper';
 const { Text, Link } = Typography;
 const Dashboard = () => {
   const { Content } = Layout;
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(9);
+  const [loading, setLoading] = useState(true);
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { data: dashboard } = useGetAllData(QUERY_KEYS.GET_ALL_DASHBOARD, DASHBOARD_END_POINT.dashbord(true));
+  const[dashboard,setDashboard] = useState([])
+  // const { data: dashboard } = useGetAllData(QUERY_KEYS.GET_ALL_DASHBOARD, DASHBOARD_END_POINT.dashbord(true,limit,page));
+
+
+
+  const getAllData = async () =>{
+
+    let isSubscribed = true;
+    await get(DASHBOARD_END_POINT.dashbord(true,limit,page))
+      .then((res) => {
+        if (isSubscribed) {
+          // setDashboard(res?.data);
+          setDashboard((prev)=>[...prev,...res?.data]);
+          setLoading(false)
+        }
+      })
+      .catch((err) => {
+        console.log("Server Error ~!")
+      });
+
+    return () => isSubscribed = false;
+  }
+
+
+
+
+  useEffect(() => {
+
+    // (async () => {
+    //   let isSubscribed = true;
+    //   await get(DASHBOARD_END_POINT.dashbord(true,limit,page))
+    //     .then((res) => {
+    //       if (isSubscribed) {
+    //         setDashboard(res?.data);
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       console.log("Server Error ~!")
+    //     });
+
+    //   return () => isSubscribed = false;
+    // })();
+    getAllData()
+
+  }, [page]);
+
+
+
+
+
+
+
   const { http, setToken, token } = Axios();
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+
+
+
+  const handelInfiniteScroll = async () =>{
+    console.log("scrollHeignt" + document.documentElement.scrollHeight);
+    console.log("innerHeight" + window.innerHeight);
+    console.log("scrollTop" +  document.documentElement.scrollTop);
+    try {
+      if (window.innerHeight + document.documentElement.scrollTop  + 1 >= document.documentElement.scrollHeight)  {
+        setLoading(false)
+        setPage((prev)=>prev+1)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+  useEffect(()=>{
+    window.addEventListener("scroll",handelInfiniteScroll);
+    return () => window.removeEventListener("scroll",handelInfiniteScroll);
+  },[])
+  
+
+  console.log("dashboard",dashboard);
   const router = useRouter();
 
   const onDetails = async (value) => {
@@ -34,7 +113,7 @@ const Dashboard = () => {
       <HeadSection title="Dashboard" />
       <div className='container'>
         <Row gutter={[8, 16]} justify="space-between">
-          {dashboard?.data?.map((t, i) => (
+          {dashboard?.map((t, i) => (
             <Col key={i} className="gutter-row" xs={24} sm={24} md={12} lg={8}>
               <Card className='mt-2 custom-card' title={t.title} bordered={false} style={{ height: '300px' }}>
 
@@ -111,6 +190,7 @@ const Dashboard = () => {
               </Card>
             </Col>
           ))}
+          {loading && <Spin/>}
         </Row>
       </div>
       </Content>
