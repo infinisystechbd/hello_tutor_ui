@@ -75,7 +75,7 @@ const LoginPage = () => {
     <HeadSection title="Login" />
       <Content
         style={{
-          margin: '90px 40px',
+          margin: '90px 0px',
         }}
       >
 

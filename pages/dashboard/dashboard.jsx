@@ -43,25 +43,8 @@ const Dashboard = () => {
 
 
 
-
   useEffect(() => {
-
-    // (async () => {
-    //   let isSubscribed = true;
-    //   await get(DASHBOARD_END_POINT.dashbord(true,limit,page))
-    //     .then((res) => {
-    //       if (isSubscribed) {
-    //         setDashboard(res?.data);
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       console.log("Server Error ~!")
-    //     });
-
-    //   return () => isSubscribed = false;
-    // })();
     getAllData()
-
   }, [page]);
 
 
@@ -95,7 +78,6 @@ const Dashboard = () => {
   },[])
   
 
-  console.log("dashboard",dashboard);
   const router = useRouter();
 
   const onDetails = async (value) => {
@@ -106,7 +88,7 @@ const Dashboard = () => {
     <>
       <Content
         style={{
-          margin: '60px 60px',
+          margin: '60px 0px',
         }}
       >
 
@@ -115,7 +97,7 @@ const Dashboard = () => {
         <Row gutter={[8, 16]} justify="space-between">
           {dashboard?.map((t, i) => (
             <Col key={i} className="gutter-row" xs={24} sm={24} md={12} lg={8}>
-              <Card className='mt-2 custom-card' title={t.title} bordered={false} style={{ height: '300px' }}>
+              <Card className='mt-2 custom-card' title={t.title} bordered={false} style={{ height: '325px' }}>
 
 
                 <Row>
@@ -171,7 +153,7 @@ const Dashboard = () => {
                 </Row>
 
 
-                <Row className="mt-2" justify="space-between">
+                <Row className="mt-2 mb-6" justify="space-between">
                   <Col>
                     <FontAwesomeIcon
                       color={t.preferredGender === 'Male' ? 'green' : 'red'}
@@ -186,7 +168,7 @@ const Dashboard = () => {
                   </Col>
                 </Row>
 
-
+                {/* <div style={{ marginBottom: '16px' }}></div> */}
               </Card>
             </Col>
           ))}

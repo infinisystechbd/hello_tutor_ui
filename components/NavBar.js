@@ -53,7 +53,7 @@ const Navbar = () => {
 
 
       style={{
-        position: 'fixed', // Set the position to fixed
+        position: 'fixed', 
         top: 0, // Stick it to the top
         width: '100%', // Make it full width
         padding: 0,
