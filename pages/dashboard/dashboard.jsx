@@ -11,8 +11,8 @@ import Axios from '../../utils/axios';
 import { useGetAllData } from '../../utils/hooks/useGetAllData';
 import HeadSection from '../../components/HeadSection';
 import { get } from '../../helpers/api_helper';
-const { Text, Link } = Typography;
 const Dashboard = () => {
+  const { Text, Link } = Typography;
   const { Content } = Layout;
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(9);

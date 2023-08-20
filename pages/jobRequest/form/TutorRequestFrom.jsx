@@ -1,4 +1,4 @@
-import { Button, DatePicker, Form, Input, InputNumber, Modal, Radio, Select, Switch, TimePicker } from "antd";
+import { Button, DatePicker, Form, Input, InputNumber, Modal, Radio, Select, Switch, TimePicker, Row, Col } from "antd";
 import moment from 'moment';
 import React, { useCallback, useEffect, useState } from 'react';
 import ToastMessage from '../../../components/Toast';
@@ -7,9 +7,11 @@ import { QUERY_KEYS } from '../../../constants/queryKeys.js';
 import { get, post, put } from '../../../helpers/api_helper';
 import { mapArrayToDropdown } from '../../../helpers/common_Helper.js';
 import { useGetAllData } from '../../../utils/hooks/useGetAllData.js';
+
+
 const TutorRequestFrom = (props) => {
   const { isModalOpen, setIsModalOpen, isParentRender, setEditData } = props;
-
+  console.log("setEditData", setEditData?._id);
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
@@ -223,7 +225,7 @@ const TutorRequestFrom = (props) => {
   const handleGuardian = async (value) => {
     setIsVisited(true);
     const fetchGuardian = await get(GUARDIAN_END_POINT.info(value));
-    const getGuardian = guardianList?.data?.data.find(t=> t._id === value);
+    const getGuardian = guardianList?.data?.data.find(t => t._id === value);
     console.log(getGuardian)
     const city = getGuardian?.city;
     console.log(city)
@@ -231,7 +233,7 @@ const TutorRequestFrom = (props) => {
 
     if (city) {
       // Set the guardianCity state with the new data
-   await setGuardianCity({
+      await setGuardianCity({
         _id: city._id,
         name: city.name,
       });
@@ -244,6 +246,15 @@ const TutorRequestFrom = (props) => {
 
 
   // handleGuardian
+
+
+  const [salaryType, setSalaryType] = useState('');
+  const [selectSalary, setSelectSalary] = useState(false)
+  const handleSalaryType = async (value) => {
+    console.log("salaryType", value);
+    setSalaryType(value);
+    setSelectSalary(true);
+  }
 
   const handleStudetNumber = async (value) => {
     setIsVisited(true);
@@ -265,22 +276,31 @@ const TutorRequestFrom = (props) => {
 
 
 
-
+  // class: setEditData?.class?.map((t) => ({ label: t.classId.name, value: t.classId })),
 
 
   /** create from or edit from   */
 
   if (setEditData != null && visited == false) {
     form.setFieldsValue({
-      guardian: setEditData?.guardian?.fullName,
-      category: setEditData?.category?.name,
+      guardian: setEditData?.guardian?._id,
+      category: setEditData?.category?._id,
       noOfStudent: setEditData?.noOfStudent,
       subject: setEditData?.subject?.map((t) => t.subjectId)?.map((t) => t._id),
-      class: setEditData?.class?.map((t) => t.classId)?.map((t) => t?._id),
+      // class: setEditData?.class?.map((t) => t.classId)?.map((t) => t?._id),
+      // class: setEditData?.class?.map((t) => t.classId._id),
+      // class: setEditData?.class?.map((t) => ({ label: t.classId.name, value: t.classId._id })),
+
+
+      // subject: setEditData?.subject?.map((t) => t.subjectId)?.map((t) => t._id),
+      class: setEditData?.class?.map((t) => t.classId)?.map((t) => ({ label: t.name, value: t?._id })),
+
+
+
       // city: setEditData?.city?.map((t) => t.subjectId)?.map((t) => t._id),
       studentGender: setEditData.studentGender,
-      city: guardianCity?.name || setEditData.city?.name,
-      location: setEditData.location?.name,
+      city: guardianCity?.name || setEditData.city?._id,
+      location: setEditData.location?._id,
       address: setEditData.address,
       teacherGender: setEditData.teacherGender,
       daysPerWeek: setEditData.daysPerWeek,
@@ -293,6 +313,8 @@ const TutorRequestFrom = (props) => {
       isApproval: setEditData.isApproval,
       tuitionType: setEditData.tuitionType,
       curriculum: setEditData.curriculum,
+      hireDate: moment(setEditData.hireDate),
+      tutoringTime: moment(setEditData.tutoringTime),
       status: setEditData.status,
     });
   } else if (setEditData == null && visited == false) {
@@ -318,9 +340,15 @@ const TutorRequestFrom = (props) => {
       subjectId: subjectId,
     }));
     values.subject = subjects;
+
     const classes = values.class?.map((classId) => ({
-      classId: classId,
+      classId: setEditData?._id ? classId.value : classId,
     }));
+
+
+
+
+
     values.class = classes;
 
     try {
@@ -492,13 +520,6 @@ const TutorRequestFrom = (props) => {
                       </Select>
                     </Form.Item>
 
-
-
-
-
-
-
-
                     <Form.Item
 
                       name="category"
@@ -543,16 +564,7 @@ const TutorRequestFrom = (props) => {
                           required: true,
                           message: 'Number of students is required',
                         },
-                        // {
-                        //   type: 'number',
-                        //   min: 1,
-                        //   message: 'Number of students should be at least 1',
-                        // },
-                        // {
-                        //   type: 'number',
-                        //   max: 100,
-                        //   message: 'Number of students cannot exceed 100',
-                        // },
+
                       ]}
                       hasFeedback
                     >
@@ -591,6 +603,7 @@ const TutorRequestFrom = (props) => {
                         mode="multiple"
                         placeholder="Please select class"
                         options={classess}
+
                       />
                     </Form.Item>
 
@@ -742,7 +755,9 @@ const TutorRequestFrom = (props) => {
                       label="Salary Type"
                       name="salaryType"
                     >
-                      <Select placeholder="Select an option" allowClear>
+                      <Select placeholder="Select an option"
+                       onChange={handleSalaryType}
+                        allowClear>
                         <Option value="Fixed">Fixed</Option>
                         <Option value="Range">Range</Option>
                         <Option value="Negotiable">Negotiable</Option>
@@ -752,33 +767,64 @@ const TutorRequestFrom = (props) => {
                     </Form.Item>
 
 
+                    {/* <Form.Item
+                            label="Salary (BDT)"
+                            name="salary"
 
-                    <Form.Item
-                      label="Salary (BDT)"
-                      name="salary"
-                    // rules={[
-                    //   { required: true, message: 'Please enter the expected salary per month' },
-                    //   { type: 'number', min: 3000, max: 200000, message: 'Salary must be between 3000 and 200000' },
-                    //   { type: 'number', message: 'Salary cannot be negative', transform: value => (value ? Math.abs(value) : value) },
-                    // ]}
-                    >
-                      {/* <InputNumber
-                        placeholder="Enter expected salary per month"
-                        style={{ width: '100%' }}
-                      /> */}
+                          >
 
-                      <Input />
-                    </Form.Item>
+                            <Input />
+                          </Form.Item> */}
 
+
+
+                    {salaryType &&
+                      <>
+
+                        {salaryType == 'Range' ? (<Row >
+                          <Col span={24} sm={18} md={12}>
+                            <Form.Item
+                              label="From"
+                              name="salary"
+
+
+                            >
+
+                              <Input placeholder="Salary Range Start" />
+                            </Form.Item>
+                          </Col>
+
+                          <Col span={24} sm={18} md={12}>
+                            <Form.Item
+                              label="To"
+                              name="salary"
+
+                            >
+
+                              <Input placeholder="Salary Range End" />
+                            </Form.Item>
+                          </Col>
+
+                        </Row>) : (
+
+                          <Form.Item
+                            label="Salary (BDT)"
+                            name="salary"
+
+                          >
+
+                            <Input />
+                          </Form.Item>
+                        )}
+
+
+
+
+                      </>
+                    }
                     <Form.Item
                       label="Hire Date"
                       name="hireDate"
-                    // rules={[
-                    //   {
-                    //     required: true,
-                    //     message: 'Hire Date is required',
-                    //   },
-                    // ]}
                     >
                       <DatePicker
                         style={{ width: '300px', height: '40px' }}
@@ -790,12 +836,7 @@ const TutorRequestFrom = (props) => {
                     <Form.Item
                       label="Tutoring Time"
                       name="tutoringTime"
-                    // rules={[
-                    //   {
-                    //     required: true,
-                    //     message: 'Tutoring Time is required',
-                    //   },
-                    // ]}
+
                     >
                       <TimePicker
                         style={{ width: '300px', height: '40px' }}
@@ -806,12 +847,7 @@ const TutorRequestFrom = (props) => {
                     <Form.Item
                       label="More Requirement"
                       name="requirement"
-                    // rules={[
-                    //   {
-                    //     required: true,
-                    //     message: 'Requirement is required',
-                    //   },
-                    // ]}
+
                     >
                       <Input.TextArea
                         rows={2}
@@ -829,24 +865,12 @@ const TutorRequestFrom = (props) => {
                       </Select>
                     </Form.Item>
 
-                    {/* <Form.Item
-                      name="isApproval"
-                      label="Approval"
-                    >
-
-
-                      <Radio.Group>
-                        <Radio value={true}>Active</Radio>
-                        <Radio value={false}>Inactive</Radio>
-                      </Radio.Group>
-                    </Form.Item> */}
-
 
                     <Form.Item
                       name="isApproval"
                       label="Approval"
-                      valuePropName="checked" // This is necessary for using the Switch with Form.Item
-                      initialValue={true} // Set the default value to true (Active)
+                      valuePropName="checked"
+                      initialValue={true}
                     >
                       <Switch checkedChildren="Active" unCheckedChildren="Inactive" />
                     </Form.Item>

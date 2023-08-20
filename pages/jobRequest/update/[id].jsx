@@ -42,7 +42,7 @@ console.log("id is :",id );
   const [guardianCity, setGuardianCity] = useState(null);
   const [newGuardian, setNewGuardian] = useState(false);
   const [editData,setEditData] = useState({});
-
+console.log("editData",editData);
 
   const layout = {
     labelCol: {
@@ -328,6 +328,8 @@ console.log("id is :",id );
       isApproval: editData.isApproval,
       tuitionType: editData.tuitionType,
       curriculum: editData.curriculum,
+      formattedDate: editData.formattedDate,
+      formattedTime: editData.tutoringTime,
       status: editData.status,
     });
   } else if (editData == null && visited == false) {

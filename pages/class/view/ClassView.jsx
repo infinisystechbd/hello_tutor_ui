@@ -1,11 +1,12 @@
-import { Card, Descriptions, Modal, Tag, Row, Col } from 'antd';
+import { Card, Descriptions, Modal, Tag, Row, Col, Typography } from 'antd';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 
 function ClassView(props) {
   const { isViewModalOpen, setIsViewModalOpen, classes } = props;
-  const [subjects, setSubjects] = useState([])
+  const [subjects, setSubjects] = useState([]);
+  const { Text, Link } = Typography;
   useEffect(() => {
     setSubjects(classes?.subject)
   }, [classes])
@@ -16,31 +17,33 @@ function ClassView(props) {
       centered
       visible={isViewModalOpen}
       footer={null}
-      width={800}
+      width={900}
       onOk={() => setIsViewModalOpen(false)}
       onCancel={() => setIsViewModalOpen(false)}
     >
-      <Card bordered={false}>
-        <Row>
+      <Card bordered={false} className="custom-card">
+
+        <Row className='mb-3'>
+          <Col className='mb-2' md={10}>   <Text type="secondary">Class Name: <Text strong> {classes?.name}</Text></Text>  </Col>
           <Col >
-            <Descriptions >
-              <Descriptions.Item label="Class Name">
-                {classes?.name}
-              </Descriptions.Item>
+            <Text type="secondary"> Subjects: </Text>
+            <Text strong>
+              {subjects?.map((item, index) => (
+                <span key={item?.subjectId?._id}>
+                  {item?.subjectId?.name}
+                  {index < subjects.length - 1 ? '  , ' : '.'}
+                </span>
+              ))}
+            </Text>
 
-              <Descriptions.Item label="Subjects">
-                {subjects?.map((item, index) => (
-                  <span key={item?.subjectId?._id}>
-                    {item?.subjectId?.name}
-                    {index < subjects.length - 1 ? ', ' : '.'}
-                  </span>
-                ))}
-              </Descriptions.Item>
-
-            </Descriptions>
           </Col>
-          <Col >
-            <Descriptions >
+        </Row>
+
+
+        <Row gutter={[16, 16]} justify="space-between">
+
+          <Col span={24} sm={12} md={8}>
+            <Descriptions column={1}>
               <Descriptions.Item label="Created By">
                 {classes?.createdBy?.fullName}
               </Descriptions.Item>
@@ -49,33 +52,37 @@ function ClassView(props) {
               </Descriptions.Item>
             </Descriptions>
           </Col>
-          <Col >
-            <Descriptions >
+          <Col span={24} sm={12} md={8}>
+            <Descriptions column={1}>
               <Descriptions.Item label="Upadted By ">
-                {classes?.updatedBy?.fullName || "No one update"}
+                {classes?.updatedBy?.fullName || 'No one update'}
               </Descriptions.Item>
-
               <Descriptions.Item label="Updated at">
                 {moment(classes?.updatedAt).format('DD-MM-YYYY')}
               </Descriptions.Item>
             </Descriptions>
           </Col>
-
-          <Col >
-
-            <Descriptions >
+          <Col span={24} sm={12} md={8}>
+            <Descriptions column={1}>
+            {/* <Descriptions.Item label="Class Name:">
+              {classes?.name}
+              </Descriptions.Item> */}
               <Descriptions.Item label="Status">
-                {classes?.status == true ? (
+                {classes?.status ? (
                   <Tag color='green'>Active</Tag>
                 ) : (
                   <Tag color='volcano'>Inactive</Tag>
                 )}
               </Descriptions.Item>
+
+  
             </Descriptions>
           </Col>
-
         </Row>
+
+
       </Card>
+
     </Modal>
 
   );
