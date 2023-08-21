@@ -196,6 +196,38 @@ body {
 
 
 
+/* .client-layout {
+  height: calc(100vh - 80px);
+}
+
+.side-nav {
+  margin-left: 200px;
+}
+
+.fixed-content {
+  margin-left: 100px; 
+  top: 64px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+}
+
+@media (max-width: 767px) {
+  .side-nav {
+    margin-left: 80px;
+  }
+
+  .fixed-content {
+    margin-left: 80px;
+  }
+} */
+
+
+
+
+
+
 
 
 

@@ -174,26 +174,10 @@ const AllTutor = () => {
     return (
         <>
             <HeadSection title="All Tutor-Details" />
-            <Content
-                style={{
-                    margin: '60px 16px',
-                }}
-            >
-                {/* <Breadcrumb
-                    style={{
-                        margin: '16px 0',
-                    }}
-                >
-                    <Breadcrumb.Item>User</Breadcrumb.Item>
-                    <Breadcrumb.Item>Bill</Breadcrumb.Item>
-                </Breadcrumb> */}
-                <div
-                    style={{
-                        padding: 15,
-                        minHeight: 360,
-                        background: colorBgContainer,
-                    }}
-                >
+            <Content className="custom-content">
+                <div className="responsive-fixed-container">
+
+                    <div style={{ padding: '15px', background: colorBgContainer }}>
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col-12">
@@ -270,6 +254,7 @@ const AllTutor = () => {
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
 
 

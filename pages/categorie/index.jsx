@@ -76,7 +76,7 @@ const AllCategory = () => {
         data: categoryList,
         isLoading,
         refetch: fetchCategoryList,
-    } = useGetAllData(QUERY_KEYS.GET_ALL_CATEGORY_LIST, CATEGORIE_END_POINT.get(page, limit, search,""));
+    } = useGetAllData(QUERY_KEYS.GET_ALL_CATEGORY_LIST, CATEGORIE_END_POINT.get(page, limit, search, ""));
 
     /** Fetch CategoryList End */
 
@@ -174,95 +174,80 @@ const AllCategory = () => {
             <HeadSection title="All Category-Details" />
 
 
-            <Content
-                style={{
-                    margin: '40px 16px',
-                }}
-            >
-                <Breadcrumb
-                    style={{
-                        margin: '16px 0',
-                    }}
-                >
+            <Content className="custom-content">
+                <div className="responsive-fixed-container">
 
-                </Breadcrumb>
-                <div
-                    style={{
-                        padding: 15,
-                        minHeight: 360,
-                        background: colorBgContainer,
-                    }}
-                >
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="col-12">
-                                <div className=" ">
-                                    <div className="d-flex border-bottom title-part-padding align-items-center">
-                                        <div>
-                                            <h4 class="card-title mb-0">All Category</h4>
+                    <div style={{ padding: '15px', background: colorBgContainer }}>
+                        <div className="container-fluid">
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className=" ">
+                                        <div className="d-flex border-bottom title-part-padding align-items-center">
+                                            <div>
+                                                <h4 class="card-title mb-0">All Category</h4>
+                                            </div>
+                                            <div className="ms-auto flex-shrink-0">
+                                                <Button
+                                                    className="shadow rounded"
+                                                    type="primary"
+                                                    onClick={handleShow}
+                                                    // icon={<PlusOutlined />}
+                                                    block
+                                                >
+                                                    <span style={{ marginRight: '8px' }}>Add</span>
+                                                    <span className="button-icon-space ml-10">
+
+
+                                                        <FontAwesomeIcon icon={faPlusCircle} />
+                                                    </span>
+
+                                                </Button>
+                                            </div>
                                         </div>
-                                        <div className="ms-auto flex-shrink-0">
-                                            <Button
-                                                className="shadow rounded"
-                                                type="primary"
-                                                onClick={handleShow}
-                                                // icon={<PlusOutlined />}
-                                                block
-                                            >
-                                                <span style={{ marginRight: '8px' }}>Add</span>
-                                                <span className="button-icon-space ml-10">
 
-
-                                                    <FontAwesomeIcon icon={faPlusCircle} />
-                                                </span>
-                                               
-                                            </Button>
-                                        </div>
-                                    </div>
-
-                                    <CategoryFrom
-                                        isModalOpen={isModalOpen}
-                                        setIsModalOpen={setIsModalOpen}
-                                        isParentRender={reFetchHandler}
-                                        setEditData={editData}
-                                    />
-
-                                    <CategoryView
-                                        isViewModalOpen={isViewModalOpen}
-                                        setIsViewModalOpen={setIsViewModalOpen}
-                                        category={category} />
-
-                                    <div className="">
-                                        <DataTable
-                                            columns={columns}
-                                            data={categoryList?.data}
-                                            pagination
-                                            paginationServer
-                                            highlightOnHover
-                                            subHeader
-                                            progressPending={isLoading}
-                                            paginationTotalRows={categoryList?.total}
-                                            onChangeRowsPerPage={handlePerRowsChange}
-                                            onChangePage={handlePageChange}
-                                            subHeaderComponent={
-                                                <DebouncedSearchInput
-                                                    allowClear
-                                                    placeholder="Search category name "
-                                                    onChange={setSearch}
-                                                />
-                                            }
-                                            striped
+                                        <CategoryFrom
+                                            isModalOpen={isModalOpen}
+                                            setIsModalOpen={setIsModalOpen}
+                                            isParentRender={reFetchHandler}
+                                            setEditData={editData}
                                         />
 
+                                        <CategoryView
+                                            isViewModalOpen={isViewModalOpen}
+                                            setIsViewModalOpen={setIsViewModalOpen}
+                                            category={category} />
 
+                                        <div className="">
+                                            <DataTable
+                                                columns={columns}
+                                                data={categoryList?.data}
+                                                pagination
+                                                paginationServer
+                                                highlightOnHover
+                                                subHeader
+                                                progressPending={isLoading}
+                                                paginationTotalRows={categoryList?.total}
+                                                onChangeRowsPerPage={handlePerRowsChange}
+                                                onChangePage={handlePageChange}
+                                                subHeaderComponent={
+                                                    <DebouncedSearchInput
+                                                        allowClear
+                                                        placeholder="Search category name "
+                                                        onChange={setSearch}
+                                                    />
+                                                }
+                                                striped
+                                            />
+
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
-
-
 
 
 

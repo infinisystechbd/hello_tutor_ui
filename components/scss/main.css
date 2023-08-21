@@ -13,3 +13,32 @@
     margin-left: 80px !important;
   }
 }
+
+
+
+
+/** Table Content*/
+.custom-content {
+  margin: 0;
+  padding: 0;
+}
+
+.responsive-fixed-container {
+  position: fixed;
+  top: 150px;
+  left: 220px;
+  right: 30px;
+  bottom: 0;
+  overflow-y: auto;
+  background-color: white;
+  z-index: 1000;
+}
+
+@media (max-width: 768px) {
+  .responsive-fixed-container {
+      top: 100px;
+      left: 80px;
+      right: 0;
+  }
+}
+/** Table Content end*/

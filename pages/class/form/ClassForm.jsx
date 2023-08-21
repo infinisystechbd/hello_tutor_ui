@@ -20,6 +20,7 @@ function ClassForm(props) {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
   const [subject, setSubject] = useState([]);
+  console.log("subject",subject);
   const [status, setStatus] = useState(true);
   console.log(subject);
   if (setEditData == null) {
@@ -27,7 +28,7 @@ function ClassForm(props) {
   } else {
     form.setFieldsValue({
       name: setEditData.name,
-      subject: setEditData?.subject?.map((t) => t.subjectId)?.map((t) => t?._id),
+      subject: setEditData?.subject?.map((t) => t.subjectId)?.map((t) => t?.name),
       status: setEditData.status,
     });
   }
@@ -52,12 +53,28 @@ function ClassForm(props) {
       'name',
       '_id'
     );
-    setSubject(SUBJECTDROPDOWN);
+
+ const allSubj = SUBJECTDROPDOWN?.map((item) => ({
+       id: item?._id,
+       value: item?.name,
+    }));
+console.log("allSubj",allSubj);
+setSubject(allSubj);
+    // setSubject(SUBJECTDROPDOWN);
   }, [subjectList]);
+
+
+
 
 
   /**fetch subject list  End */
 
+
+  const [selectedValue, setSelectedValue] = useState('');
+console.log("selectedValue",selectedValue);
+  const handleSelect = (value, option) => {
+    setSelectedValue(option.value);
+  };
 
 
 
@@ -159,23 +176,7 @@ function ClassForm(props) {
         >
           <Input />
         </Form.Item>
-        {/* <Form.Item
-  name="name"
-  label="Class"
-  rules={[
-    {
-      required: true,
-      message: 'Class is required',
-    },
-    {
-      type: 'number',
-      message: 'Class should be a number',
-    },
-  ]}
-  hasFeedback
->
-<InputNumber style={{ width: '100%' }} /> 
-</Form.Item>*/}
+
         <Form.Item
           name="subject"
           label="Select Subject"
@@ -195,27 +196,30 @@ function ClassForm(props) {
           />
         </Form.Item>
 
+{/* <Form.Item
+          name="subject"
+          label="Select Subject"
+          rules={[
+            {
+              required: true,
+              message: 'Please select subject!',
+              type: 'array',
+            },
+          ]}
+          hasFeedback
+        >
+   <AutoComplete
+      style={{ width: 200 }}
+      options={subject}
+      placeholder="try to type `b`"
+      filterOption={(inputValue, option) =>
+        option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+      }
+      onSelect={handleSelect} 
+      defaultValue={selectedValue}   
+    />
 
-        {/* <Form.Item
-        name="subject"
-        label="Select Subject"
-        rules={[
-          {
-            required: true,
-            message: 'Please select subject!',
-            type: 'array',
-          },
-        ]}
-        hasFeedback
-      >
-        <AutoComplete
-          mode="multiple"
-          placeholder="Please select subject"
-          options={subject.map(option => ({ value: option.value, label: option.label }))} // Mapping options for AutoComplete
-        />
-      </Form.Item> */}
-
-
+</Form.Item> */}
 
 
         <Form.Item

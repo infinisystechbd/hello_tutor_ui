@@ -70,9 +70,9 @@ const JobRequestDetails = () => {
         data: jobRequestList,
         isLoading,
         refetch: fetchJobRequestList,
-    } = useGetAllData(QUERY_KEYS.GET_ALL_JOB_REQUEST_LIST, JOB_REQUEST_END_POINT.get(page, limit, search,""));
+    } = useGetAllData(QUERY_KEYS.GET_ALL_JOB_REQUEST_LIST, JOB_REQUEST_END_POINT.get(page, limit, search, ""));
 
-    
+
 
     const reFetchHandler = (isRender) => {
         if (isRender) fetchJobRequestList();
@@ -171,81 +171,73 @@ const JobRequestDetails = () => {
             <HeadSection title="All Job-Details" />
 
 
-            <Content
-                style={{
-                    margin: '60px 16px',
-                }}
-            >
+            <Content className="custom-content">
+                <div className="responsive-fixed-container">
 
-                <div
-                    style={{
-                        padding: 15,
-                        minHeight: 360,
-                        background: colorBgContainer,
-                    }}
-                >
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="col-12">
-                                <div className=" ">
-                                    <div className="d-flex border-bottom title-part-padding align-items-center">
-                                        <div>
-                                            <h4 className="card-title mb-0">All Job</h4>
+                    <div style={{ padding: '15px', background: colorBgContainer }}>
+                        <div className="container-fluid">
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className=" ">
+                                        <div className="d-flex border-bottom title-part-padding align-items-center">
+                                            <div>
+                                                <h4 className="card-title mb-0">All Job</h4>
+                                            </div>
+                                            <div className="ms-auto flex-shrink-0">
+                                                <Button
+                                                    className="shadow rounded"
+                                                    type="primary"
+                                                    onClick={handleShow}
+                                                    block
+                                                >
+                                                    <span style={{ marginRight: '8px' }}>Add</span>
+                                                    <span className="button-icon-space ml-10">
+
+
+                                                        <FontAwesomeIcon icon={faPlusCircle} />
+                                                    </span>
+                                                </Button>
+                                            </div>
                                         </div>
-                                        <div className="ms-auto flex-shrink-0">
-                                            <Button
-                                                className="shadow rounded"
-                                                type="primary"
-                                                onClick={handleShow}
-                                                block
-                                            >
-                                                <span style={{ marginRight: '8px' }}>Add</span>
-                                                <span className="button-icon-space ml-10">
 
 
-                                                    <FontAwesomeIcon icon={faPlusCircle} />
-                                                </span>
-                                            </Button>
-                                        </div>
-                                    </div>
-
-
-                                    <TutorRequestFrom
-                                        isModalOpen={isModalOpen}
-                                        setIsModalOpen={setIsModalOpen}
-                                        isParentRender={reFetchHandler}
-                                        setEditData={editData}
-                                    />
-
-
-                                    <JobRequestView
-                                        isViewModalOpen={isViewModalOpen}
-                                        setIsViewModalOpen={setIsViewModalOpen}
-                                        jobReq={jobReq} />
-
-
-                                    <div className="">
-                                        <DataTable
-                                            columns={columns}
-                                            data={jobRequestList?.data}
-                                            pagination
-                                            paginationServer
-                                            highlightOnHover
-                                            subHeader
-                                            progressPending={isLoading}
-                                            paginationTotalRows={jobRequestList?.total}
-                                            onChangeRowsPerPage={handlePerRowsChange}
-                                            onChangePage={handlePageChange}
-                                            subHeaderComponent={
-                                                <DebouncedSearchInput
-                                                    allowClear
-                                                    placeholder="Search Job Request name "
-                                                    onChange={setSearch}
-                                                />
-                                            }
-                                            striped
+                                        <TutorRequestFrom
+                                            isModalOpen={isModalOpen}
+                                            setIsModalOpen={setIsModalOpen}
+                                            isParentRender={reFetchHandler}
+                                            setEditData={editData}
                                         />
 
+
+                                        <JobRequestView
+                                            isViewModalOpen={isViewModalOpen}
+                                            setIsViewModalOpen={setIsViewModalOpen}
+                                            jobReq={jobReq} />
+
+
+                                        <div className="">
+                                            <DataTable
+                                                columns={columns}
+                                                data={jobRequestList?.data}
+                                                pagination
+                                                paginationServer
+                                                highlightOnHover
+                                                subHeader
+                                                progressPending={isLoading}
+                                                paginationTotalRows={jobRequestList?.total}
+                                                onChangeRowsPerPage={handlePerRowsChange}
+                                                onChangePage={handlePageChange}
+                                                subHeaderComponent={
+                                                    <DebouncedSearchInput
+                                                        allowClear
+                                                        placeholder="Search Job Request name "
+                                                        onChange={setSearch}
+                                                    />
+                                                }
+                                                striped
+                                            />
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>

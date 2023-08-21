@@ -121,117 +121,52 @@ const AllSubject = () => {
     setPage(page);
     setLimit(newLimit);
   };
-  // const columns = [
-  //   {
-  //     name: <span className="fw-bold">SL</span>,
-  //     selector: (row, index) => index + 1,
-  //     sortable: true,
-  //     width: '70px',
-  //     fixed: 'left',
-  //   },
-  //   {
-  //     name: 'Subject Code',
-  //     selector: (row) => row.subjectId,
-  //     sortable: true,
-  //     fixed: 'left',
-  //   },
-  //   {
-  //     name: 'Name',
-  //     selector: (row) => row.name,
-  //     sortable: true,
-  //   },
-  //   {
-  //     name: 'Status',
-  //     selector: (row) =>
-  //       row.status ? <Tag color='green'>ACTIVE</Tag> : <Tag color='volcano'>INACTIVE</Tag>,
-  //     sortable: true,
-  //   },
-  //   {
-  //     name: 'Action',
-  //     selector: (row) => actionButton(row),
-  //     fixed: 'right',
-  //     width: 100,
-  //   },
-  // ];
 
 
 
-  /* 
-    const columns = [
-      {
-        title: <span className="fw-bold">SL</span>,
-        dataIndex: 'index',
-        // width: '70px',
-        fixed: 'left',
-      },
-      {
-        title: 'Subject Code',
-        dataIndex: 'subjectId',
-        fixed: 'left',
-      },
-      {
-        title: 'Name',
-        dataIndex: 'name',
-      },
-      {
-        title: 'Status',
-        dataIndex: 'status',
-        render: (status) =>
-          status ? <Tag color="green">ACTIVE</Tag> : <Tag color="volcano">INACTIVE</Tag>,
-      },
-      {
-        title: 'Action',
-        dataIndex: 'action',
-        fixed: 'right',
-        width: 100,
-        render: (_, row) => actionButton(row),
-      },
-    ]; */
+  const data = subjectList?.data?.map((row, index) => ({
+    ...row,
+    index: index + 1,
+  }));
 
 
-    const data = subjectList?.data?.map((row, index) => ({
-      ...row,
-      index: index + 1,
-    }));
-
-
-    const columns = [
-      {
-        title: 'SL',
-        dataIndex: 'index',
-        width: '70px',
-        fixed: 'left',
-      },
-      {
-        title: 'Subject Code',
-        dataIndex: 'subjectId',
-        // fixed: 'left',
-      },
-      {
-        title: 'Name',
-        dataIndex: 'name',
-      },
-      {
-        title: 'Status',
-        dataIndex: 'status',
-        render: (status) => (
-          status ? <Tag color='green'>ACTIVE</Tag> : <Tag color='volcano'>INACTIVE</Tag>
-        ),
-      },
-      {
-        title: 'Action',
-        key: 'action',
-        fixed: 'right',
-        width: 100,
-        render: (row) => actionButton(row), // You need to define actionButton function
-      },
-    ];
+  const columns = [
+    {
+      title: 'SL',
+      dataIndex: 'index',
+      // width: '70px',
+      fixed: 'left',
+    },
+    {
+      title: 'Subject Code',
+      dataIndex: 'subjectId',
+      // fixed: 'left',
+    },
+    {
+      title: 'Name',
+      dataIndex: 'name',
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      render: (status) => (
+        status ? <Tag color='green'>ACTIVE</Tag> : <Tag color='volcano'>INACTIVE</Tag>
+      ),
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      fixed: 'right',
+      width: 100,
+      render: (row) => actionButton(row), // You need to define actionButton function
+    },
+  ];
 
 
 
 
 
-  console.log("data",data);
+  console.log("data", data);
 
 
   const actionButton = (row) => {
@@ -259,69 +194,52 @@ const AllSubject = () => {
       <HeadSection title="All Subject-Details" />
 
 
-      <Content
-        style={{
-          margin: '20px 16px',
-        }}
-      >
-        <Breadcrumb
-          style={{
-            margin: '16px 0',
-          }}
-        >
-          {/* <Breadcrumb.Item>User</Breadcrumb.Item>
-          <Breadcrumb.Item>Subject</Breadcrumb.Item> */}
-        </Breadcrumb>
-        <div
-          style={{
-            padding: 15,
-            minHeight: 360,
-            background: colorBgContainer,
-          }}
-        >
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-12">
-                <div className=" ">
-                  <div className="d-flex border-bottom title-part-padding align-items-center">
-                    <div>
-                      <h4 className="card-title mb-0">All Subject</h4>
+      <Content className="custom-content">
+        <div className="responsive-fixed-container">
+          <div style={{ padding: '15px', background: colorBgContainer }}>
+            <div className="container-fluid">
+              <div className="row">
+                <div className="col-12">
+                  <div className=" ">
+                    <div className="d-flex border-bottom title-part-padding align-items-center">
+                      <div>
+                        <h4 className="card-title mb-0">All Subject</h4>
+                      </div>
+                      <div className="ms-auto flex-shrink-0">
+                        <Button
+                          className="shadow rounded"
+                          type="primary"
+                          onClick={handleShow}
+                          block
+                        >
+                          <span style={{ marginRight: '8px' }}>Add</span>
+                          <span className="button-icon-space ml-10">
+
+
+                            <FontAwesomeIcon icon={faPlusCircle} />
+                          </span>
+                        </Button>
+                      </div>
                     </div>
-                    <div className="ms-auto flex-shrink-0">
-                      <Button
-                        className="shadow rounded"
-                        type="primary"
-                        onClick={handleShow}
-                        block
-                      >
-                        <span style={{ marginRight: '8px' }}>Add</span>
-                        <span className="button-icon-space ml-10">
 
 
-                          <FontAwesomeIcon icon={faPlusCircle} />
-                        </span>
-                      </Button>
-                    </div>
-                  </div>
+                    <SubjectForm
+                      isModalOpen={isModalOpen}
+                      setIsModalOpen={setIsModalOpen}
+                      isParentRender={reFetchHandler}
+                      setEditData={editData}
+                    />
 
 
-                  <SubjectForm
-                    isModalOpen={isModalOpen}
-                    setIsModalOpen={setIsModalOpen}
-                    isParentRender={reFetchHandler}
-                    setEditData={editData}
-                  />
+                    <SubjectView
+                      isViewModalOpen={isViewModalOpen}
+                      setIsViewModalOpen={setIsViewModalOpen}
+                      subject={subject} />
 
 
-                  <SubjectView
-                    isViewModalOpen={isViewModalOpen}
-                    setIsViewModalOpen={setIsViewModalOpen}
-                    subject={subject} />
-
-
-                  <div style={{ overflowX: 'auto' }}>
-                    <div style={{ minWidth: '100%' }}>
-                      {/* <DataTable
+                    <div style={{ overflowX: 'auto' }}>
+                      <div style={{ minWidth: '100%' }}>
+                        {/* <DataTable
                         columns={columns}
                         data={subjectList?.data}
                         pagination
@@ -354,19 +272,20 @@ const AllSubject = () => {
                         noDataComponent={<span>No data available</span>}
                       /> */}
 
-                      <>
-      {/* <Input.Search
+                        <>
+                          {/* <Input.Search
         placeholder="Search subject name"
         allowClear
         onChange={setSearch}
         style={{ marginBottom: '16px' }}
       /> */}
-    <Table
-      columns={columns}
-      dataSource={data}
-      scroll={{ x: 'max-content' }}
-    />
-    </>
+                          <Table
+                            columns={columns}
+                            dataSource={data}
+                            scroll={{ x: 'max-content' }}
+                          />
+                        </>
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -186,91 +186,77 @@ const Managelocation = () => {
             <HeadSection title="All Location-Details" />
 
 
-            <Content
-                style={{
-                    margin: '40px 16px',
-                }}
-            >
-                <Breadcrumb
-                    style={{
-                        margin: '16px 0',
-                    }}
-                >
+            <Content className="custom-content">
+                <div className="responsive-fixed-container">
 
-                </Breadcrumb>
-                <div
-                    style={{
-                        padding: 15,
-                        minHeight: 360,
-                        background: colorBgContainer,
-                    }}
-                >
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="col-12">
-                                <div className=" ">
-                                    <div className="d-flex border-bottom title-part-padding align-items-center">
-                                        <div>
-                                            <h4 className="card-title mb-0">All Location </h4>
+                    <div style={{ padding: '15px', background: colorBgContainer }}>
+                        <div className="container-fluid">
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className=" ">
+                                        <div className="d-flex border-bottom title-part-padding align-items-center">
+                                            <div>
+                                                <h4 className="card-title mb-0">All Location </h4>
+                                            </div>
+                                            <div className="ms-auto flex-shrink-0">
+                                                <Button
+                                                    className="shadow rounded"
+                                                    type="primary"
+                                                    block
+                                                    onClick={handleShow}
+                                                >
+                                                    <span style={{ marginRight: '8px' }}>Add</span>
+                                                    <span className="button-icon-space ml-10">
+
+
+                                                        <FontAwesomeIcon icon={faPlusCircle} />
+                                                    </span>
+                                                </Button>
+                                            </div>
                                         </div>
-                                        <div className="ms-auto flex-shrink-0">
-                                            <Button
-                                                className="shadow rounded"
-                                                type="primary"
-                                                block
-                                                onClick={handleShow}
-                                            >
-                                                <span style={{ marginRight: '8px' }}>Add</span>
-                                                <span className="button-icon-space ml-10">
-
-
-                                                    <FontAwesomeIcon icon={faPlusCircle} />
-                                                </span>
-                                            </Button>
-                                        </div>
-                                    </div>
 
 
 
 
-                                    <LocationForm
-                                        isModalOpen={isModalOpen}
-                                        setIsModalOpen={setIsModalOpen}
-                                        isParentRender={reFetchHandler}
-                                        setEditData={editData}
-                                    />
-
-
-                                    <LocationView
-                                        isViewModalOpen={isViewModalOpen}
-                                        setIsViewModalOpen={setIsViewModalOpen}
-                                        location={location} />
-
-                                    <div className="">
-
-                                        <DataTable
-                                            columns={columns}
-                                            data={locationList?.data}
-                                            pagination
-                                            paginationServer
-                                            highlightOnHover
-                                            subHeader
-                                            progressPending={isLoading}
-                                            paginationTotalRows={locationList?.total}
-                                            onChangeRowsPerPage={handlePerRowsChange}
-                                            onChangePage={handlePageChange}
-                                            subHeaderComponent={
-                                                <DebouncedSearchInput
-                                                    allowClear
-                                                    placeholder="Search Location name "
-                                                    onChange={setSearch}
-                                                />
-                                            }
-                                            striped
+                                        <LocationForm
+                                            isModalOpen={isModalOpen}
+                                            setIsModalOpen={setIsModalOpen}
+                                            isParentRender={reFetchHandler}
+                                            setEditData={editData}
                                         />
 
 
+                                        <LocationView
+                                            isViewModalOpen={isViewModalOpen}
+                                            setIsViewModalOpen={setIsViewModalOpen}
+                                            location={location} />
 
+                                        <div className="">
+
+                                            <DataTable
+                                                columns={columns}
+                                                data={locationList?.data}
+                                                pagination
+                                                paginationServer
+                                                highlightOnHover
+                                                subHeader
+                                                progressPending={isLoading}
+                                                paginationTotalRows={locationList?.total}
+                                                onChangeRowsPerPage={handlePerRowsChange}
+                                                onChangePage={handlePageChange}
+                                                subHeaderComponent={
+                                                    <DebouncedSearchInput
+                                                        allowClear
+                                                        placeholder="Search Location name "
+                                                        onChange={setSearch}
+                                                    />
+                                                }
+                                                striped
+                                            />
+
+
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>

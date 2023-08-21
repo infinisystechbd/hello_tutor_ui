@@ -162,25 +162,10 @@ const AllGuardian = () => {
             <HeadSection title="All Guardian-Details" />
 
 
-            <Content
-                style={{
-                    margin: '40px 16px',
-                }}
-            >
-                <Breadcrumb
-                    style={{
-                        margin: '16px 0',
-                    }}
-                >
+            <Content className="custom-content">
+                <div className="responsive-fixed-container">
 
-                </Breadcrumb>
-                <div
-                    style={{
-                        padding: 15,
-                        minHeight: 360,
-                        background: colorBgContainer,
-                    }}
-                >
+                    <div style={{ padding: '15px', background: colorBgContainer }}>
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col-12">
@@ -250,6 +235,7 @@ const AllGuardian = () => {
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
 
 

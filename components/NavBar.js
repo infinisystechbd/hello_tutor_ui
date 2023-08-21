@@ -31,12 +31,12 @@ const Navbar = () => {
     setIsMobileView(window.innerWidth < 768); // Adjust the breakpoint as needed
   };
 
-  // Effect to set up the initial isMobileView state and add/remove the window resize listener
+
   useEffect(() => {
-    handleWindowResize(); // Set initial state
-    window.addEventListener('resize', handleWindowResize); // Add window resize listener
+    handleWindowResize(); 
+    window.addEventListener('resize', handleWindowResize);
     return () => {
-      window.removeEventListener('resize', handleWindowResize); // Remove window resize listener on unmount
+      window.removeEventListener('resize', handleWindowResize); 
     };
   }, []);
   const toggleCollapsed = () => {
@@ -45,12 +45,6 @@ const Navbar = () => {
 
   return (
     <Header
-      // style={{
-      //   padding: 0,
-      //   background: colorBgContainer,
-      //   marginLeft: token !== null ? '200px' : '0px', 
-      // }}
-
 
       style={{
         position: 'fixed', 
@@ -59,7 +53,7 @@ const Navbar = () => {
         padding: 0,
         background: colorBgContainer,
         marginLeft: token !== null ? '200px' : '0px',
-        zIndex: 1000, // Add a high z-index to ensure it's above other content
+        zIndex: 1000, 
         marginBottom: '100px',
       }}
       className='navbar'

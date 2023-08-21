@@ -68,7 +68,7 @@ const ManageClass = () => {
     data: classList,
     isLoading,
     refetch: fetchClassList,
-  } = useGetAllData(QUERY_KEYS.GET_ALL_ClASS_LIST, CLASS_END_POINT.get(page, limit, search,""));
+  } = useGetAllData(QUERY_KEYS.GET_ALL_ClASS_LIST, CLASS_END_POINT.get(page, limit, search, ""));
 
 
 
@@ -190,80 +190,71 @@ const ManageClass = () => {
   return (
     <>
       <HeadSection title="All Class-Details" />
-      <Content
-        style={{
-          margin: '60px 16px',
-        }}
-      >
+      <Content className="custom-content">
+        <div className="responsive-fixed-container">
+          <div style={{ padding: '15px', background: colorBgContainer }}>
+            <div className="container-fluid">
+              <div className="row">
+                <div className="col-12">
+                  <div className=" ">
+                    <div className="d-flex border-bottom title-part-padding align-items-center">
+                      <div>
+                        <h4 className="card-title mb-0">All Class</h4>
+                      </div>
+                      <div className="ms-auto flex-shrink-0">
+                        <Button
+                          className="shadow rounded"
+                          type="primary"
+                          onClick={handleShow}
+                          block
+                        >
+                          <span style={{ marginRight: '8px' }}>Add</span>
+                          <span className="button-icon-space ml-10">
 
-        <div
-          style={{
-            padding: 15,
-            minHeight: 360,
-            background: colorBgContainer,
-          }}
-        >
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-12">
-                <div className=" ">
-                  <div className="d-flex border-bottom title-part-padding align-items-center">
-                    <div>
-                      <h4 className="card-title mb-0">All Class</h4>
+
+                            <FontAwesomeIcon icon={faPlusCircle} />
+                          </span>
+                        </Button>
+                      </div>
                     </div>
-                    <div className="ms-auto flex-shrink-0">
-                      <Button
-                        className="shadow rounded"
-                        type="primary"
-                        onClick={handleShow}
-                        block
-                      >
-                        <span style={{ marginRight: '8px' }}>Add</span>
-                        <span className="button-icon-space ml-10">
 
 
-                          <FontAwesomeIcon icon={faPlusCircle} />
-                        </span>
-                      </Button>
-                    </div>
-                  </div>
-
-
-                  <ClassForm
-                    isModalOpen={isModalOpen}
-                    setIsModalOpen={setIsModalOpen}
-                    isParentRender={reFetchHandler}
-                    setEditData={editData}
-                  />
-
-                  <ClassView
-                    isViewModalOpen={isViewModalOpen}
-                    setIsViewModalOpen={setIsViewModalOpen}
-                    classes={classes} />
-
-                  <div style={{ overflowX: 'auto' }}>
-                    <DataTable
-                      columns={columns}
-                      data={classList?.data}
-                      pagination
-                      paginationServer
-                      highlightOnHover
-                      subHeader
-                      progressPending={isLoading}
-                      paginationTotalRows={classList?.total}
-                      onChangeRowsPerPage={handlePerRowsChange}
-                      onChangePage={handlePageChange}
-                      subHeaderComponent={
-                        <DebouncedSearchInput
-                          allowClear
-                          placeholder="Search class name "
-                          onChange={setSearch}
-                        />
-                      }
-                      striped
+                    <ClassForm
+                      isModalOpen={isModalOpen}
+                      setIsModalOpen={setIsModalOpen}
+                      isParentRender={reFetchHandler}
+                      setEditData={editData}
                     />
 
+                    <ClassView
+                      isViewModalOpen={isViewModalOpen}
+                      setIsViewModalOpen={setIsViewModalOpen}
+                      classes={classes} />
 
+                    <div style={{ overflowX: 'auto' }}>
+                      <DataTable
+                        columns={columns}
+                        data={classList?.data}
+                        pagination
+                        paginationServer
+                        highlightOnHover
+                        subHeader
+                        progressPending={isLoading}
+                        paginationTotalRows={classList?.total}
+                        onChangeRowsPerPage={handlePerRowsChange}
+                        onChangePage={handlePageChange}
+                        subHeaderComponent={
+                          <DebouncedSearchInput
+                            allowClear
+                            placeholder="Search class name "
+                            onChange={setSearch}
+                          />
+                        }
+                        striped
+                      />
+
+
+                    </div>
                   </div>
                 </div>
               </div>
