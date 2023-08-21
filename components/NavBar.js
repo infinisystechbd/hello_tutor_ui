@@ -23,12 +23,12 @@ const Navbar = () => {
     router.push(path);
   };
 
-  // State to keep track of the screen width
+
   const [isMobileView, setIsMobileView] = useState(false);
 
-  // Function to handle window resize and update the isMobileView state
+
   const handleWindowResize = () => {
-    setIsMobileView(window.innerWidth < 768); // Adjust the breakpoint as needed
+    setIsMobileView(window.innerWidth < 768); 
   };
 
 
