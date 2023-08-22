@@ -52,14 +52,15 @@ const Navbar = () => {
         width: '100%', // Make it full width
         padding: 0,
         background: colorBgContainer,
-        marginLeft: token !== null ? '200px' : '0px',
+        marginLeft: token !== null ? '200px' : '200px',
         zIndex: 1000, 
         marginBottom: '100px',
       }}
       className='navbar'
     >
       {/* Set the mode based on isMobileView state */}
-      <Menu mode={isMobileView ? 'horizontal' : 'horizontal'} theme="light" selectedKeys={[router.pathname]} >
+      {/* <Menu mode={isMobileView ? 'horizontal' : 'horizontal'} theme="light" selectedKeys={[router.pathname]} defaultSelectedKeys={['/']}> */}
+      <Menu mode={isMobileView ? 'horizontal' : 'horizontal'} theme="light" selectedKeys={[router.pathname || '/']} defaultSelectedKeys={['/']}>
         {token !== null && (
           <Menu.Item key="toggle">
             <Button
@@ -72,9 +73,6 @@ const Navbar = () => {
         <Menu.Item key="/" onClick={() => navigateTo('/')}>
           Home
         </Menu.Item>
-        {/* <Menu.Item key="/about" onClick={() => navigateTo('/about')}>
-          About
-        </Menu.Item> */}
         {token === null ? (
           <Menu.Item key="/login" className="float-end me-3" onClick={() => navigateTo('/login')}>
             Login

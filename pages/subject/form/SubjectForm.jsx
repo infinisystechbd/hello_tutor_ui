@@ -47,7 +47,7 @@ function SubjectForm(props) {
     setLoading(true);
     if (setEditData?._id) {
       try {
-        const update = await put(SUBJECT_END_POINT.update(setEditData._id),values);
+        const update = await put(SUBJECT_END_POINT.update(setEditData._id), values);
         if (update.status == 'SUCCESS') {
           notify('success', update.message);
           if (isParentRender) {
@@ -60,26 +60,26 @@ function SubjectForm(props) {
         setLoading(false);
       }
     } else {
-      try{
+      try {
         const response = await post(SUBJECT_END_POINT.create(), values);
-      if (response.status === 'SUCCESS') {
-        notify('success', response.message);
-        if (isParentRender) {
-          isParentRender(true);
+        if (response.status === 'SUCCESS') {
+          notify('success', response.message);
+          if (isParentRender) {
+            isParentRender(true);
+          }
+          setIsModalOpen(false);
+        } else {
+          notify('error', response.errorMessage);
+          setLoading(false);
         }
-        setIsModalOpen(false);
-      } else {
-        notify('error', response.errorMessage);
-        setLoading(false);
-      }
-      }catch(error){
+      } catch (error) {
         console.log(error)
         notify('error', error.message);
         setLoading(false);
       }
-      
+
       // setLoading(false);
-   
+
     }
 
     setIsModalOpen(!isModalOpen);
@@ -109,44 +109,50 @@ function SubjectForm(props) {
           maxWidth: 600,
         }}
       >
-<Form.Item
-  name="name"
-  label="Subject Name"
-  rules={[
-    {
-      required: true,
-      message: 'Subject name is required',
-    },
-    {
-      pattern: /^[A-Za-z0-9\s]+$/,
-      message: 'Subject name should only contain letters, numbers, and spaces',
-    },
-    {
-      max: 50,
-      message: 'Subject name should not exceed 50 characters',
-    },
-  ]}
-  hasFeedback
->
-  <Input />
-</Form.Item>
-
         <Form.Item
-          name="status"
-          label="Status"
+          name="name"
+          label="Subject Name"
           rules={[
             {
               required: true,
+              message: 'Subject name is required',
+            },
+            {
+              pattern: /^[A-Za-z0-9\s]+$/,
+              message: 'Subject name should only contain letters, numbers, and spaces',
+            },
+            {
+              max: 50,
+              message: 'Subject name should not exceed 50 characters',
             },
           ]}
-          initialValue={true}
           hasFeedback
         >
-          <Select placeholder="Select a option" allowClear>
-            <Option value={true}>Active</Option>
-            <Option value={false}>Inactive</Option>
-          </Select>
+          <Input className='input-box' />
         </Form.Item>
+
+        <Form.Item
+        name="status"
+        label="Status"
+        rules={[
+          {
+            required: true,
+          },
+        ]}
+        initialValue={true}
+        hasFeedback
+        style={{ marginBottom: '20px' }} // Add margin to give some spacing
+      >
+        <Select
+          placeholder="Select an option"
+          allowClear
+          style={{ width: '100%', padding: '12px', borderRadius: '5px' }} // Increase width and add padding for larger input box
+          dropdownClassName="custom-select-dropdown" // Custom class for dropdown
+        >
+          <Option value={true}>Active</Option>
+          <Option value={false}>Inactive</Option>
+        </Select>
+      </Form.Item>
 
         <Form.Item {...tailLayout}>
           <Button type="primary" htmlType="submit" loading={loading}>

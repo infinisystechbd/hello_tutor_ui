@@ -283,6 +283,8 @@ const AllSubject = () => {
                             columns={columns}
                             dataSource={data}
                             scroll={{ x: 'max-content' }}
+                            // scroll={{ x: 1500, y: 300 }}
+                    
                           />
                         </>
                       </div>

@@ -8,7 +8,12 @@ import ToastMessage from '../components/Toast/index';
 import { SECURITY_END_POINT } from "../constants/index";
 import { post } from "../helpers/api_helper";
 import Axios from "../utils/axios";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faEye,
+  faEyeSlash,
+  // Add any other icons you want to use here
+} from '@fortawesome/free-solid-svg-icons';
 
 
 const LoginPage = () => {
@@ -19,12 +24,16 @@ const LoginPage = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
- const { Content } = Layout;
+  const { Content } = Layout;
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
 
+  const [showPassword, setShowPassword] = useState(false);
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
 
   const submitForm = async (event) => {
@@ -67,31 +76,31 @@ const LoginPage = () => {
     if (token) {
       router.replace('/dashboard/dashboard');
     }
-  }, [router,token])
+  }, [router, token])
 
 
   return (
     <>
-    <HeadSection title="Login" />
+      <HeadSection title="Login" />
       <Content
         style={{
           margin: '90px 0px',
         }}
       >
 
-      <section className="vh-100">
-        <div className="container-fluid h-custom">
-          <div className="row d-flex justify-content-center align-items-center h-80 ">
-            <div className="col-md-9 col-lg-6 col-xl-5">
-              <img
-                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-                className="img-fluid"
-                alt="Sample image"
-              />
-            </div>
-            <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+        <section className="vh-100">
+          <div className="container-fluid h-custom">
+            <div className="row d-flex justify-content-center align-items-center h-80 ">
+              <div className="col-md-9 col-lg-6 col-xl-5">
+                <img
+                  src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                  className="img-fluid"
+                  alt="Sample image"
+                />
+              </div>
+              <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
 
-              <Card>
+                <Card>
 
                   <form onSubmit={submitForm}>
 
@@ -130,13 +139,19 @@ const LoginPage = () => {
 
                       {/* Password input */}
                       <div className="form-outline mb-3">
-                        <input
-                          type="password"
-                          id="form3Example4"
-                          className="form-control form-control-lg"
-                          placeholder="Enter password"
-                          value={password} onChange={e => setPassword(e.target.value)}
-                        />
+                        <div className="password-input-container">
+                          <input
+                            type={showPassword ? 'text' : 'password'}
+                            id="form3Example4"
+                            className="form-control form-control-lg"
+                            placeholder="Enter password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                          />
+                          <span className="password-toggle-icon" onClick={togglePasswordVisibility}>
+                            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                          </span>
+                        </div>
                         <label className="form-label" htmlFor="form3Example4">
                           Password
                         </label>
@@ -178,15 +193,15 @@ const LoginPage = () => {
                       </p>
                     </div>
                   </form>
-              
-              </Card>
 
+                </Card>
+
+              </div>
             </div>
           </div>
-        </div>
 
-      </section>
-      
+        </section>
+
       </Content>
     </>
   );
