@@ -1,9 +1,8 @@
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, EyeOutlined } from '@ant-design/icons';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Breadcrumb, Button, Input, Layout, Modal, Row, Table, Tag, theme, Pagination } from 'antd';
+import { Button, Layout, Modal, Row, Table, Tag, theme } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
-import DataTable from 'react-data-table-component';
 import HeadSection from '../../components/HeadSection';
 import ToastMessage from '../../components/Toast';
 import DebouncedSearchInput from '../../components/elements/DebouncedSearchInput';
@@ -47,6 +46,7 @@ const AllSubject = () => {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const handleClose = () => setShow(false);
     const [totalRows, setTotalRows] = useState(0);
+    const [perPage, setPerPage] = useState(10);
     const [editData, setEditData] = useState({});
     const [search, setSearch] = useState('');
     const [page, setPage] = useState(1);
@@ -109,7 +109,7 @@ const AllSubject = () => {
         isLoading,
         refetch: fetchSubjectList,
     } = useGetAllData(QUERY_KEYS.GET_ALL_SUBJECT_LIST, SUBJECT_END_POINT.get(page, limit, search, ""));
-
+   console.log(subjectList)
     const reFetchHandler = (isRender) => {
         if (isRender) fetchSubjectList();
     };
@@ -123,6 +123,30 @@ const AllSubject = () => {
         setPage(page);
         setPerPage(newPerPage);
       };
+
+      
+      const pagination = {
+        total: subjectList?.total,
+        current: page,
+        pageSize: perPage,
+        defaultPageSize: 10,
+        showSizeChanger: true,
+        pageSizeOptions: ['2', '5', '10', '20', '30']
+      };
+
+      const onChange = (
+        pagination,
+        filters,
+        sorter,
+        extra
+      ) => {
+        setPage(pagination.current);
+        setPerPage(pagination.pageSize);
+        // setSelectedRowKeys([]);
+        console.log(pagination, filters, sorter, extra);
+      };
+    
+    
 
 
 
@@ -239,6 +263,9 @@ const AllSubject = () => {
                                                 columns={columns}
                                                 dataSource={subjectList?.data}
                                                 scroll={{ x: 'max-content' }}
+                                                pagination = {pagination}
+                                                onChange={onChange}
+                                                
                                             />
 
                                         </Content>
