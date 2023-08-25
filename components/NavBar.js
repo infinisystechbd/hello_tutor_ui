@@ -12,12 +12,20 @@ const Navbar = () => {
   const colorBgContainer = '#ffffff';
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
+  const [margin, setMargin] = useState('0px');
 
   const onLogout = async () => {
     localStorage.clear();
     await router.replace("/");
     await router.reload();
   }
+
+  useEffect(()=> {
+    if(token)
+    {
+      setMargin('200px');
+    }
+  },[token])
 
   const navigateTo = (path) => {
     router.push(path);
@@ -52,7 +60,7 @@ const Navbar = () => {
         width: '100%', // Make it full width
         padding: 0,
         background: colorBgContainer,
-        marginLeft: token !== null ? '200px' : '200px',
+        marginLeft: margin,
         zIndex: 1000, 
         marginBottom: '100px',
       }}
