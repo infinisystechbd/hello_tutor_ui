@@ -1,4 +1,4 @@
-import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, EyeOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, EyeOutlined, PartitionOutlined } from '@ant-design/icons';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Layout, Modal, Row, Tag, theme } from 'antd';
@@ -14,6 +14,7 @@ import { useGetAllData } from '../../utils/hooks/useGetAllData';
 import TutorRequestFrom from './form/TutorRequestFrom';
 // import TutorRequestFrom from './form/create';
 import JobRequestView from './view/JobRequestView';
+import JobApplied from './applied';
 // JobRequestView.jsx
 const JobRequestDetails = () => {
     const notify = useCallback((type, message) => {
@@ -26,6 +27,8 @@ const JobRequestDetails = () => {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editData, setEditData] = useState({});
     const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+    const [isAppliedModalOpen, setIsAppliedModalOpen] = useState(false);
+    const[jobId,setJobId] = useState();
     const [search, setSearch] = useState('');
     const [jobRequest, setJobRequest] = useState({});
     const [page, setPage] = useState(1);
@@ -53,6 +56,20 @@ const JobRequestDetails = () => {
     const handleViewOpen = (data) => {
         setIsViewModalOpen(true);
         setJobReq(data);
+    };
+    /**View  Modal form end */
+
+
+
+
+
+    /**View  Modal form */
+
+
+
+    const handleAllAppliedViewOpen = (data) => {
+        setIsAppliedModalOpen(true);
+        setJobId(data);
     };
     /**View  Modal form end */
 
@@ -159,6 +176,9 @@ const JobRequestDetails = () => {
                 <a onClick={() => showDeleteConfirm(row._id, row.name)} className="text-danger" style={{ marginRight: '10px' }}>
                     <DeleteOutlined style={{ fontSize: '24px' }} />
                 </a>
+                <a onClick={() => handleAllAppliedViewOpen(row._id)} className="text-danger" style={{ marginRight: '10px' }}>
+                    <PartitionOutlined />
+                </a>
             </Row>
         </>
     }
@@ -213,6 +233,13 @@ const JobRequestDetails = () => {
                                             isViewModalOpen={isViewModalOpen}
                                             setIsViewModalOpen={setIsViewModalOpen}
                                             jobReq={jobReq} />
+
+
+                                        <JobApplied
+                                            isAppliedModalOpen={isAppliedModalOpen}
+                                            setIsAppliedModalOpen={setIsAppliedModalOpen}
+
+                                            jobId={jobId} />
 
 
                                         <div className="">

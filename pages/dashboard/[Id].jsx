@@ -1,12 +1,14 @@
 import { faBangladeshiTakaSign, faBars, faBook, faCalendarDays, faClock, faLocationDot, faPeopleGroup, faVenusMars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Card, Col, Layout, Row, Spin, Typography, Watermark ,theme} from 'antd';
+import { Button, Card, Col, Layout, Row, Spin, Typography, Watermark, theme } from 'antd';
 import { useRouter } from 'next/router';
-import React, { Fragment } from 'react';
+import React, { Fragment, useCallback, useState } from 'react';
 import { DASHBOARD_END_POINT } from '../../constants';
 import { QUERY_KEYS } from '../../constants/queryKeys';
 import { useGetAllData } from '../../utils/hooks/useGetAllData';
 import Axios from '../../utils/axios';
+import { post } from '../../helpers/api_helper';
+import ToastMessage from '../../components/Toast';
 
 const JobDetails = () => {
   const router = useRouter();
@@ -15,7 +17,30 @@ const JobDetails = () => {
   const { Text, Link } = Typography;
   const { Content } = Layout;
   const { data, isError, isLoading } = useGetAllData(QUERY_KEYS.GET_JOB_DETAILS, DASHBOARD_END_POINT.jobDetails(Id));
+  console.log(data?.data);
   const { token: { colorBgContainer }, } = theme.useToken();
+  const [loading, setLoading] = useState(false);
+  const notify = useCallback((type, message) => {
+    ToastMessage({ type, message });
+  }, []);
+  
+  const handleApply = async () => {
+    console.log(Id);
+    setLoading(true);
+    try {
+      const response = await post(DASHBOARD_END_POINT.jobApply(Id));
+      if (response.status === 'SUCCESS') {
+        notify('success', response.message);
+      } else {
+        notify('error', response.errorMessage);
+        setLoading(false);
+      }
+       setLoading(false);
+    } catch (error) {
+      notify('error', error.message);
+      setLoading(false);
+    }
+  }
   return (
 
     <Fragment>
@@ -112,7 +137,7 @@ const JobDetails = () => {
                       <Col span={8}>
                         {token !== null ? (
 
-                          <Button block type='primary'>Apply</Button>
+                          <Button block type='primary' onClick={handleApply}>Apply</Button>
                         ) : (
                           <>
                             <Link href="/login">

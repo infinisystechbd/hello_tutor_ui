@@ -17,11 +17,8 @@ const Dashboard = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(9);
   const [loading, setLoading] = useState(true);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const[dashboard,setDashboard] = useState([])
-  // const { data: dashboard } = useGetAllData(QUERY_KEYS.GET_ALL_DASHBOARD, DASHBOARD_END_POINT.dashbord(true,limit,page));
-
-
+ console.log(dashboard);
 
   const getAllData = async () =>{
 
@@ -58,9 +55,7 @@ const Dashboard = () => {
 
 
   const handelInfiniteScroll = async () =>{
-    console.log("scrollHeignt" + document.documentElement.scrollHeight);
-    console.log("innerHeight" + window.innerHeight);
-    console.log("scrollTop" +  document.documentElement.scrollTop);
+
     try {
       if (window.innerHeight + document.documentElement.scrollTop  + 1 >= document.documentElement.scrollHeight)  {
         setLoading(false)
@@ -104,10 +99,7 @@ const Dashboard = () => {
                   <Col md={10}>
                     <Text type="secondary">Job ID: <Text strong>{t?.jobId}</Text></Text>
                   </Col>
-                  {/* <Col md={1}><Text type="secondary" strong>|</Text></Col>
-              <Col md={10}>
-                <Text type="secondary">Posted Date: <Text strong>{t.postedDate}</Text></Text>
-              </Col> */}
+
                 </Row>
 
 
