@@ -141,7 +141,7 @@ const AllSubject = () => {
         extra
       ) => {
         setPage(pagination.current);
-        setPerPage(pagination.pageSize);
+        setLimit(pagination.pageSize);
         // setSelectedRowKeys([]);
         console.log(pagination, filters, sorter, extra);
       };
