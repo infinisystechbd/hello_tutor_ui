@@ -1,16 +1,13 @@
 import { CalendarOutlined, DingtalkOutlined, EnvironmentOutlined, ReadOutlined } from '@ant-design/icons';
 import { faPerson, faPersonDress, faPuzzlePiece } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Card, Col, Row, Typography,Layout, Spin } from 'antd';
+import { Button, Card, Col, DatePicker, Layout, Row, Select, Spin, Typography } from 'antd';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import withAuth from '../../components/withAuth';
-import { DASHBOARD_END_POINT } from '../../constants/index';
-import { QUERY_KEYS } from '../../constants/queryKeys';
-import Axios from '../../utils/axios';
-import { useGetAllData } from '../../utils/hooks/useGetAllData';
 import HeadSection from '../../components/HeadSection';
+import { DASHBOARD_END_POINT } from '../../constants/index';
 import { get } from '../../helpers/api_helper';
+import Axios from '../../utils/axios';
 const Dashboard = () => {
   const { Text, Link } = Typography;
   const { Content } = Layout;
@@ -19,18 +16,23 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const[dashboard,setDashboard] = useState([])
+  const [fromDate , SetFromDate] = useState();
+  const [toDate , SetToDate] = useState();
   // const { data: dashboard } = useGetAllData(QUERY_KEYS.GET_ALL_DASHBOARD, DASHBOARD_END_POINT.dashbord(true,limit,page));
 
 
+  const { RangePicker } = DatePicker;
 
-  const getAllData = async () =>{
+  const getAllData = async (limit,page,fromDate,toDate) =>{
 
     let isSubscribed = true;
-    await get(DASHBOARD_END_POINT.dashbord(true,limit,page))
+    console.log(fromDate, toDate)
+    await get(DASHBOARD_END_POINT.dashbord(true,limit,page, fromDate,toDate))
       .then((res) => {
+        console.log(res)
         if (isSubscribed) {
-          // setDashboard(res?.data);
-          setDashboard((prev)=>[...prev,...res?.data]);
+          setDashboard(res?.data);
+          //setDashboard((prev)=>[...prev,...res?.data]);
           setLoading(false)
         }
       })
@@ -44,8 +46,9 @@ const Dashboard = () => {
 
 
   useEffect(() => {
-    getAllData()
-  }, [page]);
+    getAllData(limit,page,fromDate,toDate)
+    console.log("----")
+  }, [limit,page,fromDate, toDate]);
 
 
 
@@ -64,7 +67,7 @@ const Dashboard = () => {
     try {
       if (window.innerHeight + document.documentElement.scrollTop  + 1 >= document.documentElement.scrollHeight)  {
         setLoading(false)
-        setPage((prev)=>prev+1)
+        setLimit((prev)=>prev+10)
       }
     } catch (error) {
       console.log(error);
@@ -84,6 +87,15 @@ const Dashboard = () => {
 
     await router.push(`/dashboard/${value}`)
   }
+  const onChangeFromDate = ( date, dateString ) => {
+    SetFromDate(dateString)
+    console.log({date} , {dateString})
+
+  }
+  const onChangeToDate = ( date, dateString ) => {
+    SetToDate(dateString)
+
+  }
   return (
     <>
       <Content
@@ -94,7 +106,25 @@ const Dashboard = () => {
 
       <HeadSection title="Dashboard" />
       <div className='container'>
+      <Card style={{marginTop: '70px'}}>
+          <Row justify="space-evenly">
+            <Col md={6} xs={12}>
+            <DatePicker placeholder='From Date' onChange={onChangeFromDate} style={{width: '100%'}} />
+            </Col>
+            <Col md={6} xs={12}>
+            <DatePicker placeholder='To Date' onChange={onChangeToDate} style={{width: '100%'}} />
+            </Col>
+            <Col md={4} xs={12}>
+            <Select style={{ width: '100%' }} />
+            </Col>
+            <Col md={4} xs={12}>
+          <Select style={{ width: '100%' }}/>
+            </Col>
+          </Row>
+        </Card>
+        
         <Row gutter={[8, 16]} justify="space-between">
+          
           {dashboard?.map((t, i) => (
             <Col key={i} className="gutter-row" xs={24} sm={24} md={12} lg={8}>
               <Card className='mt-2 custom-card' title={t.title} bordered={false} style={{ height: '325px' }}>
