@@ -34,7 +34,8 @@ const JobRequestDetails = () => {
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
     const [jobReq, setJobReq] = useState({});
-
+    
+    
     /** Creation modal  */
     const handleShow = () => {
         setIsModalOpen(true)
