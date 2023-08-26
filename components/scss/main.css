@@ -9,8 +9,14 @@
   .side-nav {
     margin-left: 80px;
   }
+  .UnProtective-side-nav {
+    margin-left: 0px;
+  }
   .navbar {
     margin-left: 80px !important;
+  }
+  .UnProtective-Nav {
+    margin-left: 0px;
   }
 }
 
