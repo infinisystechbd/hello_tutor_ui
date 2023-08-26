@@ -1,4 +1,4 @@
-import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, EyeOutlined, PartitionOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, EyeOutlined, PartitionOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Layout, Modal, Row, Tag, theme } from 'antd';
@@ -176,8 +176,9 @@ const JobRequestDetails = () => {
                 <a onClick={() => showDeleteConfirm(row._id, row.name)} className="text-danger" style={{ marginRight: '10px' }}>
                     <DeleteOutlined style={{ fontSize: '24px' }} />
                 </a>
-                <a onClick={() => handleAllAppliedViewOpen(row._id)} className="text-danger" style={{ marginRight: '10px' }}>
-                    <PartitionOutlined />
+                <a onClick={() => handleAllAppliedViewOpen(row._id)}  style={{ marginRight: '10px' }}>
+                    {/* <PartitionOutlined /> */}
+                    <UsergroupAddOutlined style={{ fontSize: '24px' }} />
                 </a>
             </Row>
         </>

@@ -1,9 +1,36 @@
 import { Modal } from 'antd';
-import React from 'react'
-
+import React, { useEffect } from 'react'
+import { useGetAllData } from '../../../utils/hooks/useGetAllData';
+import { get} from '../../../helpers/api_helper';
+import { JOB_REQUEST_END_POINT } from '../../../constants';
 const AllApplied = (props) => {
     const { isAppliedModalOpen, setIsAppliedModalOpen,jobId } = props;
     console.log(props);
+
+
+
+    const getAllData = async () =>{
+
+      let isSubscribed = true;
+      await get(JOB_REQUEST_END_POINT.getTutorByJobId(jobId))
+        .then((res) => {
+          if (isSubscribed) {
+            console.log(res?.data);
+          }
+        })
+        .catch((err) => {
+          console.log("Server Error ~!")
+        });
+  
+      return () => isSubscribed = false;
+    }
+  
+  
+  
+    useEffect(() => {
+      getAllData()
+    }, [jobId]);
+
   return (
     <>
         <Modal
