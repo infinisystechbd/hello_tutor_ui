@@ -1,5 +1,5 @@
 import { LoginOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { Button, Layout, Menu } from 'antd';
+import { Button, Layout, Menu, Row } from 'antd';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Axios from "../utils/axios";
@@ -13,23 +13,49 @@ const Navbar = () => {
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
   const [margin, setMargin] = useState('0px');
-
+  const [isAuth, setIsAuth] = useState('UnProtective-Nav')
   const onLogout = async () => {
     localStorage.clear();
     await router.replace("/");
     await router.reload();
   }
 
+  const goToProfile = async () => {
+
+  }
+  const onChangePassword = async () => {
+    
+  }
+
   useEffect(()=> {
     if(token)
     {
       setMargin('200px');
+      setIsAuth('navbar');
     }
   },[token])
 
   const navigateTo = (path) => {
     router.push(path);
   };
+
+  const profileMenuItems = [
+    {
+      key: '1',
+      label: <Row>Profile</Row>,
+      onClick: goToProfile
+    },
+    {
+      key: '2',
+      label: <Row>Change password</Row>,
+      onClick: onChangePassword
+    },
+    {
+      key: '3',
+      label: <Row>Logout</Row>,
+      onClick: onLogout
+    }
+  ];
 
 
   const [isMobileView, setIsMobileView] = useState(false);
@@ -50,7 +76,6 @@ const Navbar = () => {
   const toggleCollapsed = () => {
     setCollapsed(!collapsed)
   }
-
   return (
     <Header
 
@@ -64,11 +89,11 @@ const Navbar = () => {
         zIndex: 1000, 
         marginBottom: '100px',
       }}
-      className='navbar'
+      className={isAuth}
     >
       {/* Set the mode based on isMobileView state */}
       {/* <Menu mode={isMobileView ? 'horizontal' : 'horizontal'} theme="light" selectedKeys={[router.pathname]} defaultSelectedKeys={['/']}> */}
-      <Menu mode={isMobileView ? 'horizontal' : 'horizontal'} theme="light" selectedKeys={[router.pathname || '/']} defaultSelectedKeys={['/']}>
+      <Menu  className='' mode={isMobileView ? 'horizontal' : 'horizontal'} theme="light" selectedKeys={[router.pathname || '/']} defaultSelectedKeys={['/']}>
         {token !== null && (
           <Menu.Item key="toggle">
             <Button
@@ -90,6 +115,26 @@ const Navbar = () => {
             <Button type="link" onClick={onLogout} icon={<LoginOutlined />} size="large" />
           </Menu.Item>
         )}
+        {/* {
+          token !== null ? (
+            <Dropdown
+            dropdownRender={(menu) => (
+              <Menu
+                onClick={({ item }) => item?.onClick}
+                selectedKeys={[]}
+                mode="inline"
+                items={profileMenuItems}
+              />
+            )}
+            trigger={['click']}
+            placement="bottomRight"
+            arrow
+            className=" cursor-pointer my-3 mx-2">
+            <i className="fas fa-user fa-lg"></i>
+          </Dropdown>
+
+          ) : (<></>)
+        } */}
       </Menu>
     </Header>
   );
