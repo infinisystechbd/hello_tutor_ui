@@ -15,10 +15,12 @@ const Leftsidebar = ({ collapsed }) => {
   const { token } = Axios();
   const [profile, setProfile] = useState({});
 
+  
   useEffect(() => {
     const decode = parseJwt(token);
     setProfile(decode);
  }, [token]);
+
 
   console.log("profile",profile);
 
@@ -31,6 +33,13 @@ const Leftsidebar = ({ collapsed }) => {
       icon: <GlobalOutlined />,
       label: 'Profile',
       path: '/profile'
+    },
+
+    {
+      key: 'status',
+      icon: <GlobalOutlined />,
+      label: 'Status',
+      path: '/status'
     },
     {
       key: 'dashboard',
@@ -109,9 +118,9 @@ const Leftsidebar = ({ collapsed }) => {
     if (profile.role === 1) {
       allowedKeys.push('helloTutor', 'job', 'user_manage');
     } else if (profile.role === 4) {
-      allowedKeys.push('profile', 'dashboard', 'tutorRequest', 'setting');
+      allowedKeys.push('profile', 'dashboard', 'tutorRequest','status', 'setting');
     } else if (profile.role === 5) {
-      allowedKeys.push('profile', 'dashboard', 'tutorProfile', 'tutorProfileTry', 'setting');
+      allowedKeys.push('profile', 'dashboard', 'tutorProfile', 'tutorProfileTry','status','setting');
     }
   
     const filteredMenuItems = menuItems.filter((item) => allowedKeys.includes(item.key));
