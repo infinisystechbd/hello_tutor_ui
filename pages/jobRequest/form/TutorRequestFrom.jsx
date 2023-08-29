@@ -11,7 +11,7 @@ import { useGetAllData } from '../../../utils/hooks/useGetAllData.js';
 
 const TutorRequestFrom = (props) => {
   const { isModalOpen, setIsModalOpen, isParentRender, setEditData } = props;
-  console.log("setEditData", setEditData?._id);
+  console.log("setEditData", setEditData);
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
@@ -196,7 +196,7 @@ const TutorRequestFrom = (props) => {
   console.log(code);
   const handleCategory = async (value) => {
 
-
+    
     setIsVisited(true);
     const fetchCategory = await get(CATEGORIE_END_POINT.info(value));
     console.log("fetchCategory", fetchCategory);
@@ -217,6 +217,11 @@ const TutorRequestFrom = (props) => {
     setClassess(CATEGORYDROPDOWN);
 
   }
+
+  useEffect(() => {
+    // Clear selected classes when category changes
+    setClassess([]);
+  }, [code]);
 
   /**fetch class list  End */
 
@@ -316,6 +321,7 @@ const TutorRequestFrom = (props) => {
       hireDate: moment(setEditData.hireDate),
       tutoringTime: moment(setEditData.tutoringTime),
       status: setEditData.status,
+      jobStatus:setEditData.jobStatus,
     });
   } else if (setEditData == null && visited == false) {
     form.resetFields();
@@ -866,6 +872,30 @@ const TutorRequestFrom = (props) => {
                     </Form.Item>
 
 
+
+                    {/* {
+
+setEditData != null ? "" : */}
+
+                    {setEditData  && (
+                    <Form.Item
+                      label="Job Status"
+                      name="jobStatus"
+                    >
+                      <Select placeholder="Select an option"
+                      //  onChange={handleSalaryType}
+                        allowClear>
+                        <Option value="ACTIVE">ACTIVE</Option>
+                        <Option value="PENDING">PENDING</Option>
+                        <Option value="CANCELED">CANCELED</Option>
+                        <Option value="CONFIRMED">CONFIRMED</Option>
+
+
+                      </Select>
+                    </Form.Item>
+                    )}
+
+                    
                     <Form.Item
                       name="isApproval"
                       label="Approval"

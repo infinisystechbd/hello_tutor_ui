@@ -239,46 +239,10 @@ const AllSubject = () => {
 
                     <div style={{ overflowX: 'auto' }}>
                       <div style={{ minWidth: '100%' }}>
-                        {/* <DataTable
-                        columns={columns}
-                        data={subjectList?.data}
-                        pagination
-                        paginationServer
-                        highlightOnHover
-                        subHeader
-                        progressPending={isLoading}
-                        paginationTotalRows={subjectList?.total}
-                        onChangeRowsPerPage={handlePerRowsChange}
-                        onChangePage={handlePageChange}
-                        subHeaderComponent={
-                          <DebouncedSearchInput
-                            allowClear
-                            placeholder="Search subject name"
-                            onChange={setSearch}
-                          />
-                        }
-                        striped
-                      /> */}
 
-                        {/* <Table
-                        columns={columns}
-                        dataSource={subjectList?.data}
-                        pagination
-                        paginationServer
-                        highlightOnHover
-                        onChangeRowsPerPage={handlePerRowsChange}
-                        onChangePage={handlePageChange}
-                        scroll={{ x: 'max-content' }}
-                        noDataComponent={<span>No data available</span>}
-                      /> */}
 
                         <>
-                          {/* <Input.Search
-        placeholder="Search subject name"
-        allowClear
-        onChange={setSearch}
-        style={{ marginBottom: '16px' }}
-      /> */}
+
                           <Table
                             columns={columns}
                             dataSource={data}

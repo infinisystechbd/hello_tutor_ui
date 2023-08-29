@@ -14,7 +14,8 @@ const Dashboard = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(9);
   const [loading, setLoading] = useState(true);
-  const[dashboard,setDashboard] = useState([])
+  const[dashboard,setDashboard] = useState([]);
+  console.log(dashboard);
   const [fromDate , SetFromDate] = useState();
   const [toDate , SetToDate] = useState();
   // const { data: dashboard } = useGetAllData(QUERY_KEYS.GET_ALL_DASHBOARD, DASHBOARD_END_POINT.dashbord(true,limit,page));

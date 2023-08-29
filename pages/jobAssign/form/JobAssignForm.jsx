@@ -17,6 +17,8 @@ function ClassForm(props) {
     ToastMessage({ type, message });
   }, []);
   const { isModalOpen, setIsModalOpen, isParentRender, setEditData } = props;
+
+  console.log(setEditData);
   const { Option } = Select;
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
@@ -28,8 +30,8 @@ function ClassForm(props) {
   if (setEditData != null && visited == false) {
     
     form.setFieldsValue({
-      jobId: setEditData.jobId?.name,
-      tutorId: setEditData.tutorId?.name,
+      jobId: setEditData.jobId?._id,
+      tutorId: setEditData.tutorId?._id,
       comment: setEditData.comment,
     });
   } else if(setEditData == null && visited == false  ) {
