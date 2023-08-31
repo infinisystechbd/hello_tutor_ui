@@ -20,32 +20,64 @@ const Status = () => {
   const [pendingJob, setPendingJob] = useState([]);
   const [cancelJob, setCancelJob] = useState([]);
   const [confirmJob, setConfirmJob] = useState([]);
-  console.log("activeJob", activeJob);
+  const [activeStatus, setActiveStatus] = useState(false);
+  const [pendingStatus, setPendingStatus] = useState(false);
+  const [cancelStatus, setCancelStatus] = useState(false);
+  const [confirmedStatus, setConfirmedStatus] = useState(false);
   const { Content } = Layout;
   const [loading, setLoading] = useState(true);
-  // const getAllData = async () => {
 
-  //   let isSubscribed = true;
+  console.log(activeStatus);
+  const handleActive = () => {
 
-  //   await get(STATUS_END_POINT.get())
-  //     .then((res) => {
-  //       console.log(res)
-  //       if (isSubscribed) {
-  //         setAppliedJob(res?.data);
+    setActiveStatus(true)
+    setPendingStatus(false)
+    setCancelStatus(false)
+    setConfirmedStatus(false)
+  }
 
-  //         setLoading(false)
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log("Server Error ~!")
-  //     });
 
-  //   return () => isSubscribed = false;
-  // }
+  const handlePending = () => {
+
+    setPendingStatus(true)
+    setActiveStatus(true)
+
+    setCancelStatus(false)
+    setConfirmedStatus(false)
+  }
+
+
+  const handleCancel = () => {
+
+    setCancelStatus(true)
+    setActiveStatus(true)
+    setPendingStatus(false)
+
+    setConfirmedStatus(false)
+  }
+
+
+  const handleConfirmed = () => {
+
+    setConfirmedStatus(true)
+    setActiveStatus(true)
+    setPendingStatus(false)
+    setCancelStatus(false)
+    setConfirmedStatus(false)
+  }
+
+
+
+
+
+
+
+  // handlePending
 
 
   // ACTIVE, PENDING, CANCELED, CONFIRMED
   const getAllData = async () => {
+    let isSubscribed = true;
     try {
       const response = await get(STATUS_END_POINT.get());
       const data = response?.data;
@@ -65,6 +97,8 @@ const Status = () => {
     } catch (error) {
       console.log("Server Error:", error);
     }
+
+    return () => isSubscribed = false;
   }
 
 
@@ -93,23 +127,287 @@ const Status = () => {
           <Card className="mt-4">
             <Row className="justify-content-center">
               <Col md={6} sm={12} className="mb-3">
-                <button type="button" className="btn btn-outline-primary btn-block">ACTIVE</button>
+                <button type="button" className="btn btn-outline-primary btn-block" onClick={handleActive}>ACTIVE</button>
               </Col>
               <Col md={6} sm={12} className="mb-3">
-                <button type="button" className="btn btn-outline-secondary btn-block">PENDING</button>
+                <button type="button" className="btn btn-outline-secondary btn-block" onClick={handlePending}>PENDING</button>
               </Col>
               <Col md={6} sm={12} className="mb-3">
-                <button type="button" className="btn btn-outline-success btn-block">CANCELED</button>
+                <button type="button" className="btn btn-outline-success btn-block" onClick={handleCancel}>CANCELED</button>
               </Col>
               <Col md={6} sm={12} className="mb-3">
-                <button type="button" className="btn btn-outline-success btn-block">CONFIRMED</button>
+                <button type="button" className="btn btn-outline-success btn-block" onClick={handleConfirmed}>CONFIRMED</button>
               </Col>
             </Row>
           </Card>
 
 
           <Row gutter={[8, 8]} justify="space-between">
-            {appliedJob?.map((t, i) => (
+
+
+
+
+
+            {
+
+              activeStatus
+                ? (activeJob?.map((t, i) => (
+                  <Col key={i} className="gutter-row" xs={24} sm={24} md={12} lg={8}>
+                    <Card className='mt-2 custom-card' title={t.title} bordered={false} style={{ height: '250px' }}>
+
+
+                      <Row>
+                        <Col md={10}>
+                          <Text type="secondary">Job ID: <Text strong>{t?.jobId}</Text></Text>
+                        </Col>
+
+                        {/* <Col md={10}>
+                          <Text type="secondary"  >Job ID: <Text style={{ color: t.preferredGender === "CONFIRMED" ? 'green' : 'red' }} strong>{t?.jobStatus}</Text></Text>
+                        </Col> */}
+
+                      </Row>
+
+
+                      <Row className="mt-2">
+
+                        <Col md={24}>
+                          <CalendarOutlined style={{ fontSize: '18px', color: '#08c' }} />
+                          <Text type="secondary">Posted Date: <Text strong>{moment(t.postedDate).format('MM/DD/YYYY')}</Text></Text>
+
+                        </Col>
+                      </Row>
+
+
+                      <Row className="mt-2">
+
+                        <Col md={24}>
+                          <ReadOutlined style={{ fontSize: '18px', color: '#08c' }} />
+                          <Text type="secondary"> Subjects: </Text>
+                          <Text strong>
+                            {t.subject.map((subject) => subject.subjectId.name).join(', ')}
+
+                          </Text>
+                        </Col>
+                      </Row>
+
+
+                      <Row className="mt-2">
+                        <Col>
+                          <EnvironmentOutlined style={{ fontSize: '18px', color: '#08c' }} />
+                          <Text type="secondary"> Location: </Text>
+                          <Text strong>{t.address}</Text>
+                        </Col>
+                      </Row>
+
+                      <Row className="mt-2" >
+                        {/* PuzzleOutlined */}
+                        <Col md={12}>
+                          <FontAwesomeIcon icon={faPuzzlePiece} style={{ fontSize: '18px', color: '#08c' }} />
+                          <Text type="secondary">Tuition Type:</Text>
+                          <Text strong>Home</Text>
+                        </Col>
+                        <Col md={12}>
+                          <DingtalkOutlined style={{ fontSize: '18px', color: '#08c' }} />
+                          <Text type="secondary"> Salary: </Text>
+                          <Text strong>{t.salary}</Text>
+                        </Col>
+                      </Row>
+
+
+                      <Row className="mt-2 " justify="space-between">
+                        <Col>
+                          <FontAwesomeIcon
+                            color={t.preferredGender === 'Male' ? 'green' : 'red'}
+                            icon={t.preferredGender === 'Male' ? faPerson : faPersonDress}
+                            style={{ fontSize: '1rem' }}
+                          />
+                          <Text>{t.preferredGender === 'Male' ? 'Male' : 'Female'}</Text>
+                          <Text strong> {t.preferredGender} <Text type="secondary">tutor preferred</Text></Text>
+                        </Col>
+                        <Col>
+                          <Button type="primary" onClick={() => onDetails(t.jobId)}>Details</Button>
+                        </Col>
+                      </Row>
+
+
+                    </Card>
+                  </Col>
+                )))
+                : ""}
+
+            {pendingStatus
+              ? (pendingJob?.map((t, i) => (
+                <Col key={i} className="gutter-row" xs={24} sm={24} md={12} lg={8}>
+                  <Card className='mt-2 custom-card' title={t.title} bordered={false} style={{ height: '250px' }}>
+
+
+                    <Row>
+                      <Col md={10}>
+                        <Text type="secondary">Job ID: <Text strong>{t?.jobId}</Text></Text>
+                      </Col>
+
+                      {/* <Col md={10}>
+                        <Text type="secondary"  >Job ID: <Text style={{ color: t.preferredGender === "CONFIRMED" ? 'green' : 'red' }} strong>{t?.jobStatus}</Text></Text>
+                      </Col> */}
+
+                    </Row>
+
+
+                    <Row className="mt-2">
+
+                      <Col md={24}>
+                        <CalendarOutlined style={{ fontSize: '18px', color: '#08c' }} />
+                        <Text type="secondary">Posted Date: <Text strong>{moment(t.postedDate).format('MM/DD/YYYY')}</Text></Text>
+
+                      </Col>
+                    </Row>
+
+
+                    <Row className="mt-2">
+
+                      <Col md={24}>
+                        <ReadOutlined style={{ fontSize: '18px', color: '#08c' }} />
+                        <Text type="secondary"> Subjects: </Text>
+                        <Text strong>
+                          {t.subject.map((subject) => subject.subjectId.name).join(', ')}
+
+                        </Text>
+                      </Col>
+                    </Row>
+
+
+                    <Row className="mt-2">
+                      <Col>
+                        <EnvironmentOutlined style={{ fontSize: '18px', color: '#08c' }} />
+                        <Text type="secondary"> Location: </Text>
+                        <Text strong>{t.address}</Text>
+                      </Col>
+                    </Row>
+
+                    <Row className="mt-2" >
+                      {/* PuzzleOutlined */}
+                      <Col md={12}>
+                        <FontAwesomeIcon icon={faPuzzlePiece} style={{ fontSize: '18px', color: '#08c' }} />
+                        <Text type="secondary">Tuition Type:</Text>
+                        <Text strong>Home</Text>
+                      </Col>
+                      <Col md={12}>
+                        <DingtalkOutlined style={{ fontSize: '18px', color: '#08c' }} />
+                        <Text type="secondary"> Salary: </Text>
+                        <Text strong>{t.salary}</Text>
+                      </Col>
+                    </Row>
+
+
+                    <Row className="mt-2 " justify="space-between">
+                      <Col>
+                        <FontAwesomeIcon
+                          color={t.preferredGender === 'Male' ? 'green' : 'red'}
+                          icon={t.preferredGender === 'Male' ? faPerson : faPersonDress}
+                          style={{ fontSize: '1rem' }}
+                        />
+                        <Text>{t.preferredGender === 'Male' ? 'Male' : 'Female'}</Text>
+                        <Text strong> {t.preferredGender} <Text type="secondary">tutor preferred</Text></Text>
+                      </Col>
+                      <Col>
+                        <Button type="primary" onClick={() => onDetails(t.jobId)}>Details</Button>
+                      </Col>
+                    </Row>
+
+
+                  </Card>
+                </Col>
+              )))
+              : ""}
+
+
+            {cancelStatus
+              ? (cancelJob?.map((t, i) => (
+                <Col key={i} className="gutter-row" xs={24} sm={24} md={12} lg={8}>
+                  <Card className='mt-2 custom-card' title={t.title} bordered={false} style={{ height: '250px' }}>
+
+
+                    <Row>
+                      <Col md={10}>
+                        <Text type="secondary">Job ID: <Text strong>{t?.jobId}</Text></Text>
+                      </Col>
+
+                      {/* <Col md={10}>
+                        <Text type="secondary"  >Job ID: <Text style={{ color: t.preferredGender === "CONFIRMED" ? 'green' : 'red' }} strong>{t?.jobStatus}</Text></Text>
+                      </Col> */}
+
+                    </Row>
+
+
+                    <Row className="mt-2">
+
+                      <Col md={24}>
+                        <CalendarOutlined style={{ fontSize: '18px', color: '#08c' }} />
+                        <Text type="secondary">Posted Date: <Text strong>{moment(t.postedDate).format('MM/DD/YYYY')}</Text></Text>
+
+                      </Col>
+                    </Row>
+
+
+                    <Row className="mt-2">
+
+                      <Col md={24}>
+                        <ReadOutlined style={{ fontSize: '18px', color: '#08c' }} />
+                        <Text type="secondary"> Subjects: </Text>
+                        <Text strong>
+                          {t.subject.map((subject) => subject.subjectId.name).join(', ')}
+
+                        </Text>
+                      </Col>
+                    </Row>
+
+
+                    <Row className="mt-2">
+                      <Col>
+                        <EnvironmentOutlined style={{ fontSize: '18px', color: '#08c' }} />
+                        <Text type="secondary"> Location: </Text>
+                        <Text strong>{t.address}</Text>
+                      </Col>
+                    </Row>
+
+                    <Row className="mt-2" >
+                      {/* PuzzleOutlined */}
+                      <Col md={12}>
+                        <FontAwesomeIcon icon={faPuzzlePiece} style={{ fontSize: '18px', color: '#08c' }} />
+                        <Text type="secondary">Tuition Type:</Text>
+                        <Text strong>Home</Text>
+                      </Col>
+                      <Col md={12}>
+                        <DingtalkOutlined style={{ fontSize: '18px', color: '#08c' }} />
+                        <Text type="secondary"> Salary: </Text>
+                        <Text strong>{t.salary}</Text>
+                      </Col>
+                    </Row>
+
+
+                    <Row className="mt-2 " justify="space-between">
+                      <Col>
+                        <FontAwesomeIcon
+                          color={t.preferredGender === 'Male' ? 'green' : 'red'}
+                          icon={t.preferredGender === 'Male' ? faPerson : faPersonDress}
+                          style={{ fontSize: '1rem' }}
+                        />
+                        <Text>{t.preferredGender === 'Male' ? 'Male' : 'Female'}</Text>
+                        <Text strong> {t.preferredGender} <Text type="secondary">tutor preferred</Text></Text>
+                      </Col>
+                      <Col>
+                        <Button type="primary" onClick={() => onDetails(t.jobId)}>Details</Button>
+                      </Col>
+                    </Row>
+
+
+                  </Card>
+                </Col>
+              )))
+              : ""}
+
+
+            {confirmedStatus ? (confirmJob?.map((t, i) => (
               <Col key={i} className="gutter-row" xs={24} sm={24} md={12} lg={8}>
                 <Card className='mt-2 custom-card' title={t.title} bordered={false} style={{ height: '250px' }}>
 
@@ -119,9 +417,9 @@ const Status = () => {
                       <Text type="secondary">Job ID: <Text strong>{t?.jobId}</Text></Text>
                     </Col>
 
-                    <Col md={10}>
-                      <Text type="secondary"  >Job ID: <Text style={{ color: t.preferredGender === "PENDING" ? 'green' : 'red' }} strong>{t?.jobStatus}</Text></Text>
-                    </Col>
+                    {/* <Col md={10}>
+                      <Text type="secondary"  >Job ID: <Text style={{ color: t.preferredGender === "CONFIRMED" ? 'green' : 'red' }} strong>{t?.jobStatus}</Text></Text>
+                    </Col> */}
 
                   </Row>
 
@@ -190,7 +488,14 @@ const Status = () => {
 
                 </Card>
               </Col>
-            ))}
+            ))) : ""}
+
+
+
+
+
+
+
             {loading && <Spin />}
 
 
