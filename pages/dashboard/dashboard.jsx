@@ -159,6 +159,16 @@ const onChangeSubject = (value) => {
     setOpen(false);
     getAllData(limit,page)
   }
+  const resetFilter = () => {
+    SetFromDate("");
+    SetToDate("");
+    setSelectedCity("");
+    setselectedLocation("");
+    setSelectedClass("");
+    setSelectedSubject("");
+    setTutionType("");
+    setSelectedCategory("")
+  }
   return (
     <>
       <Content
@@ -184,7 +194,7 @@ const onChangeSubject = (value) => {
           ))}
           <Col md={6} xs={6}>
           
-          <Button onClick={() => setSelectedCategory("")}>Reset Filter</Button>
+          <Button onClick={resetFilter}>Reset Filter</Button>
           </Col>
         </Row>
           
