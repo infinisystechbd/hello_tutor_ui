@@ -1,12 +1,13 @@
 import { CalendarOutlined, DingtalkOutlined, EnvironmentOutlined, ReadOutlined } from '@ant-design/icons';
 import { faPerson, faPersonDress, faPuzzlePiece } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Card, Col, DatePicker, Layout, Row, Select, Spin, Typography } from 'antd';
+import { Button, Card, Col, DatePicker, Drawer, Layout, Row, Select, Space, Spin, Typography } from 'antd';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import HeadSection from '../../components/HeadSection';
-import { DASHBOARD_END_POINT } from '../../constants/index';
+import { CATEGORIE_END_POINT, CITY_END_POINT, CLASS_END_POINT, DASHBOARD_END_POINT, LOCATION_END_POINT, SUBJECT_END_POINT } from '../../constants/index';
 import { get } from '../../helpers/api_helper';
+import { mapArrayToDropdown } from '../../helpers/common_Helper';
 import Axios from '../../utils/axios';
 const Dashboard = () => {
   const { Text, Link } = Typography;
@@ -17,16 +18,28 @@ const Dashboard = () => {
   const[dashboard,setDashboard] = useState([])
   const [fromDate , SetFromDate] = useState();
   const [toDate , SetToDate] = useState();
+  const [category, setCategory] = useState([]);
+  const [selectedCateGory, setSelectedCategory] = useState('');
+  const [cityDropDown, setCityDropDown] = useState([]);
+  const [selectedCity, setSelectedCity] = useState('');
+  const [locationDropDown, setLocationDropDown] = useState([]);
+  const [selectedLocation, setselectedLocation] = useState('');
+  const [classDropDown, setClassDropDown] = useState([]);
+  const [selectedClass, setSelectedClass] = useState('');
+  const [subjectDropDown, setSubjectDropDown] = useState([]);
+  const [selectedSubject, setSelectedSubject] = useState('');
+  const [tutionType,setTutionType] = useState('');
+  const [open, setOpen] = useState(false);
+  const [size, setSize] = useState();
   // const { data: dashboard } = useGetAllData(QUERY_KEYS.GET_ALL_DASHBOARD, DASHBOARD_END_POINT.dashbord(true,limit,page));
 
 
   const { RangePicker } = DatePicker;
 
-  const getAllData = async (limit,page,fromDate,toDate) =>{
+  const getAllData = async (limit,page) => {
 
     let isSubscribed = true;
-    console.log(fromDate, toDate)
-    await get(DASHBOARD_END_POINT.dashbord(true,limit,page, fromDate,toDate))
+    await get(DASHBOARD_END_POINT.dashbord(true,limit,page, fromDate,toDate,tutionType,selectedCity,selectedLocation,selectedCateGory,selectedClass,selectedSubject))
       .then((res) => {
         console.log(res)
         if (isSubscribed) {
@@ -42,12 +55,17 @@ const Dashboard = () => {
     return () => isSubscribed = false;
   }
 
-
-
+  const fetchCategory = async () => {
+    const fetchdata = await get(CATEGORIE_END_POINT.get(1,-1,'',true));
+    const arrayToDrop = mapArrayToDropdown(fetchdata?.data,'name','_id')
+    setCategory(arrayToDrop);
+  }
+ useEffect(()=> {
+  fetchCategory();
+ },[])
   useEffect(() => {
-    getAllData(limit,page,fromDate,toDate)
-    console.log("----")
-  }, [limit,page,fromDate, toDate]);
+    getAllData(limit,page)
+  }, [limit,page,selectedCateGory]);
 
 
 
@@ -86,12 +104,59 @@ const Dashboard = () => {
   }
   const onChangeFromDate = ( date, dateString ) => {
     SetFromDate(dateString)
-    console.log({date} , {dateString})
 
   }
   const onChangeToDate = ( date, dateString ) => {
     SetToDate(dateString)
 
+  }
+  const onChangeCity = async (id) => {
+      setSelectedCity(id);
+      const fetchLocation = await get(LOCATION_END_POINT.getLocationByCityId(id));
+      const locationArrayToDropDown = mapArrayToDropdown(fetchLocation?.data,'name','_id');
+      setLocationDropDown(locationArrayToDropDown);
+  }
+  const onChangeLocation = (id) => {
+    setselectedLocation(id);
+  }
+  const onChangeCategory = (value) => {
+    setSelectedCategory(value)
+  }
+
+
+const fetchCity = async () => {
+  const dataFetch = await get(CITY_END_POINT.get(1, -1,'',''));
+  const cityArrayToDropDown = mapArrayToDropdown(dataFetch?.data,'name','_id')
+  setCityDropDown(cityArrayToDropDown);
+}
+const fetchClass = async () => {
+  const classFetch = await get(CLASS_END_POINT.get(1,-1,'',''));
+  const classArrayToDropDown = mapArrayToDropdown(classFetch?.data, 'name', '_id');
+  setClassDropDown(classArrayToDropDown);
+}
+const onChangeClass = (value) => {
+  setSelectedClass(value);
+}
+const fetchSubject = async () => {
+  const subjectFetch = await get(SUBJECT_END_POINT.dropdown(1,-1,'',''));
+  const subjectArrayToDropDown = mapArrayToDropdown(subjectFetch?.data, 'name','_id');
+  setSubjectDropDown(subjectArrayToDropDown);
+}
+const onChangeSubject = (value) => {
+  setSelectedSubject(value);
+}
+  const onClose = () => {
+    setOpen(false);
+  };
+  const onOpen = () => {
+    setOpen(true);
+    fetchCity();
+    fetchClass();
+    fetchSubject();
+  }
+  const onApply = () => {
+    setOpen(false);
+    getAllData(limit,page)
   }
   return (
     <>
@@ -104,7 +169,41 @@ const Dashboard = () => {
       <HeadSection title="Dashboard" />
       <div className='container'>
       <Card style={{marginTop: '70px'}}>
-          <Row justify="space-evenly">
+        <Row justify="space-evenly">
+        <Col md={6} xs={6}>
+          
+        <Button onClick={onOpen}>Filter</Button>
+        </Col>
+          {category?.map(t => (
+            <>
+            <Col md={6} xs={6}>
+            <Button key={t.categoryId} onClick={() => onChangeCategory(t._id)}>{t.name}</Button>
+            </Col>
+            </>
+          ))}
+          <Col md={6} xs={6}>
+          
+          <Button onClick={() => setSelectedCategory("")}>Reset Filter</Button>
+          </Col>
+        </Row>
+          
+      </Card>
+      <Drawer
+        title='Filter'
+        placement="top"
+        size={'default'}
+        onClose={onClose}
+        open={open}
+        footer={
+          <Space>
+            <Button onClick={onClose}>Cancel</Button>
+            <Button type="primary" onClick={onApply}>
+              Apply
+            </Button>
+          </Space>
+        }
+      >
+        <Row justify="space-evenly">
             <Col md={6} xs={12}>
             <DatePicker placeholder='From Date' onChange={onChangeFromDate} style={{width: '100%'}} />
             </Col>
@@ -112,13 +211,27 @@ const Dashboard = () => {
             <DatePicker placeholder='To Date' onChange={onChangeToDate} style={{width: '100%'}} />
             </Col>
             <Col md={4} xs={12}>
-            <Select style={{ width: '100%' }} />
+          <Select placeholder='City' options={cityDropDown} onChange={onChangeCity} style={{ width: '100%' }}/>
             </Col>
             <Col md={4} xs={12}>
-          <Select style={{ width: '100%' }}/>
+          <Select placeholder='Location' options={locationDropDown} onChange={onChangeLocation} style={{ width: '100%' }}/>
             </Col>
-          </Row>
-        </Card>
+        </Row>
+        <Row justify="space-evenly" className='mt-2'>
+        <Col md={6} xs={12}>
+          <Select placeholder='Student Gender' style={{ width: '100%' }}/>
+        </Col>
+        <Col md={6} xs={12}>
+          <Select placeholder='Tutor Gender' style={{ width: '100%' }}/>
+        </Col>
+        <Col md={6} xs={12}>
+          <Select placeholder='Class' options={classDropDown} onChange={onChangeClass} style={{ width: '100%' }}/>
+        </Col>
+        <Col md={6} xs={12}>
+          <Select placeholder='Subject' options={subjectDropDown} onChange={onChangeSubject} style={{ width: '100%' }}/>
+        </Col>
+        </Row>
+      </Drawer>
         
         <Row gutter={[8, 16]} justify="space-between">
           
