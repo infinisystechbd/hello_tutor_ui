@@ -15,7 +15,8 @@ const Dashboard = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(9);
   const [loading, setLoading] = useState(true);
-  const[dashboard,setDashboard] = useState([])
+  const[dashboard,setDashboard] = useState([]);
+  console.log(dashboard);
   const [fromDate , SetFromDate] = useState();
   const [toDate , SetToDate] = useState();
   const [category, setCategory] = useState([]);

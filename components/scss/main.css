@@ -107,3 +107,18 @@
   }
 }
 
+
+
+.status-filter-card{
+
+  /* position: fixed; */
+  top: 150px;
+  left: 220px;
+  right: 30px;
+  bottom: 0;
+  overflow-y: auto;
+  background-color: white;
+  z-index: 1000;
+}
+
+

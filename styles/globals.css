@@ -1,30 +1,11 @@
-/* html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.font-lato {
+  font-family: 'Lato', sans-serif;
 }
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
-} */
-
 .divider:after,
 .divider:before {
 content: "";
@@ -190,38 +171,6 @@ body {
   }
 }
 
-/* job request pages end */
-
-
-
-
-
-/* .client-layout {
-  height: calc(100vh - 80px);
-}
-
-.side-nav {
-  margin-left: 200px;
-}
-
-.fixed-content {
-  margin-left: 100px; 
-  top: 64px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow-y: auto;
-}
-
-@media (max-width: 767px) {
-  .side-nav {
-    margin-left: 80px;
-  }
-
-  .fixed-content {
-    margin-left: 80px;
-  }
-} */
 
 
 

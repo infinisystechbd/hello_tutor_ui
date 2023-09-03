@@ -1,4 +1,4 @@
-import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, EyeOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, EyeOutlined, ShrinkOutlined } from '@ant-design/icons';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Layout, Modal, Row, theme } from 'antd';
@@ -12,6 +12,7 @@ import { QUERY_KEYS } from '../../constants/queryKeys';
 import { del } from '../../helpers/api_helper';
 import { useGetAllData } from '../../utils/hooks/useGetAllData';
 import JobAssignForm from './form/JobAssignForm';
+import JobAssignForm1 from './AssignFrom/JobAssignForm';
 // import JobAssignView from './view/GuardianView';
 
 
@@ -29,13 +30,14 @@ function JobAssign(props) {
     const { Content } = Layout;
     const [search, setSearch] = useState('');
     const [pending, setPending] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
     const [editData, setEditData] = useState({});
     const [isViewModalOpen, setIsViewModalOpen] = useState(false);
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
     const [guardian, setGuardian] = useState({});
-
+    const [assignData, setAssignData] = useState({});
     const handleShow = () => {
         setIsModalOpen(true)
         setEditData(null);
@@ -46,6 +48,16 @@ function JobAssign(props) {
         setEditData(data);
         setIsModalOpen(true)
     }
+
+
+    const handleAssign = (data) => {
+        setAssignData(data);
+      
+        setIsAssignModalOpen(true)
+    }
+
+
+
 
     /**view modal function */
     const handleViewOpen = (data) => {
@@ -161,6 +173,10 @@ function JobAssign(props) {
                 <a onClick={() => showDeleteConfirm(row._id, row.name)} className="text-danger" style={{ marginRight: '10px' }}>
                     <DeleteOutlined style={{ fontSize: '24px' }} />
                 </a>
+
+                {/* <a onClick={() => handleAssign(row)} className="green" style={{ marginRight: '10px' }}>
+                    <ShrinkOutlined />
+                </a> */}
             </Row>
         </>
     }
@@ -211,6 +227,15 @@ function JobAssign(props) {
                                             setIsModalOpen={setIsModalOpen}
                                             isParentRender={reFetchHandler}
                                             setEditData={editData}
+
+
+                                        />
+
+                                        <JobAssignForm1
+                                            isAssignModalOpen={isAssignModalOpen}
+                                            setIsAssignModalOpen={setIsAssignModalOpen}
+                                            isParentRender={reFetchHandler}
+                                            setAssignData={assignData}
 
 
                                         />
