@@ -9,6 +9,7 @@ import DefaultLayout from '../components/DefaultLayout';
 import '../components/scss/main.css';
 import '../styles/Home.module.css';
 import '../styles/globals.css';
+// import 'antd/dist/antd.css';
 import UserContext from './../components/context/userContext';
 const MyApp = ({ Component, pageProps }) => {
 

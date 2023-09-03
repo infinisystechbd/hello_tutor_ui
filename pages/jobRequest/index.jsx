@@ -15,6 +15,7 @@ import TutorRequestFrom from './form/TutorRequestFrom';
 // import TutorRequestFrom from './form/create';
 import JobRequestView from './view/JobRequestView';
 import JobApplied from './applied';
+
 // JobRequestView.jsx
 const JobRequestDetails = () => {
     const notify = useCallback((type, message) => {
@@ -211,9 +212,14 @@ const JobRequestDetails = () => {
                                                     type="primary"
                                                     onClick={handleShow}
                                                     block
+                                                    style={{
+                                                        backgroundColor: "#007bff", 
+                                                        color: "#fff", 
+                                                        // width: "200px" // Width of the button
+                                                      }}
                                                 >
-                                                    <span style={{ marginRight: '8px' }}>Add</span>
-                                                    <span className="button-icon-space ml-10">
+                                                    <span >Add</span>
+                                                    <span className="button-icon-space ml-5">
 
 
                                                         <FontAwesomeIcon icon={faPlusCircle} />

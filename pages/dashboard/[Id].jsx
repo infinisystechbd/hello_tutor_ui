@@ -129,19 +129,23 @@ const JobDetails = () => {
 
                     <Row gutter={[16, 16]} className='mt-4'>
                       <Col span={8}>
-                        <Button block>Location</Button>
+                        {/* <Button block>Location</Button> */}
                       </Col>
                       <Col span={8}>
-                        <Button block>Direction</Button>
+                        {/* <Button block>Direction</Button> */}
                       </Col>
                       <Col span={8}>
                         {token !== null ? (
 
-                          <Button block type='primary' onClick={handleApply}>Apply</Button>
+                          // <Button block type='primary' onClick={handleApply}>Apply</Button>
+                          <button type="button" class="btn btn-outline-primary " onClick={handleApply}  style={{ width: '100%' }}>Apply</button>
+                        
                         ) : (
                           <>
                             <Link href="/login">
-                              <Button block type='primary'>Apply</Button>
+                              {/* <Button block type='primary'>Apply</Button> */}
+                              <button type="button" class="btn btn-outline-primary " style={{ width: '100%' }}>Apply</button>
+                              
                             </Link>
 
                           </>

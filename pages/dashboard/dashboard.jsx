@@ -189,7 +189,11 @@ const Dashboard = () => {
                     <Text strong> {t.preferredGender} <Text type="secondary">tutor preferred</Text></Text>
                   </Col>
                   <Col>
-                    <Button type="primary" onClick={() => onDetails(t.jobId)}>Details</Button>
+                    {/* <Button type="primary" onClick={() => onDetails(t.jobId)}>Details</Button> */}
+                    <button className="btn btn-primary   font-weight-bold" onClick={() => onDetails(t.jobId)}>
+                    Details
+            {/* <FontAwesomeIcon icon={faArrowRight} className="ml-2" /> */}
+        </button>
                   </Col>
                 </Row>
 

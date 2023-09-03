@@ -180,15 +180,20 @@ const LoginPage = () => {
 
                       <button
                         type="submit"
-                        className="btn btn-primary btn-lg"
-                        style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
+                        className="btn"
+                        style={{
+                          backgroundColor: "#007bff", // Background color (blue in this example)
+                          color: "#fff", // Text color (white in this example)
+                          // width: "200px" // Width of the button
+                        }}
                       >
                         Login
                       </button>
                       <p className="small fw-bold mt-2 pt-1 mb-0">
                         Dont have an account?{" "}
-                        <Link href="/register" className="link-danger">
-                          Register
+                        <Link href="/register" >
+                         
+                         <span className="text-primary">Register</span> 
                         </Link>
                       </p>
                     </div>

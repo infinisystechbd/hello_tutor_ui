@@ -309,8 +309,12 @@ const LoginPage = () => {
                                                                     <button
                                                                         type="submit"
                                                                         className="btn btn-primary btn-lg"
-                                                                        style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
-
+                                                                        // style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
+                                                                        style={{
+                                                                            backgroundColor: "#007bff", 
+                                                                            color: "#fff", 
+                                                                            // width: "200px" // Width of the button
+                                                                          }}
                                                                         onClick={guardianRegForm}
                                                                     >
                                                                         Register Guardian
@@ -319,7 +323,7 @@ const LoginPage = () => {
                                                                         Already  have an account?{" "}
                                                                         <Link href="/login" className="link-danger">
 
-                                                                            Login
+                                                                             <span className="text-primary">Login</span> 
 
                                                                         </Link>
                                                                     </p>
@@ -450,8 +454,12 @@ const LoginPage = () => {
                                                                         <button
                                                                             type="submit"
                                                                             className="btn btn-primary btn-lg"
-                                                                            style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
-
+                                                                            // style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
+                                                                            style={{
+                                                                                backgroundColor: "#007bff", 
+                                                                                color: "#fff", 
+                                                                                // width: "200px" // Width of the button
+                                                                              }}
                                                                             onClick={tutorRegForm}
                                                                         >
                                                                             Register Teacher
@@ -460,8 +468,8 @@ const LoginPage = () => {
                                                                             Already  have an account?{" "}
                                                                             <Link href="/login" className="link-danger">
 
-                                                                                Login
-
+                                                                                
+                                                                                <span className="text-primary">Login</span> 
                                                                             </Link>
                                                                         </p>
 
@@ -502,8 +510,12 @@ const LoginPage = () => {
                                                         <button
                                                             type="submit"
                                                             className="btn btn-primary btn-lg"
-                                                            style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
-
+                                                            // style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
+                                                            style={{
+                                                                backgroundColor: "#007bff", 
+                                                                color: "#fff", 
+                                                                // width: "200px" // Width of the button
+                                                              }}
                                                             onClick={tokenHandeler}
                                                         >
                                                             Send
