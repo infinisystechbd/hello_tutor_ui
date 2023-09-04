@@ -196,7 +196,7 @@ const TutorRequestFrom = (props) => {
   console.log(code);
   const handleCategory = async (value) => {
 
-    
+
     setIsVisited(true);
     const fetchCategory = await get(CATEGORIE_END_POINT.info(value));
     console.log("fetchCategory", fetchCategory);
@@ -321,7 +321,7 @@ const TutorRequestFrom = (props) => {
       hireDate: moment(setEditData.hireDate),
       tutoringTime: moment(setEditData.tutoringTime),
       status: setEditData.status,
-      jobStatus:setEditData.jobStatus,
+      jobStatus: setEditData.jobStatus,
     });
   } else if (setEditData == null && visited == false) {
     form.resetFields();
@@ -418,11 +418,11 @@ const TutorRequestFrom = (props) => {
 
 
           <Form.Item
-            // className="mt-4"
+
             name="newGuardian"
             label="newGuardian"
-            valuePropName="checked" // This is necessary for using the Switch with Form.Item
-            // initialValue={true}
+            valuePropName="checked"
+
             rules={[
               {
                 required: true,
@@ -431,7 +431,11 @@ const TutorRequestFrom = (props) => {
 
             hasFeedback
           >
-            <Switch onChange={handleNewGuardian} checkedChildren="Yes" unCheckedChildren="No" />
+            <Switch
+              style={{
+                backgroundColor: "#007bff",
+                color: "#fff",
+              }} onChange={handleNewGuardian} checkedChildren="Yes" unCheckedChildren="No" />
           </Form.Item>
 
       }
@@ -762,7 +766,7 @@ const TutorRequestFrom = (props) => {
                       name="salaryType"
                     >
                       <Select placeholder="Select an option"
-                       onChange={handleSalaryType}
+                        onChange={handleSalaryType}
                         allowClear>
                         <Option value="Fixed">Fixed</Option>
                         <Option value="Range">Range</Option>
@@ -877,25 +881,25 @@ const TutorRequestFrom = (props) => {
 
 setEditData != null ? "" : */}
 
-                    {setEditData  && (
-                    <Form.Item
-                      label="Job Status"
-                      name="jobStatus"
-                    >
-                      <Select placeholder="Select an option"
-                      //  onChange={handleSalaryType}
-                        allowClear>
-                        <Option value="ACTIVE">ACTIVE</Option>
-                        <Option value="PENDING">PENDING</Option>
-                        <Option value="CANCELED">CANCELED</Option>
-                        <Option value="CONFIRMED">CONFIRMED</Option>
+                    {setEditData && (
+                      <Form.Item
+                        label="Job Status"
+                        name="jobStatus"
+                      >
+                        <Select placeholder="Select an option"
+                          //  onChange={handleSalaryType}
+                          allowClear>
+                          <Option value="ACTIVE">ACTIVE</Option>
+                          <Option value="PENDING">PENDING</Option>
+                          <Option value="CANCELED">CANCELED</Option>
+                          <Option value="CONFIRMED">CONFIRMED</Option>
 
 
-                      </Select>
-                    </Form.Item>
+                        </Select>
+                      </Form.Item>
                     )}
 
-                    
+
                     <Form.Item
                       name="isApproval"
                       label="Approval"
@@ -909,7 +913,11 @@ setEditData != null ? "" : */}
 
                     <Form.Item {...tailLayout}>
                       <div className="d-flex justify-content-end">
-                        <Button type="primary" htmlType="submit" loading={loading}>
+                        <Button
+                          style={{
+                            backgroundColor: "#007bff",
+                            color: "#fff",
+                          }} type="primary" htmlType="submit" loading={loading}>
                           Submit
                         </Button>
                       </div>

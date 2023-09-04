@@ -223,7 +223,7 @@ function ClassForm(props) {
         </Form.Item>
 
         <Form.Item {...tailLayout}>
-          <Button type="primary" htmlType="submit" loading={loading}>
+          <Button style={{backgroundColor: "#007bff",color: "#fff",}} type="primary" htmlType="submit" loading={loading}>
             Submit
           </Button>
         </Form.Item>

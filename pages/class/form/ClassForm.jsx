@@ -20,7 +20,7 @@ function ClassForm(props) {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
   const [subject, setSubject] = useState([]);
-  console.log("subject",subject);
+  console.log("subject", subject);
   const [status, setStatus] = useState(true);
   console.log(subject);
   if (setEditData == null) {
@@ -54,12 +54,12 @@ function ClassForm(props) {
       '_id'
     );
 
- const allSubj = SUBJECTDROPDOWN?.map((item) => ({
-       id: item?._id,
-       value: item?.name,
+    const allSubj = SUBJECTDROPDOWN?.map((item) => ({
+      id: item?._id,
+      value: item?.name,
     }));
-console.log("allSubj",allSubj);
-setSubject(allSubj);
+    console.log("allSubj", allSubj);
+    setSubject(allSubj);
     // setSubject(SUBJECTDROPDOWN);
   }, [subjectList]);
 
@@ -71,7 +71,7 @@ setSubject(allSubj);
 
 
   const [selectedValue, setSelectedValue] = useState('');
-console.log("selectedValue",selectedValue);
+  console.log("selectedValue", selectedValue);
   const handleSelect = (value, option) => {
     setSelectedValue(option.value);
   };
@@ -196,7 +196,7 @@ console.log("selectedValue",selectedValue);
           />
         </Form.Item>
 
-{/* <Form.Item
+        {/* <Form.Item
           name="subject"
           label="Select Subject"
           rules={[
@@ -240,7 +240,14 @@ console.log("selectedValue",selectedValue);
         </Form.Item>
 
         <Form.Item {...tailLayout}>
-          <Button type="primary" htmlType="submit" loading={loading}>
+          <Button
+            style={{
+              backgroundColor: "#007bff",
+              color: "#fff",
+
+            }}
+
+            type="primary" htmlType="submit" loading={loading}>
             Submit
           </Button>
         </Form.Item>

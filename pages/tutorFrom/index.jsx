@@ -203,14 +203,15 @@ const AllTutor = () => {
                                             <h4 className="card-title mb-0">All Tutor</h4>
                                         </div>
                                         <div className="ms-auto flex-shrink-0">
-                                            <Button
-                                                className="shadow rounded"
-                                                type="primary"
-                                                onClick={handleShow}
-                                                block
-                                            >
-                                                <span style={{ marginRight: '8px' }}>Add</span>
-                                                <span className="button-icon-space ml-10">
+                                        <Button
+                          className="shadow rounded"
+                          type="primary"
+                          onClick={handleShow}
+                          block
+                          style={{backgroundColor: "#007bff",color: "#fff",}}
+                        >
+                          <span >Add</span>
+                          <span className="button-icon-space ml-5">
 
 
                                                     <FontAwesomeIcon icon={faPlusCircle} />

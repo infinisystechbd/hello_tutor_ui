@@ -34,7 +34,10 @@ function CategoryFrom(props) {
         });
     }
 
-
+    const centerButtonStyle = {
+        display: 'flex',
+        justifyContent: 'center',
+      };
 
     /**fetch class list */
 
@@ -221,8 +224,13 @@ function CategoryFrom(props) {
                     </Select>
                 </Form.Item>
 
-                <Form.Item {...tailLayout}>
-                    <Button type="primary" htmlType="submit" loading={loading}>
+                <Form.Item {...tailLayout} style={centerButtonStyle}>
+                    <Button
+                     style={{
+                        backgroundColor: "#007bff",
+                        color: "#fff",
+                      }}
+                    type="primary" htmlType="submit" loading={loading}>
                         Submit
                     </Button>
                 </Form.Item>

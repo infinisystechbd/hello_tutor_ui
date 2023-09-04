@@ -92,8 +92,8 @@ const AllGuardian = () => {
         data: guardianList,
         isLoading,
         refetch: fetchGuardianList,
-    } = useGetAllData(QUERY_KEYS.GET_ALL_GUARDIAN_LIST, GUARDIAN_END_POINT.get(page, limit, search,""));
-  
+    } = useGetAllData(QUERY_KEYS.GET_ALL_GUARDIAN_LIST, GUARDIAN_END_POINT.get(page, limit, search, ""));
+
 
     const reFetchHandler = (isRender) => {
         if (isRender) fetchGuardianList();
@@ -139,7 +139,7 @@ const AllGuardian = () => {
 
 
     const actionButton = (row) => {
-        
+
         return <>
             <Row justify="space-between">
                 <a onClick={() => handleViewOpen(row)} style={{ color: 'green', marginRight: '10px' }}>
@@ -166,76 +166,77 @@ const AllGuardian = () => {
                 <div className="responsive-fixed-container">
 
                     <div style={{ padding: '15px', background: colorBgContainer }}>
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="col-12">
-                                <div className=" ">
-                                    <div className="d-flex border-bottom title-part-padding align-items-center">
-                                        <div>
-                                            <h4 className="card-title mb-0">All Guardian</h4>
+                        <div className="container-fluid">
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className=" ">
+                                        <div className="d-flex border-bottom title-part-padding align-items-center">
+                                            <div>
+                                                <h4 className="card-title mb-0">All Guardian</h4>
+                                            </div>
+                                            <div className="ms-auto flex-shrink-0">
+                                                <Button
+                                                    className="shadow rounded"
+                                                    type="primary"
+                                                    onClick={handleShow}
+                                                    block
+                                                    style={{ backgroundColor: "#007bff", color: "#fff", }}
+                                                >
+                                                    <span >Add</span>
+                                                    <span className="button-icon-space ml-5">
+
+
+                                                        <FontAwesomeIcon icon={faPlusCircle} />
+                                                    </span>
+                                                </Button>
+                                            </div>
                                         </div>
-                                        <div className="ms-auto flex-shrink-0">
-                                            <Button
-                                                className="shadow rounded"
-                                                type="primary"
-                                                onClick={handleShow}
-                                                block
-                                            >
-                                                <span style={{ marginRight: '8px' }}>Add</span>
-                                                <span className="button-icon-space ml-10">
 
 
-                                                    <FontAwesomeIcon icon={faPlusCircle} />
-                                                </span>
-                                            </Button>
-                                        </div>
-                                    </div>
+                                        <GuardianForm
+                                            isModalOpen={isModalOpen}
+                                            setIsModalOpen={setIsModalOpen}
+                                            isParentRender={reFetchHandler}
+                                            setEditData={editData}
 
 
-                                    <GuardianForm
-                                        isModalOpen={isModalOpen}
-                                        setIsModalOpen={setIsModalOpen}
-                                        isParentRender={reFetchHandler}
-                                        setEditData={editData}
-
-
-                                    />
-
-                                    <GuardianView
-                                        isViewModalOpen={isViewModalOpen}
-                                        setIsViewModalOpen={setIsViewModalOpen}
-                                        guardian={guardian} />
-
-
-                                    <div className="">
-                                        <DataTable
-                                            columns={columns}
-                                            data={guardianList?.data?.data}
-                                            pagination
-                                            paginationServer
-                                            highlightOnHover
-                                            subHeader
-                                            progressPending={isLoading}
-                                            paginationTotalRows={guardianList?.total}
-                                            onChangeRowsPerPage={handlePerRowsChange}
-                                            onChangePage={handlePageChange}
-                                            subHeaderComponent={
-                                                <DebouncedSearchInput
-                                                    allowClear
-                                                    placeholder="Search subject name "
-                                                    onChange={setSearch}
-                                                />
-                                            }
-                                            striped
                                         />
 
+                                        <GuardianView
+                                            isViewModalOpen={isViewModalOpen}
+                                            setIsViewModalOpen={setIsViewModalOpen}
+                                            guardian={guardian} />
 
+
+                                        <div className="">
+                                            <DataTable
+                                                columns={columns}
+                                                data={guardianList?.data?.data}
+                                                pagination
+                                                paginationServer
+                                                highlightOnHover
+                                                subHeader
+                                                progressPending={isLoading}
+                                                paginationTotalRows={guardianList?.total}
+                                                onChangeRowsPerPage={handlePerRowsChange}
+                                                onChangePage={handlePageChange}
+                                                subHeaderComponent={
+                                                    <DebouncedSearchInput
+                                                        allowClear
+                                                        placeholder="Search subject name "
+                                                        onChange={setSearch}
+                                                    />
+                                                }
+                                                striped
+                                            />
+
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 </div>
 
 

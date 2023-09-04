@@ -207,9 +207,15 @@ const ManageClass = () => {
                           type="primary"
                           onClick={handleShow}
                           block
+                          style={{
+                            backgroundColor: "#007bff",
+                            color: "#fff",
+
+                          }}
                         >
-                          <span style={{ marginRight: '8px' }}>Add</span>
-                          <span className="button-icon-space ml-10">
+                          <span >Add</span>
+                          <span className="button-icon-space ml-5">
+
 
 
                             <FontAwesomeIcon icon={faPlusCircle} />

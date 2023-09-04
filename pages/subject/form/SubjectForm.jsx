@@ -132,30 +132,34 @@ function SubjectForm(props) {
         </Form.Item>
 
         <Form.Item
-        name="status"
-        label="Status"
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-        initialValue={true}
-        hasFeedback
-        style={{ marginBottom: '20px' }} // Add margin to give some spacing
-      >
-        <Select
-          placeholder="Select an option"
-          allowClear
-          style={{ width: '100%', padding: '12px', borderRadius: '5px' }} // Increase width and add padding for larger input box
-          dropdownClassName="custom-select-dropdown" // Custom class for dropdown
+          name="status"
+          label="Status"
+          rules={[
+            {
+              required: true,
+            },
+          ]}
+          initialValue={true}
+          hasFeedback
+          style={{ marginBottom: '20px' }} // Add margin to give some spacing
         >
-          <Option value={true}>Active</Option>
-          <Option value={false}>Inactive</Option>
-        </Select>
-      </Form.Item>
+          <Select
+            placeholder="Select an option"
+            allowClear
+            style={{ width: '100%', padding: '12px', borderRadius: '5px' }} // Increase width and add padding for larger input box
+            dropdownClassName="custom-select-dropdown" // Custom class for dropdown
+          >
+            <Option value={true}>Active</Option>
+            <Option value={false}>Inactive</Option>
+          </Select>
+        </Form.Item>
 
         <Form.Item {...tailLayout}>
-          <Button type="primary" htmlType="submit" loading={loading}>
+          <Button
+            style={{backgroundColor: "#007bff",color: "#fff", }}
+            type="primary" htmlType="submit"
+
+            loading={loading}>
             Submit
           </Button>
         </Form.Item>

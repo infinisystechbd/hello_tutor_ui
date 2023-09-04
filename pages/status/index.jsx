@@ -24,6 +24,7 @@ const Status = () => {
   const [pendingStatus, setPendingStatus] = useState(false);
   const [cancelStatus, setCancelStatus] = useState(false);
   const [confirmedStatus, setConfirmedStatus] = useState(false);
+  const [appliedStatus, setAppliedStatus] = useState(true);
   const { Content } = Layout;
   const [loading, setLoading] = useState(true);
 
@@ -34,6 +35,7 @@ const Status = () => {
     setPendingStatus(false)
     setCancelStatus(false)
     setConfirmedStatus(false)
+    setAppliedStatus(false)
   }
 
 
@@ -44,6 +46,7 @@ const Status = () => {
 
     setCancelStatus(false)
     setConfirmedStatus(false)
+    setAppliedStatus(false)
   }
 
 
@@ -54,6 +57,7 @@ const Status = () => {
     setPendingStatus(false)
 
     setConfirmedStatus(false)
+    setAppliedStatus(false)
   }
 
 
@@ -64,6 +68,7 @@ const Status = () => {
     setPendingStatus(false)
     setCancelStatus(false)
     setConfirmedStatus(false)
+    setAppliedStatus(false)
   }
 
 
@@ -146,10 +151,95 @@ const Status = () => {
 
 
 
+          {
+              appliedStatus
+                ? (appliedJob?.map((t, i) => (
+                  <Col key={i} className="gutter-row" xs={24} sm={24} md={12} lg={8}>
+                    <Card className='mt-2 custom-card' title={t.title} bordered={false} style={{ height: '250px' }}>
+
+
+                      <Row>
+                        <Col md={10}>
+                          <Text type="secondary">Job ID: <Text strong>{t?.jobId}</Text></Text>
+                        </Col>
+
+                        {/* <Col md={10}>
+                          <Text type="secondary"  >Job ID: <Text style={{ color: t.preferredGender === "CONFIRMED" ? 'green' : 'red' }} strong>{t?.jobStatus}</Text></Text>
+                        </Col> */}
+
+                      </Row>
+
+
+                      <Row className="mt-2">
+
+                        <Col md={24}>
+                          <CalendarOutlined style={{ fontSize: '18px', color: '#08c' }} />
+                          <Text type="secondary">Posted Date: <Text strong>{moment(t.postedDate).format('MM/DD/YYYY')}</Text></Text>
+
+                        </Col>
+                      </Row>
+
+
+                      <Row className="mt-2">
+
+                        <Col md={24}>
+                          <ReadOutlined style={{ fontSize: '18px', color: '#08c' }} />
+                          <Text type="secondary"> Subjects: </Text>
+                          <Text strong>
+                            {t.subject.map((subject) => subject.subjectId.name).join(', ')}
+
+                          </Text>
+                        </Col>
+                      </Row>
+
+
+                      <Row className="mt-2">
+                        <Col>
+                          <EnvironmentOutlined style={{ fontSize: '18px', color: '#08c' }} />
+                          <Text type="secondary"> Location: </Text>
+                          <Text strong>{t.address}</Text>
+                        </Col>
+                      </Row>
+
+                      <Row className="mt-2" >
+                        {/* PuzzleOutlined */}
+                        <Col md={12}>
+                          <FontAwesomeIcon icon={faPuzzlePiece} style={{ fontSize: '18px', color: '#08c' }} />
+                          <Text type="secondary">Tuition Type:</Text>
+                          <Text strong>Home</Text>
+                        </Col>
+                        <Col md={12}>
+                          <DingtalkOutlined style={{ fontSize: '18px', color: '#08c' }} />
+                          <Text type="secondary"> Salary: </Text>
+                          <Text strong>{t.salary}</Text>
+                        </Col>
+                      </Row>
+
+
+                      <Row className="mt-2 " justify="space-between">
+                        <Col>
+                          <FontAwesomeIcon
+                            color={t.preferredGender === 'Male' ? 'green' : 'red'}
+                            icon={t.preferredGender === 'Male' ? faPerson : faPersonDress}
+                            style={{ fontSize: '1rem' }}
+                          />
+                          <Text>{t.preferredGender === 'Male' ? 'Male' : 'Female'}</Text>
+                          <Text strong> {t.preferredGender} <Text type="secondary">tutor preferred</Text></Text>
+                        </Col>
+                        <Col>
+                          <Button type="primary" onClick={() => onDetails(t.jobId)}  style={{backgroundColor: "#007bff",color: "#fff",}}>Details</Button>
+                        </Col>
+                      </Row>
+
+
+                    </Card>
+                  </Col>
+                )))
+                : ""}
+
 
 
             {
-
               activeStatus
                 ? (activeJob?.map((t, i) => (
                   <Col key={i} className="gutter-row" xs={24} sm={24} md={12} lg={8}>
@@ -225,7 +315,7 @@ const Status = () => {
                           <Text strong> {t.preferredGender} <Text type="secondary">tutor preferred</Text></Text>
                         </Col>
                         <Col>
-                          <Button type="primary" onClick={() => onDetails(t.jobId)}>Details</Button>
+                          <Button type="primary" onClick={() => onDetails(t.jobId)}  style={{backgroundColor: "#007bff",color: "#fff",}}>Details</Button>
                         </Col>
                       </Row>
 
@@ -310,7 +400,7 @@ const Status = () => {
                         <Text strong> {t.preferredGender} <Text type="secondary">tutor preferred</Text></Text>
                       </Col>
                       <Col>
-                        <Button type="primary" onClick={() => onDetails(t.jobId)}>Details</Button>
+                        <Button type="primary" onClick={() => onDetails(t.jobId)}  style={{backgroundColor: "#007bff",color: "#fff",}}>Details</Button>
                       </Col>
                     </Row>
 
@@ -396,7 +486,7 @@ const Status = () => {
                         <Text strong> {t.preferredGender} <Text type="secondary">tutor preferred</Text></Text>
                       </Col>
                       <Col>
-                        <Button type="primary" onClick={() => onDetails(t.jobId)}>Details</Button>
+                        <Button type="primary" onClick={() => onDetails(t.jobId)}  style={{backgroundColor: "#007bff",color: "#fff",}}>Details</Button>
                       </Col>
                     </Row>
 
@@ -481,14 +571,19 @@ const Status = () => {
                       <Text strong> {t.preferredGender} <Text type="secondary">tutor preferred</Text></Text>
                     </Col>
                     <Col>
-                      <Button type="primary" onClick={() => onDetails(t.jobId)}>Details</Button>
+                      <Button type="primary" onClick={() => onDetails(t.jobId)}  style={{backgroundColor: "#007bff",color: "#fff",}}>Details</Button>
                     </Col>
                   </Row>
 
 
                 </Card>
               </Col>
-            ))) : ""}
+            ))) : ""
+            
+            
+            
+            
+            }
 
 
 

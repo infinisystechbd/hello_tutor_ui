@@ -626,7 +626,7 @@ const TutorRequest = () => {
                             <div className="row">
                               <div className="col-md-12">
                                 <div className="d-flex justify-content-md-end">
-                                  <Button type="primary" htmlType="submit" loading={loading}>
+                                  <Button type="primary" htmlType="submit" loading={loading}  style={{backgroundColor: "#007bff",color: "#fff", }}>
                                     Submit
                                   </Button>
                                 </div>

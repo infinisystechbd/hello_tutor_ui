@@ -178,7 +178,7 @@ const Setting = () => {
                                             </Form.Item>
                                         </Col>
                                     </Row>
-                                    <Button type="primary" htmlType="submit">
+                                    <Button style={{backgroundColor: "#007bff",color: "#fff",}} type="primary" htmlType="submit">
                                         Update Name
                                     </Button>
 
@@ -269,7 +269,7 @@ const Setting = () => {
                                         >
                                             <Input type="password" />
                                         </Form.Item>
-                                        <Button type="primary" htmlType="submit">
+                                        <Button style={{backgroundColor: "#007bff",color: "#fff",}} type="primary" htmlType="submit">
                                             Update
                                         </Button>
                                     </Form>

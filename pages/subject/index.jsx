@@ -1,9 +1,8 @@
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, EyeOutlined } from '@ant-design/icons';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Breadcrumb, Button, Input, Layout, Modal, Row, Table, Tag, theme } from 'antd';
+import { Button, Layout, Modal, Row, Table, Tag, theme } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
-import DataTable from 'react-data-table-component';
 import HeadSection from '../../components/HeadSection';
 import ToastMessage from '../../components/Toast';
 import DebouncedSearchInput from '../../components/elements/DebouncedSearchInput';
@@ -33,7 +32,7 @@ const AllSubject = () => {
       router.replace('/login');
     }
   }, [token])
-  const [search, setSearch] = useState('');
+
   const [itemList, setItemList] = useState([]);
 
   const [pending, setPending] = useState(false);
@@ -47,7 +46,9 @@ const AllSubject = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const handleClose = () => setShow(false);
   const [totalRows, setTotalRows] = useState(0);
+  const [perPage, setPerPage] = useState(10);
   const [editData, setEditData] = useState({});
+  const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10)
   const handleShow = () => {
@@ -108,34 +109,56 @@ const AllSubject = () => {
     isLoading,
     refetch: fetchSubjectList,
   } = useGetAllData(QUERY_KEYS.GET_ALL_SUBJECT_LIST, SUBJECT_END_POINT.get(page, limit, search, ""));
-
+  console.log(subjectList)
   const reFetchHandler = (isRender) => {
     if (isRender) fetchSubjectList();
   };
 
-  const handlePageChange = (page) => {
+
+  const handlePageChange = (page, pageSize) => {
     setPage(page)
   };
 
-  const handlePerRowsChange = (newLimit, page) => {
+  const handlePerRowsChange = async (newPerPage, page) => {
     setPage(page);
-    setLimit(newLimit);
+    setPerPage(newPerPage);
+  };
+
+
+  const pagination = {
+    total: subjectList?.total,
+    current: page,
+    pageSize: perPage,
+    defaultPageSize: 10,
+    showSizeChanger: true,
+    pageSizeOptions: ['2', '5', '10', '20', '30']
+  };
+
+  const onChange = (
+    pagination,
+    filters,
+    sorter,
+    extra
+  ) => {
+    setPage(pagination.current);
+    setLimit(pagination.pageSize);
+    // setSelectedRowKeys([]);
+    console.log(pagination, filters, sorter, extra);
   };
 
 
 
-  const data = subjectList?.data?.map((row, index) => ({
-    ...row,
-    index: index + 1,
-  }));
+
+
+
+
 
 
   const columns = [
     {
       title: 'SL',
-      dataIndex: 'index',
-      // width: '70px',
       fixed: 'left',
+      render: (text, record, index) => index + 1
     },
     {
       title: 'Subject Code',
@@ -163,10 +186,6 @@ const AllSubject = () => {
   ];
 
 
-
-
-
-  console.log("data", data);
 
 
   const actionButton = (row) => {
@@ -211,9 +230,10 @@ const AllSubject = () => {
                           type="primary"
                           onClick={handleShow}
                           block
+                          style={{backgroundColor: "#007bff",color: "#fff",}}
                         >
-                          <span style={{ marginRight: '8px' }}>Add</span>
-                          <span className="button-icon-space ml-10">
+                          <span >Add</span>
+                          <span className="button-icon-space ml-5">
 
 
                             <FontAwesomeIcon icon={faPlusCircle} />
@@ -236,23 +256,20 @@ const AllSubject = () => {
                       setIsViewModalOpen={setIsViewModalOpen}
                       subject={subject} />
 
+                    <Content>
+                      <Row align="middle" justify="space-between" style={{ marginBottom: '16px' }}>
+                        <DebouncedSearchInput onChange={setSearch} />
+                      </Row>
+                      <Table
+                        columns={columns}
+                        dataSource={subjectList?.data}
+                        scroll={{ x: 'max-content' }}
+                        pagination={pagination}
+                        onChange={onChange}
 
-                    <div style={{ overflowX: 'auto' }}>
-                      <div style={{ minWidth: '100%' }}>
+                      />
 
-
-                        <>
-
-                          <Table
-                            columns={columns}
-                            dataSource={data}
-                            scroll={{ x: 'max-content' }}
-                            // scroll={{ x: 1500, y: 300 }}
-                    
-                          />
-                        </>
-                      </div>
-                    </div>
+                    </Content>
                   </div>
                 </div>
               </div>

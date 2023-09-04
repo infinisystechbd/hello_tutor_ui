@@ -14,7 +14,7 @@ import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import UserFrom from './form/UserFrom';
 
 
-const AllCity = () => {
+const AllUser = () => {
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
     }, []);
@@ -173,9 +173,10 @@ const AllCity = () => {
                                                     type="primary"
                                                     onClick={handleShow}
                                                     block
+                                                    style={{ backgroundColor: "#007bff", color: "#fff", }}
                                                 >
-                                                    <span style={{ marginRight: '8px' }}>Add</span>
-                                                    <span className="button-icon-space ml-10">
+                                                    <span >Add</span>
+                                                    <span className="button-icon-space ml-5">
 
 
                                                         <FontAwesomeIcon icon={faPlusCircle} />
@@ -184,17 +185,13 @@ const AllCity = () => {
                                             </div>
                                         </div>
 
-
+ 
                                         <UserFrom
                                             isModalOpen={isModalOpen}
                                             setIsModalOpen={setIsModalOpen}
                                             isParentRender={reFetchHandler}
                                             setEditData={editData}
                                         />
-
-
-
-
 
                                         <div className="">
                                             <DataTable
@@ -239,4 +236,4 @@ const AllCity = () => {
     )
 }
 
-export default AllCity
+export default AllUser

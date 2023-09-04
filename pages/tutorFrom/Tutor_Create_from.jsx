@@ -1022,10 +1022,10 @@ const App = (props) => {
                                         {current < steps.length - 1 && (
 
                                             <>
-                                                <Button type="primary" onClick={() => { setCurrent(current + 1); }}>
+                                                <Button type="primary"   style={{backgroundColor: "#007bff",color: "#fff",}} onClick={() => { setCurrent(current + 1); }}>
                                                     Next
                                                 </Button>
-                                                <Button style={{ margin: '0 8px' }} type="primary" onClick={() => { setCurrent(current + 1); submitFrom() }}>
+                                                <Button style={{ margin: '0 8px',backgroundColor: "#007bff",color: "#fff", }} type="primary" onClick={() => { setCurrent(current + 1); submitFrom() }}>
                                                     Submit
                                                 </Button>
 
@@ -1034,12 +1034,12 @@ const App = (props) => {
 
                                         )}
                                         {current === steps.length - 1 && (
-                                            <Button type="primary" onClick={() => message.success('Processing complete!')}>
+                                            <Button type="primary"  style={{backgroundColor: "#007bff",color: "#fff",}} onClick={() => message.success('Processing complete!')}>
                                                 Done
                                             </Button>
                                         )}
                                         {current > 0 && (
-                                            <Button style={{ margin: '0 8px' }} onClick={() => setCurrent(current - 1)}>
+                                            <Button style={{ margin: '0 8px',backgroundColor: "#007bff",color: "#fff", }} onClick={() => setCurrent(current - 1)}>
                                                 Previous
                                             </Button>
                                         )}

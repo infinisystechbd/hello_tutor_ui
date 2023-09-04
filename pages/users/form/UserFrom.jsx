@@ -178,7 +178,7 @@ function UserForm(props) {
 
 
                 <Form.Item {...tailLayout}>
-                    <Button type="primary" htmlType="submit" loading={loading}>
+                    <Button type="primary" htmlType="submit" loading={loading}  style={{backgroundColor: "#007bff",color: "#fff",}}>
                         Submit
                     </Button>
                 </Form.Item>
