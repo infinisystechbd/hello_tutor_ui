@@ -103,8 +103,11 @@ const Navbar = () => {
             />
           </Menu.Item>
         )}
-        <Menu.Item key="/" onClick={() => navigateTo('/')}>
+        <Menu.Item key="/" onClick={() => navigateTo('/home')}>
           Home
+        </Menu.Item>
+        <Menu.Item key="/" onClick={() => navigateTo('/')}>
+          Dashbord
         </Menu.Item>
         {token === null ? (
           <Menu.Item key="/login" className="float-end me-3" onClick={() => navigateTo('/login')}>
@@ -115,26 +118,7 @@ const Navbar = () => {
             <Button type="link" onClick={onLogout} icon={<LoginOutlined />} size="large" />
           </Menu.Item>
         )}
-        {/* {
-          token !== null ? (
-            <Dropdown
-            dropdownRender={(menu) => (
-              <Menu
-                onClick={({ item }) => item?.onClick}
-                selectedKeys={[]}
-                mode="inline"
-                items={profileMenuItems}
-              />
-            )}
-            trigger={['click']}
-            placement="bottomRight"
-            arrow
-            className=" cursor-pointer my-3 mx-2">
-            <i className="fas fa-user fa-lg"></i>
-          </Dropdown>
 
-          ) : (<></>)
-        } */}
       </Menu>
     </Header>
   );

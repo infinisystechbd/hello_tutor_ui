@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Axios from "../utils/axios";
 import Footer from './Footer';
 import Leftsidebar from './LeftSidebar';
-import Navbar from './NavBar';
+import Navbar from './NavBar2';
 
 const DefaultLayout = ({children}) => {
   const [collapsed, setCollapsed] = useState(false);

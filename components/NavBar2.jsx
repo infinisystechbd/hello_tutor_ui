@@ -1,7 +1,7 @@
-import { HomeOutlined, LoginOutlined, MenuFoldOutlined, MenuOutlined, MenuUnfoldOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import { HomeOutlined, DashboardOutlined, LoginOutlined, SettingOutlined, UserOutlined, MenuOutlined } from '@ant-design/icons';
 import { Button, Col, Drawer, Layout, Menu, Row } from 'antd';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Axios from "../utils/axios";
 
 const { Header } = Layout;
@@ -13,7 +13,7 @@ const Navbar = () => {
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
   const [margin, setMargin] = useState('0px');
-  const [isAuth, setIsAuth] = useState('UnProtective-Nav')
+  const [isAuth, setIsAuth] = useState('UnProtective-Nav');
 
   const [visible, setVisible] = useState(false);
 
@@ -24,13 +24,23 @@ const Navbar = () => {
   const onClose = () => {
     setVisible(false);
   };
+
+  const navigateTo = (path) => {
+    router.push(path);
+  };
+
+  const onLogout = async () => {
+    localStorage.clear();
+    await router.replace("/");
+    await router.reload();
+  };
+
   return (
     <Header
-
       style={{
         position: 'fixed',
-        top: 0, // Stick it to the top
-        width: '100%', // Make it full width
+        top: 0,
+        width: '100%',
         padding: 0,
         background: colorBgContainer,
         marginLeft: margin,
@@ -40,41 +50,60 @@ const Navbar = () => {
       className={isAuth}
     >
       <Row justify="space-between" align="middle">
-        <Col xs={20} sm={20} md={4}>
-          <div
-            className="logo"
-            style={{ color: "black", paddingLeft: "20px" }}
-          >
+        <Col xs={20} sm={20} md={4} onClick={() => navigateTo('/home')} style={{ background: "blue", }}>
+          <div className="logo" style={{ color: "white", paddingLeft: "20px", fontSize: "24px", fontWeight: "bold", fontFamily: "Arial, sans-serif" }}>
             Hello Tutor
           </div>
+
         </Col>
         <Col xs={0} sm={0} md={20}>
-          <Menu Menu mode="horizontal" defaultSelectedKeys={["1"]} >
-            <Menu.Item key="1" icon={<HomeOutlined />}>
-              Home
-            </Menu.Item>
-            <div>
+          <Menu mode="horizontal" defaultSelectedKeys={[router.pathname]}>
 
+            <div style={{ marginRight: "auto" }}>
 
-              <Menu.Item key="2" icon={<UserOutlined />}>
-                Profile
+              <Menu.Item key="/home" icon={<HomeOutlined />} onClick={() => navigateTo('/home')}>
+                Home
               </Menu.Item>
-              <Menu.Item key="3" icon={<SettingOutlined />}>
-                Settings
+
+
+
+              <Menu.Item key="/dashboard" icon={<DashboardOutlined />} onClick={() => navigateTo('/')}>
+                Dashboard
               </Menu.Item>
             </div>
-            <div style={{ marginLeft: "900px" }}>
-            <Menu.Item key="4" >
-              <Button type="primary">Sign in</Button>
-            </Menu.Item>
-            <Menu.Item key="5" >
-              <Button>Sign up</Button>
-            </Menu.Item>
+
+
+
+            {token !== null && (
+              <>
+                <Menu.Item key="/profile" icon={<UserOutlined />} onClick={() => navigateTo('/profile')}>
+                  Profile
+                </Menu.Item>
+                <Menu.Item key="/settings" icon={<SettingOutlined />} onClick={() => navigateTo('/settings')}>
+                  Settings
+                </Menu.Item>
+              </>
+            )}
+            <div style={{ marginLeft: "auto" }}>
+              {token === null ? (
+                <>
+                  <Menu.Item key="/login">
+                    <Button type="primary" style={{ backgroundColor: "#007bff", color: "#fff" }} onClick={() => navigateTo('/login')}>Sign in</Button>
+                  </Menu.Item>
+                  <Menu.Item key="/register">
+                    <Button onClick={() => navigateTo('/register')}>Sign up</Button>
+                  </Menu.Item>
+                </>
+              ) : (
+                <Menu.Item key="logout">
+                  <Button type="link" onClick={onLogout} icon={<LoginOutlined />} size="large" />
+                </Menu.Item>
+              )}
             </div>
           </Menu>
         </Col>
         <Col xs={2} sm={2} md={0}>
-          <Button type="primary" onClick={showDrawer}>
+          <Button type="primary" style={{ backgroundColor: "#007bff", color: "#fff", }} onClick={showDrawer}>
             <MenuOutlined />
           </Button>
         </Col>
@@ -85,32 +114,36 @@ const Navbar = () => {
         onClick={onClose}
         onClose={onClose}
         visible={visible}
+      // style={{backgroundColor: "#007bff",color: "#fff",}}
       >
-        <Menu mode="vertical" defaultSelectedKeys={["1"]}>
-          <Menu.Item key="1" icon={<HomeOutlined />}>
+        <Menu mode="vertical" defaultSelectedKeys={[router.pathname]}>
+          <Menu.Item key="/" icon={<HomeOutlined />} onClick={() => navigateTo('/home')}>
             Home
           </Menu.Item>
-          <Menu.Item key="2" icon={<UserOutlined />}>
-            Profile
+          <Menu.Item key="/dashboard" icon={<DashboardOutlined />} onClick={() => navigateTo('/')}>
+            Dashboard
           </Menu.Item>
-          <Menu.Item key="3" icon={<SettingOutlined />}>
-            Settings
-          </Menu.Item>
-         
+          {token !== null && (
+            <>
+              <Menu.Item key="/profile" icon={<UserOutlined />} onClick={() => navigateTo('/profile')}>
+                Profile
+              </Menu.Item>
+              <Menu.Item key="/settings" icon={<SettingOutlined />} onClick={() => navigateTo('/settings')}>
+                Settings
+              </Menu.Item>
+            </>
+          )}
+          <Menu.Item key="logout" style={{ marginLeft: "auto" }}>
+            {token === null ? (
+              <>
 
-          <Menu.Item key="4" style={{ marginLeft: "100px" }}>
-            <Button type="primary" >
-              Sign in
-            </Button>
-           
+                <Button type="primary" onClick={() => navigateTo('/login')} style={{ backgroundColor: "#007bff", color: "#fff", }}>Sign in</Button>
+                <Button type="primary" className='ml-5' onClick={() => navigateTo('/register')} style={{ backgroundColor: "#007bff", color: "#fff", }}>Sign Up</Button>
+              </>
+            ) : (
+              <Button type="link" onClick={onLogout} icon={<LoginOutlined />} size="large" />
+            )}
           </Menu.Item>
-
-          <Menu.Item key="5">
-      
-            <Button>Sign up</Button>
-          </Menu.Item>
-
-        
         </Menu>
       </Drawer>
     </Header>

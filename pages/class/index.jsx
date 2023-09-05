@@ -207,11 +207,7 @@ const ManageClass = () => {
                           type="primary"
                           onClick={handleShow}
                           block
-                          style={{
-                            backgroundColor: "#007bff",
-                            color: "#fff",
-
-                          }}
+                          style={{backgroundColor: "#007bff",color: "#fff",}}
                         >
                           <span >Add</span>
                           <span className="button-icon-space ml-5">
