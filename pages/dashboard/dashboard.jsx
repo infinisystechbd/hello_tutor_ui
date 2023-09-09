@@ -179,38 +179,36 @@ const Dashboard = () => {
 
         <HeadSection title="Dashboard" />
         <div className='container'>
-        <Card style={{ marginTop: '70px' }}>
-      <Row justify="space-evenly" gutter={[16, 16]}>
-        <Col md={6} xs={24}>
-          <Button onClick={onOpen} block>
-            Filter
-          </Button>
-        </Col>
-        {category?.map(t => (
-          <Col key={t.categoryId} md={6} xs={24}>
-            <Button onClick={() => onChangeCategory(t._id)} block>
-              {t.name}
-            </Button>
-          </Col>
-        ))}
-        <Col md={6} xs={24}>
-          <Button onClick={resetFilter} block>
-            Reset Filter
-          </Button>
-        </Col>
-      </Row>
-      <style jsx>{`
+          <Card style={{ marginTop: '70px' }}>
+            <Row justify="space-evenly" gutter={[16, 16]}>
+              <Col md={6} xs={12}>
+                <Button onClick={onOpen} block className="custom-button">
+                  Filter
+                </Button>
+              </Col>
+              {category?.map(t => (
+                <Col key={t.categoryId} md={6} xs={12}>
+                  <Button onClick={() => onChangeCategory(t._id)} block className="custom-button">
+                    {t.name}
+                  </Button>
+                </Col>
+              ))}
+              <Col md={6} xs={12}>
+                <Button onClick={resetFilter} block className="custom-button">
+                  Reset Filter
+                </Button>
+              </Col>
+            </Row>
+            <style jsx>{`
         /* Custom CSS for mobile size */
         @media (max-width: 768px) {
-          .ant-col-xs-24 {
-            width: 100%; /* Make each column full width on mobile */
-          }
-          .ant-btn {
-            width: auto; /* Make button width auto (narrower) on mobile */
+          .custom-button {
+            width: 100%; /* Make button width full on mobile */
+            white-space: normal; /* Allow text to wrap within the button */
           }
         }
       `}</style>
-    </Card>
+          </Card>
           <Drawer
             title='Filter'
             placement="top"
@@ -220,7 +218,7 @@ const Dashboard = () => {
             footer={
               <Space>
                 <Button onClick={onClose}>Cancel</Button>
-                <Button type="primary" onClick={onApply} style={{backgroundColor: "#007bff",color: "#fff",}}>
+                <Button type="primary" onClick={onApply} style={{ backgroundColor: "#007bff", color: "#fff", }}>
                   Apply
                 </Button>
               </Space>
