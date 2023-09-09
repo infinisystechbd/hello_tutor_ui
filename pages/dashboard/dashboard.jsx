@@ -273,7 +273,7 @@ const Dashboard = () => {
 
                     <Col md={24}>
                       <CalendarOutlined style={{ fontSize: '18px', color: '#08c' }} />
-                      <Text type="secondary">Posted Date: <Text strong>{t.postedDate}</Text></Text>
+                      <Text className="ml-2" type="secondary">Posted Date: <Text strong>{t.postedDate}</Text></Text>
                     </Col>
                   </Row>
 
@@ -282,7 +282,7 @@ const Dashboard = () => {
 
                     <Col md={24}>
                       <ReadOutlined style={{ fontSize: '18px', color: '#08c' }} />
-                      <Text type="secondary"> Subjects: </Text>
+                      <Text className="ml-2" type="secondary"> Subjects: </Text>
                       <Text strong>{t.subjects}</Text>
                     </Col>
                   </Row>
@@ -291,7 +291,7 @@ const Dashboard = () => {
                   <Row className="mt-2">
                     <Col>
                       <EnvironmentOutlined style={{ fontSize: '18px', color: '#08c' }} />
-                      <Text type="secondary"> Location: </Text>
+                      <Text className="ml-2" type="secondary"> Location: </Text>
                       <Text strong>{t.address}</Text>
                     </Col>
                   </Row>
