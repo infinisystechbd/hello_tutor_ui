@@ -162,7 +162,7 @@ const Leftsidebar = ({ collapsed }) => {
         height: '100vh',
         position: 'fixed',
         left: 0,
-        top: 0,
+        top: '64px',
         bottom: 0,
       }}
       onBreakpoint={(broken) => {

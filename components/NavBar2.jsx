@@ -63,7 +63,7 @@ const handleMenuClick = (key) => {
       className={isAuth}
     >
       <Row justify="space-between" align="middle">
-        <Col xs={20} sm={20} md={4} onClick={() => navigateTo('/home')} style={{ background: "blue", }}>
+        <Col xs={20} sm={20} md={4} onClick={() => navigateTo('/home')} style={{ background: "#0d6efd", }}>
           <div className="logo" style={{ color: "white", paddingLeft: "20px", fontSize: "24px", fontWeight: "bold", fontFamily: "Arial, sans-serif" }}>
             Hello Tutor
           </div>
