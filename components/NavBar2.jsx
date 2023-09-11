@@ -35,6 +35,19 @@ const Navbar = () => {
     await router.reload();
   };
 
+
+
+  const { SubMenu } = Menu;
+
+// Define a state variable to manage the selected key
+const [selectedKey, setSelectedKey] = useState(router.pathname);
+
+// Handle menu item click
+const handleMenuClick = (key) => {
+  setSelectedKey(key);
+  navigateTo(key);
+};
+
   return (
     <Header
       style={{
@@ -57,50 +70,50 @@ const Navbar = () => {
 
         </Col>
         <Col xs={0} sm={0} md={20}>
-          <Menu mode="horizontal" defaultSelectedKeys={[router.pathname]}>
+        <Menu mode="horizontal" selectedKeys={[selectedKey]}>
+        <div className="top-left-menu">
+    <Menu.Item key="/home" icon={<HomeOutlined />} onClick={() => handleMenuClick('/home')}>
+      Home
+    </Menu.Item>
 
-            <div style={{ marginRight: "auto" }}>
+    <Menu.Item key="/dashboard" icon={<DashboardOutlined />} onClick={() => handleMenuClick('/')}>
+      Dashboard
+    </Menu.Item>
+    </div>
+    {token !== null && (
+      <SubMenu title={<span className="submenu-title-wrapper">User</span>}>
+        <Menu.Item key="/profile" icon={<UserOutlined />} onClick={() => handleMenuClick('/profile')}>
+          Profile
+        </Menu.Item>
+        <Menu.Item key="/settings" icon={<SettingOutlined />} onClick={() => handleMenuClick('/settings')}>
+          Settings
+        </Menu.Item>
+      </SubMenu>
+    )}
 
-              <Menu.Item key="/home" icon={<HomeOutlined />} onClick={() => navigateTo('/home')}>
-                Home
-              </Menu.Item>
-
-
-
-              <Menu.Item key="/dashboard" icon={<DashboardOutlined />} onClick={() => navigateTo('/')}>
-                Dashboard
-              </Menu.Item>
-            </div>
-
-
-
-            {token !== null && (
-              <>
-                <Menu.Item key="/profile" icon={<UserOutlined />} onClick={() => navigateTo('/profile')}>
-                  Profile
-                </Menu.Item>
-                <Menu.Item key="/settings" icon={<SettingOutlined />} onClick={() => navigateTo('/settings')}>
-                  Settings
-                </Menu.Item>
-              </>
-            )}
-            <div style={{ marginLeft: "auto" }}>
-              {token === null ? (
-                <>
-                  <Menu.Item key="/login">
-                    <Button type="primary" style={{ backgroundColor: "#007bff", color: "#fff" }} onClick={() => navigateTo('/login')}>Sign in</Button>
-                  </Menu.Item>
-                  <Menu.Item key="/register">
-                    <Button onClick={() => navigateTo('/register')}>Sign up</Button>
-                  </Menu.Item>
-                </>
-              ) : (
-                <Menu.Item key="logout">
-                  <Button type="link" onClick={onLogout} icon={<LoginOutlined />} size="large" />
-                </Menu.Item>
-              )}
-            </div>
-          </Menu>
+    <div style={{ marginLeft: 'auto' }}>
+      {token === null ? (
+        <>
+          <Menu.Item key="/login">
+            <Button
+              type="primary"
+              style={{ backgroundColor: '#007bff', color: '#fff' }}
+              onClick={() => handleMenuClick('/login')}
+            >
+              Sign in
+            </Button>
+          </Menu.Item>
+          <Menu.Item key="/register">
+            <Button onClick={() => handleMenuClick('/register')}>Sign up</Button>
+          </Menu.Item>
+        </>
+      ) : (
+        <Menu.Item key="logout">
+          <Button type="link" onClick={onLogout} icon={<LoginOutlined />} size="large" />
+        </Menu.Item>
+      )}
+    </div>
+  </Menu>
         </Col>
         <Col xs={2} sm={2} md={0}>
           <Button type="primary" style={{ backgroundColor: "#007bff", color: "#fff", }} onClick={showDrawer}>

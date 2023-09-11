@@ -334,7 +334,15 @@ const Dashboard = () => {
                 </Card>
               </Col>
             ))}
-            {loading && <Spin />}
+            <div style={{
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+            }}>
+              {loading && <Spin />}
+            </div>
+
           </Row>
         </div>
       </Content>
