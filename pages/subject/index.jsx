@@ -258,7 +258,7 @@ const AllSubject = () => {
 
                     <Content>
                       <Row align="middle" justify="space-between" style={{ marginBottom: '16px' }}>
-                        <DebouncedSearchInput onChange={setSearch} />
+                        <DebouncedSearchInput  className="custom-search-input" onChange={setSearch} />
                       </Row>
                       <Table
                         columns={columns}

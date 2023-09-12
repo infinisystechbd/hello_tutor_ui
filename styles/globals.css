@@ -175,6 +175,24 @@ body {
 
 
 
+.custom-search-input {
+  width: 250px; /* Set the desired width */
+  height: 40px; /* Set the desired height */
+  border-radius: 4px; /* Add rounded corners for a better look */
+  border: 1px solid #ccc; /* Add a border */
+  padding: 8px; /* Add some padding */
+  transition: background-color 0.3s; /* Add transition for hover effect */
+  margin-top: 18px;
+}
+
+.custom-search-input:hover {
+  background-color: #f0f0f0; /* Change background color on hover */
+}
+
+
+
+
+
 
 
 
