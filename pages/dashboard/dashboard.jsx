@@ -167,7 +167,8 @@ const Dashboard = () => {
     setSelectedClass("");
     setSelectedSubject("");
     setTutionType("");
-    setSelectedCategory("")
+    setSelectedCategory("");
+    getAllData(limit,page);
   }
   return (
     <>
@@ -212,7 +213,7 @@ const Dashboard = () => {
           <Drawer
             title='Filter'
             placement="top"
-            size={'default'}
+            size='default'
             onClose={onClose}
             open={open}
             footer={
@@ -243,12 +244,12 @@ const Dashboard = () => {
                 <Select placeholder='Student Gender' style={{ width: '100%' }} />
               </Col>
               <Col md={6} xs={12}>
-                <Select placeholder='Tutor Gender' style={{ width: '100%' }} />
+                <Select placeholder='Tutor Gender'  style={{ width: '100%' }} />
               </Col>
-              <Col md={6} xs={12}>
+              <Col md={4} xs={12}>
                 <Select placeholder='Class' options={classDropDown} onChange={onChangeClass} style={{ width: '100%' }} />
               </Col>
-              <Col md={6} xs={12}>
+              <Col md={4} xs={12}>
                 <Select placeholder='Subject' options={subjectDropDown} onChange={onChangeSubject} style={{ width: '100%' }} />
               </Col>
             </Row>
