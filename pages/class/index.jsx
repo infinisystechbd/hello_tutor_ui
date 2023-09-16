@@ -1,7 +1,7 @@
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, EyeOutlined } from '@ant-design/icons';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Layout, Modal, Row, Tag, theme } from 'antd';
+import { Button, Layout, Modal, Row, Table, Tag, theme } from 'antd';
 import React, { useCallback, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import HeadSection from '../../components/HeadSection';
@@ -29,7 +29,7 @@ const ManageClass = () => {
   const [editData, setEditData] = useState({});
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10)
-
+  const [perPage, setPerPage] = useState(10);
 
   /** Creation modal  */
   const handleShow = () => {
@@ -64,6 +64,14 @@ const ManageClass = () => {
 
 
 
+ 
+
+
+
+
+
+
+
   const {
     data: classList,
     isLoading,
@@ -80,6 +88,29 @@ const ManageClass = () => {
 
   const handlePageChange = (page) => {
     setPage(page)
+  };
+
+
+
+  const pagination = {
+    total: classList?.total,
+    current: page,
+    pageSize: perPage,
+    defaultPageSize: 10,
+    showSizeChanger: true,
+    pageSizeOptions: ['2', '5', '10', '20', '30']
+  };
+
+  const onChange = (
+    pagination,
+    filters,
+    sorter,
+    extra
+  ) => {
+    setPage(pagination.current);
+    setLimit(pagination.pageSize);
+    // setSelectedRowKeys([]);
+    console.log(pagination, filters, sorter, extra);
   };
 
 
@@ -120,34 +151,80 @@ const ManageClass = () => {
 
 
 
+  // const columns = [
+  //   {
+  //     name: <span className="fw-bold">SL</span>,
+  //     selector: (row, index) => index + 1,
+  //     sortable: true,
+  //     width: "70px",
+  //   },
+  //   {
+  //     name: 'Class Code',
+  //     selector: row => row.classId,
+  //     sortable: true,
+  //   },
+  //   {
+  //     name: 'Name',
+  //     selector: row => row.name,
+  //     sortable: true,
+  //   },
+  //   {
+  //     name: 'Status',
+  //     selector: row => (row.status == true ? <Tag color='green'>ACTIVE</Tag> : <Tag color='volcano'>INACTIVE</Tag>),
+  //     sortable: true,
+  //   },
+  //   {
+  //     name: 'Action',
+  //     selector: row => actionButton(row),
+  //   }
+
+  // ];
+
+
+
   const columns = [
     {
-      name: <span className="fw-bold">SL</span>,
-      selector: (row, index) => index + 1,
-      sortable: true,
-      width: "70px",
+      title: 'SL',
+      fixed: 'left',
+      render: (text, record, index) => index + 1
     },
     {
-      name: 'Class Code',
-      selector: row => row.classId,
-      sortable: true,
+      title: 'Class Code',
+      dataIndex: 'classId',
+      // fixed: 'left',
     },
     {
-      name: 'Name',
-      selector: row => row.name,
-      sortable: true,
+      title: 'Name',
+      dataIndex: 'name',
     },
     {
-      name: 'Status',
-      selector: row => (row.status == true ? <Tag color='green'>ACTIVE</Tag> : <Tag color='volcano'>INACTIVE</Tag>),
-      sortable: true,
+      title: 'Status',
+      dataIndex: 'status',
+      render: (status) => (
+        status ? <Tag color='green'>ACTIVE</Tag> : <Tag color='volcano'>INACTIVE</Tag>
+      ),
     },
     {
-      name: 'Action',
-      selector: row => actionButton(row),
-    }
-
+      title: 'Action',
+      key: 'action',
+      fixed: 'right',
+      width: 100,
+      render: (row) => actionButton(row), // You need to define actionButton function
+    },
   ];
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -168,17 +245,17 @@ const ManageClass = () => {
   const actionButton = (row) => {
 
     return <>
-      <Row justify="space-between">
-        <a onClick={() => handleViewOpen(row)} style={{ color: 'green', marginRight: '10px' }}>
-          <EyeOutlined style={{ fontSize: '24px' }} />
+      <Row justify="space-between" style={{ display: 'flex', alignItems: 'center' }}>
+        <a onClick={() => handleViewOpen(row)} style={{ color: 'green' }}>
+          <EyeOutlined style={{ fontSize: '22px' }} />
         </a>
 
-        <a onClick={() => handleOpen(row)} className="text-primary" style={{ marginRight: '10px' }}>
-          <EditOutlined style={{ fontSize: '24px' }} />
+        <a onClick={() => handleOpen(row)} className="text-primary" >
+          <EditOutlined style={{ fontSize: '22px' }} />
         </a>
 
-        <a onClick={() => showDeleteConfirm(row._id, row.name)} className="text-danger" style={{ marginRight: '10px' }}>
-          <DeleteOutlined style={{ fontSize: '24px' }} />
+        <a onClick={() => showDeleteConfirm(row._id, row.name)} className="text-danger" >
+          <DeleteOutlined style={{ fontSize: '22px' }} />
         </a>
       </Row>
     </>
@@ -207,7 +284,7 @@ const ManageClass = () => {
                           type="primary"
                           onClick={handleShow}
                           block
-                          style={{backgroundColor: "#007bff",color: "#fff",}}
+                          style={{ backgroundColor: "#007bff", color: "#fff", }}
                         >
                           <span >Add</span>
                           <span className="button-icon-space ml-5">
@@ -233,7 +310,27 @@ const ManageClass = () => {
                       setIsViewModalOpen={setIsViewModalOpen}
                       classes={classes} />
 
-                    <div style={{ overflowX: 'auto' }}>
+
+
+
+                    <Content>
+                      <Row align="middle" justify="space-between" style={{ marginBottom: '16px' }}>
+                        <DebouncedSearchInput onChange={setSearch}
+                       className="custom-search-input"
+                        />
+                      </Row>
+                      <Table
+                        columns={columns}
+                        dataSource={classList?.data}
+                        scroll={{ x: 'max-content' }}
+                        pagination={pagination}
+                        onChange={onChange}
+
+                      />
+
+                    </Content>
+
+                    {/* <div style={{ overflowX: 'auto' }}>
                       <DataTable
                         columns={columns}
                         data={classList?.data}
@@ -256,7 +353,7 @@ const ManageClass = () => {
                       />
 
 
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
