@@ -5,6 +5,7 @@ import { Button, Card, Col, DatePicker, Drawer, Layout, Row, Select, Space, Spin
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import HeadSection from '../../components/HeadSection';
+import { STUDENTGENDER, TUTORGENDER } from '../../constants/dropdown';
 import { CATEGORIE_END_POINT, CITY_END_POINT, CLASS_END_POINT, DASHBOARD_END_POINT, LOCATION_END_POINT, SUBJECT_END_POINT } from '../../constants/index';
 import { get } from '../../helpers/api_helper';
 import { mapArrayToDropdown } from '../../helpers/common_Helper';
@@ -30,6 +31,8 @@ const Dashboard = () => {
   const [subjectDropDown, setSubjectDropDown] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState('');
   const [tutionType, setTutionType] = useState('');
+  const [studentGender, setStudentGender] = useState('');
+  const [tutorGender, setTutorGender] = useState('');
   const [open, setOpen] = useState(false);
   const [size, setSize] = useState();
   // const { data: dashboard } = useGetAllData(QUERY_KEYS.GET_ALL_DASHBOARD, DASHBOARD_END_POINT.dashbord(true,limit,page));
@@ -40,7 +43,7 @@ const Dashboard = () => {
   const getAllData = async (limit, page) => {
 
     let isSubscribed = true;
-    await get(DASHBOARD_END_POINT.dashbord(true, limit, page, fromDate, toDate, tutionType, selectedCity, selectedLocation, selectedCateGory, selectedClass, selectedSubject))
+    await get(DASHBOARD_END_POINT.dashbord(true, limit, page, fromDate, toDate, tutionType, selectedCity, selectedLocation, selectedCateGory, selectedClass, selectedSubject, studentGender,tutorGender))
       .then((res) => {
         console.log(res)
         if (isSubscribed) {
@@ -67,8 +70,6 @@ const Dashboard = () => {
   useEffect(() => {
     getAllData(limit, page)
   }, [limit, page, selectedCateGory]);
-
-
 
 
 
@@ -146,6 +147,15 @@ const Dashboard = () => {
   const onChangeSubject = (value) => {
     setSelectedSubject(value);
   }
+
+  const onChangeTutorGender = (value) => {
+    setTutorGender(value);
+  }
+  const onChangeStudentGender = (value) => {
+    setStudentGender(value);
+  }
+
+
   const onClose = () => {
     setOpen(false);
   };
@@ -241,10 +251,10 @@ const Dashboard = () => {
             </Row>
             <Row justify="space-evenly" className='mt-2'>
               <Col md={6} xs={12}>
-                <Select placeholder='Student Gender' style={{ width: '100%' }} />
+                <Select placeholder='Student Gender' options={STUDENTGENDER} onChange={onChangeStudentGender} style={{ width: '100%' }} />
               </Col>
               <Col md={6} xs={12}>
-                <Select placeholder='Tutor Gender'  style={{ width: '100%' }} />
+                <Select placeholder='Tutor Gender' options={TUTORGENDER}  onChange={onChangeTutorGender} style={{ width: '100%' }} />
               </Col>
               <Col md={4} xs={12}>
                 <Select placeholder='Class' options={classDropDown} onChange={onChangeClass} style={{ width: '100%' }} />
