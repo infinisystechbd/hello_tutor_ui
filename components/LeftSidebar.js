@@ -94,12 +94,12 @@ const Leftsidebar = ({ collapsed }) => {
       path: '/tutorFrom'
     },
 
-    {
-      key: 'tutorProfileTry',
-      icon: <UserOutlined />,
-      label: 'Tutor Profile From Try',
-      path: '/tutorFromTry/Tutor_Create_from'
-    },
+    // {
+    //   key: 'tutorProfileTry',
+    //   icon: <UserOutlined />,
+    //   label: 'Tutor Profile From Try',
+    //   path: '/tutorFromTry/Tutor_Create_from'
+    // },
     {
       key: 'setting',
       icon: <SettingOutlined />,
@@ -120,7 +120,7 @@ const Leftsidebar = ({ collapsed }) => {
     } else if (profile.role === 4) {
       allowedKeys.push('profile', 'dashboard', 'tutorRequest','status', 'setting');
     } else if (profile.role === 5) {
-      allowedKeys.push('profile', 'dashboard', 'tutorProfile', 'tutorProfileTry','status','setting');
+      allowedKeys.push('profile', 'dashboard', 'tutorProfile','status','setting');
     }
   
     const filteredMenuItems = menuItems.filter((item) => allowedKeys.includes(item.key));
