@@ -123,7 +123,7 @@ const JobDetails = () => {
 
                     <Row className='mt-4'>
                       <Col md={24}>
-                        <Text type='secondary'><Text type='secondary' strong>Other Requirment</Text> - {data.data.requirement ?? "No requirment"}</Text>
+                        <Text type='secondary'><Text type='secondary' strong>Other Requirment</Text> - {data?.data?.requirement ?? "No requirment"}</Text>
                       </Col>
                     </Row>
 

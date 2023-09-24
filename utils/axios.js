@@ -41,7 +41,7 @@ export default function Axios() {
 
         setToken(token);
         // setUser(user);
-        router.replace("/dashboard")
+        router.replace("/dashboard/dashboard")
         router.reload();
     }
 

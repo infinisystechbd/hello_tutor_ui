@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { CalendarOutlined, DingtalkOutlined, EnvironmentOutlined, ReadOutlined } from '@ant-design/icons';
 import { SegmentedControl } from 'antd';
 import moment from 'moment';
+import { useRouter } from 'next/router';
 
 const Status = () => {
   const { token: { colorBgContainer }, } = theme.useToken();
@@ -16,6 +17,7 @@ const Status = () => {
   const { Text, Link } = Typography;
   const [dashboard, setDashboard] = useState([]);
   const [appliedJob, setAppliedJob] = useState([]);
+  console.log("appliedJob",appliedJob);
   const [activeJob, setActiveJob] = useState([]);
   const [pendingJob, setPendingJob] = useState([]);
   const [cancelJob, setCancelJob] = useState([]);
@@ -28,7 +30,7 @@ const Status = () => {
   const { Content } = Layout;
   const [loading, setLoading] = useState(true);
 
-  console.log(activeStatus);
+
   const handleActive = () => {
 
     setActiveStatus(true)
@@ -73,6 +75,12 @@ const Status = () => {
 
 
 
+  const router = useRouter();
+
+  const onDetails = async (value) => {
+
+    await router.push(`/dashboard/${value}`)
+  }
 
 
 
@@ -147,15 +155,15 @@ const Status = () => {
           </Card>
 
 
-          <Row gutter={[8, 8]} justify="space-between">
+          <Row gutter={[8, 16]} justify="space-between">
 
 
 
-          {
+            {
               appliedStatus
                 ? (appliedJob?.map((t, i) => (
                   <Col key={i} className="gutter-row" xs={24} sm={24} md={12} lg={8}>
-                    <Card className='mt-2 custom-card' title={t.title} bordered={false} style={{ height: '250px' }}>
+                    <Card className='mt-2 custom-card' title={"Tutor For "+ t.subject.map((subject) => subject.subjectId.name).join(', ')} bordered={false} style={{ height: '280px' }}>
 
 
                       <Row>
@@ -216,7 +224,7 @@ const Status = () => {
                       </Row>
 
 
-                      <Row className="mt-2 " justify="space-between">
+                      <Row className="mt-2 mb-8" justify="space-between">
                         <Col>
                           <FontAwesomeIcon
                             color={t.preferredGender === 'Male' ? 'green' : 'red'}
@@ -226,8 +234,8 @@ const Status = () => {
                           <Text>{t.preferredGender === 'Male' ? 'Male' : 'Female'}</Text>
                           <Text strong> {t.preferredGender} <Text type="secondary">tutor preferred</Text></Text>
                         </Col>
-                        <Col>
-                          <Button type="primary" onClick={() => onDetails(t.jobId)}  style={{backgroundColor: "#007bff",color: "#fff",}}>Details</Button>
+                        <Col >
+                          <Button type="primary" onClick={() => onDetails(t.jobId)} style={{ backgroundColor: "#007bff", color: "#fff", }}>Details</Button>
                         </Col>
                       </Row>
 
@@ -243,7 +251,7 @@ const Status = () => {
               activeStatus
                 ? (activeJob?.map((t, i) => (
                   <Col key={i} className="gutter-row" xs={24} sm={24} md={12} lg={8}>
-                    <Card className='mt-2 custom-card' title={t.title} bordered={false} style={{ height: '250px' }}>
+                    <Card className='mt-2 custom-card' title={"Tutor For "+ t.subject.map((subject) => subject.subjectId.name).join(', ')} bordered={false} style={{ height: '280px' }}>
 
 
                       <Row>
@@ -315,7 +323,7 @@ const Status = () => {
                           <Text strong> {t.preferredGender} <Text type="secondary">tutor preferred</Text></Text>
                         </Col>
                         <Col>
-                          <Button type="primary" onClick={() => onDetails(t.jobId)}  style={{backgroundColor: "#007bff",color: "#fff",}}>Details</Button>
+                          <Button type="primary" onClick={() => onDetails(t.jobId)} style={{ backgroundColor: "#007bff", color: "#fff", }}>Details</Button>
                         </Col>
                       </Row>
 
@@ -328,7 +336,7 @@ const Status = () => {
             {pendingStatus
               ? (pendingJob?.map((t, i) => (
                 <Col key={i} className="gutter-row" xs={24} sm={24} md={12} lg={8}>
-                  <Card className='mt-2 custom-card' title={t.title} bordered={false} style={{ height: '250px' }}>
+                  <Card className='mt-2 custom-card' title={"Tutor For "+ t.subject.map((subject) => subject.subjectId.name).join(', ')} bordered={false} style={{ height: '280px' }}>
 
 
                     <Row>
@@ -400,7 +408,7 @@ const Status = () => {
                         <Text strong> {t.preferredGender} <Text type="secondary">tutor preferred</Text></Text>
                       </Col>
                       <Col>
-                        <Button type="primary" onClick={() => onDetails(t.jobId)}  style={{backgroundColor: "#007bff",color: "#fff",}}>Details</Button>
+                        <Button type="primary" onClick={() => onDetails(t.jobId)} style={{ backgroundColor: "#007bff", color: "#fff", }}>Details</Button>
                       </Col>
                     </Row>
 
@@ -414,7 +422,7 @@ const Status = () => {
             {cancelStatus
               ? (cancelJob?.map((t, i) => (
                 <Col key={i} className="gutter-row" xs={24} sm={24} md={12} lg={8}>
-                  <Card className='mt-2 custom-card' title={t.title} bordered={false} style={{ height: '250px' }}>
+                  <Card className='mt-2 custom-card' title={"Tutor For "+ t.subject.map((subject) => subject.subjectId.name).join(', ')} bordered={false} style={{ height: '280px' }}>
 
 
                     <Row>
@@ -486,7 +494,7 @@ const Status = () => {
                         <Text strong> {t.preferredGender} <Text type="secondary">tutor preferred</Text></Text>
                       </Col>
                       <Col>
-                        <Button type="primary" onClick={() => onDetails(t.jobId)}  style={{backgroundColor: "#007bff",color: "#fff",}}>Details</Button>
+                        <Button type="primary" onClick={() => onDetails(t.jobId)} style={{ backgroundColor: "#007bff", color: "#fff", }}>Details</Button>
                       </Col>
                     </Row>
 
@@ -499,7 +507,7 @@ const Status = () => {
 
             {confirmedStatus ? (confirmJob?.map((t, i) => (
               <Col key={i} className="gutter-row" xs={24} sm={24} md={12} lg={8}>
-                <Card className='mt-2 custom-card' title={t.title} bordered={false} style={{ height: '250px' }}>
+                <Card className='mt-2 custom-card' title={"Tutor For "+ t.subject.map((subject) => subject.subjectId.name).join(', ')} bordered={false} style={{ height: '280px' }}>
 
 
                   <Row>
@@ -571,7 +579,7 @@ const Status = () => {
                       <Text strong> {t.preferredGender} <Text type="secondary">tutor preferred</Text></Text>
                     </Col>
                     <Col>
-                      <Button type="primary" onClick={() => onDetails(t.jobId)}  style={{backgroundColor: "#007bff",color: "#fff",}}>Details</Button>
+                      <Button type="primary" onClick={() => onDetails(t.jobId)} style={{ backgroundColor: "#007bff", color: "#fff", }}>Details</Button>
                     </Col>
                   </Row>
 
@@ -579,10 +587,10 @@ const Status = () => {
                 </Card>
               </Col>
             ))) : ""
-            
-            
-            
-            
+
+
+
+
             }
 
 
