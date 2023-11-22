@@ -191,6 +191,21 @@ body {
 
 
 
+/* Add this to your CSS file or style section */
+.btn-hover-success:hover {
+  background-color: #28a745; /* Change this to the desired success color */
+  color: #fff; /* Change this to the desired text color on hover */
+  border-color: #28a745; /* Change this to the desired border color on hover */
+}
+
+
+
+/* Add this to your CSS file or style section */
+.hover-success:hover {
+  color: #28a745; /* Change this to the desired success color */
+}
+
+
 
 
 
