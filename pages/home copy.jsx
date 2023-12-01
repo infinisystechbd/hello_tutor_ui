@@ -1,22 +1,8 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPhone, faGooglePlay, faAppStoreIos, faFacebook, faYoutube, faLinkedin, faInstagram, faInstagramSquare, faGraduationCap, faPersonChalkboard, faUsers, faChalkboardUser, faBrain, faArrowRight, faUserGroup } from '@fortawesome/free-solid-svg-icons';
+import { faPhone,faGooglePlay ,faAppStoreIos, faFacebook, faYoutube, faLinkedin, faInstagram,faInstagramSquare, faGraduationCap, faPersonChalkboard, faUsers, faChalkboardUser, faBrain, faArrowRight, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import { Carousel, Col, Container, Row } from 'react-bootstrap';
-import Footer from '../components/HomePages/Footer';
-import { IoIosContact } from 'react-icons/io';
-import { MdOutlineContactPage } from 'react-icons/md';
-import { IoIosSearch } from 'react-icons/io';
-import { IoIosSend } from 'react-icons/io';
 const Home = () => {
-
-
-
-  const processes = [
-    { img: <IoIosContact />, title: 'Create an Account' },
-    { img: <MdOutlineContactPage />, title: 'CV/Resume' },
-    { img: <IoIosSearch />, title: 'Find Your Job' },
-    { img: <IoIosSend />, title: 'Save & Apply' },
-  ];
 
 
   return (
@@ -28,10 +14,47 @@ const Home = () => {
 
       <>
         {/* <div className="sticky-top"> */}
+        <div >
+          <div className="bg-primary text-white mt-20 py-2">
+            <div className="container">
+              <div className="d-flex justify-content-between max-w-6xl mx-auto">
+                <div className="">
+                  <p>
+                    <FontAwesomeIcon icon={faPhone} />{" "}
+                    <span className="font-weight-semibold">+88 09613 441122</span>
+                  </p>
+                </div>
+                <div className="d-flex space-4 text-xl">
+                  <FontAwesomeIcon icon={faFacebook} />
+                  <FontAwesomeIcon icon={faYoutube} />
+                  <FontAwesomeIcon icon={faLinkedin} />
+                  <FontAwesomeIcon icon={faInstagram} />
+                </div>
+              </div>
+            </div>
+          </div>
+          <nav className="py-4 bg-light">
+            <div className="container d-flex justify-content-between max-w-6xl mx-auto">
+              <div>
+                <h1 className="h2 font-weight-bold text-primary">Hellotutors</h1>
+              </div>
+              <div className="d-flex space-4">
+                <button className="btn btn-link text-primary">Sign In</button>
+                <button className="btn btn-link text-primary">Job Board</button>
+                <button className="btn btn-primary rounded-md font-weight-semibold">
+                  Become a Tutor
+                </button>
+              </div>
+            </div>
+          </nav>
+        </div>
 
 
 
-        <div className="banner max-w-6xl mx-auto mb-15 relative">
+
+
+
+        <div className="banner max-w-6xl mx-auto mb-36 relative">
           <div className="flex justify-between items-center ">
             <div className="mt-14">
               <h1 className="display-3 font-weight-bold py-4">
@@ -65,6 +88,140 @@ const Home = () => {
           </div>
 
 
+
+
+
+
+
+
+          <div className=" rounded-3xl py-12 mt-10 "  style={{ backgroundColor: '#0675c1' }}>
+            <div className="container">
+              <div className="row">
+                <div className="col-md-3 col-sm-6 mb-4">
+                  <div className="d-flex align-items-center space-4 ">
+
+                    <div>
+                      <FontAwesomeIcon icon={faGraduationCap} className="text-6xl text-white" />
+                    </div>
+                    <div>
+                      <h1 class="text-4xl text-white">2913385</h1>
+                      <p class="text-white">Active Tutors</p>
+                    </div>
+
+
+                  </div>
+                </div>
+                <div className="col-md-3 col-sm-6 mb-4">
+                  <div className="d-flex align-items-center space-4 ">
+
+                    <div>
+                      <FontAwesomeIcon icon={faGraduationCap} className="text-6xl text-white" />
+                    </div>
+                    <div>
+                      <h1 className="text-4xl text-white">2913385</h1>
+                      <p className="text-white">Active Tutors</p>
+                    </div>
+
+
+                  </div>
+                </div>
+                <div className="col-md-3 col-sm-6 mb-4">
+                  <div className="d-flex align-items-center space-4 ">
+
+                    <div>
+                      <FontAwesomeIcon icon={faGraduationCap} className="text-6xl text-white" />
+                    </div>
+                    <div>
+                      <h1 className="text-4xl text-white">2913385</h1>
+                      <p className="text-white">Active Tutors</p>
+                    </div>
+
+
+                  </div>
+                </div>
+
+                <div className="col-md-3 col-sm-6 mb-4">
+                  <div className="d-flex align-items-center space-4 ">
+
+                    <div>
+                      <FontAwesomeIcon icon={faGraduationCap} className="text-6xl text-white" />
+                    </div>
+                    <div>
+                      <h1 className="text-4xl text-white">2913385</h1>
+                      <p className="text-white">Active Tutors</p>
+                    </div>
+
+
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+            <div className    ="d-flex justify-between align-items-center p-4 pt-12">
+              <div>
+                <h1 className    ="text-white">Live Tuition Jobs</h1>
+              </div>
+              <div className    ="w-4/5">
+
+                <Carousel>
+                  <Carousel.Item>
+
+                    <div className="container">
+                      <div className="row">
+                        <div className="col-md-4">
+                          <button className="btn btn-outline-white rounded-xl py-2 w-100 border border-white text-white">
+                            Riyadh (2)
+                          </button>
+                        </div>
+
+
+                        <div className="col-md-4">
+                          <button className="btn btn-outline-white rounded-xl py-2 w-100 border border-white text-white">
+                            Riyadh (2)
+                          </button>
+                        </div>
+
+                        <div className="col-md-4">
+                          <button className="btn btn-outline-white rounded-xl py-2 w-100 border border-white text-white">
+                            Riyadh (2)
+                          </button>
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </Carousel.Item>
+
+                  <Carousel.Item>
+
+                    <div className="container">
+                      <div className="row">
+                        <div className="col-md-4">
+                          <button className="btn btn-outline-white rounded-xl py-2 w-100 border border-white text-white">
+                            Riyadh (2)
+                          </button>
+                        </div>
+                        <div className="col-md-4">
+                          <button className="btn btn-outline-white rounded-xl py-2 w-100 border border-white text-white">
+                            Riyadh (2)
+                          </button>
+                        </div>
+                        <div className="col-md-4">
+                          <button className="btn btn-outline-white rounded-xl py-2 w-100 border border-white text-white">
+                            Riyadh (2)
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                  </Carousel.Item>
+
+                </Carousel>
+              </div>
+            </div>
+          </div>
+
         </div>
       </>
 
@@ -72,7 +229,7 @@ const Home = () => {
         <div className="bg-[#f2f5fc]">
           <div className="content max-w-6xl mx-auto ">
             <h1 className="text-center text-black text-5xl font-semibold">
-            Tuition Category
+              Tuition Types
             </h1>
             <div className="grid grid-cols-2 gap-4 pt-12">
               <div className="d-flex align-items-center p-4 gap-4 border border-primary rounded-md hover-bg-white hover-border-2">
@@ -129,12 +286,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-
-
-      {/* How does it work for guardians/students? */}
-
-
       <section className="how-it-works-for-gurdian">
         <div className="how-it-works py-12 max-w-6xl mx-auto">
           <h1 className="text-5xl font-medium text-center">
@@ -188,14 +339,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-
-
-
-
-
-
-
 
       <section className="serving-category-container">
         <div className="bg-light">
@@ -376,30 +519,156 @@ const Home = () => {
         </div>
       </section>
 
-      {/* how does it work */}
-      <div className="container px-32 mx-auto my-20">
-        <h1 className="text-5xl font-bold text-center mb-20">
-          How does it work?
+
+
+
+      <section className="what-gurdia-say-about-us max-w-6xl mx-auto text-center mt-10">
+    <div className="space-y-4">
+        <h1 className="text-4xl font-weight-bold">
+            What Some Awesome Guardian/Student Says about Us
         </h1>
-        <div className="row justify-content-between">
-          {processes.map((process, index) => (
-            <div key={index} className="col-md-3 mb-4 d-flex align-items-center justify-content-center">
-              <div className="card bg-light shadow-lg">
-                <figure className="text-5xl  m-4 text-center">
-                  <div className="hover-success">{process.img}</div>
-                </figure>
-                <div className="card-body text-center">
-                  <h2 className="card-title">{process.title}</h2>
-                  <p className="card-text">{process.description}</p>
+        <p className="text-secondary">Hire a tutor today and start learning!</p>
+        <button className="btn btn-primary px-4 py-2 rounded-md font-weight-bold">
+            Hire a Tutor
+            <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
+        </button>
+    </div>
+</section>
+
+
+      <footer className=" mt-12" style={{ backgroundColor: '#0675c1' }}>
+        <div className="max-w-6xl mx-auto pt-8">
+          <div className="header grid grid-cols-4 pb-8 space-x-4">
+            <div>
+              <h1 className="text-2xl font-bold text-white">Caretutors</h1>
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-white">Useful Links</h1>
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-white">Social</h1>
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-white">Office Address</h1>
+            </div>
+          </div>
+          <div className="grid grid-cols-4 text-white space-x-4">
+            <div>
+              <p>
+                Caretutors was founded in 2012. It is Bangladeshs first, most
+                trusted and leading online platform for guardians, students, and
+                tutors to hire verified tutors or find tuition jobs in 13 different
+                categories from anywhere in the country.
+              </p>
+            </div>
+            <div>
+              <p>
+                <a href="">Terms and Conditions</a>
+              </p>
+              <p>
+                <a href="">Become a Tutor</a>
+              </p>
+              <p>
+                <a href="">Hire a Tutor</a>
+              </p>
+              <p>
+                <a href="">Tutorials</a>
+              </p>
+              <p>
+                <a href="">FAQ</a>
+              </p>
+              <p>
+                <a href="">Caretutors Merchant</a>
+              </p>
+            </div>
+            <div>
+              <p>
+                <a href="">
+                  <span>
+                  <FontAwesomeIcon icon={faFacebook} className="text-7xl" />
+                  </span>{" "}
+                  Facebook
+                </a>
+              </p>
+              <p>
+                <a href="">
+                  <span>
+                  <FontAwesomeIcon icon={faYoutube} className="text-7xl" />
+                  </span>{" "}
+                  Youtube
+                </a>
+              </p>
+              <p>
+                <a href="">
+                  <span>
+                  <FontAwesomeIcon icon={faLinkedin} className="text-7xl" />
+                  </span>{" "}
+                  Linkedin
+                </a>
+              </p>
+              <p>
+                <a href="">
+                  <span>
+                  <FontAwesomeIcon icon={faInstagramSquare} className="text-7xl" />
+                  </span>{" "}
+                  Instagram
+                </a>
+              </p>
+              <p className="font-bold">Join Our Community</p>
+              <div className="grid grid-cols-2 gap-2 justify-between">
+                <div className="bg-black flex items-center pt-0 pb-1 px-2 space-x-2 rounded-lg">
+                <FontAwesomeIcon icon={faUserGroup} className="text-[#fbb040]" />
+                  <div>
+                    <h1 className="text-xs">Guardians</h1>
+                    <h2 className="text-xs font-semibold">Community</h2>
+                  </div>
+                </div>
+                <div className="bg-black flex items-center pt-0 pb-1 px-2 space-x-2 rounded-lg">
+                <FontAwesomeIcon icon={faUserGroup} style={{ color: '#02ccc0' }} />
+                  <div>
+                    <h1 className="text-xs">Tutors</h1>
+                    <h2 className="text-xs font-semibold">Community</h2>
+                  </div>
                 </div>
               </div>
             </div>
-          ))}
+            <div>
+              <div>
+                <p>
+                  Flat: 3A, House: 26, Alaol Avenue, Sector 6, Uttara, Dhaka 1230,
+                  Bangladesh.
+                </p>
+                <h1 className="font-bold pt-6">Download Our App</h1>
+                <div className="grid grid-cols-2 gap-2 justify-between">
+                  <div className="bg-black flex items-center pt-0 pb-1 px-2 space-x-2 rounded-lg">
+                    
+                    <FontAwesomeIcon icon={faGooglePlay} />
+                    <div>
+                      <h1 className="text-xs">GET IT ON</h1>
+                      <h2 className="text-xs font-semibold">Google Play</h2>
+                    </div>
+                  </div>
+                  <div className="bg-black flex items-center pt-0 pb-1 px-2 space-x-2 rounded-lg">
+                         {/* <i className="fa-brands fa-app-store-ios" /> */}
+                    <FontAwesomeIcon icon={faAppStoreIos} />
+                    <div>
+                      <h1 className="text-xs">Download on</h1>
+                      <h2 className="text-xs font-semibold">App Store</h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="py-12 text-white text-center">
+            <p className="font-semibold">
+              Copyright © 2012-2023 Caretutors Technologies Ltd. All Rights
+              Reserved.
+            </p>
+            <p className="font-bold">Web App Version: 4.13.17</p>
+          </div>
         </div>
-      </div>
-
-
-      <Footer />
+      </footer>
     </>
 
 

@@ -2,16 +2,16 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <footer className="footer footer-center p-10 bg-dark">
+    <footer className="footer footer-center p-10 bg-dark mt-5">
       <div className="container text-center">
         <div className="row">
           <div className="col-md-12">
-            <h1 className="text-5xl font-bold text-success">Hello Tutor</h1>
+            <h1 className="text-5xl font-bold text-success mb-5">Hello Tutor</h1>
             <p className="font-semibold text-white text-xl">Providing reliable teacher since 2018</p>
-            <p className="text-gray-300">Copyright © 2023 - All right reserved</p>
+           
           </div>
         </div>
-        <div className="row">
+        <div className="row mt-5">
           <div className="col-md-12 d-flex justify-content-center">
             <a className="text-white me-4" href="#">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" className="fill-current">

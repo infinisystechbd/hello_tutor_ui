@@ -3,11 +3,11 @@ import { Card, Layout } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
-import HeadSection from "../components/HeadSection";
-import ToastMessage from '../components/Toast/index';
-import { SECURITY_END_POINT } from "../constants/index";
-import { post } from "../helpers/api_helper";
-import Axios from "../utils/axios";
+import HeadSection from "../../components/HeadSection";
+import ToastMessage from '../../components/Toast/index';
+import { SECURITY_END_POINT } from "../../constants/index";
+import { post } from "../../helpers/api_helper";
+import Axios from "../../utils/axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faEye,
@@ -192,8 +192,8 @@ const LoginPage = () => {
                       <p className="small fw-bold mt-2 pt-1 mb-0">
                         Dont have an account?{" "}
                         <Link href="/register" >
-                         
-                         <span className="text-primary">Register</span> 
+
+                          <span className="text-primary">Register</span>
                         </Link>
                       </p>
                     </div>

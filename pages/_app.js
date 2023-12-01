@@ -3,7 +3,6 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useState } from 'react';
 import { Slide, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-// import Login from '../pages/user/login';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DefaultLayout from '../components/DefaultLayout';
 import '../components/scss/main.css';
