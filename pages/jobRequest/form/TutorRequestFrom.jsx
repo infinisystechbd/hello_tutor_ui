@@ -192,6 +192,7 @@ const TutorRequestFrom = (props) => {
   /**fetch class   End */
 
   const [classess, setClassess] = useState([]);
+  console.log("classess",classess);
   const [code, setCode] = useState("");
   console.log(code);
   const handleCategory = async (value) => {

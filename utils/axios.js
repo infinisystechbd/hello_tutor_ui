@@ -41,13 +41,13 @@ export default function Axios() {
 
         setToken(token);
         // setUser(user);
-        router.replace("/dashboard/dashboard")
+        router.replace("/profile/user/", "/dashboard/dashboard");
         router.reload();
     }
 
     function logout(){
         localStorage.clear();
-         router.replace("/");
+         router.replace("/profile/user/", "/login");
          router.reload();
       }
 
