@@ -10,6 +10,7 @@ import DebouncedSearchInput from '@/components/elements/DebouncedSearchInput';
 import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import { del } from '@/helpers/api_helper';
 import { JOB_ASSIGN_END_POINT } from '@/constants';
+import JobAssignForm from './JobAssignForm';
 
 const JobAssign = () => {
 
@@ -155,7 +156,7 @@ const JobAssign = () => {
 
     /*** Pagination End  */
 
-
+ 
     return (
         <div className="flex flex-col gap-10">
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -182,8 +183,8 @@ const JobAssign = () => {
                 </div>
 
 
-                {/* <ClassForm isOpen={isModalOpen} onClose={closeModal} setEditData={editData} isParentRender={reFetchHandler} />
-          <DeleteModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal} data={editData} isParentRender={reFetchHandler} /> */}
+               <JobAssignForm   isOpen={isModalOpen} onClose={closeModal} setEditData={editData} isParentRender={reFetchHandler} />
+            {/*<DeleteModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal} data={editData} isParentRender={reFetchHandler} /> */}
 
 
                 <Table
