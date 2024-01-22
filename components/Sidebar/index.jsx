@@ -147,7 +147,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               {/* <!-- Menu Item Job Dashboard --> */}
               <li>
                 <Link
-                  href="/dashboard"
+                  href="/JobDashbord"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes(
                     "calendar"
                   ) && "bg-graydark dark:bg-meta-4"}`}
@@ -452,8 +452,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               {/* <!-- Menu Item Users --> */}
 
 
-                            {/* <!-- Menu Item Users --> */}
-                            <SidebarLinkGroup
+              {/* <!-- Menu Item Users --> */}
+              <SidebarLinkGroup
                 activeCondition={
                   pathname === "/users" || pathname.includes("users")
                 }
@@ -506,6 +506,17 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                                 "/job_creation" && "text-white"}`}
                             >
                               Job Creation
+                            </Link>
+                          </li>
+
+
+                          <li>
+                            <Link
+                              href="/jobAssign"
+                              className={`first-letter:group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ${pathname ===
+                                "/jobAssign" && "text-white"}`}
+                            >
+                              Job Assign
                             </Link>
                           </li>
 
