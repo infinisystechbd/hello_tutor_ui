@@ -43,18 +43,18 @@ const LogIn = () => {
     otp: "",
   });
 
-  const [profile,setProfile] = useState({
-    mobile_number:"", 
-    password:"",
-    id_type:"",
-    nid:"",
-    gender:"",
-    nationality:"",
-    country_code:"",
-    state:null,
-    city:null,
-    zip_code:"",
-    address:""
+  const [profile, setProfile] = useState({
+    mobile_number: "",
+    password: "",
+    id_type: "",
+    nid: "",
+    gender: "",
+    nationality: "",
+    country_code: "",
+    state: null,
+    city: null,
+    zip_code: "",
+    address: ""
   })
 
 
@@ -124,7 +124,7 @@ const LogIn = () => {
 
 
 
-    /**------------------------Profile start --------------------------- */
+  /**------------------------Profile start --------------------------- */
 
 
   const submitProfile = async (event) => {
@@ -133,7 +133,7 @@ const LogIn = () => {
 
 
 
-    await http_post_request({ endpoint: '/auth/v1/postRegister', data: { ...profile, email:postEmailOtp?.email, full_name: postEmailOtp?.name } }).then(function (authRes) {
+    await http_post_request({ endpoint: '/auth/v1/postRegister', data: { ...profile, email: postEmailOtp?.email, full_name: postEmailOtp?.name } }).then(function (authRes) {
       if (authRes.status === 'success') {
         const result = authRes?.results;
         notify("success", `Successfully register`);
@@ -146,7 +146,7 @@ const LogIn = () => {
 
   }
 
-    /**------------------------Profile End --------------------------- */
+  /**------------------------Profile End --------------------------- */
 
 
 
@@ -175,17 +175,17 @@ const LogIn = () => {
   //   try {
   //     event.preventDefault();
   //     setLoading(true); // Assuming you have a setLoading state in your component
-  
+
   //     notify("info", "Checking...!");
-  
+
   //     const authRes = await http_post_request({
   //       endpoint: '/auth/v1/postLogin',
   //       data: { email: email, password: password }
   //     });
-  
+
   //     if (authRes.status === 'success') {
   //       const result = authRes?.results;
-  
+
   //       saveToken(result?.user, result?.access_token);
   //       // notify("success", "Login Successfully");
   //     } else {
@@ -235,7 +235,7 @@ const LogIn = () => {
     // console.log("{ phone: phone, password: password }",{ phone: phone, password: password });
 
   }
-  
+
 
 
 
@@ -244,13 +244,12 @@ const LogIn = () => {
   };
 
 
-
   return (
     <>
 
 
 
-  <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark flex items-center justify-center h-screen">
+      <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark flex items-center justify-center h-screen">
 
 
 
@@ -431,6 +430,9 @@ const LogIn = () => {
                   </>
                   :
                   <>
+
+
+
                     {
 
                       isOtpSent === false ?
@@ -438,9 +440,7 @@ const LogIn = () => {
                           otpSent={otpSent}
                           setPostEmailOtp={setPostEmailOtp}
                           postEmailOtp={postEmailOtp}
-
                         />
-
                         :
                         <>
 
@@ -454,19 +454,15 @@ const LogIn = () => {
                                 postVerifyOtp={postVerifyOtp}
                                 reference={postEmailOtp?.email}
                               />
-                              : 
-                              <RegWithPersonalInfo 
-                              profile= {profile}
-                              setProfile ={setProfile}
-                              submitProfile={submitProfile}
+                              :
+                              <RegWithPersonalInfo
+                                profile={profile}
+                                setProfile={setProfile}
+                                submitProfile={submitProfile}
                               />
-
                           }
 
                         </>
-
-
-
 
                     }
 
@@ -504,7 +500,7 @@ const LogIn = () => {
 
 
       </div>
-     
+
     </>
   )
 }
