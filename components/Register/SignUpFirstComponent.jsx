@@ -17,6 +17,32 @@ const SignUpFirstComponent = ({ otpSent, setPostEmailOtp, postEmailOtp }) => {
         setSelectedCheckbox(checkboxId);
     };
 
+
+
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [passwordLengthError, setPasswordLengthError] = useState(false);
+    const [passwordMatchError, setPasswordMatchError] = useState(false);
+
+    const handlePasswordChange = (e) => {
+        const newPassword = e.target.value;
+        setPassword(newPassword);
+
+        // Check password length
+        setPasswordLengthError(newPassword.length < 6);
+
+        // Check password match
+        setPasswordMatchError(confirmPassword !== newPassword && confirmPassword !== '');
+    };
+
+    const handleConfirmPasswordChange = (e) => {
+        const newConfirmPassword = e.target.value;
+        setConfirmPassword(newConfirmPassword);
+
+        // Check password match
+        setPasswordMatchError(password !== newConfirmPassword && password !== '');
+    };
+
     const checkboxData = [
         { id: 'teacher', src: 'https://cdn0.iconfinder.com/data/icons/tutor-icon-set/512/teacher_writing_on_board-512.png' },
         { id: 'student', src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5sChniPpNGCn0KsJ1Ps7atiaB0Lg8C0BWXOk7qeUtqg&s' },
@@ -83,42 +109,52 @@ const SignUpFirstComponent = ({ otpSent, setPostEmailOtp, postEmailOtp }) => {
                     </div>
                 </div>
 
-                <div className="mb-6">
-                    <label className="mb-2.5 block font-medium text-black dark:text-white">
-                        Name
-                    </label>
-                    <div className="relative">
-                        <input
-                            name='name'
-                            type="text"
-                            placeholder="Enter your Name"
-                            className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                            onChange={handleChange}
-                        />
+                <div>
+                    {/* Password Input */}
+                    <div className="mb-6">
+                        <label className="mb-2.5 block font-medium text-black dark:text-white">
+                            Password
+                        </label>
+                        <div className="relative">
+                            <input
+                                type="password"
+                                placeholder="At least 6 characters"
+                                className={`w-full rounded-lg border ${passwordLengthError ? 'border-red-500' : 'border-stroke'
+                                    } bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none ${passwordLengthError ? 'dark:border-red-500' : 'dark:border-form-strokedark'
+                                    } dark:bg-form-input dark:focus:border-primary`}
+                                onChange={handlePasswordChange}
+                            />
+                            <span className="absolute right-4 top-4">
+                                {/* Eye icon for password visibility */}
+                            </span>
+                            {passwordLengthError && (
+                                <span className="top-4 text-danger">
+                                    Password must be at least 6 characters.
+                                </span>
+                            )}
+                        </div>
+                    </div>
 
-                        <span className="absolute right-4 top-4">
-                            <svg
-                                className="fill-current"
-                                width="22"
-                                height="22"
-                                viewBox="0 0 22 22"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <g opacity="0.5">
-                                    <circle cx="11" cy="11" r="10" stroke="" strokeWidth="2" />
-                                    <path
-                                        d="M11 6.5C11 7.88071 9.88071 9 8.5 9C7.11929 9 6 7.88071 6 6.5C6 5.11929 7.11929 4 8.5 4C9.88071 4 11 5.11929 11 6.5Z"
-                                        fill=""
-                                    />
-                                    <path
-                                        d="M17.5 17.9999C15.6406 17.9999 14.0195 16.3788 14.0195 14.5194V13.9999C14.0195 12.3152 12.6943 10.9999 11 10.9999C9.30573 10.9999 7.98047 12.3152 7.98047 13.9999V14.5194C7.98047 16.3788 6.35938 17.9999 4.5 17.9999C3.11929 17.9999 2 16.8806 2 15.4999C2 14.6437 2.67651 13.9291 3.5 13.7331V13.9999C3.5 12.9236 4.55635 11.9999 5.83203 11.9999C6.30217 11.9999 6.74984 12.1441 7.12125 12.3991C8.35384 13.1822 10.0913 13.9999 11 13.9999C11.9087 13.9999 13.6462 13.1822 14.8787 12.3991C15.2502 12.1441 15.6978 11.9999 16.168 11.9999C17.4437 11.9999 18.5 12.9236 18.5 13.9999V13.7331C19.3235 13.9291 20 14.6437 20 15.4999C20 16.8806 18.8807 17.9999 17.5 17.9999Z"
-                                        fill=""
-                                    />
-                                </g>
-                            </svg>
-                        </span>
-
+                    {/* Confirm Password Input */}
+                    <div className="mb-6">
+                        <label className="mb-2.5 block font-medium text-black dark:text-white">
+                            Confirm Password
+                        </label>
+                        <div className="relative">
+                            <input
+                                type="password"
+                                placeholder="Confirm your password"
+                                className={`w-full rounded-lg border ${passwordMatchError ? 'border-red-500' : 'border-stroke'
+                                    } bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none ${passwordMatchError ? 'dark:border-red-500' : 'dark:border-form-strokedark'
+                                    } dark:bg-form-input dark:focus:border-primary`}
+                                onChange={handleConfirmPasswordChange}
+                            />
+                            {passwordMatchError && (
+                                <span className="top-4 text-danger">
+                                    Passwords do not match.
+                                </span>
+                            )}
+                        </div>
                     </div>
                 </div>
 
