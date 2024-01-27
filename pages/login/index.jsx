@@ -34,10 +34,14 @@ const LogIn = () => {
   }, []);
 
   const [postEmailOtp, setPostEmailOtp] = useState({
-    email: "",
-    name: "",
+    fullName:"",
+    phone: "",
+    password: '',
+    confirmPassword: '',
+    gender:"",
+    selectedCheckbox:'student'
   })
-
+console.log("postEmailOtp",postEmailOtp)
   const [postVerifyOtp, setPostVerifyOtp] = useState({
 
     otp: "",
@@ -73,21 +77,34 @@ const LogIn = () => {
 
   const otpSent = async (event) => {
     event.preventDefault();
-    // console.log("yes it call", postEmailOtp);
-
-
-    await http_post_request({ endpoint: '/otp/v1/postEmailOtp', data: { ...postEmailOtp } }).then(function (authRes) {
-      if (authRes.status === 'success') {
-        // const result = authRes?.results;
-        console.log("calling", authRes);
-        notify("success", `Check your mail`);
-        // setReference(data?.email)
-        setIsOtpSent(true)
-      } else {
-        // toast.error(authRes.message)
-        notify("error", `Something went wrong`);
+   
+    if (postEmailOtp?.selectedCheckbox =='student') {
+      let studentData={
+        phone:postEmailOtp?.phone,
+        password:postEmailOtp?.password,
+        confirmPassword:postEmailOtp?.confirmPassword,
       }
-    })
+      console.log('students',studentData)
+    }else{
+      let teacherData={
+        fullName:postEmailOtp?.fullName,
+        gender:postEmailOtp?.gender,
+        phone:postEmailOtp?.phone,
+        password:postEmailOtp?.password,
+        confirmPassword:postEmailOtp?.confirmPassword,
+      }
+      console.log("teacher",teacherData);
+    }
+    
+    // await http_post_request({ endpoint: '/otp/v1/postEmailOtp', data: { ...postEmailOtp } }).then(function (authRes) {
+    //   if (authRes.status === 'success') {
+    //     console.log("calling", authRes);
+    //     notify("success", `Check your mail`);
+    //     setIsOtpSent(true)
+    //   } else {
+    //     notify("error", `Something went wrong`);
+    //   }
+    // })
 
   }
 
