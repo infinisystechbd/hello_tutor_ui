@@ -26,7 +26,7 @@ const SignUpFirstComponent = ({ otpSent, setPostEmailOtp, postEmailOtp }) => {
         }));
 
         if (name === 'password') {
-            setPasswordLengthError(value.length < 6);
+            setPasswordLengthError(value.length < 4);
             setPasswordMatchError(postEmailOtp.confirmPassword !== value && postEmailOtp.confirmPassword !== '');
         } else if (name === 'confirmPassword') {
             setPasswordMatchError(postEmailOtp.password !== value && postEmailOtp.password !== '');
@@ -52,9 +52,9 @@ const SignUpFirstComponent = ({ otpSent, setPostEmailOtp, postEmailOtp }) => {
     ];
     return (
         <>
-            <div className="flex items-center space-x-4">
+            <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                 {checkboxData.map((checkbox) => (
-                    <div key={checkbox.id}>
+                    <div className="w-full sm:w-1/2 " key={checkbox.id}>
                         <input
                             type="checkbox"
                             id={checkbox.id}
@@ -83,7 +83,8 @@ const SignUpFirstComponent = ({ otpSent, setPostEmailOtp, postEmailOtp }) => {
 
            <>
            
-           <div className="mb-4">
+           <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+           <div className="w-full sm:w-1/2 ">
                     <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Full Name
                     </label>
@@ -114,9 +115,10 @@ const SignUpFirstComponent = ({ otpSent, setPostEmailOtp, postEmailOtp }) => {
                             </svg>
                         </span>
                     </div>
-                </div>
-           
-            <div className="mb-4">
+                    </div>
+
+
+                    <div cclassName="w-full sm:w-1/2">
                     <label className="mb-2.5 block font-medium text-black dark:text-white">
                         Gender
                     </label>
@@ -151,10 +153,9 @@ const SignUpFirstComponent = ({ otpSent, setPostEmailOtp, postEmailOtp }) => {
 
                     </div>
                 </div>
+                </div>
            
            </>
-                
-               
                 
                 
                 }
@@ -194,8 +195,10 @@ const SignUpFirstComponent = ({ otpSent, setPostEmailOtp, postEmailOtp }) => {
 
 
                 <div>
+                <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+
             {/* Password Input */}
-            <div className="mb-6">
+            <div className="mb-6 w-full sm:w-1/2">
                 <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Password
                 </label>
@@ -221,7 +224,7 @@ const SignUpFirstComponent = ({ otpSent, setPostEmailOtp, postEmailOtp }) => {
             </div>
 
             {/* Confirm Password Input */}
-            <div className="mb-6">
+            <div className="mb-6 w-full sm:w-1/2">
                 <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Confirm Password
                 </label>
@@ -242,7 +245,7 @@ const SignUpFirstComponent = ({ otpSent, setPostEmailOtp, postEmailOtp }) => {
                     )}
                 </div>
             </div>
-
+            </div>
             {/* Rest of your component */}
         </div>
 

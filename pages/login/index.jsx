@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import Axios from "../../utils/axios";
-import { http_get_request, http_post_request } from "../../helpers/http_requests";
 import { useRouter } from "next/router";
 import SignInComponent from "../../components/Login";
 import SignUpFirstComponent from "@/components/Register/SignUpFirstComponent";
@@ -20,7 +19,7 @@ const LogIn = () => {
 
   const [signup, setSignup] = useState(false);
   const router = useRouter();
-
+  const [userId, setUserId] = useState(null);
   const [loading, setLoading] = useState(false);
   const { http, setToken, token } = Axios();
   const [email, setEmail] = useState("");
@@ -85,6 +84,18 @@ console.log("postEmailOtp",postEmailOtp)
         confirmPassword:postEmailOtp?.confirmPassword,
       }
       console.log('students',studentData)
+
+
+      try {
+        const guardianReg = await post(SECURITY_END_POINT.guardianReg(), { phone: postEmailOtp?.phone, password: postEmailOtp?.password, confirmPassword: postEmailOtp?.confirmPassword });
+        notify("success", "successfully Registration!");
+        setUserId(guardianReg?.data?._id);
+        setIsOtpSent(true)
+    } catch (error) {
+        let message;
+        console.log(error);
+        notify("error", message);
+    }
     }else{
       let teacherData={
         fullName:postEmailOtp?.fullName,
@@ -93,6 +104,20 @@ console.log("postEmailOtp",postEmailOtp)
         password:postEmailOtp?.password,
         confirmPassword:postEmailOtp?.confirmPassword,
       }
+
+      try {
+        const tutorReg = await post(SECURITY_END_POINT.tutorReg(),{ fullName: postEmailOtp?.fullName, phone: postEmailOtp?.phone, gender: postEmailOtp?.gender, password: postEmailOtp?.password, confirmPassword: postEmailOtp?.confirmPassword });
+        notify("success", "successfully Registration!");
+        setUserId(tutorReg?.data?._id);
+        setIsOtpSent(true)
+
+    } catch (error) {
+        let message;
+        console.log(error);
+
+        notify("error", message);
+    }
+
       console.log("teacher",teacherData);
     }
     
