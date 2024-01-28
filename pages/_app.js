@@ -21,34 +21,34 @@ const MyApp = ({ Component, pageProps }) => {
   const { http, user, token, logout } = Axios();
   // console.log("user", user);
 
-  if (typeof window !== undefined) {
-    if (!token) {
-      return (
-        <>
+  // if (typeof window !== undefined) {
+  //   if (!token) {
+  //     return (
+  //       <>
 
-          {loading ? (
-            <Loader />
-          ) : (
-            <>
+  //         {loading ? (
+  //           <Loader />
+  //         ) : (
+  //           <>
 
-              <LogIn />
+  //             <LogIn />
 
-              <ToastContainer
-                position="top-right"
-                autoClose={3000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                draggable={false}
-                closeOnClick
-                pauseOnHover
-                transition={Slide}
-              />
-            </>
-          )}
-        </>
-      );
-    }
-  }
+  //             <ToastContainer
+  //               position="top-right"
+  //               autoClose={3000}
+  //               hideProgressBar={false}
+  //               newestOnTop={false}
+  //               draggable={false}
+  //               closeOnClick
+  //               pauseOnHover
+  //               transition={Slide}
+  //             />
+  //           </>
+  //         )}
+  //       </>
+  //     );
+  //   }
+  // }
 
   return (
     <>

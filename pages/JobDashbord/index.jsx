@@ -8,6 +8,7 @@ import { useCallback, useEffect, useState } from "react";
 const JobDashboard = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [dashboard, setDashboard] = useState([]);
+  console.log("dashboard",dashboard)
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(9);

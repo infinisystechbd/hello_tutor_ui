@@ -17,6 +17,7 @@ import { post } from "@/helpers/api_helper";
 const LogIn = () => {
 
 
+
   const [signup, setSignup] = useState(false);
   const router = useRouter();
   const [userId, setUserId] = useState(null);
@@ -42,9 +43,9 @@ const LogIn = () => {
   })
 console.log("postEmailOtp",postEmailOtp)
   const [postVerifyOtp, setPostVerifyOtp] = useState({
-
     otp: "",
   });
+  console.log("postVerifyOtp",postVerifyOtp)
 
   const [profile, setProfile] = useState({
     mobile_number: "",
@@ -144,20 +145,42 @@ console.log("postEmailOtp",postEmailOtp)
   const [isVerify, setIsVerify] = useState(false);
 
 
-  const otpVerify = async (event) => {
-    event.preventDefault();
-    await http_post_request({ endpoint: '/otp/v1/postVerifyOtp', data: { reference: postEmailOtp?.email, otp: postVerifyOtp?.otp } }).then(function (authRes) {
-      if (authRes.status === 'success') {
-        // const result = authRes?.results;
-        notify("success", `Verify Successfully`);
-        setIsVerify(true)
-      } else {
-        // toast.error(authRes.message)
-        notify("error", `Something went wrong`);
-      }
-    })
+  // const otpVerify = async (event) => {
+  //   event.preventDefault();
+  //   await http_post_request({ endpoint: '/otp/v1/postVerifyOtp', data: { reference: postEmailOtp?.email, otp: postVerifyOtp?.otp } }).then(function (authRes) {
+  //     if (authRes.status === 'success') {
+  //       // const result = authRes?.results;
+  //       notify("success", `Verify Successfully`);
+  //       setIsVerify(true)
+  //     } else {
+  //       // toast.error(authRes.message)
+  //       notify("error", `Something went wrong`);
+  //     }
+  //   })
 
-  }
+  // }
+
+
+
+  const otpVerify = async (event) => {
+    // id,otp
+    event.preventDefault();
+    setLoading(true);
+
+    try {
+        const update = await post(SECURITY_END_POINT.verifyOtp(userId), { token: postVerifyOtp?.otp });
+        if (update.status == 'SUCCESS') {
+            const login = await post(SECURITY_END_POINT.login(), { phone: postEmailOtp?.phone, password: postEmailOtp?.password });
+            setToken(login.accessToken);
+            notify("success", "successfully Login!");
+
+        }
+    } catch (error) {
+        notify('error', update.error);
+        setLoading(false);
+    }
+    setLoading(false);
+};
 
 
 

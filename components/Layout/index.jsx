@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import Sidebar from '../Sidebar';
 import Header from '../Header';
+import Axios from '@/utils/axios';
 
 const Layout = ({ children }) => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const { http, setToken, token } = Axios();
 
     const [loading, setLoading] = useState(true);
   return (
@@ -12,10 +14,11 @@ const Layout = ({ children }) => {
 
           <div className="flex h-screen overflow-hidden">
             {/* <!-- ===== Sidebar Start ===== --> */}
+            {token !== null && 
             <Sidebar
               sidebarOpen={sidebarOpen}
               setSidebarOpen={setSidebarOpen}
-            />
+            />}
             {/* <!-- ===== Sidebar End ===== --> */}
 
             {/* <!-- ===== Content Area Start ===== --> */}
