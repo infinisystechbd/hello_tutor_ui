@@ -2,6 +2,8 @@ import ImageUpload from '@/components/uploads/ImageUpload';
 import { http_get_request, http_put_request } from '@/helpers/http_requests';
 import React, { useEffect, useState } from 'react';
 import toast from "../../components/Toast";
+import { USER_END_POINT } from '@/constants';
+import { get } from '@/helpers/api_helper';
 const UpdateProfileV2 = () => {
 
     const notify = React.useCallback((type, message) => {
@@ -16,25 +18,29 @@ const UpdateProfileV2 = () => {
     const [state_id, setStateId] = useState(null);
     const [city_id, setCityId] = useState(null);
   
-console.log("profile",profile);
-//     console.log("country_id",country_id);
-//     console.log("statelist",statelist);
-    console.log("countrylist",countrylist);
 
 
-    const fetchUserData = async () => {
-        try {
-            const res = await http_get_request({ endpoint: `/user/v1/getMe` });
-            setProfile(res?.results || {});
-            setCountryId(res?.results?.country?.id || null);
-            setStateId(res?.results?.state?.id || null);
-            setCityId(res?.results?.city?.id || null);
-        } catch (error) {
-            console.error('Error fetching:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
+
+    const userInfo = async () => {
+        let isSubscribed = true;
+        await get(USER_END_POINT.info())
+          .then((res) => {
+            if (isSubscribed) {
+              console.log("indfo data",res?.data);
+            }
+          })
+          .catch((err) => {
+            console.log("Server Error ~!")
+          });
+    
+        return () => isSubscribed = false;
+      }
+    
+    
+    
+      useEffect(() => {
+        userInfo()
+      }, []);
 
 
 
@@ -42,16 +48,7 @@ console.log("profile",profile);
     const handleChange = (e) => {
         const { name, value } = e.target;
 
-        if (name === 'country_code') {
-            const selectedCountry = countrylist.find((country) => country.id === parseInt(value, 10));
 
-            console.log("selectedCountry", selectedCountry);
-            setCountryId(selectedCountry ? selectedCountry.id : null);
-        }
-
-        if (name === 'state') {
-            setStateId(value); // Convert to integer using parseInt
-        }
 
         setProfile((prev) => ({
             ...prev,
@@ -78,91 +75,22 @@ console.log("profile",profile);
     };
 
 
-    useEffect(() => {
-        getAllCountries();
-        fetchUserData();
-    }, []);
 
 
 
-    const getAllStateList = async () => {
-        try {
-            setLoading(true);
-
-            if (country_id !== null) {
-                const authRes = await http_get_request({ endpoint: `/geo/v1/getStateList?country_id=${country_id}` });
-                setStateList(authRes?.results || []);
-                console.log(authRes?.results);
-            } else {
-                // Handle the case where country_id is null
-                console.warn('country_id is null');
-            }
-        } catch (error) {
-            console.error('Error fetching states:', error);
-            // Handle error if needed
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        getAllStateList();
-    }, [country_id]);
 
 
 
-    useEffect(() => {
-
-        const controller = new AbortController();
-        const getAllCityList = async () => {
-            try {
-                setLoading(true);
-
-                const authRes = await http_get_request({ endpoint: `/geo/v1/getCityList?state_id=${state_id}` });
-                setCityList(authRes?.results || []);
-            } catch (error) {
-                console.error('Error fetching countries:', error);
-                // Handle error if needed
-            } finally {
-                setLoading(false);
-            }
-        };
-        getAllCityList();
-        return () => controller.abort();
-    }, [state_id])
 
 
-    let data = {};
+
+
+
+
 
     const handleSubmit = async (e) => {
 
-        e.preventDefault();
-        // event.preventDefault();
-        data = {
-            uid: profile?.uid,
-            full_name: profile?.full_name,
-            mobile_number: profile?.mobile_number,
-            id_type: profile?.id_type,
-            nid: profile?.nid,
-            dob: profile?.dob,
-            gender: profile?.gender,
-            country: profile?.country?.id,
-            nationality: profile?.nationality,
-            state: profile?.state?.id,
-            city: profile?.city,
-            zip_code: profile?.zip_code,
-            address: profile?.address,
-            about: profile?.about,
-            gender: profile?.gender,
-        }
 
-        await http_put_request({ endpoint: '/user/v1/putMe', data: { ...data } }).then(function (res) {
-            if (res.status === 'success') {
-                notify("success", `Update Successfully`);
-            } else {
-                notify("error", `Something went wrong`);
-            }
-        });
 
         console.log("handleSubmit", profile);
     };
