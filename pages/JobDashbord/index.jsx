@@ -8,7 +8,7 @@ import { useCallback, useEffect, useState } from "react";
 const JobDashboard = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [dashboard, setDashboard] = useState([]);
-  console.log("dashboard",dashboard)
+  console.log("dashboard", dashboard)
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(9);
@@ -181,11 +181,11 @@ const JobDashboard = () => {
     <>
       <Card className="mb-4">
         <div className="flex justify-center items-end">
-          <div className="grid grid-cols-4 sm:grid-cols-2 md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 gap-5">
             {category?.map((t) => (
               <div key={t.categoryId}>
                 <Button
-                  size="sm"
+
                   variant="outlined"
                   onClick={() => onChangeCategory(t._id)}
                 >
@@ -196,6 +196,10 @@ const JobDashboard = () => {
             <Button variant="outlined" onClick={openDrawerTop}>
               {" "}
               Filter{" "}
+            </Button>
+            <Button variant="outlined" onClick={resetFilter}>
+              {" "}
+              Reset-Filter{" "}
             </Button>
           </div>
         </div>
@@ -213,17 +217,62 @@ const JobDashboard = () => {
         open={openTop}
         onClose={closeDrawerTop}
         className="p-4"
+        height="50vh" // Adjust the height as needed, e.g., "80vh", "400px", etc.
       >
-        <div className="mb-6 flex items-center justify-between"></div>
-        <div className="flex gap-2">
+        <div className="mb-6 ">
+          <div className="grid grid-cols-4 gap-4 border-t border-gray-400 ">
+            <div className="w-full sm:w-2/3">
+              <label
+                className="mb-3 block text-sm font-medium text-black dark:text-white"
+                htmlFor="nationality"
+
+              >
+                From Date
+              </label>
+              <input
+                className="w-full custom-input-date custom-input-date-1 rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                type="date"
+                name="hireDate"
+                id="dob"
+                placeholder="+990 3343 7865"
+              // onChange={handleChange}
+              // defaultValue={jobCreation?.hireDate}
+
+              />
+            </div>
+            <div className="w-full sm:w-2/3">
+              <label
+                className="mb-3 block text-sm font-medium text-black dark:text-white"
+                htmlFor="nationality"
+
+              >
+                To Date
+              </label>
+              <input
+                className="w-full custom-input-date custom-input-date-1 rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                type="date"
+                name="hireDate"
+                id="dob"
+                placeholder="+990 3343 7865"
+              // onChange={handleChange}
+              // defaultValue={jobCreation?.hireDate}
+
+              />
+            </div>
+            <div>09</div>
+            <div>09</div>
+          </div>
+        </div>
+        <div className="border-t border-gray-400 flex gap-2">
           <Button size="sm" variant="outlined">
             Apply
           </Button>
-          <Button size="sm" variant="outlined">
+          <Button onClick={closeDrawerTop} size="sm" variant="outlined">
             Cancel
           </Button>
         </div>
       </Drawer>
+
     </>
   );
 };
