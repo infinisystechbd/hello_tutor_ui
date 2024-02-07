@@ -1,5 +1,6 @@
 import JobCard from "@/components/JobCard";
-import { CATEGORIE_END_POINT, DASHBOARD_END_POINT } from "@/constants";
+import { CATEGORIE_END_POINT, CITY_END_POINT, CLASS_END_POINT, DASHBOARD_END_POINT, LOCATION_END_POINT, SUBJECT_END_POINT } from "@/constants";
+import { STUDENTGENDER, TUTORGENDER } from "@/constants/dropdown";
 import { get } from "@/helpers/api_helper";
 import { mapArrayToDropdown } from "@/helpers/common_Helper";
 import { Button, Card, Drawer } from "@material-tailwind/react";
@@ -16,11 +17,13 @@ const JobDashboard = () => {
   const [toDate, SetToDate] = useState();
   const [category, setCategory] = useState([]);
   const [selectedCateGory, setSelectedCategory] = useState("");
+  console.log("selectedCateGory", selectedCateGory)
   const [cityDropDown, setCityDropDown] = useState([]);
   const [selectedCity, setSelectedCity] = useState("");
   const [locationDropDown, setLocationDropDown] = useState([]);
   const [selectedLocation, setselectedLocation] = useState("");
   const [classDropDown, setClassDropDown] = useState([]);
+  console.log("classDropDown", classDropDown)
   const [selectedClass, setSelectedClass] = useState("");
   const [subjectDropDown, setSubjectDropDown] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState("");
@@ -28,63 +31,97 @@ const JobDashboard = () => {
   const [studentGender, setStudentGender] = useState("");
   const [tutorGender, setTutorGender] = useState("");
   const [openTop, setOpenTop] = useState(false);
-  const openDrawerTop = () => setOpenTop(true);
+  const openDrawerTop = () => {
+    setOpenTop(true);
+    fetchCity();
+    fetchClass();
+    fetchSubject();
+
+  };
   const closeDrawerTop = () => setOpenTop(false);
 
-  const getAllData = async (limit, page) => {
-    try {
-      const res = await get(
-        DASHBOARD_END_POINT.dashbord(
-          true,
-          limit,
-          page,
-          fromDate,
-          toDate,
-          tutionType,
-          selectedCity,
-          selectedLocation,
-          selectedCateGory,
-          selectedClass,
-          selectedSubject,
-          studentGender,
-          tutorGender
-        )
-      );
-      setDashboard((prevData) => [...prevData, ...res?.data]);
-      //   setDashboard(res?.data);
+  // const getAllData = async (limit, page) => {
+  //   try {
+  //     const res = await get(
+  //       DASHBOARD_END_POINT.dashbord(
+  //         true,
+  //         limit,
+  //         page,
+  //         fromDate,
+  //         toDate,
+  //         tutionType,
+  //         selectedCity,
+  //         selectedLocation,
+  //         selectedCateGory,
+  //         selectedClass,
+  //         selectedSubject,
+  //         studentGender,
+  //         tutorGender
+  //       )
+  //     );
+  //     setDashboard((prevData) => [...prevData, ...res?.data]);
+  //     //   setDashboard(res?.data);
 
-      setLoading(false);
-    } catch (err) {
-      console.log("Server Error ~!");
-    }
-  };
+  //     setLoading(false);
+  //   } catch (err) {
+  //     console.log("Server Error ~!");
+  //   }
+  // };
+
+
+  const getAllData = async (limit, page) => {
+
+    let isSubscribed = true;
+    await get(DASHBOARD_END_POINT.dashbord(true, limit, page, fromDate, toDate, tutionType, selectedCity, selectedLocation, selectedCateGory, selectedClass, selectedSubject, studentGender, tutorGender))
+      .then((res) => {
+        console.log(res)
+        if (isSubscribed) {
+          setDashboard(res?.data);
+          // setDashboard((prev)=>[...prev,...res?.data]);
+          setLoading(false)
+        }
+      })
+      .catch((err) => {
+        console.log("Server Error ~!")
+      });
+
+    return () => isSubscribed = false;
+  }
+
+
   const fetchCategory = async () => {
     const fetchdata = await get(CATEGORIE_END_POINT.get(1, -1, "", true));
     const arrayToDrop = mapArrayToDropdown(fetchdata?.data, "name", "_id");
     setCategory(arrayToDrop);
   };
-  const onChangeFromDate = (date, dateString) => {
-    SetFromDate(dateString);
+
+
+
+
+  /**fetch location list */
+
+  const handleLocation = async (cityId) => {
+    console.log("cityId", cityId)
+    try {
+      // Fetch location data based on cityId
+      const fetchLocation = await get(LOCATION_END_POINT.getLocationByCityId(cityId));
+      const LOCATIONDROPDOWN = mapArrayToDropdown(
+        fetchLocation?.data,
+        'name',
+        '_id'
+      );
+
+      // Update the state with the new location data
+      setLocationDropDown(LOCATIONDROPDOWN);
+    } catch (error) {
+      console.error('Error fetching location:', error);
+    }
   };
-  const onChangeToDate = (date, dateString) => {
-    SetToDate(dateString);
-  };
-  const onChangeCity = async (id) => {
-    setSelectedCity(id);
-    const fetchLocation = await get(LOCATION_END_POINT.getLocationByCityId(id));
-    const locationArrayToDropDown = mapArrayToDropdown(
-      fetchLocation?.data,
-      "name",
-      "_id"
-    );
-    setLocationDropDown(locationArrayToDropDown);
-  };
-  const onChangeLocation = (id) => {
-    setselectedLocation(id);
-  };
-  const onChangeCategory = (value) => {
-    setSelectedCategory(value);
-  };
+
+  /**fetch location list  End */
+
+
+
 
   const fetchCity = async () => {
     const dataFetch = await get(CITY_END_POINT.get(1, -1, "", ""));
@@ -116,16 +153,7 @@ const JobDashboard = () => {
     );
     setSubjectDropDown(subjectArrayToDropDown);
   };
-  const onChangeSubject = (value) => {
-    setSelectedSubject(value);
-  };
 
-  const onChangeTutorGender = (value) => {
-    setTutorGender(value);
-  };
-  const onChangeStudentGender = (value) => {
-    setStudentGender(value);
-  };
   useEffect(() => {
     fetchCategory();
   }, []);
@@ -134,7 +162,6 @@ const JobDashboard = () => {
     (entries) => {
       const target = entries[0];
       if (target.isIntersecting && !loading) {
-        // Load more data when the target element becomes visible
         setPage((prevPage) => prevPage + 1);
       }
     },
@@ -158,13 +185,16 @@ const JobDashboard = () => {
     };
   }, [handleIntersection]);
 
-  /*  useEffect(() => {
-    // Load initial data
-    getAllData(limit, page);
-  }, [limit, page]); */
   useEffect(() => {
-    getAllData(limit, page);
+    getAllData(limit, page)
   }, [limit, page, selectedCateGory]);
+
+
+  const onApply = () => {
+    setOpenTop(false);
+    getAllData(limit, page)
+  }
+
   const resetFilter = () => {
     SetFromDate("");
     SetToDate("");
@@ -187,7 +217,7 @@ const JobDashboard = () => {
                 <Button
 
                   variant="outlined"
-                  onClick={() => onChangeCategory(t._id)}
+                  onClick={() => setSelectedCategory(t._id)}
                 >
                   {t.name}
                 </Button>
@@ -232,11 +262,10 @@ const JobDashboard = () => {
               <input
                 className="w-full custom-input-date custom-input-date-1 rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                 type="date"
-                name="hireDate"
+                name="fromDate"
                 id="dob"
-                placeholder="+990 3343 7865"
-              // onChange={handleChange}
-              // defaultValue={jobCreation?.hireDate}
+                onChange={(event) => SetFromDate(event.target.value)}
+                value={fromDate}
 
               />
             </div>
@@ -251,20 +280,228 @@ const JobDashboard = () => {
               <input
                 className="w-full custom-input-date custom-input-date-1 rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                 type="date"
-                name="hireDate"
+                name="toDate"
                 id="dob"
-                placeholder="+990 3343 7865"
-              // onChange={handleChange}
-              // defaultValue={jobCreation?.hireDate}
+                onChange={(event) => SetToDate(event.target.value)}
+                value={toDate}
 
               />
             </div>
-            <div>09</div>
-            <div>09</div>
+            <div className="w-full sm:w-2/3">
+              <label
+                className="mb-3 block text-sm font-medium text-black dark:text-white"
+                htmlFor="fullName"
+              >
+                City
+              </label>
+              <div className="relative">
+
+                <select
+                  name="city"
+                  id="countries"
+                  className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                  onChange={(e) => setSelectedCity(e.target.value)}
+                  value={selectedCity}
+
+                >
+                  {cityDropDown && (
+                    <>
+                      <option value="" disabled>
+                        Choose a City                                                            </option>
+                      {cityDropDown.map((city) => (
+                        <option key={city._id} value={city._id}>
+                          {city.name}
+                        </option>
+                      ))}
+                    </>
+                  )}
+                </select>
+              </div>
+            </div>
+            <div className="w-full sm:w-2/3">
+              <label
+                className="mb-3 block text-sm font-medium text-black dark:text-white"
+                htmlFor="fullName"
+              >
+                Location
+              </label>
+
+              <div className="relative">
+
+                <select
+                  name="location"
+                  id="countries"
+                  className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                  onChange={(e) => setselectedLocation(e.target.value)}
+                  value={selectedLocation}
+
+                >
+                  {locationDropDown && (
+                    <>
+                      <option value="" disabled>
+                        Choose a Location
+                      </option>
+                      {locationDropDown.map((location) => (
+                        <option key={location._id} value={location._id}>
+                          {location.name}
+                        </option>
+                      ))}
+                    </>
+                  )}
+                </select>
+              </div>
+            </div>
+
+
+            <div className="w-full sm:w-2/3">
+              <label
+                className="mb-3 block text-sm font-medium text-black dark:text-white"
+                htmlFor="fullName"
+              >
+                Student Gender
+              </label>
+
+              <div className="relative">
+
+                <select
+                  name="studentGender"
+                  id="studentGender"
+                  className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                  onChange={(e) => setStudentGender(e.target.value)}
+                  value={studentGender}
+                >
+                  {STUDENTGENDER && (
+                    <>
+                      <option value="" disabled>
+                        Choose a Location
+                      </option>
+                      {STUDENTGENDER.map((STUDENTGENDER) => (
+                        <option key={STUDENTGENDER.value} value={STUDENTGENDER.value}>
+                          {STUDENTGENDER.label}
+                        </option>
+                      ))}
+                    </>
+                  )}
+                </select>
+              </div>
+            </div>
+
+
+            <div className="w-full sm:w-2/3">
+              <label
+                className="mb-3 block text-sm font-medium text-black dark:text-white"
+                htmlFor="fullName"
+              >
+                Tutor Gender
+              </label>
+
+              <div className="relative">
+
+                <select
+                  name="tutorGender"
+                  id="tutorGender"
+                  className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                  onChange={(e) => setTutorGender(e.target.value)}
+                  value={tutorGender}
+
+                >
+                  {TUTORGENDER && (
+                    <>
+                      <option value="" disabled>
+                        Choose a Location
+                      </option>
+                      {TUTORGENDER.map((TUTORGENDER) => (
+                        <option key={TUTORGENDER.value} value={TUTORGENDER.value}>
+                          {TUTORGENDER.label}
+                        </option>
+                      ))}
+                    </>
+                  )}
+                </select>
+              </div>
+            </div>
+
+
+            <div className="w-full sm:w-2/3">
+              <label
+                className="mb-3 block text-sm font-medium text-black dark:text-white"
+                htmlFor="fullName"
+              >
+                Class
+              </label>
+
+              <div className="relative">
+
+                <select
+                  name="class"
+                  id="class"
+                  className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                  onChange={(e) => setSelectedClass(e.target.value)}
+                  value={selectedClass}
+
+                >
+                  {classDropDown && (
+                    <>
+                      <option value="" disabled>
+                        Choose a Class
+                      </option>
+                      {classDropDown.map((classes) => (
+                        <option key={classes._id} value={classes._id}>
+                          {classes.name}
+                        </option>
+                      ))}
+                    </>
+                  )}
+                </select>
+              </div>
+            </div>
+
+
+            <div className="w-full sm:w-2/3">
+              <label
+                className="mb-3 block text-sm font-medium text-black dark:text-white"
+                htmlFor="fullName"
+              >
+                Subject
+              </label>
+
+              <div className="relative">
+
+                <select
+                  name="class"
+                  id="class"
+                  className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                  onChange={(e) => setSelectedSubject(e.target.value)}
+                  value={selectedSubject}
+
+                >
+                  {subjectDropDown && (
+                    <>
+                      <option value="" disabled>
+                        Choose a Subject
+                      </option>
+                      {subjectDropDown.map((Subject) => (
+                        <option key={Subject._id} value={Subject._id}>
+                          {Subject.name}
+                        </option>
+                      ))}
+                    </>
+                  )}
+                </select>
+              </div>
+            </div>
+
+
+            {/* classDropDown */}
+
+
+
+
+
           </div>
         </div>
         <div className="border-t border-gray-400 flex gap-2">
-          <Button size="sm" variant="outlined">
+          <Button onClick={onApply} size="sm" variant="outlined">
             Apply
           </Button>
           <Button onClick={closeDrawerTop} size="sm" variant="outlined">

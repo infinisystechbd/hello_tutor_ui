@@ -60,19 +60,6 @@ const JobCreationForm = () => {
 
 
 
-    // if (data === null) {
-    //     // Handle null data, e.g., provide default values or log a message
-    //     console.error("Received null data");
-    // } else {
-    //     // Parse the JSON data
-    //     try {
-    //         const parsedData = JSON.parse(data);
-    //         // Continue processing the parsed data
-    //         console.log("data", parsedData);
-    //     } catch (error) {
-    //         console.error("Error parsing JSON data:", error);
-    //     }
-    // }
 
 
     const [editData, setEditData] = useState(false);
