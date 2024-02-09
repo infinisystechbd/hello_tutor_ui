@@ -1,10 +1,12 @@
 import ImageUpload from '@/components/uploads/ImageUpload';
-import { http_get_request, http_put_request } from '@/helpers/http_requests';
+import withAuth from '@/components/withAuth';
+import { CITY_END_POINT, LOCATION_END_POINT, USER_END_POINT } from '@/constants';
+import { QUERY_KEYS } from '@/constants/queryKeys';
+import { get } from '@/helpers/api_helper';
+import { mapArrayToDropdown } from '@/helpers/common_Helper';
+import { useGetAllData } from '@/utils/hooks/useGetAllData';
 import React, { useEffect, useState } from 'react';
 import toast from "../../components/Toast";
-import { USER_END_POINT } from '@/constants';
-import { get } from '@/helpers/api_helper';
-import withAuth from '@/components/withAuth';
 const UpdateProfileV2 = () => {
 
     const notify = React.useCallback((type, message) => {
@@ -12,36 +14,78 @@ const UpdateProfileV2 = () => {
     }, []);
     const [loading, setLoading] = useState(true);
     const [profile, setProfile] = useState({});
-    const [countrylist, setCountryList] = useState([]);
-    const [statelist, setStateList] = useState([]);
-    const [citylist, setCityList] = useState([]);
-    const [country_id, setCountryId] = useState(null);
-    const [state_id, setStateId] = useState(null);
-    const [city_id, setCityId] = useState(null);
-  
+    const [city, setCity] = useState([]);
+    const [location, setLocation] = useState([]);
 
 
-
-    const userInfo = async () => {
+    const user_Info = async () => {
         let isSubscribed = true;
-        await get(USER_END_POINT.info())
-          .then((res) => {
-            if (isSubscribed) {
-              console.log("indfo data",res?.data);
-            }
-          })
-          .catch((err) => {
-            console.log("Server Error ~!")
-          });
-    
+        await get(USER_END_POINT.userInfo())
+            .then((res) => {
+                if (isSubscribed) {
+                    console.log("indfo data", res?.data);
+                }
+            })
+            .catch((err) => {
+                console.log("Server Error ~!")
+            });
+
         return () => isSubscribed = false;
-      }
-    
-    
-    
-      useEffect(() => {
-        userInfo()
-      }, []);
+    }
+
+
+
+
+    /** Fetch city */
+    const {
+        data: cityList,
+        refetch: fetchCityList,
+    } = useGetAllData(
+        QUERY_KEYS.GET_ALL_CITY_LIST,
+        CITY_END_POINT.get(1, -1, '', true)
+    );
+
+    /**city dropdown */
+    useEffect(() => {
+        const CITYDROPDOWN = mapArrayToDropdown(
+            cityList?.data,
+            'name',
+            '_id'
+        );
+        setCity(CITYDROPDOWN);
+    }, [cityList]);
+
+    /** end city dropdown */
+
+
+    /**fetch location list */
+
+    const handleLocation = async (cityId) => {
+        try {
+            // Fetch location data based on cityId
+            const fetchLocation = await get(LOCATION_END_POINT.getLocationByCityId(cityId));
+            const LOCATIONDROPDOWN = mapArrayToDropdown(
+                fetchLocation?.data,
+                'name',
+                '_id'
+            );
+
+            // Update the state with the new location data
+            setLocation(LOCATIONDROPDOWN);
+        } catch (error) {
+            console.error('Error fetching location:', error);
+        }
+    };
+
+    /**fetch location list  End */
+
+
+    useEffect(() => {
+        user_Info()
+    }, []);
+
+
+
 
 
 
@@ -59,21 +103,7 @@ const UpdateProfileV2 = () => {
 
 
 
-    const getAllCountries = async () => {
-        try {
-            setLoading(true);
-            console.log('country call')
-            const authRes = await http_get_request({ endpoint: '/geo/v1/getCountryList' });
-            setCountryList(authRes?.results || []);
-        } catch (error) {
-            console.error('Error fetching countries:', error);
-            // Handle error if needed
-        } finally {
-            setLoading(false);
-        }
 
-
-    };
 
 
 
@@ -154,82 +184,13 @@ const UpdateProfileV2 = () => {
                                                 name="full_name"
                                                 id="full_name"
                                                 placeholder="Devid Jhon"
-                                                defaultValue={profile?.full_name}
-                                                onChange={handleChange}
+
                                             />
                                         </div>
                                     </div>
 
 
-                                    <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
 
-
-                                        <div className="w-full sm:w-1/2">
-                                            <label
-                                                className="mb-3 block text-sm font-medium text-black dark:text-white"
-                                                htmlFor="dob"
-                                            >
-                                                DOB
-                                            </label>
-                                            <input
-                                                className="w-full custom-input-date custom-input-date-1 rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                                                type="date"
-                                                name="dob"
-                                                id="dob"
-                                                placeholder="+990 3343 7865"
-                                                onChange={handleChange}
-                                                defaultValue={profile?.dob}
-                                            />
-                                        </div>
-
-
-                                        <div className="w-full sm:w-1/2">
-                                            <label
-                                                className="mb-3 block text-sm font-medium text-black dark:text-white"
-                                                htmlFor="nationality"
-                                            >
-                                                Nationality
-                                            </label>
-                                            <div className="flex space-x-4">
-                                                <label className="inline-flex items-center">
-                                                    <input
-                                                        type="radio"
-                                                        name="gender"
-                                                        value="male"
-                                                        checked={profile?.gender === 'male'}
-                                                        onChange={handleChange}
-                                                        className="form-radio h-5 w-5 text-primary border-primary focus:ring-0 focus:outline-none"
-
-                                                    />
-                                                    <span className="ml-2">Male</span>
-                                                </label>
-
-                                                <label className="inline-flex items-center">
-                                                    <input
-                                                        type="radio"
-                                                        name="gender"
-                                                        value="female"
-                                                        checked={profile?.gender === 'female'}
-                                                        onChange={handleChange}
-                                                        className="form-radio h-5 w-5 text-primary border-primary focus:ring-0 focus:outline-none"
-                                                    />
-                                                    <span className="ml-2">Female</span>
-                                                </label>
-
-                                                <label className="inline-flex items-center">
-                                                    <input
-                                                        type="radio"
-                                                        name="gender"
-                                                        value="other"
-                                                        checked={profile?.gender === 'other'}
-                                                        onChange={handleChange}
-                                                        className="form-radio h-5 w-5 text-primary border-primary focus:ring-0 focus:outline-none"
-                                                    />
-                                                    <span className="ml-2">Other</span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
 
                                     <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
 
@@ -301,24 +262,20 @@ const UpdateProfileV2 = () => {
                                         <div className="w-full sm:w-1/2">
                                             <label
                                                 className="mb-3 block text-sm font-medium text-black dark:text-white"
-                                                htmlFor="fullName"
-                                            >
-                                                Id Type
-                                            </label>
-                                            <div className="relative">
+                                                htmlFor="nationality"
 
-                                                <select
-                                                    name="id_type"
-                                                    id="countries"
-                                                    className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                                                    onChange={handleChange}
-                                                    value={profile?.id_type}
-                                                >
-                                                    <option value>Choose a Id</option>
-                                                    <option value="nid">Nid</option>
-                                                    <option value="passport">Passport</option>
-                                                </select>
-                                            </div>
+                                            >
+                                                Id Card Number
+                                            </label>
+                                            <input
+                                                className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                                                type="text"
+                                                name='nid'
+                                                id="nationality"
+                                                placeholder="123456"
+                                                onChange={handleChange}
+                                                defaultValue={profile?.nid}
+                                            />
                                         </div>
 
                                         <div className="w-full sm:w-1/2">
@@ -327,7 +284,7 @@ const UpdateProfileV2 = () => {
                                                 htmlFor="nationality"
 
                                             >
-                                                ID Number
+                                               Nid Number
                                             </label>
                                             <input
                                                 className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
@@ -343,64 +300,7 @@ const UpdateProfileV2 = () => {
 
                                     <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
 
-                                        <div className="w-full sm:w-1/3">
-                                            <label
-                                                className="mb-3 block text-sm font-medium text-black dark:text-white"
-                                                htmlFor="country_code"
-                                            >
-                                                Country
-                                            </label>
-                                            <div className="relative">
-
-                                                <select
-                                                    name="country_code"
-                                                    id="country_code"
-                                                    className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                                                    value={country_id}
-                                                    onChange={handleChange}
-                                                >
-                                                    <option value="" disabled>
-                                                        Choose a country
-                                                    </option>
-                                                    {countrylist.map((country) => (
-                                                        <option key={country.id} value={country.id}>
-                                                            {country.name}
-                                                        </option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div className="w-full sm:w-1/3">
-                                            <label
-                                                className="mb-3 block text-sm font-medium text-black dark:text-white"
-                                                htmlFor="fullName"
-                                            >
-                                                State
-                                            </label>
-                                            <div className="relative">
-
-                                                <select
-                                                    name="state"
-                                                    id="countries"
-                                                    className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                                                    value={state_id || ''}
-                                                    onChange={handleChange}
-                                                >
-                                                    <option value="" disabled>
-                                                        Choose a state
-                                                    </option>
-                                                    {statelist.map((state) => (
-                                                        <option key={state.id} value={state.id}>
-                                                            {state.name}
-                                                        </option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                        </div>
-
-
-                                        <div className="w-full sm:w-1/3">
+                                        <div className="w-full sm:w-1/2">
                                             <label
                                                 className="mb-3 block text-sm font-medium text-black dark:text-white"
                                                 htmlFor="fullName"
@@ -408,72 +308,82 @@ const UpdateProfileV2 = () => {
                                                 City
                                             </label>
                                             <div className="relative">
+
                                                 <select
                                                     name="city"
                                                     id="countries"
                                                     className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                                                    value={city_id || ''}
-                                                    onChange={handleChange}
+                                                    onChange={(e) => {
+                                                        handleChange(e);
+                                                        handleLocation(e.target.value);
+                                                    }}
+
+
                                                 >
-                                                    <option value="" disabled>
-                                                        Choose a city
-                                                    </option>
-                                                    {citylist.map((city) => (
-                                                        <option key={city.id} value={city.id}>
-                                                            {city.name}
-                                                        </option>
-                                                    ))}
+                                                    {city && (
+                                                        <>
+                                                            <option value="" disabled>
+                                                                Choose a City                                                            </option>
+                                                            {city.map((city) => (
+                                                                <option key={city._id} value={city._id}>
+                                                                    {city.name}
+                                                                </option>
+                                                            ))}
+                                                        </>
+                                                    )}
                                                 </select>
                                             </div>
                                         </div>
-                                    </div>
-
-
-                                    <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-
 
                                         <div className="w-full sm:w-1/2">
                                             <label
                                                 className="mb-3 block text-sm font-medium text-black dark:text-white"
-                                                htmlFor="nationality"
+                                                htmlFor="fullName"
                                             >
-                                                Zip Code
+                                                Location
                                             </label>
-                                            <input
-                                                className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                                                type="text"
-                                                name="zip_code"
-                                                id="nationality"
-                                                placeholder="Bangladeshi"
-                                                onChange={handleChange}
-                                                defaultValue={profile?.zip_code}
-                                            />
+                                            <div className="relative">
+
+                                                <select
+                                                    name="location"
+                                                    id="countries"
+                                                    className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                                                    onChange={(e) => {
+                                                        handleChange(e);
+                                                        handleLocation(e.target.value);
+                                                    }}
+
+
+                                                >
+                                                    {location && (
+                                                        <>
+                                                            <option value="" disabled>
+                                                                Choose a location
+                                                            </option>
+                                                            {location.map((location) => (
+                                                                <option key={location._id} value={location._id}>
+                                                                    {location.name}
+                                                                </option>
+                                                            ))}
+                                                        </>
+                                                    )}
+                                                </select>
+                                            </div>
                                         </div>
-                                        <div className="w-full sm:w-1/2">
-                                            <label
-                                                className="mb-3 block text-sm font-medium text-black dark:text-white"
-                                                htmlFor="nationality"
-                                            >
-                                                Nationality
-                                            </label>
-                                            <input
-                                                className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                                                type="text"
-                                                name="nationality"
-                                                id="nationality"
-                                                placeholder="Bangladeshi"
-                                                onChange={handleChange}
-                                                defaultValue={profile?.nationality}
-                                            />
-                                        </div>
+
+
+
                                     </div>
+
+
+
 
                                     <div className="mb-5.5">
                                         <label
                                             className="mb-3 block text-sm font-medium text-black dark:text-white"
                                             htmlFor="Username"
                                         >
-                                            BIO
+                                            Address
                                         </label>
                                         <div className="relative">
                                             <span className="absolute left-4.5 top-4">
@@ -550,7 +460,7 @@ const UpdateProfileV2 = () => {
                                     <div className="mb-4 flex items-center gap-3">
                                         {/* {profile?.photo_source && <ImageUpload profile={profile?.photo_source}/>} */}
                                         {/* <div className="h-14 w-14 rounded-full"> */}
-                                        <ImageUpload profile={profile?.photo_source}/>
+                                        <ImageUpload profile={profile?.photo_source} />
                                         {/* </div> */}
                                         {/* <div>
                                             <span className="mb-1.5 text-black dark:text-white">
@@ -630,6 +540,17 @@ const UpdateProfileV2 = () => {
                                         </button>
                                     </div>
                                 </form>
+                            </div>
+                        </div>
+
+                        <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark mb-5">
+                            <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
+                                <h3 className="font-medium text-black dark:text-white">
+                                    Your Photo
+                                </h3>
+                            </div>
+                            <div className="p-7 mt-3">
+
                             </div>
                         </div>
                     </div>

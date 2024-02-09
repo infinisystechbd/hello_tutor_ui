@@ -15,19 +15,19 @@ const JobDetails = () => {
     const { http, setToken, token } = Axios();
     const [profile, setProfile] = useState({});
     const [loading, setLoading] = useState(false);
-console.log("profile",profile);
+    console.log("profile", profile);
     const notify = React.useCallback((type, message) => {
         toast({ type, message });
-      }, []);
+    }, []);
 
 
-      useEffect(() => {
+    useEffect(() => {
         const decode = parseJwt(token);
         setProfile(decode);
-     }, [token]);
+    }, [token]);
 
     const handleApply = async () => {
-      
+
         setLoading(true);
         try {
             const response = await post(DASHBOARD_END_POINT.jobApply(id));
@@ -45,7 +45,7 @@ console.log("profile",profile);
     }
     return (
         <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700  dark:bg-black dark:text-white">
-            <div className="grid sm:flex sm:flex-col mb-4">
+            <div className="grid  mb-4">
                 <div className="lg:flex justify-start items-start">
                     <span className='font-bold'>Job ID:</span>{data?.data?.jobId}
                 </div>
@@ -75,7 +75,7 @@ console.log("profile",profile);
             <div className="flex justify-end">
 
                 {token !== null ? (
-                    <button  onClick={handleApply}
+                    <button onClick={handleApply}
                         className="inline-flex mt-5 items-center px-6 py-3 text-lg font-medium text-center text-white bg-blue-500 rounded-lg"
                     >
                         Apply
@@ -83,14 +83,14 @@ console.log("profile",profile);
 
                 ) : (
                     <>
-                    
-<Link href="/login">
-                    <button
-                        className="inline-flex mt-5 items-center px-6 py-3 text-lg font-medium text-center text-white bg-blue-500 rounded-lg"
-                    >
-                        Apply
-                    </button>
-                    </Link>
+
+                        <Link href="/login">
+                            <button
+                                className="inline-flex mt-5 items-center px-6 py-3 text-lg font-medium text-center text-white bg-blue-500 rounded-lg"
+                            >
+                                Apply
+                            </button>
+                        </Link>
                     </>
                 )}
             </div>
