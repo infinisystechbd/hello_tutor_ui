@@ -12,7 +12,7 @@ const JobDashboard = () => {
   console.log("dashboard", dashboard)
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(9);
+  const [limit, setLimit] = useState();
   const [fromDate, SetFromDate] = useState();
   const [toDate, SetToDate] = useState();
   const [category, setCategory] = useState([]);
@@ -40,35 +40,6 @@ const JobDashboard = () => {
   };
   const closeDrawerTop = () => setOpenTop(false);
 
-  // const getAllData = async (limit, page) => {
-  //   try {
-  //     const res = await get(
-  //       DASHBOARD_END_POINT.dashbord(
-  //         true,
-  //         limit,
-  //         page,
-  //         fromDate,
-  //         toDate,
-  //         tutionType,
-  //         selectedCity,
-  //         selectedLocation,
-  //         selectedCateGory,
-  //         selectedClass,
-  //         selectedSubject,
-  //         studentGender,
-  //         tutorGender
-  //       )
-  //     );
-  //     setDashboard((prevData) => [...prevData, ...res?.data]);
-  //     //   setDashboard(res?.data);
-
-  //     setLoading(false);
-  //   } catch (err) {
-  //     console.log("Server Error ~!");
-  //   }
-  // };
-
-
   const getAllData = async (limit, page) => {
 
     let isSubscribed = true;
@@ -77,7 +48,6 @@ const JobDashboard = () => {
         console.log(res)
         if (isSubscribed) {
           setDashboard(res?.data);
-          // setDashboard((prev)=>[...prev,...res?.data]);
           setLoading(false)
         }
       })
@@ -87,6 +57,24 @@ const JobDashboard = () => {
 
     return () => isSubscribed = false;
   }
+
+
+
+  useEffect(() => {
+    getAllData(limit, page)
+  }, []);
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   const fetchCategory = async () => {
@@ -132,6 +120,9 @@ const JobDashboard = () => {
     );
     setCityDropDown(cityArrayToDropDown);
   };
+
+
+
   const fetchClass = async () => {
     const classFetch = await get(CLASS_END_POINT.get(1, -1, "", ""));
     const classArrayToDropDown = mapArrayToDropdown(
@@ -141,9 +132,9 @@ const JobDashboard = () => {
     );
     setClassDropDown(classArrayToDropDown);
   };
-  const onChangeClass = (value) => {
-    setSelectedClass(value);
-  };
+
+
+
   const fetchSubject = async () => {
     const subjectFetch = await get(SUBJECT_END_POINT.dropdown(1, -1, "", ""));
     const subjectArrayToDropDown = mapArrayToDropdown(
@@ -158,36 +149,11 @@ const JobDashboard = () => {
     fetchCategory();
   }, []);
 
-  const handleIntersection = useCallback(
-    (entries) => {
-      const target = entries[0];
-      if (target.isIntersecting && !loading) {
-        setPage((prevPage) => prevPage + 1);
-      }
-    },
-    [loading]
-  );
 
-  useEffect(() => {
-    const targetElement = document.getElementById("intersectionTarget");
-    const observer = new IntersectionObserver(handleIntersection, {
-      threshold: 0.1, // Adjust as needed
-    });
 
-    if (targetElement) {
-      observer.observe(targetElement);
-    }
 
-    return () => {
-      if (targetElement) {
-        observer.unobserve(targetElement);
-      }
-    };
-  }, [handleIntersection]);
 
-  useEffect(() => {
-    getAllData(limit, page)
-  }, [limit, page, selectedCateGory]);
+
 
 
   const onApply = () => {
@@ -209,13 +175,13 @@ const JobDashboard = () => {
 
   return (
     <>
-      <Card className="mb-4">
-        <div className="flex justify-center items-end">
-          <div className="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 gap-5">
+      <Card className="mb-4  md:h-auto w-full bg-white lg:p-8 rounded-lg  dark:border-strokedark dark:bg-boxdark   lg:max-h-full">
+        <div className="justify-center items-end">
+          <div className="grid grid-cols-4 sm:grid-cols-2 md:grid-cols-4 gap-5">
             {category?.map((t) => (
               <div key={t.categoryId}>
                 <Button
-
+                  className="w-full h-full"
                   variant="outlined"
                   onClick={() => setSelectedCategory(t._id)}
                 >
@@ -223,17 +189,12 @@ const JobDashboard = () => {
                 </Button>
               </div>
             ))}
-            <Button variant="outlined" onClick={openDrawerTop}>
-              {" "}
-              Filter{" "}
-            </Button>
-            <Button variant="outlined" onClick={resetFilter}>
-              {" "}
-              Reset-Filter{" "}
-            </Button>
+            <Button className="w-full h-full" variant="outlined" onClick={openDrawerTop}> Filter</Button>
+            <Button className="w-full h-full" variant="outlined" onClick={resetFilter}>Reset-Filter</Button>
           </div>
         </div>
       </Card>
+
       <div className="flex justify-center items-end">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
           {dashboard.map((jobDetail, index) => (
@@ -246,10 +207,10 @@ const JobDashboard = () => {
         placement="top"
         open={openTop}
         onClose={closeDrawerTop}
-        className="p-4"
+        className="p-4  bg-white dark:bg-black dark:text-white"
         height="50vh" // Adjust the height as needed, e.g., "80vh", "400px", etc.
       >
-        <div className="mb-6 ">
+        <div className="mb-6 mt-2">
           <div className="grid grid-cols-4 gap-4 border-t border-gray-400 ">
             <div className="w-full sm:w-2/3">
               <label
@@ -500,7 +461,7 @@ const JobDashboard = () => {
 
           </div>
         </div>
-        <div className="border-t border-gray-400 flex gap-2">
+        <div className=" border-gray-400 flex gap-2 mt-2">
           <Button onClick={onApply} size="sm" variant="outlined">
             Apply
           </Button>

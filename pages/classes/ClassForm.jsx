@@ -1,5 +1,6 @@
 import ToastMessage from '@/components/Toast';
 import AnimatedMulti from '@/components/elements/AnimatedMulti';
+import withAuth from '@/components/withAuth';
 import { CLASS_END_POINT, SUBJECT_END_POINT } from '@/constants';
 import { QUERY_KEYS } from '@/constants/queryKeys';
 import { post, put } from '@/helpers/api_helper';
@@ -278,4 +279,4 @@ const ClassForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
     )
 }
 
-export default ClassForm
+export default withAuth(ClassForm)

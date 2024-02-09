@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react"
 import UpdateProfile from "./updateProfile";
 import toast from "../../components/Toast"
 import Link from 'next/link';
+import withAuth from "@/components/withAuth";
 
 const Profile = () => {
   const [loading, setLoading] = useState(true);
@@ -381,4 +382,4 @@ const Profile = () => {
   )
 }
 
-export default Profile
+export default withAuth(Profile)

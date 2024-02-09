@@ -1,3 +1,4 @@
+import withAuth from '@/components/withAuth';
 import { http_get_request } from '@/helpers/http_requests';
 import { useEffect, useState } from "react";
 
@@ -426,4 +427,4 @@ const UpdateProfile = ({ handleSubmit, profile, setProfile }) => {
     )
 }
 
-export default UpdateProfile
+export default withAuth(UpdateProfile)

@@ -8,6 +8,7 @@ import ToggleSwitch from '@/components/elements/toggleSwitch';
 import { get, post, put } from '@/helpers/api_helper';
 import AnimatedMulti from '@/components/elements/AnimatedMulti';
 import ToastMessage from '@/components/Toast';
+import withAuth from '@/components/withAuth';
 
 const JobCreationForm = () => {
 
@@ -1217,4 +1218,4 @@ const JobCreationForm = () => {
     )
 }
 
-export default JobCreationForm
+export default withAuth(JobCreationForm)

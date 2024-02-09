@@ -11,6 +11,7 @@ import DebouncedSearchInput from '@/components/elements/DebouncedSearchInput';
 import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import ClassForm from './ClassForm';
 import { del } from '@/helpers/api_helper';
+import withAuth from '@/components/withAuth';
 
 
 
@@ -272,4 +273,4 @@ const Classes = () => {
   )
 }
 
-export default Classes
+export default withAuth(Classes)

@@ -1,5 +1,6 @@
 import ToastMessage from '@/components/Toast';
 import AnimatedMulti from '@/components/elements/AnimatedMulti';
+import withAuth from '@/components/withAuth';
 import { LOCATION_END_POINT, CITY_END_POINT } from '@/constants';
 import { QUERY_KEYS } from '@/constants/queryKeys';
 import { post, put } from '@/helpers/api_helper';
@@ -266,4 +267,4 @@ const LocationForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
     )
 }
 
-export default LocationForm
+export default withAuth(LocationForm)

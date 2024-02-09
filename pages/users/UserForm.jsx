@@ -1,5 +1,6 @@
 import ToastMessage from '@/components/Toast';
 import AnimatedMulti from '@/components/elements/AnimatedMulti';
+import withAuth from '@/components/withAuth';
 import { USER_END_POINT } from '@/constants';
 import { QUERY_KEYS } from '@/constants/queryKeys';
 import { post, put } from '@/helpers/api_helper';
@@ -251,4 +252,4 @@ const UserForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
     )
 }
 
-export default UserForm
+export default withAuth(UserForm)

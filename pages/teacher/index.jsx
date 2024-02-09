@@ -11,6 +11,7 @@ import { del } from "@/helpers/api_helper";
 import ToastMessage from "@/components/Toast";
 import DebouncedSearchInput from "@/components/elements/DebouncedSearchInput";
 import TeacherForm from "./TeacherForm";
+import withAuth from "@/components/withAuth";
 
 const Teacher = () => {
   /*** Storing data start */
@@ -199,4 +200,4 @@ const Teacher = () => {
   );
 };
 
-export default Teacher;
+export default withAuth(Teacher);

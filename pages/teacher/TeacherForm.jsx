@@ -1,5 +1,6 @@
 import ToastMessage from '@/components/Toast';
 import AnimatedMulti from '@/components/elements/AnimatedMulti';
+import withAuth from '@/components/withAuth';
 import { TUTOR_END_POINT, CITY_END_POINT, CLASS_END_POINT, LOCATION_END_POINT } from '@/constants';
 import { QUERY_KEYS } from '@/constants/queryKeys';
 import { get, post, put } from '@/helpers/api_helper';
@@ -399,4 +400,4 @@ const TeacherForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
     )
 }
 
-export default TeacherForm
+export default withAuth(TeacherForm)

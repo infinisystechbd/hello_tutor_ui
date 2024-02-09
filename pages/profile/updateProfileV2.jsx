@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import toast from "../../components/Toast";
 import { USER_END_POINT } from '@/constants';
 import { get } from '@/helpers/api_helper';
+import withAuth from '@/components/withAuth';
 const UpdateProfileV2 = () => {
 
     const notify = React.useCallback((type, message) => {
@@ -638,4 +639,4 @@ const UpdateProfileV2 = () => {
     )
 }
 
-export default UpdateProfileV2
+export default withAuth(UpdateProfileV2)

@@ -1,4 +1,5 @@
 import ToastMessage from '@/components/Toast';
+import withAuth from '@/components/withAuth';
 import { JOB_ASSIGN_END_POINT, JOB_REQUEST_END_POINT } from '@/constants';
 import { QUERY_KEYS } from '@/constants/queryKeys';
 import { get } from '@/helpers/api_helper';
@@ -334,4 +335,4 @@ const JobAssignForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
     )
 }
 
-export default JobAssignForm
+export default withAuth(JobAssignForm)

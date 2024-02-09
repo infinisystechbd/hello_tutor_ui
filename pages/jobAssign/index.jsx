@@ -11,6 +11,7 @@ import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import { del } from '@/helpers/api_helper';
 import { JOB_ASSIGN_END_POINT } from '@/constants';
 import JobAssignForm from './JobAssignForm';
+import withAuth from '@/components/withAuth';
 
 
 
@@ -257,4 +258,4 @@ const JobAssign = () => {
     )
 }
 
-export default JobAssign
+export default withAuth(JobAssign)

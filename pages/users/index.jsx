@@ -11,6 +11,7 @@ import { del } from '@/helpers/api_helper';
 import ToastMessage from '@/components/Toast';
 import DebouncedSearchInput from '@/components/elements/DebouncedSearchInput';
 import UserForm from './UserForm';
+import withAuth from '@/components/withAuth';
 
 
 const DeleteModal = ({ isOpen, onClose, data, isParentRender }) => {
@@ -259,4 +260,4 @@ const Users = () => {
   )
 }
 
-export default Users
+export default withAuth(Users)

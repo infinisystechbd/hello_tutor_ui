@@ -1,3 +1,4 @@
+import withAuth from "@/components/withAuth"
 import Image from "next/image"
 
 
@@ -312,4 +313,4 @@ const Settings = () => {
   )
 }
 
-export default Settings
+export default withAuth(Settings)

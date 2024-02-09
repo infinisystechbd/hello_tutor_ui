@@ -59,7 +59,7 @@ const JobCard = ({data}) => {
 
     <div className="flex justify-end">
     <Link
-        href="#"
+        href={`/JobDashbord/${data.jobId}`}
         className="inline-flex  justify-end mt-5 items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-500 rounded-lg   "
       >
         View Detail

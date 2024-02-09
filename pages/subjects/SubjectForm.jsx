@@ -1,4 +1,5 @@
 import ToastMessage from '@/components/Toast';
+import withAuth from '@/components/withAuth';
 import { SUBJECT_END_POINT } from '@/constants';
 import { post, put } from '@/helpers/api_helper';
 import React, { useCallback, useEffect, useState } from 'react'
@@ -209,4 +210,4 @@ const SubjectForm = ({ isOpen, onClose, setEditData,isParentRender }) => {
   )
 }
 
-export default SubjectForm
+export default withAuth(SubjectForm)

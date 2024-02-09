@@ -11,6 +11,7 @@ import { del } from '@/helpers/api_helper';
 import ToastMessage from '@/components/Toast';
 import DebouncedSearchInput from '@/components/elements/DebouncedSearchInput';
 import LocationForm from './LocationForm';
+import withAuth from '@/components/withAuth';
 
 
 
@@ -263,4 +264,4 @@ const Location = () => {
     )
 }
 
-export default Location
+export default withAuth(Location)

@@ -11,6 +11,7 @@ import { del } from "@/helpers/api_helper";
 import ToastMessage from "@/components/Toast";
 import DebouncedSearchInput from "@/components/elements/DebouncedSearchInput";
 import { useRouter } from 'next/router';
+import withAuth from "@/components/withAuth";
 
 const JobManagent = () => {
 
@@ -214,4 +215,4 @@ const JobManagent = () => {
   )
 }
 
-export default JobManagent
+export default withAuth(JobManagent)

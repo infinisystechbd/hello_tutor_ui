@@ -12,6 +12,7 @@ import SubjectForm from './SubjectForm';
 import { del } from '@/helpers/api_helper';
 import ToastMessage from '@/components/Toast';
 import DebouncedSearchInput from '@/components/elements/DebouncedSearchInput';
+import withAuth from '@/components/withAuth';
 
 
 const DeleteModal = ({ isOpen, onClose, data, isParentRender }) => {
@@ -280,4 +281,4 @@ const Subjects = () => {
     )
 }
 
-export default Subjects
+export default withAuth(Subjects)
