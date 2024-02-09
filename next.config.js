@@ -1,6 +1,5 @@
-// next.config.js
-
-module.exports = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   reactStrictMode: true,
   env: {
     NEXT_API_AUTH_TOKEN_URL: process.env.NEXT_API_AUTH_TOKEN_URL,
@@ -8,7 +7,6 @@ module.exports = {
     NEXT_APP_URL: process.env.NEXT_APP_URL,
     NEXT_APP_API_URL: process.env.NEXT_APP_API_URL
   },
-  images: {
-    domains: ['png.pngtree.com'], // Add the domain here
-  },
-};
+}
+
+module.exports = nextConfig

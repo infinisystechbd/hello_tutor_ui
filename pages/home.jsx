@@ -6,7 +6,7 @@ import { faAppStoreIos, faFacebook, faGooglePlay, faInstagram, faLinkedin, faYou
 import { faBrain, faChalkboardUser, faGraduationCap, faPersonChalkboard, faUserGroup, faUsersRectangle } from '@fortawesome/free-solid-svg-icons';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faFacebook } from '@fortawesome/free-brands-svg-icons'; 
-import Image from 'next/image';
+
 const HomePage = () => {
   const items = [
     { title: 'Religious Studies', imageUrl: 'https://img.freepik.com/premium-vector/islamic-character-reading-quran-koran_188398-38.jpg' },
@@ -47,7 +47,7 @@ const HomePage = () => {
     }, 3000); // Change slide every 3 seconds (adjust as needed)
 
     return () => clearInterval(interval);
-  }, [chunkedItems]);
+  }, []);
 
 
 
@@ -114,12 +114,12 @@ const HomePage = () => {
               </p>
             </div>
             <div>
-            <Image
-  src="https://png.pngtree.com/png-vector/20220630/ourmid/pngtree-online-tutor-abstract-concept-vector-illustration-png-image_5644395.png"
-  alt="Online Tutor"
-  width={300} // Adjust the width as needed
-  height={200} // Adjust the height as needed
-/>
+              <img
+                className=""
+                src="https://png.pngtree.com/png-vector/20220630/ourmid/pngtree-online-tutor-abstract-concept-vector-illustration-png-image_5644395.png"
+                alt=""
+                srcSet=""
+              />
             </div>
           </div>
 
@@ -234,7 +234,7 @@ const HomePage = () => {
               How does it work for guardians/students?
             </h1>
             <div className="flex gap-4 items-center border border-[#0675C1] max-w-2xl p-4 mt-8 rounded-xl shadow-lg shadow-blue-500/50">
-              <Image
+              <img
                 className="w-56"
                 src="https://resumekraft.com/wp-content/uploads/2023/08/CV-Maker.png"
                 alt=""
@@ -249,7 +249,7 @@ const HomePage = () => {
             </div>
             <div className="border border-[#0675C1] max-w-2xl mt-8 rounded-xl ml-auto shadow-lg shadow-blue-500/50">
               <div className="flex gap-4 items-center p-4">
-                <Image
+                <img
                   className="w-56"
                   src="https://resumekraft.com/wp-content/uploads/2023/08/CV-Maker.png"
                   alt=""
@@ -265,7 +265,7 @@ const HomePage = () => {
             </div>
             <div className="border border-[#0675C1] max-w-2xl mt-8 rounded-xl shadow-lg shadow-blue-500/50">
               <div className="flex gap-4 items-center p-4">
-                <Image
+                <img
                   className="w-56"
                   src="https://resumekraft.com/wp-content/uploads/2023/08/CV-Maker.png"
                   alt=""
@@ -299,7 +299,7 @@ const HomePage = () => {
                     {chunk.map((item, idx) => (
                       <div key={idx} className="bg-white items-center rounded-md p-2 shadow-xl">
                         <div className="w-56 h-64 relative">
-                          <Image
+                          <img
                             src={item.imageUrl}
                             alt={item.title}
                             className="w-56 absolute my-auto"
