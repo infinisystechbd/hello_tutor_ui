@@ -138,7 +138,7 @@ const JobAssign = () => {
 
 
 
-    console.log("assignJobList", assignJobList);
+  
 
     /** Column Start */
     const columns = [
@@ -209,7 +209,6 @@ const JobAssign = () => {
     ) => {
         setPage(pagination.current);
         setLimit(pagination.pageSize);
-        console.log(pagination, filters, sorter, extra);
     };
 
     /*** Pagination End  */

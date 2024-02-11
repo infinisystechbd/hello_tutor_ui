@@ -2,20 +2,32 @@ import ImageUpload from '@/components/uploads/ImageUpload';
 import withAuth from '@/components/withAuth';
 import { CITY_END_POINT, LOCATION_END_POINT, USER_END_POINT } from '@/constants';
 import { QUERY_KEYS } from '@/constants/queryKeys';
-import { get } from '@/helpers/api_helper';
-import { mapArrayToDropdown } from '@/helpers/common_Helper';
+import { get, post, put } from '@/helpers/api_helper';
+import { mapArrayToDropdown, parseJwt } from '@/helpers/common_Helper';
 import { useGetAllData } from '@/utils/hooks/useGetAllData';
 import React, { useEffect, useState } from 'react';
 import toast from "../../components/Toast";
-const UpdateProfileV2 = () => {
+import { useRouter } from "next/router";
+import Axios from '@/utils/axios';
 
+const UpdateProfileV2 = () => {
+    const { http, setToken, token } = Axios();
     const notify = React.useCallback((type, message) => {
         toast({ type, message });
     }, []);
     const [loading, setLoading] = useState(true);
     const [profile, setProfile] = useState({});
+    const [changePassword, setChangePassword] = useState({});
+    const [tokenValues, setTokenValues] = useState({});
     const [city, setCity] = useState([]);
     const [location, setLocation] = useState([]);
+    const [passwordMatchError, setPasswordMatchError] = useState(false);
+
+    const router = useRouter();
+    useEffect(() => {
+        const decode = parseJwt(token);
+        setTokenValues(decode);
+    }, [token]);
 
 
     const user_Info = async () => {
@@ -24,6 +36,12 @@ const UpdateProfileV2 = () => {
             .then((res) => {
                 if (isSubscribed) {
                     console.log("indfo data", res?.data);
+                    setProfile({
+                        fullName: res?.data?.name,
+                        city: res?.data?.city?._id,
+                        location: res?.data?.location?._id,
+                        address: res?.data?.address,
+                    })
                 }
             })
             .catch((err) => {
@@ -85,45 +103,69 @@ const UpdateProfileV2 = () => {
     }, []);
 
 
-
-
-
-
-
     const handleChange = (e) => {
         const { name, value } = e.target;
 
-
-
         setProfile((prev) => ({
             ...prev,
-            [name]: name === 'state' || name === 'city' ? parseInt(value, 10) : value,
+            [name]: value,
         }));
+    };
+
+    const handleChangePassword = (e) => {
+        const { name, value } = e.target;
+
+        setChangePassword((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+
+        if (name === 'confirmPassword' && value !== changePassword.newPassword) {
+            setPasswordMatchError(true);
+        } else {
+            setPasswordMatchError(false);
+        }
     };
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+
+        try {
+
+            const update = await put(USER_END_POINT.update(), profile);
+            if (update.status === 'SUCCESS') {
+                notify('success', update.message);
+                router.push('/profile');
+            } else {
+                notify('error', update.errorMessage);
+                setLoading(false);
+            }
+
+            setLoading(false);
+        } catch (error) {
+            notify('error', error.message);
+            setLoading(false);
+        }
+    };
 
 
 
-        console.log("handleSubmit", profile);
+    const handlePasswordUpdate = async (e) => {
+        e.preventDefault();
+
+        let body = { ...changePassword, phone: tokenValues.phone, role: tokenValues.role }
+        const response = await post(USER_END_POINT.changePassword(), body);
+        if (response.status === 'SUCCESS') {
+            notify('success', response.message);
+
+        } else {
+            notify('error', response.errorMessage);
+            
+        }
+
     };
 
 
@@ -142,7 +184,7 @@ const UpdateProfileV2 = () => {
                                 </h3>
                             </div>
                             <div className="p-7">
-                                <form onSubmit={handleSubmit} >
+                                <form >
 
 
                                     <div className="mb-5.5">
@@ -181,10 +223,11 @@ const UpdateProfileV2 = () => {
                                             <input
                                                 className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                                                 type="text"
-                                                name="full_name"
-                                                id="full_name"
+                                                name="fullName"
+                                                id="fullName"
                                                 placeholder="Devid Jhon"
-
+                                                onChange={handleChange}
+                                                defaultValue={profile?.fullName}
                                             />
                                         </div>
                                     </div>
@@ -252,8 +295,9 @@ const UpdateProfileV2 = () => {
                                                 name="mobile_number"
                                                 id="phoneNumber"
                                                 placeholder="+990 3343 7865"
-                                                onChange={handleChange}
+                                                // onChange={handleChange}
                                                 defaultValue={profile?.mobile_number}
+                                                readOnly
                                             />
                                         </div>
                                     </div>
@@ -270,11 +314,11 @@ const UpdateProfileV2 = () => {
                                             <input
                                                 className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                                                 type="text"
-                                                name='nid'
+                                                name='nidNumber'
                                                 id="nationality"
                                                 placeholder="123456"
-                                                onChange={handleChange}
-                                                defaultValue={profile?.nid}
+                                                // onChange={handleChange}
+                                                defaultValue={profile?.nidNumber}
                                             />
                                         </div>
 
@@ -284,16 +328,16 @@ const UpdateProfileV2 = () => {
                                                 htmlFor="nationality"
 
                                             >
-                                               Nid Number
+                                                Nid Number
                                             </label>
                                             <input
                                                 className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                                                 type="text"
-                                                name='nid'
+                                                name='idCardNumber'
                                                 id="nationality"
                                                 placeholder="+990 3343 7865"
-                                                onChange={handleChange}
-                                                defaultValue={profile?.nid}
+                                                // onChange={handleChange}
+                                                defaultValue={profile?.idCardNumber}
                                             />
                                         </div>
                                     </div>
@@ -348,26 +392,25 @@ const UpdateProfileV2 = () => {
                                                     name="location"
                                                     id="countries"
                                                     className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                                                    onChange={(e) => {
-                                                        handleChange(e);
-                                                        handleLocation(e.target.value);
-                                                    }}
-
-
+                                                    onChange={handleChange}
                                                 >
-                                                    {location && (
+                                                    {location && location.length > 0 && (
                                                         <>
-                                                            <option value="" disabled>
-                                                                Choose a location
-                                                            </option>
-                                                            {location.map((location) => (
-                                                                <option key={location._id} value={location._id}>
-                                                                    {location.name}
+                                                            {/* Only render disabled option if there are more than one option */}
+                                                            {location.length > 1 && (
+                                                                <option value="" disabled>
+                                                                    Choose a location
+                                                                </option>
+                                                            )}
+                                                            {location.map((loc) => (
+                                                                <option key={loc._id} value={loc._id}>
+                                                                    {loc.name}
                                                                 </option>
                                                             ))}
                                                         </>
                                                     )}
                                                 </select>
+
                                             </div>
                                         </div>
 
@@ -419,27 +462,22 @@ const UpdateProfileV2 = () => {
 
                                             <textarea
                                                 className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                                                name="about"
+                                                name="address"
                                                 id="bio"
                                                 rows={3}
                                                 placeholder="Write your bio here"
                                                 onChange={handleChange}
-                                                defaultValue={profile?.about}
+                                                defaultValue={profile?.address}
                                             ></textarea>
                                         </div>
                                     </div>
 
                                     <div className="flex justify-end gap-4.5">
-                                        {/* <button
-                                            className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
-                                            type="submit"
-                                        >
-                                            Cancel
-                                        </button> */}
+
                                         <button
                                             className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-95"
                                             type="submit"
-                                        // onClick={() => { handleSubmit() }}
+                                            onClick={handleSubmit}
                                         >
                                             Update
                                         </button>
@@ -449,6 +487,91 @@ const UpdateProfileV2 = () => {
                         </div>
                     </div>
                     <div className="col-span-5 xl:col-span-2">
+
+                        <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark mb-5">
+                            <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
+                                <h3 className="font-medium text-black dark:text-white">
+                                    Change Password
+                                </h3>
+                            </div>
+                            <div className="p-7 mt-3">
+                                <div className="mb-5.5">
+                                    <label
+                                        className="mb-3 block text-sm font-medium text-black dark:text-white"
+                                        htmlFor="full_name"
+                                    >
+                                        Old Password
+                                    </label>
+                                    <div className="relative">
+
+                                        <input
+                                            className="w-full rounded border border-stroke bg-gray py-3 pl-5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                                            type="text"
+                                            name="oldPassword"
+                                            id="fullName"
+                                            placeholder="Old Password"
+                                            onChange={handleChangePassword}
+                                        />
+                                    </div>
+                                </div>
+
+
+
+                                <div className="mb-5.5">
+                                    <label
+                                        className="mb-3 block text-sm font-medium text-black dark:text-white"
+                                        htmlFor="newPassword"
+                                    >
+                                        New Password
+                                    </label>
+                                    <div className="relative">
+                                        <input
+                                            className="w-full rounded border border-stroke bg-gray py-3 pl-5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                                            type="password"
+                                            name="newPassword"
+                                            id="newPassword"
+                                            placeholder="New Password"
+                                            value={changePassword.newPassword}
+                                            onChange={handleChangePassword}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="mb-5.5">
+                                    <label
+                                        className="mb-3 block text-sm font-medium text-black dark:text-white"
+                                        htmlFor="confirmPassword"
+                                    >
+                                        Confirm Password
+                                    </label>
+                                    <div className="relative">
+                                        <input
+                                            className={`w-full rounded border border-stroke bg-gray py-3 pl-5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary ${passwordMatchError ? 'border-red-500' : ''}`}
+                                            type="password"
+                                            name="confirmPassword"
+                                            id="confirmPassword"
+                                            placeholder="Confirm Password"
+                                            value={changePassword.confirmPassword}
+                                            onChange={handleChangePassword}
+                                        />
+                                        {passwordMatchError && (
+                                            <p className="text-red-500 text-sm mt-1">Passwords do not match.</p>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className="flex justify-end gap-4.5">
+
+<button
+    className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-95"
+    type="submit"
+    onClick={handlePasswordUpdate}
+>
+    Update
+</button>
+</div>
+                            </div>
+                        </div>
                         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                             <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
                                 <h3 className="font-medium text-black dark:text-white">
@@ -543,16 +666,7 @@ const UpdateProfileV2 = () => {
                             </div>
                         </div>
 
-                        <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark mb-5">
-                            <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
-                                <h3 className="font-medium text-black dark:text-white">
-                                    Your Photo
-                                </h3>
-                            </div>
-                            <div className="p-7 mt-3">
 
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

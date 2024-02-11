@@ -314,11 +314,11 @@ console.log("postEmailOtp",postEmailOtp)
 
 
 
-      <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark flex items-center justify-center h-screen">
+<div className="flex rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark  items-center justify-center h-screen w-full  ">
 
 
 
-        <div className="flex flex-wrap items-center">
+      <div className="flex w-full md:w-10/12 flex-wrap justify-center items-center">
 
 
           <div className="hidden w-full xl:block xl:w-1/2">

@@ -3,25 +3,20 @@ import { useRouter } from 'next/router';
 import { useGetAllData } from '@/utils/hooks/useGetAllData';
 import { QUERY_KEYS } from '@/constants/queryKeys';
 import { CATEGORIE_END_POINT, CITY_END_POINT, GUARDIAN_END_POINT, JOB_REQUEST_END_POINT, LOCATION_END_POINT, SUBJECT_END_POINT } from '@/constants';
-import { mapArrayToDropdown } from '@/helpers/common_Helper';
+import { mapArrayToDropdown, parseJwt } from '@/helpers/common_Helper';
 import ToggleSwitch from '@/components/elements/toggleSwitch';
 import { get, post, put } from '@/helpers/api_helper';
 import AnimatedMulti from '@/components/elements/AnimatedMulti';
-import ToastMessage from '@/components/Toast';
+import toast from '@/components/Toast';
 import withAuth from '@/components/withAuth';
+import Axios from '@/utils/axios';
 
-const JobCreationForm = () => {
-
-    const notify = useCallback((type, message) => {
-        ToastMessage({ type, message });
+const TutorRequestForm = () => {
+    const { http, setToken, token } = Axios();
+    const notify = React.useCallback((type, message) => {
+        toast({ type, message });
     }, []);
-    const router = useRouter();
-    const { data } = router.query;
-    const [guardian, setGuardian] = useState([]);
     const [category, setCategory] = useState([]);
-    const [isTrue, setIsTrue] = useState(false);
-    const [isApproval, setIsApproval] = useState(false);
-    const [newGuardian, setNewGuardian] = useState(false);
     const [classes, setClasses] = useState([]);
     const [subjects, setSubjects] = useState([]);
     const [city, setCity] = useState([]);
@@ -29,10 +24,8 @@ const JobCreationForm = () => {
     const [loading, setLoading] = useState(false);
     const [code, setCode] = useState("");
     const [numOfStudent, setNumOfStudent] = useState(null);
-
-
+    const [tokenValues, setTokenValues] = useState({});
     const [jobCreation, setJobCreation] = useState({
-        guardian: '',
         category: '',
         noOfStudent: null,
         subject: [],
@@ -49,89 +42,17 @@ const JobCreationForm = () => {
         phone: '',
         isApproval: '',
         tuitionType: '',
-        // curriculum: '',
         hireDate: '',
         tutoringTime: '',
         status: '',
-        // jobStatus: 'PENDING',
 
     });
 
-
-
-
-
-
-
-    const [editData, setEditData] = useState(false);
+    const router = useRouter();
     useEffect(() => {
-        if (data === null) {
-            // Handle null data, e.g., provide default values or log a message
-            console.error("Received null data");
-            setEditData(false)
-
-        } else {
-            // Parse the JSON data
-            try {
-                const parsedData = JSON.parse(data);
-                // Continue processing the parsed data
-                setEditData(true)
-                // Set the editData state with the parsed data
-                // setEditData(parsedData);
-                setJobCreation({
-                    guardian: parsedData?.guardian?._id,
-                    category: parsedData?.category?._id,
-                    noOfStudent: parsedData?.noOfStudent,
-                    subject: parsedData?.subject?.map((t) => t.subjectId)?.map((t) => t?._id),
-                    class: parsedData?.class?.map((t) => t.classId)?.map((t) => t?._id),
-                    studentGender: parsedData?.studentGender,
-                    teacherGender: parsedData?.teacherGender,
-                    city: parsedData.city?._id,
-                    location: parsedData?.location?._id,
-                    address: parsedData?.address,
-                    daysPerWeek: parsedData?.daysPerWeek,
-                    preferenceInstitute: parsedData?.preferenceInstitute,
-                    salaryType: parsedData?.salaryType,
-                    salary: parsedData?.salary,
-                    phone: parsedData?.phone,
-                    isApproval: parsedData?.isApproval,
-                    tuitionType: parsedData.tuitionType,
-                    hireDate: parsedData.hireDate,
-                    tutoringTime: parsedData.tutoringTime,
-                    status: parsedData.status,
-                });
-
-
-            } catch (error) {
-                console.error("Error parsing JSON data:", error);
-            }
-        }
-    }, [data]);
-    /** Fetch Guardian List */
-
-
-
-    const {
-        data: guardianList,
-        isLoading,
-        refetch: fetchGuardianList,
-    } = useGetAllData(QUERY_KEYS.GET_ALL_GUARDIAN_LIST, GUARDIAN_END_POINT.get(1, -1, '', true));
-
-
-    /**guarian dropdown */
-    useEffect(() => {
-        const GUARDIANDROPDOWN = mapArrayToDropdown(
-            guardianList?.data?.data,
-            'fullName',
-            '_id'
-        );
-        setGuardian(GUARDIANDROPDOWN);
-    }, [guardianList]);
-    /** Fetch Guardian List End */
-
-
-
-
+        const decode = parseJwt(token);
+        setTokenValues(decode);
+    }, [token]);
 
     /** Fetch category List */
 
@@ -158,8 +79,6 @@ const JobCreationForm = () => {
 
 
 
-
-
     /**fetch class   End */
     const handleCategory = async (value) => {
         try {
@@ -183,14 +102,7 @@ const JobCreationForm = () => {
         }
     };
 
-    //   useEffect(() => {
-
-    //     setClasses([]);
-    //   }, [code]);
     /**fetch class list  End */
-
-
-
 
 
     /**fetch subject list */
@@ -246,8 +158,6 @@ const JobCreationForm = () => {
     /** end city dropdown */
 
 
-
-
     /**fetch location list */
 
     const handleLocation = async (cityId) => {
@@ -271,13 +181,6 @@ const JobCreationForm = () => {
 
 
 
-    const handleNewGuardian = async (value) => {
-        // Do any other logic you need here
-        setNewGuardian(value);
-    };
-
-
-
     const handleChange = (e, selectedOptions) => {
         const { name, value } = e.target;
 
@@ -288,7 +191,7 @@ const JobCreationForm = () => {
                 [name]: value === 'true' || value === true, // Convert the value to boolean
             }));
         }
-        else if (name === 'guardian' || name === 'phone' || name === 'tuitionType' || name === 'city' || name === 'location' || name === 'studentGender' || name === 'teacherGender' || name === 'noOfStudent' ||
+        else if (name === 'phone' || name === 'tuitionType' || name === 'city' || name === 'location' || name === 'studentGender' || name === 'teacherGender' || name === 'noOfStudent' ||
             name === 'daysPerWeek' || name === 'preferenceInstitute' || name === 'hireDate' || name === 'tutoringTime' || name === 'salaryType' || name === 'salary' || name === 'jobStatus' || name === 'address' || name === 'category') {
             // Convert value to integer for 'noOfStudent' and 'daysPerWeek' fields
             setJobCreation((prev) => ({
@@ -323,57 +226,35 @@ const JobCreationForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-
-        // const subjects = jobCreation.subject?.map((subjectId) => ({
-        //     subjectId: subjectId,
-        // }));
-        // jobCreation.subject = subjects;
-
-        // const classes = jobCreation.class?.map((classId) => ({
-        //     classId: jobCreation?._id ? classId.value : classId,
-        // }));
-        // jobCreation.class = classes;
-
-
         const subjects = jobCreation.subject?.map((subjectId) => ({
             subjectId: subjectId,
         }));
         jobCreation.subject = subjects;
 
         const classes = jobCreation.class?.map((classId) => ({
-            classId:  classId,
+            classId: classId,
         }));
         jobCreation.class = classes;
 
+        let body = { ...jobCreation, guardian: tokenValues.userId, status: false, isApproval: false };
         try {
-            if (jobCreation?._id) {
-                const update = await put(JOB_REQUEST_END_POINT.update(jobCreation?._id), jobCreation);
-                if (update.status === 'SUCCESS') {
-                    notify('success', update.message);
-                    router.push('/job_creation');
-                } else {
-                    notify('error', update.errorMessage);
-                    setLoading(false);
-                }
+
+            const response = await post(JOB_REQUEST_END_POINT.create(), body);
+            if (response.status === 'SUCCESS') {
+                notify('success', response.message);
+                router.push('/JobDashbord');
             } else {
-                const response = await post(JOB_REQUEST_END_POINT.create(), jobCreation);
-                if (response.status === 'SUCCESS') {
-                    notify('success', response.message);
-                    router.push('/job_creation');
-                } else {
-                    notify('error', response.errorMessage);
-                    setLoading(false);
-                }
+                notify('error', response.errorMessage);
+                setLoading(false);
             }
+
             setLoading(false);
         } catch (error) {
             notify('error', error.message);
             setLoading(false);
         }
-    };
 
-
-
+    }
     return (
         <>
             <div className="mx-auto max-w-250">
@@ -387,114 +268,13 @@ const JobCreationForm = () => {
                                 <h3 className="font-medium text-black dark:text-white">
                                     Information of Personal
                                 </h3>
-                                <div className="flex justify-end">
 
-
-                                    <ToggleSwitch
-                                        value={isTrue}
-                                        setValue={setIsTrue}
-                                        onChange={handleNewGuardian}
-                                        checkedChildren="Yes"
-                                        unCheckedChildren="No"
-                                        label="New Guardian"
-                                    />
-                                </div>
                             </div>
 
                             <div className="p-7">
                                 <form  >
 
-                                    {
-                                        newGuardian ? (
-                                            <div className="mb-5.5">
-                                                <label
-                                                    className="mb-3 block text-sm font-medium text-black dark:text-white"
-                                                    htmlFor="full_name"
-                                                >
-                                                    Full Name
-                                                </label>
-                                                <div className="relative">
-                                                    <span className="absolute left-4.5 top-4">
-                                                        <svg
-                                                            className="fill-current"
-                                                            width="20"
-                                                            height="20"
-                                                            viewBox="0 0 20 20"
-                                                            fill="none"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                        >
-                                                            <g opacity="0.8">
-                                                                <path
-                                                                    fillRule="evenodd"
-                                                                    clipRule="evenodd"
-                                                                    d="M3.72039 12.887C4.50179 12.1056 5.5616 11.6666 6.66667 11.6666H13.3333C14.4384 11.6666 15.4982 12.1056 16.2796 12.887C17.061 13.6684 17.5 14.7282 17.5 15.8333V17.5C17.5 17.9602 17.1269 18.3333 16.6667 18.3333C16.2064 18.3333 15.8333 17.9602 15.8333 17.5V15.8333C15.8333 15.1703 15.5699 14.5344 15.1011 14.0655C14.6323 13.5967 13.9964 13.3333 13.3333 13.3333H6.66667C6.00363 13.3333 5.36774 13.5967 4.8989 14.0655C4.43006 14.5344 4.16667 15.1703 4.16667 15.8333V17.5C4.16667 17.9602 3.79357 18.3333 3.33333 18.3333C2.8731 18.3333 2.5 17.9602 2.5 17.5V15.8333C2.5 14.7282 2.93899 13.6684 3.72039 12.887Z"
-                                                                    fill=""
-                                                                />
-                                                                <path
-                                                                    fillRule="evenodd"
-                                                                    clipRule="evenodd"
-                                                                    d="M9.99967 3.33329C8.61896 3.33329 7.49967 4.45258 7.49967 5.83329C7.49967 7.214 8.61896 8.33329 9.99967 8.33329C11.3804 8.33329 12.4997 7.214 12.4997 5.83329C12.4997 4.45258 11.3804 3.33329 9.99967 3.33329ZM5.83301 5.83329C5.83301 3.53211 7.69849 1.66663 9.99967 1.66663C12.3009 1.66663 14.1663 3.53211 14.1663 5.83329C14.1663 8.13448 12.3009 9.99996 9.99967 9.99996C7.69849 9.99996 5.83301 8.13448 5.83301 5.83329Z"
-                                                                    fill=""
-                                                                />
-                                                            </g>
-                                                        </svg>
-                                                    </span>
-                                                    <input
-                                                        className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                                                        type="text"
-                                                        name="full_name"
-                                                        id="full_name"
-                                                        placeholder="Enter the name"
-                                                        defaultValue={jobCreation?.full_name}
 
-                                                        onChange={handleChange}
-                                                    />
-                                                </div>
-                                            </div>
-
-
-                                        ) : (
-
-                                            <div className="mb-5.5">
-                                                <label
-                                                    className="mb-3 block text-sm font-medium text-black dark:text-white"
-                                                    htmlFor="guardian"
-                                                >
-                                                    Guardian
-                                                </label>
-                                                <div className="relative">
-
-                                                    <select
-                                                        name='guardian'
-                                                        id="guardian"
-                                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500  dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                                                        onChange={handleChange}
-                                                        value={jobCreation?.guardian}
-                                                    >
-                                                        <option value="" disabled>
-                                                            Choose a Guardian
-                                                        </option>
-
-                                                        {guardianList?.data?.data && (
-                                                            <>
-                                                                <option value="" disabled>
-                                                                    Choose a Guardian
-                                                                </option>
-                                                                {guardianList.data.data.map((guardian) => (
-                                                                    <option key={guardian._id} value={guardian._id}>
-                                                                        {guardian.fullName}
-                                                                    </option>
-                                                                ))}
-                                                            </>
-                                                        )}
-
-
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                        )
-                                    }
 
                                     <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
 
@@ -1058,74 +838,12 @@ const JobCreationForm = () => {
 
 
                                     </div>
-                                    <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
 
-
-
-
-                                        <div className="w-full sm:w-1/2">
-                                            <label
-                                                className="mb-3 block text-sm font-medium text-black dark:text-white"
-                                                htmlFor="fullName"
-                                            >
-                                                Status
-                                            </label>
-                                            <div className="relative">
-
-                                                <select
-                                                    name="status"
-                                                    id="status"
-                                                    className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                                                    onChange={handleChange}
-                                                    defaultValue={jobCreation?.status}
-
-                                                >
-                                                    <option value>Status</option>
-                                                    <option value={true}>Active</option>
-                                                    <option value={false}>Inactive</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        {/* <div className="w-full sm:w-1/2">
-                                            <ToggleSwitch
-                                                value={isTrue}
-                                                setValue={setIsTrue}
-                                                onChange={handleNewGuardian}
-                                                checkedChildren="Yes"
-                                                unCheckedChildren="No"
-                                                label="Approval"
-                                            />
-                                        </div> */}
-
-                                        <div className="w-full sm:w-1/2">
-                                            <label
-                                                className="mb-3 block text-sm font-medium text-black dark:text-white"
-                                                htmlFor="Approval"
-                                            >
-                                                Approval
-                                            </label>
-                                            <div className="relative">
-
-                                                <select
-                                                    name="isApproval"
-                                                    id="isApproval"
-                                                    className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                                                    onChange={handleChange}
-                                                    defaultValue={jobCreation?.isApproval}
-
-                                                >
-                                                    <option value>Select..</option>
-                                                    <option value={true}>Active</option>
-                                                    <option value={false}>Inactive</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
 
                                     <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
 
 
-                                        <div className="w-full sm:w-1/2">
+                                        <div className="w-full">
                                             <label
                                                 className="mb-3 block text-sm font-medium text-black dark:text-white"
                                                 htmlFor="Username"
@@ -1178,31 +896,7 @@ const JobCreationForm = () => {
                                             </div>
                                         </div>
 
-                                        {editData && <div className="w-full sm:w-1/2">
-                                            <label
-                                                className="mb-3 block text-sm font-medium text-black dark:text-white"
-                                                htmlFor="Approval"
-                                            >
-                                                Approval
-                                            </label>
-                                            <div className="relative">
 
-                                                <select
-                                                    name="jobStatus"
-                                                    id="jobStatus"
-                                                    className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                                                    onChange={handleChange}
-                                                    value={jobCreation?.jobStatus}
-
-                                                >
-                                                    <option value>Select..</option>
-                                                    <option value="ACTIVE">Active</option>
-                                                    <option value="PENDING">PENDING</option>
-                                                    <option value="CANCELED">CANCELED</option>
-                                                    <option value="CONFIRMED">CONFIRMED</option>
-                                                </select>
-                                            </div>
-                                        </div>}
                                     </div>
 
 
@@ -1228,4 +922,4 @@ const JobCreationForm = () => {
     )
 }
 
-export default withAuth(JobCreationForm)
+export default withAuth(TutorRequestForm)
