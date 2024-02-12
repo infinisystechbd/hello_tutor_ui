@@ -1,15 +1,22 @@
 import JobCard from "@/components/JobCard";
-import { CATEGORIE_END_POINT, CITY_END_POINT, CLASS_END_POINT, DASHBOARD_END_POINT, LOCATION_END_POINT, SUBJECT_END_POINT } from "@/constants";
+import {
+  CATEGORIE_END_POINT,
+  CITY_END_POINT,
+  CLASS_END_POINT,
+  DASHBOARD_END_POINT,
+  LOCATION_END_POINT,
+  SUBJECT_END_POINT,
+} from "@/constants";
 import { STUDENTGENDER, TUTORGENDER } from "@/constants/dropdown";
 import { get } from "@/helpers/api_helper";
 import { mapArrayToDropdown } from "@/helpers/common_Helper";
 import { Button, Card, Drawer } from "@material-tailwind/react";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const JobDashboard = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [dashboard, setDashboard] = useState([]);
-  console.log("dashboard", dashboard)
+  console.log("dashboard", dashboard);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState();
@@ -17,13 +24,13 @@ const JobDashboard = () => {
   const [toDate, SetToDate] = useState();
   const [category, setCategory] = useState([]);
   const [selectedCateGory, setSelectedCategory] = useState("");
-  console.log("selectedCateGory", selectedCateGory)
+  console.log("selectedCateGory", selectedCateGory);
   const [cityDropDown, setCityDropDown] = useState([]);
   const [selectedCity, setSelectedCity] = useState("");
   const [locationDropDown, setLocationDropDown] = useState([]);
   const [selectedLocation, setselectedLocation] = useState("");
   const [classDropDown, setClassDropDown] = useState([]);
-  console.log("classDropDown", classDropDown)
+  console.log("classDropDown", classDropDown);
   const [selectedClass, setSelectedClass] = useState("");
   const [subjectDropDown, setSubjectDropDown] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState("");
@@ -36,46 +43,45 @@ const JobDashboard = () => {
     fetchCity();
     fetchClass();
     fetchSubject();
-
   };
   const closeDrawerTop = () => setOpenTop(false);
 
   const getAllData = async (limit, page) => {
-
     let isSubscribed = true;
-    await get(DASHBOARD_END_POINT.dashbord(true, limit, page, fromDate, toDate, tutionType, selectedCity, selectedLocation, selectedCateGory, selectedClass, selectedSubject, studentGender, tutorGender))
+    await get(
+      DASHBOARD_END_POINT.dashbord(
+        true,
+        limit,
+        page,
+        fromDate,
+        toDate,
+        tutionType,
+        selectedCity,
+        selectedLocation,
+        selectedCateGory,
+        selectedClass,
+        selectedSubject,
+        studentGender,
+        tutorGender
+      )
+    )
       .then((res) => {
-        console.log(res)
+        console.log(res);
         if (isSubscribed) {
           setDashboard(res?.data);
-          setLoading(false)
+          setLoading(false);
         }
       })
       .catch((err) => {
-        console.log("Server Error ~!")
+        console.log("Server Error ~!");
       });
 
-    return () => isSubscribed = false;
-  }
-
-
+    return () => (isSubscribed = false);
+  };
 
   useEffect(() => {
-    getAllData(limit, page)
-  }, []);
-
-
-
-
-
-
-
-
-
-
-
-
-
+    getAllData(limit, page);
+  }, [limit, page, selectedCateGory]);
 
   const fetchCategory = async () => {
     const fetchdata = await get(CATEGORIE_END_POINT.get(1, -1, "", true));
@@ -83,33 +89,29 @@ const JobDashboard = () => {
     setCategory(arrayToDrop);
   };
 
-
-
-
   /**fetch location list */
 
   const handleLocation = async (cityId) => {
-    console.log("cityId", cityId)
+    console.log("cityId", cityId);
     try {
       // Fetch location data based on cityId
-      const fetchLocation = await get(LOCATION_END_POINT.getLocationByCityId(cityId));
+      const fetchLocation = await get(
+        LOCATION_END_POINT.getLocationByCityId(cityId)
+      );
       const LOCATIONDROPDOWN = mapArrayToDropdown(
         fetchLocation?.data,
-        'name',
-        '_id'
+        "name",
+        "_id"
       );
 
       // Update the state with the new location data
       setLocationDropDown(LOCATIONDROPDOWN);
     } catch (error) {
-      console.error('Error fetching location:', error);
+      console.error("Error fetching location:", error);
     }
   };
 
   /**fetch location list  End */
-
-
-
 
   const fetchCity = async () => {
     const dataFetch = await get(CITY_END_POINT.get(1, -1, "", ""));
@@ -121,8 +123,6 @@ const JobDashboard = () => {
     setCityDropDown(cityArrayToDropDown);
   };
 
-
-
   const fetchClass = async () => {
     const classFetch = await get(CLASS_END_POINT.get(1, -1, "", ""));
     const classArrayToDropDown = mapArrayToDropdown(
@@ -132,8 +132,6 @@ const JobDashboard = () => {
     );
     setClassDropDown(classArrayToDropDown);
   };
-
-
 
   const fetchSubject = async () => {
     const subjectFetch = await get(SUBJECT_END_POINT.dropdown(1, -1, "", ""));
@@ -149,17 +147,10 @@ const JobDashboard = () => {
     fetchCategory();
   }, []);
 
-
-
-
-
-
-
-
   const onApply = () => {
     setOpenTop(false);
-    getAllData(limit, page)
-  }
+    getAllData(limit, page);
+  };
 
   const resetFilter = () => {
     SetFromDate("");
@@ -189,8 +180,21 @@ const JobDashboard = () => {
                 </Button>
               </div>
             ))}
-            <Button className="w-full h-full" variant="outlined" onClick={openDrawerTop}> Filter</Button>
-            <Button className="w-full h-full" variant="outlined" onClick={resetFilter}>Reset-Filter</Button>
+            <Button
+              className="w-full h-full"
+              variant="outlined"
+              onClick={openDrawerTop}
+            >
+              {" "}
+              Filter
+            </Button>
+            <Button
+              className="w-full h-full"
+              variant="outlined"
+              onClick={resetFilter}
+            >
+              Reset-Filter
+            </Button>
           </div>
         </div>
       </Card>
@@ -216,7 +220,6 @@ const JobDashboard = () => {
               <label
                 className="mb-3 block text-sm font-medium text-black dark:text-white"
                 htmlFor="nationality"
-
               >
                 From Date
               </label>
@@ -227,14 +230,12 @@ const JobDashboard = () => {
                 id="dob"
                 onChange={(event) => SetFromDate(event.target.value)}
                 value={fromDate}
-
               />
             </div>
             <div className="w-full sm:w-2/3">
               <label
                 className="mb-3 block text-sm font-medium text-black dark:text-white"
                 htmlFor="nationality"
-
               >
                 To Date
               </label>
@@ -245,7 +246,6 @@ const JobDashboard = () => {
                 id="dob"
                 onChange={(event) => SetToDate(event.target.value)}
                 value={toDate}
-
               />
             </div>
             <div className="w-full sm:w-2/3">
@@ -256,19 +256,18 @@ const JobDashboard = () => {
                 City
               </label>
               <div className="relative">
-
                 <select
                   name="city"
                   id="countries"
                   className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                   onChange={(e) => setSelectedCity(e.target.value)}
                   value={selectedCity}
-
                 >
                   {cityDropDown && (
                     <>
                       <option value="" disabled>
-                        Choose a City                                                            </option>
+                        Choose a City{" "}
+                      </option>
                       {cityDropDown.map((city) => (
                         <option key={city._id} value={city._id}>
                           {city.name}
@@ -288,14 +287,12 @@ const JobDashboard = () => {
               </label>
 
               <div className="relative">
-
                 <select
                   name="location"
                   id="countries"
                   className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                   onChange={(e) => setselectedLocation(e.target.value)}
                   value={selectedLocation}
-
                 >
                   {locationDropDown && (
                     <>
@@ -313,7 +310,6 @@ const JobDashboard = () => {
               </div>
             </div>
 
-
             <div className="w-full sm:w-2/3">
               <label
                 className="mb-3 block text-sm font-medium text-black dark:text-white"
@@ -323,7 +319,6 @@ const JobDashboard = () => {
               </label>
 
               <div className="relative">
-
                 <select
                   name="studentGender"
                   id="studentGender"
@@ -337,7 +332,10 @@ const JobDashboard = () => {
                         Choose a Location
                       </option>
                       {STUDENTGENDER.map((STUDENTGENDER) => (
-                        <option key={STUDENTGENDER.value} value={STUDENTGENDER.value}>
+                        <option
+                          key={STUDENTGENDER.value}
+                          value={STUDENTGENDER.value}
+                        >
                           {STUDENTGENDER.label}
                         </option>
                       ))}
@@ -346,7 +344,6 @@ const JobDashboard = () => {
                 </select>
               </div>
             </div>
-
 
             <div className="w-full sm:w-2/3">
               <label
@@ -357,14 +354,12 @@ const JobDashboard = () => {
               </label>
 
               <div className="relative">
-
                 <select
                   name="tutorGender"
                   id="tutorGender"
                   className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                   onChange={(e) => setTutorGender(e.target.value)}
                   value={tutorGender}
-
                 >
                   {TUTORGENDER && (
                     <>
@@ -372,7 +367,10 @@ const JobDashboard = () => {
                         Choose a Location
                       </option>
                       {TUTORGENDER.map((TUTORGENDER) => (
-                        <option key={TUTORGENDER.value} value={TUTORGENDER.value}>
+                        <option
+                          key={TUTORGENDER.value}
+                          value={TUTORGENDER.value}
+                        >
                           {TUTORGENDER.label}
                         </option>
                       ))}
@@ -381,7 +379,6 @@ const JobDashboard = () => {
                 </select>
               </div>
             </div>
-
 
             <div className="w-full sm:w-2/3">
               <label
@@ -392,14 +389,12 @@ const JobDashboard = () => {
               </label>
 
               <div className="relative">
-
                 <select
                   name="class"
                   id="class"
                   className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                   onChange={(e) => setSelectedClass(e.target.value)}
                   value={selectedClass}
-
                 >
                   {classDropDown && (
                     <>
@@ -417,7 +412,6 @@ const JobDashboard = () => {
               </div>
             </div>
 
-
             <div className="w-full sm:w-2/3">
               <label
                 className="mb-3 block text-sm font-medium text-black dark:text-white"
@@ -427,14 +421,12 @@ const JobDashboard = () => {
               </label>
 
               <div className="relative">
-
                 <select
                   name="class"
                   id="class"
                   className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                   onChange={(e) => setSelectedSubject(e.target.value)}
                   value={selectedSubject}
-
                 >
                   {subjectDropDown && (
                     <>
@@ -452,13 +444,7 @@ const JobDashboard = () => {
               </div>
             </div>
 
-
             {/* classDropDown */}
-
-
-
-
-
           </div>
         </div>
         <div className=" border-gray-400 flex gap-2 mt-2">
@@ -470,7 +456,6 @@ const JobDashboard = () => {
           </Button>
         </div>
       </Drawer>
-
     </>
   );
 };
