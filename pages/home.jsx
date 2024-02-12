@@ -54,7 +54,7 @@ const HomePage = () => {
   return (
     <div>
       <header>
-        <div className="nav-container sticky">
+        {/* <div className="nav-container sticky">
           <div className="bg-[#0675C1] text-white py-2">
             <div className="flex justify-between max-w-6xl mx-auto">
               <div className="">
@@ -65,7 +65,6 @@ const HomePage = () => {
                 </p>
               </div>
               <div className="space-x-4 text-xl">
-                {/* <FontAwesomeIcon icon={faFacebook} className="fa-brands" /> */}
                 <FontAwesomeIcon icon={faFacebook} />
                 <FontAwesomeIcon icon={faYoutube} />
                 <FontAwesomeIcon icon={faLinkedin} />
@@ -77,7 +76,7 @@ const HomePage = () => {
           <nav className=" py-4 bg-[#f2f5fc]">
             <div className="flex justify-between max-w-6xl mx-auto">
               <div>
-                <h1 className="text-2xl font-bold text-[#0675C1]">Caretutors</h1>
+                <h1 className="text-2xl font-bold text-[#0675C1]">Hello Tutors</h1>
               </div>
               <div className="space-x-4 ">
                 <button className="hover:text-[#0675C1]">Sign In</button>
@@ -88,10 +87,10 @@ const HomePage = () => {
               </div>
             </div>
           </nav>
-        </div>
+        </div> */}
 
 
-        <div className="banner max-w-6xl mx-auto mb-36 relative">
+        <div className="banner max-w-6xl mx-auto mb-20 relative">
           <div className="flex justify-between items-center ">
             <div className="mt-14">
               <h1 className="text-5xl font-semibold py-4">
@@ -125,7 +124,7 @@ const HomePage = () => {
 
 
 
-          <div className="bg-[#0675C1] rounded-3xl py-8">
+          {/* <div className="bg-[#0675C1] rounded-3xl py-8">
       <div className="grid grid-cols-4 justify-between w-6xl mx-auto">
         {data.map((item, index) => (
           <div key={index} className="flex items-center space-x-4 justify-center">
@@ -164,7 +163,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div> */}
 
 
         </div>
@@ -173,7 +172,7 @@ const HomePage = () => {
       <main className="">
         <section className="tution-type">
           <div className="bg-[#f2f5fc]">
-            <div className="content max-w-6xl mx-auto pt-52 pb-24">
+            <div className="content max-w-6xl mx-auto pb-24">
               <h1 className="text-center text-black text-5xl font-semibold">
                 Tuition Types
               </h1>
@@ -335,7 +334,7 @@ const HomePage = () => {
         <div className="max-w-6xl mx-auto pt-8">
           <div className="header grid grid-cols-4 pb-8 space-x-4">
             <div>
-              <h1 className="text-2xl font-bold text-white">Caretutors</h1>
+              <h1 className="text-2xl font-bold text-white">Hello Tutors</h1>
             </div>
             <div>
               <h1 className="text-2xl font-bold text-white">Useful Links</h1>
@@ -350,7 +349,7 @@ const HomePage = () => {
           <div className="grid grid-cols-4 text-white space-x-4">
             <div>
               <p>
-                Caretutors was founded in 2012. It is Bangladeshs first, most trusted
+                Hello Tutors w. It is Bangladeshs first, most trusted
                 and leading online platform for guardians, students, and tutors to
                 hire verified tutors or find tuition jobs in 13 different categories
                 from anywhere in the country.
@@ -373,7 +372,7 @@ const HomePage = () => {
                 <a href="">FAQ</a>
               </p>
               <p>
-                <a href="">Caretutors Merchant</a>
+                <a href="">Hello Tutors Merchant</a>
               </p>
             </div>
             <div>
@@ -430,7 +429,7 @@ const HomePage = () => {
             <div>
               <div>
                 <p>
-                  Flat: 3A, House: 26, Alaol Avenue, Sector 6, Uttara, Dhaka 1230,
+                  Lorem ipsum dolor sit amet consectetur adipisicing , Uttara, Dhaka,
                   Bangladesh.
                 </p>
                 <h1 className="font-bold pt-6">Download Our App</h1>
@@ -457,9 +456,8 @@ const HomePage = () => {
           </div>
           <div className="py-12 text-white text-center">
             <p className="font-semibold">
-              Copyright © 2012-2023 Caretutors Technologies Ltd. All Rights Reserved.
+              Copyright © 2023-2024 infinisystechbd. All Rights Reserved.
             </p>
-            <p className="font-bold">Web App Version: 4.13.17</p>
           </div>
         </div>
       </footer>

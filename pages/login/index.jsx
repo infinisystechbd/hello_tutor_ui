@@ -34,18 +34,18 @@ const LogIn = () => {
   }, []);
 
   const [postEmailOtp, setPostEmailOtp] = useState({
-    fullName:"",
+    fullName: "",
     phone: "",
     password: '',
     confirmPassword: '',
-    gender:"",
-    selectedCheckbox:'student'
+    gender: "",
+    selectedCheckbox: 'student'
   })
-console.log("postEmailOtp",postEmailOtp)
+
   const [postVerifyOtp, setPostVerifyOtp] = useState({
     otp: "",
   });
-  console.log("postVerifyOtp",postVerifyOtp)
+
 
   const [profile, setProfile] = useState({
     mobile_number: "",
@@ -77,14 +77,14 @@ console.log("postEmailOtp",postEmailOtp)
 
   const otpSent = async (event) => {
     event.preventDefault();
-   
-    if (postEmailOtp?.selectedCheckbox =='student') {
-      let studentData={
-        phone:postEmailOtp?.phone,
-        password:postEmailOtp?.password,
-        confirmPassword:postEmailOtp?.confirmPassword,
+
+    if (postEmailOtp?.selectedCheckbox == 'student') {
+      let studentData = {
+        phone: postEmailOtp?.phone,
+        password: postEmailOtp?.password,
+        confirmPassword: postEmailOtp?.confirmPassword,
       }
-      console.log('students',studentData)
+      console.log('students', studentData)
 
 
       try {
@@ -92,45 +92,37 @@ console.log("postEmailOtp",postEmailOtp)
         notify("success", "successfully Registration!");
         setUserId(guardianReg?.data?._id);
         setIsOtpSent(true)
-    } catch (error) {
+      } catch (error) {
         let message;
         console.log(error);
         notify("error", message);
-    }
-    }else{
-      let teacherData={
-        fullName:postEmailOtp?.fullName,
-        gender:postEmailOtp?.gender,
-        phone:postEmailOtp?.phone,
-        password:postEmailOtp?.password,
-        confirmPassword:postEmailOtp?.confirmPassword,
+      }
+    } else {
+      let teacherData = {
+        fullName: postEmailOtp?.fullName,
+        gender: postEmailOtp?.gender,
+        phone: postEmailOtp?.phone,
+        password: postEmailOtp?.password,
+        confirmPassword: postEmailOtp?.confirmPassword,
       }
 
       try {
-        const tutorReg = await post(SECURITY_END_POINT.tutorReg(),{ fullName: postEmailOtp?.fullName, phone: postEmailOtp?.phone, gender: postEmailOtp?.gender, password: postEmailOtp?.password, confirmPassword: postEmailOtp?.confirmPassword });
+        const tutorReg = await post(SECURITY_END_POINT.tutorReg(), { fullName: postEmailOtp?.fullName, phone: postEmailOtp?.phone, gender: postEmailOtp?.gender, password: postEmailOtp?.password, confirmPassword: postEmailOtp?.confirmPassword });
         notify("success", "successfully Registration!");
         setUserId(tutorReg?.data?._id);
         setIsOtpSent(true)
 
-    } catch (error) {
+      } catch (error) {
         let message;
         console.log(error);
 
         notify("error", message);
+      }
+
+      console.log("teacher", teacherData);
     }
 
-      console.log("teacher",teacherData);
-    }
-    
-    // await http_post_request({ endpoint: '/otp/v1/postEmailOtp', data: { ...postEmailOtp } }).then(function (authRes) {
-    //   if (authRes.status === 'success') {
-    //     console.log("calling", authRes);
-    //     notify("success", `Check your mail`);
-    //     setIsOtpSent(true)
-    //   } else {
-    //     notify("error", `Something went wrong`);
-    //   }
-    // })
+
 
   }
 
@@ -145,21 +137,6 @@ console.log("postEmailOtp",postEmailOtp)
   const [isVerify, setIsVerify] = useState(false);
 
 
-  // const otpVerify = async (event) => {
-  //   event.preventDefault();
-  //   await http_post_request({ endpoint: '/otp/v1/postVerifyOtp', data: { reference: postEmailOtp?.email, otp: postVerifyOtp?.otp } }).then(function (authRes) {
-  //     if (authRes.status === 'success') {
-  //       // const result = authRes?.results;
-  //       notify("success", `Verify Successfully`);
-  //       setIsVerify(true)
-  //     } else {
-  //       // toast.error(authRes.message)
-  //       notify("error", `Something went wrong`);
-  //     }
-  //   })
-
-  // }
-
 
 
   const otpVerify = async (event) => {
@@ -168,19 +145,19 @@ console.log("postEmailOtp",postEmailOtp)
     setLoading(true);
 
     try {
-        const update = await post(SECURITY_END_POINT.verifyOtp(userId), { token: postVerifyOtp?.otp });
-        if (update.status == 'SUCCESS') {
-            const login = await post(SECURITY_END_POINT.login(), { phone: postEmailOtp?.phone, password: postEmailOtp?.password });
-            setToken(login.accessToken);
-            notify("success", "successfully Login!");
+      const update = await post(SECURITY_END_POINT.verifyOtp(userId), { token: postVerifyOtp?.otp });
+      if (update.status == 'SUCCESS') {
+        const login = await post(SECURITY_END_POINT.login(), { phone: postEmailOtp?.phone, password: postEmailOtp?.password });
+        setToken(login.accessToken);
+        notify("success", "successfully Login!");
 
-        }
+      }
     } catch (error) {
-        notify('error', update.error);
-        setLoading(false);
+      notify('error', update.error);
+      setLoading(false);
     }
     setLoading(false);
-};
+  };
 
 
 
@@ -214,54 +191,6 @@ console.log("postEmailOtp",postEmailOtp)
   /**------------------------Profile End --------------------------- */
 
 
-
-
-  // const submitForm = async (event) => {
-
-  //   event.preventDefault();
-  //   notify("info", "Checking...!");
-
-  //   await http_post_request({ endpoint: '/auth/v1/postLogin', data: { email: email, password: password } }).then(function (authRes) {
-  //     if (authRes.status === 'success') {
-  //       const result = authRes?.results;
-
-  //       saveToken(result?.user, result?.access_token);
-  //       // notify("success", "Login Successfully");
-  //     } else {
-  //       notify("error", `Something went wrong`);
-  //     }
-  //   })
-
-
-  // };
-
-
-  // const submitForm = async (event) => {
-  //   try {
-  //     event.preventDefault();
-  //     setLoading(true); // Assuming you have a setLoading state in your component
-
-  //     notify("info", "Checking...!");
-
-  //     const authRes = await http_post_request({
-  //       endpoint: '/auth/v1/postLogin',
-  //       data: { email: email, password: password }
-  //     });
-
-  //     if (authRes.status === 'success') {
-  //       const result = authRes?.results;
-
-  //       saveToken(result?.user, result?.access_token);
-  //       // notify("success", "Login Successfully");
-  //     } else {
-  //       notify("error", `Something went wrong`);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error during form submission:", error);
-  //   } finally {
-  //     setLoading(false); // Set loading back to false regardless of success or failure
-  //   }
-  // };
 
 
   const submitForm = async (event) => {
@@ -314,17 +243,17 @@ console.log("postEmailOtp",postEmailOtp)
 
 
 
-<div className="flex rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark  items-center justify-center h-screen w-full  ">
+      <div className="flex rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark  items-center justify-center h-screen w-full  ">
 
 
 
-      <div className="flex w-full md:w-10/12 flex-wrap justify-center items-center">
+        <div className="flex w-full md:w-10/12 flex-wrap justify-center items-center">
 
 
           <div className="hidden w-full xl:block xl:w-1/2">
             <div className="py-17.5 px-26 text-center">
               <Link className="mb-5.5 inline-block" href="/">
-                <Image
+                {/* <Image
                   className="hidden dark:block"
                   src={"/images/logo/logo.svg"}
                   alt="Logo"
@@ -337,7 +266,10 @@ console.log("postEmailOtp",postEmailOtp)
                   alt="Logo"
                   width={176}
                   height={32}
-                />
+                /> */}
+                {/* mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2 */}
+                {/* <h3 style={{ fontSize: '24px', color: 'blue' }}>Hello Tutor</h3> */}
+                <h3 className="text-2xl font-bold" style={{ fontSize: '34px', color: 'blue' }}>Hello Tutor</h3>
               </Link>
 
               <p className="2xl:px-20">

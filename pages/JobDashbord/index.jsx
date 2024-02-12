@@ -16,7 +16,6 @@ import { useEffect, useState } from "react";
 const JobDashboard = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [dashboard, setDashboard] = useState([]);
-  console.log("dashboard", dashboard);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState();
@@ -24,13 +23,11 @@ const JobDashboard = () => {
   const [toDate, SetToDate] = useState();
   const [category, setCategory] = useState([]);
   const [selectedCateGory, setSelectedCategory] = useState("");
-  console.log("selectedCateGory", selectedCateGory);
   const [cityDropDown, setCityDropDown] = useState([]);
   const [selectedCity, setSelectedCity] = useState("");
   const [locationDropDown, setLocationDropDown] = useState([]);
   const [selectedLocation, setselectedLocation] = useState("");
   const [classDropDown, setClassDropDown] = useState([]);
-  console.log("classDropDown", classDropDown);
   const [selectedClass, setSelectedClass] = useState("");
   const [subjectDropDown, setSubjectDropDown] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState("");
