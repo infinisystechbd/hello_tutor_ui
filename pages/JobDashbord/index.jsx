@@ -35,6 +35,8 @@ const JobDashboard = () => {
   const [studentGender, setStudentGender] = useState("");
   const [tutorGender, setTutorGender] = useState("");
   const [openTop, setOpenTop] = useState(false);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+console.log("prevScrollPos",prevScrollPos)
   const openDrawerTop = () => {
     setOpenTop(true);
     fetchCity();
@@ -81,16 +83,19 @@ const JobDashboard = () => {
     try {
       if (
         window.innerHeight + document.documentElement.scrollTop + 1 >=
-        document.documentElement.scrollHeight &&
-        !loading
+          document.documentElement.scrollHeight &&
+        !loading &&
+        prevScrollPos < document.documentElement.scrollTop
       ) {
         setLoading(true);
         setLimit((prev) => prev + 10);
       }
+      setPrevScrollPos(document.documentElement.scrollTop);
     } catch (error) {
       console.log(error);
     }
   };
+  
   
 
   useEffect(() => {
@@ -101,8 +106,8 @@ const JobDashboard = () => {
   
 
   useEffect(() => {
-    getAllData(limit, page);
-  }, [limit, page, selectedCateGory]);
+    getAllData(limit);
+  }, [limit, selectedCateGory]);
 
   const fetchCategory = async () => {
     const fetchdata = await get(CATEGORIE_END_POINT.get(1, -1, "", true));
@@ -221,13 +226,15 @@ const JobDashboard = () => {
       </Card>
 
       <div className="flex justify-center items-end">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-          {dashboard.map((jobDetail, index) => (
-            <JobCard key={jobDetail.jobId} data={jobDetail}></JobCard>
-          ))}
-          <div id="intersectionTarget"></div>
-        </div>
-      </div>
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+    {dashboard.map((jobDetail, index) => (
+      <JobCard key={jobDetail.jobId} data={jobDetail}></JobCard>
+    ))}
+    {loading && <p>Loading...</p>}
+    <div id="intersectionTarget"></div>
+  </div>
+</div>
+
       <Drawer
         placement="top"
         open={openTop}
