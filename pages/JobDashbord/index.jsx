@@ -18,7 +18,7 @@ const JobDashboard = () => {
   const [dashboard, setDashboard] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState();
+  const [limit, setLimit] = useState(9);
   const [fromDate, SetFromDate] = useState();
   const [toDate, SetToDate] = useState();
   const [category, setCategory] = useState([]);
@@ -43,38 +43,62 @@ const JobDashboard = () => {
   };
   const closeDrawerTop = () => setOpenTop(false);
 
-  const getAllData = async (limit, page) => {
-    let isSubscribed = true;
-    await get(
-      DASHBOARD_END_POINT.dashbord(
-        true,
-        limit,
-        page,
-        fromDate,
-        toDate,
-        tutionType,
-        selectedCity,
-        selectedLocation,
-        selectedCateGory,
-        selectedClass,
-        selectedSubject,
-        studentGender,
-        tutorGender
-      )
-    )
-      .then((res) => {
-        console.log(res);
-        if (isSubscribed) {
-          setDashboard(res?.data);
-          setLoading(false);
-        }
-      })
-      .catch((err) => {
-        console.log("Server Error ~!");
-      });
-
-    return () => (isSubscribed = false);
+  const getAllData = async () => {
+    try {
+      const response = await get(
+        DASHBOARD_END_POINT.dashbord(
+          true,
+          limit,
+          page,
+          fromDate,
+          toDate,
+          tutionType,
+          selectedCity,
+          selectedLocation,
+          selectedCateGory,
+          selectedClass,
+          selectedSubject,
+          studentGender,
+          tutorGender
+        )
+      );
+      if (page === 1) {
+        setDashboard(response?.data);
+      } else {
+        setDashboard((prevData) => [...prevData, ...response?.data]);
+      }
+      setTotalJobs(response?.total);
+      setLoading(false);
+    } catch (error) {
+      console.log("Server Error:", error);
+      setLoading(false);
+    }
   };
+
+
+
+  const handelInfiniteScroll = async () => {
+    try {
+      if (
+        window.innerHeight + document.documentElement.scrollTop + 1 >=
+        document.documentElement.scrollHeight &&
+        !loading
+      ) {
+        setLoading(true);
+        setLimit((prev) => prev + 10);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+
+  useEffect(() => {
+    window.addEventListener("scroll", handelInfiniteScroll);
+    return () => window.removeEventListener("scroll", handelInfiniteScroll);
+  }, [loading, limit]);
+  
+  
 
   useEffect(() => {
     getAllData(limit, page);
