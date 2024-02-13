@@ -36,7 +36,7 @@ const JobDashboard = () => {
   const [tutorGender, setTutorGender] = useState("");
   const [openTop, setOpenTop] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
-console.log("prevScrollPos",prevScrollPos)
+
   const openDrawerTop = () => {
     setOpenTop(true);
     fetchCity();
@@ -45,7 +45,7 @@ console.log("prevScrollPos",prevScrollPos)
   };
   const closeDrawerTop = () => setOpenTop(false);
 
-  const getAllData = async () => {
+  const getAllData = async (limit) => {
     try {
       const response = await get(
         DASHBOARD_END_POINT.dashbord(
@@ -79,31 +79,77 @@ console.log("prevScrollPos",prevScrollPos)
 
 
 
-  const handelInfiniteScroll = async () => {
+  // const handelInfiniteScroll = async () => {
+  //   try {
+  //     if (
+  //       window.innerHeight + document.documentElement.scrollTop + 1 >=
+  //         document.documentElement.scrollHeight &&
+  //       !loading &&
+  //       prevScrollPos < document.documentElement.scrollTop
+  //     ) {
+  //       setLoading(true);
+  //       setLimit((prev) => prev + 10);
+  //     }
+  //     setPrevScrollPos(document.documentElement.scrollTop);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+
+
+  // useEffect(() => {
+  //   window.addEventListener("scroll", handelInfiniteScroll);
+  //   return () => window.removeEventListener("scroll", handelInfiniteScroll);
+  // }, [loading, limit]);
+
+  const [isFetching, setIsFetching] = useState(false);
+
+
+  const handleInfiniteScroll = async () => {
     try {
-      if (
-        window.innerHeight + document.documentElement.scrollTop + 1 >=
-          document.documentElement.scrollHeight &&
-        !loading &&
-        prevScrollPos < document.documentElement.scrollTop
-      ) {
-        setLoading(true);
-        setLimit((prev) => prev + 10);
+      if (isFetching) {
+        return; // Avoid making multiple simultaneous requests
       }
-      setPrevScrollPos(document.documentElement.scrollTop);
+
+      const mainContainer = document.getElementById('mainContainer');
+      const { clientHeight, scrollTop, scrollHeight } = mainContainer;
+
+      if (clientHeight + scrollTop + 1 >= scrollHeight) {
+        setIsFetching(true);
+
+        // const response = await http_get_request({
+        //     endpoint: `/booking/v1/getBookingList?offset=${bookingList.length}&status=${bookingStatus}&month_year=${month_year}`,
+        // });
+
+        // setBookingList((prevList) => [...prevList, ...response.results]);
+        // setOffset((prevOffset) => prevOffset + response.results.length);
+        setLimit((prev) => prev + 10)
+
+        console.log("calling")
+      }
     } catch (error) {
-      console.log(error);
+      console.error(error);
+    } finally {
+      setIsFetching(false);
     }
   };
-  
-  
+
+
 
   useEffect(() => {
-    window.addEventListener("scroll", handelInfiniteScroll);
-    return () => window.removeEventListener("scroll", handelInfiniteScroll);
-  }, [loading, limit]);
-  
-  
+    const mainContainer = document.getElementById('mainContainer');
+    if (mainContainer) {
+      mainContainer.addEventListener('scroll', handleInfiniteScroll);
+    } else {
+      console.error("Element with ID 'mainContainer' not found.");
+    }
+    return () => {
+      mainContainer.removeEventListener('scroll', handleInfiniteScroll);
+    };
+  }, [limit, isFetching]);
+
+
 
   useEffect(() => {
     getAllData(limit);
@@ -226,14 +272,14 @@ console.log("prevScrollPos",prevScrollPos)
       </Card>
 
       <div className="flex justify-center items-end">
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-    {dashboard.map((jobDetail, index) => (
-      <JobCard key={jobDetail.jobId} data={jobDetail}></JobCard>
-    ))}
-    {loading && <p>Loading...</p>}
-    <div id="intersectionTarget"></div>
-  </div>
-</div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+          {dashboard.map((jobDetail, index) => (
+            <JobCard key={jobDetail.jobId} data={jobDetail}></JobCard>
+          ))}
+          {loading && <p>Loading...</p>}
+          <div id="intersectionTarget"></div>
+        </div>
+      </div>
 
       <Drawer
         placement="top"

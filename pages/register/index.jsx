@@ -170,7 +170,7 @@ const SignUp = () => {
         <div className="hidden w-full xl:block xl:w-1/2">
           <div className="py-17.5 px-26 text-center">
             <Link className="mb-5.5 inline-block" href="/">
-              <Image
+              {/* <Image
                 className="hidden dark:block"
                 src={"/images/logo/logo.svg"}
                 alt="Logo"
@@ -183,7 +183,9 @@ const SignUp = () => {
                 alt="Logo"
                 width={176}
                 height={32}
-              />
+              /> */}
+       <h3 className="text-2xl font-bold" style={{ fontSize: '34px', color: 'blue' }}>Hello Tutor</h3>
+
             </Link>
 
             <p className="2xl:px-20">
