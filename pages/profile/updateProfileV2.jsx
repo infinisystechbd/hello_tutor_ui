@@ -9,6 +9,7 @@ import React, { useEffect, useState } from 'react';
 import toast from "../../components/Toast";
 import { useRouter } from "next/router";
 import Axios from '@/utils/axios';
+import axios from 'axios';
 
 const UpdateProfileV2 = () => {
     const { http, setToken, token } = Axios();
@@ -22,6 +23,8 @@ const UpdateProfileV2 = () => {
     const [city, setCity] = useState([]);
     const [location, setLocation] = useState([]);
     const [passwordMatchError, setPasswordMatchError] = useState(false);
+
+    const [image, setImage] = useState("")
 
     const router = useRouter();
     useEffect(() => {
@@ -163,13 +166,32 @@ const UpdateProfileV2 = () => {
 
         } else {
             notify('error', response.errorMessage);
-            
+
         }
 
     };
 
+const[prevImg,setPrevImg] = useState();
+console.log("prevImg",prevImg)
+    const presetKey = "gbaauwdv";
+    const  cloudName= "di4gfzmis";
 
+    const submitImage = async (e) => {
+        e.preventDefault();
 
+        const formData = new FormData();
+        formData.append('file', image);
+        formData.append('upload_preset', presetKey);
+
+        try {
+            const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData);
+            setPrevImg(response.data.secure_url);
+            console.log('Uploaded image URL:', response.data.secure_url);
+        } catch (error) {
+            console.error('Failed to upload image', error);
+        }
+    };
+    
 
     return (
         <>
@@ -562,14 +584,14 @@ const UpdateProfileV2 = () => {
 
                                 <div className="flex justify-end gap-4.5">
 
-<button
-    className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-95"
-    type="submit"
-    onClick={handlePasswordUpdate}
->
-    Update
-</button>
-</div>
+                                    <button
+                                        className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-95"
+                                        type="submit"
+                                        onClick={handlePasswordUpdate}
+                                    >
+                                        Update
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -608,6 +630,7 @@ const UpdateProfileV2 = () => {
                                             type="file"
                                             accept="image/*"
                                             className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
+                                            onChange={(e) => setImage(e.target.files[0])}
                                         />
                                         <div className="flex flex-col items-center justify-center space-y-3">
                                             <span className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark">
@@ -656,8 +679,10 @@ const UpdateProfileV2 = () => {
                                         </button> */}
                                         <button
                                             className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-95"
-                                        // type="submit"
-                                        // onClick={() => { handleSubmit() }}
+                                            // type="submit"
+                                            // onClick={() => { handleSubmit() }}
+
+                                            onClick={submitImage}
                                         >
                                             Update
                                         </button>

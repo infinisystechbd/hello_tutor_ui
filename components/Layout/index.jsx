@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 import Sidebar from '../Sidebar';
 import Header from '../Header';
 import Axios from '@/utils/axios';
+import { parseJwt } from '@/helpers/common_Helper';
 
 const Layout = ({ children }) => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const { http, setToken, token } = Axios();
+
 
     const [loading, setLoading] = useState(true);
   return (

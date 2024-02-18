@@ -8,9 +8,18 @@ import DropdownChannel from "./DropdownChannel"
 import Axios from "@/utils/axios"
 import Extra from "./Extra"
 import Login from "./Login"
+import { parseJwt } from "@/helpers/common_Helper"
+import { useEffect, useState } from "react"
 
 const Header = (props) => {
   const { http, saveToken, token, logout } = Axios();
+
+  const [tokenValues, setTokenValues] = useState({});
+  
+  useEffect(() => {
+    const decode = parseJwt(token);
+    setTokenValues(decode);
+  }, [token]);
   return (
     <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
       <div className="flex flex-grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">

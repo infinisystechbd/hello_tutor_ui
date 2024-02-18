@@ -3,14 +3,22 @@ import Link from "next/link"
 import Image from "next/image"
 import Axios from "@/utils/axios";
 import { http_get_request } from "@/helpers/http_requests";
+import { parseJwt } from "@/helpers/common_Helper";
 
 const DropdownUser = () => {
+
+
 
   const { http, saveToken, token, logout } = Axios();
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState(null);
-
+  const [tokenValues, setTokenValues] = useState({});
+  console.log("tokenValues",tokenValues)
+  useEffect(() => {
+    const decode = parseJwt(token);
+    setTokenValues(decode);
+  }, [token]);
 
 
   const trigger = useRef(null)
