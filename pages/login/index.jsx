@@ -252,7 +252,7 @@ const LogIn = () => {
 
           <div className="hidden w-full xl:block xl:w-1/2">
             <div className="py-17.5 px-26 text-center">
-              <Link className="mb-5.5 inline-block" href="/">
+              <Link className="mb-5.5 inline-block" href="/JobDashbord">
                 {/* <Image
                   className="hidden dark:block"
                   src={"/images/logo/logo.svg"}

@@ -70,14 +70,19 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     >
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-        <Link href="/dashboard">
-          <Image
+        <Link href="/JobDashbord">
+          {/* <Image
             width={176}
             height={32}
             src={"/images/logo/logo.svg"}
             alt="Logo"
-          />
+          /> */}
+
+<h3 className="text-2xl font-bold" style={{ fontSize: '34px' }}>Hello Tutor</h3>
+
         </Link>
+
+
 
         <button
           ref={trigger}
