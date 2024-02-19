@@ -4,14 +4,14 @@ import { MdOutlineDateRange } from "react-icons/md";
 import { IoLocationSharp } from "react-icons/io5";
 import { RiGraduationCapFill } from "react-icons/ri";
 import { FaDollarSign } from "react-icons/fa";
-import { IoIosPerson } from "react-icons/io";
+import { IoIosPerson,IoIosFemale } from "react-icons/io";
 import { FaBook } from "react-icons/fa";
 
 const JobCard = ({data}) => {
   return (
 
-    <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-black dark:text-white ">
-      <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 border-0 border-b-2">
+    <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-black dark:text-white mb-1 ">
+      <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 border-0 border-b-2">
         {data.title}
       </h5>
 
@@ -51,9 +51,9 @@ const JobCard = ({data}) => {
           <p>{data.salary}</p>
         </div>
         <div className="flex items-center justify-start gap-2">
-          <IoIosPerson className="text-xl text-blue-500" />
+        {data.preferredGender ==="female" ? <IoIosPerson className="text-xl text-blue-500" /> :<IoIosFemale className="text-xl text-blue-500" />}
           <p className="font-semibold">Tutor prefer:</p>
-          {/* <p>{data.}</p> */}
+          <p>{data.preferredGender}</p>
         </div>
       </div>
 

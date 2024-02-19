@@ -36,10 +36,17 @@ const Extra = () => {
   return (
    <>
       <Link
-     href="/home"
+       href="/home"
         className="relative flex  items-center justify-center    hover:text-primary dark:border-strokedark dark:bg-meta-4 dark:text-white"
       >
         Home
+      </Link>
+
+      <Link
+       href="/JobDashbord"
+        className="relative flex  items-center justify-center    hover:text-primary dark:border-strokedark dark:bg-meta-4 dark:text-white"
+      >
+        Job Dashbord
       </Link>
    
    </>

@@ -77,32 +77,6 @@ const JobDashboard = () => {
     }
   };
 
-
-
-  // const handelInfiniteScroll = async () => {
-  //   try {
-  //     if (
-  //       window.innerHeight + document.documentElement.scrollTop + 1 >=
-  //         document.documentElement.scrollHeight &&
-  //       !loading &&
-  //       prevScrollPos < document.documentElement.scrollTop
-  //     ) {
-  //       setLoading(true);
-  //       setLimit((prev) => prev + 10);
-  //     }
-  //     setPrevScrollPos(document.documentElement.scrollTop);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-
-
-  // useEffect(() => {
-  //   window.addEventListener("scroll", handelInfiniteScroll);
-  //   return () => window.removeEventListener("scroll", handelInfiniteScroll);
-  // }, [loading, limit]);
-
   const [isFetching, setIsFetching] = useState(false);
 
 
@@ -118,15 +92,9 @@ const JobDashboard = () => {
       if (clientHeight + scrollTop + 1 >= scrollHeight) {
         setIsFetching(true);
 
-        // const response = await http_get_request({
-        //     endpoint: `/booking/v1/getBookingList?offset=${bookingList.length}&status=${bookingStatus}&month_year=${month_year}`,
-        // });
 
-        // setBookingList((prevList) => [...prevList, ...response.results]);
-        // setOffset((prevOffset) => prevOffset + response.results.length);
         setLimit((prev) => prev + 10)
 
-        console.log("calling")
       }
     } catch (error) {
       console.error(error);
@@ -164,7 +132,6 @@ const JobDashboard = () => {
   /**fetch location list */
 
   const handleLocation = async (cityId) => {
-    console.log("cityId", cityId);
     try {
       // Fetch location data based on cityId
       const fetchLocation = await get(
@@ -238,13 +205,13 @@ const JobDashboard = () => {
 
   return (
     <>
-      <Card className="mb-4  md:h-auto w-full bg-white lg:p-8 rounded-lg  dark:border-strokedark dark:bg-boxdark   lg:max-h-full">
+      <Card className="mb-4 mt-4  md:h-auto w-full bg-white lg:p-8 rounded-lg  dark:border-strokedark dark:bg-boxdark   lg:max-h-full ">
         <div className="justify-center items-end">
           <div className="grid grid-cols-4 sm:grid-cols-2 md:grid-cols-4 gap-5">
             {category?.map((t) => (
               <div key={t.categoryId}>
                 <Button
-                  className="w-full h-full"
+                  className="w-full h-full text-center sm:text-sm" // Adding text-center and sm:text-sm classes
                   variant="outlined"
                   onClick={() => setSelectedCategory(t._id)}
                 >
@@ -253,21 +220,21 @@ const JobDashboard = () => {
               </div>
             ))}
             <Button
-              className="w-full h-full"
+              className="w-full h-full text-center sm:text-sm" // Adding text-center and sm:text-sm classes
               variant="outlined"
               onClick={openDrawerTop}
             >
-              {" "}
               Filter
             </Button>
             <Button
-              className="w-full h-full"
+              className="w-full h-full text-center sm:text-sm" // Adding text-center and sm:text-sm classes
               variant="outlined"
               onClick={resetFilter}
             >
-              Reset-Filter
+              Reset Filter
             </Button>
           </div>
+
         </div>
       </Card>
 
