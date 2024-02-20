@@ -156,7 +156,8 @@ const ImageUpload = ({ profile }) => {
         <>
             <div className="h-14 w-14 rounded-full">
                 <img
-                    src={`${imgPreview}`}
+                    // src={`${imgPreview}`}
+                    src={"/upload/avater.jpg"}
                     alt="Profile Avatar"
                     className="profile-avatar"
                 />
