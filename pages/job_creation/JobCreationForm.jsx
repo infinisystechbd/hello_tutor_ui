@@ -29,7 +29,7 @@ const JobCreationForm = () => {
     const [loading, setLoading] = useState(false);
     const [code, setCode] = useState("");
     const [numOfStudent, setNumOfStudent] = useState(null);
-
+    const[jobId,setJobId] = useState(null);
 
     const [jobCreation, setJobCreation] = useState({
         guardian: '',
@@ -78,6 +78,7 @@ const JobCreationForm = () => {
                 setEditData(true)
                 // Set the editData state with the parsed data
                 // setEditData(parsedData);
+                setJobId(parsedData?._is)
                 setJobCreation({
                     guardian: parsedData?.guardian?._id,
                     category: parsedData?.category?._id,
@@ -346,8 +347,8 @@ const JobCreationForm = () => {
         jobCreation.class = classes;
 
         try {
-            if (jobCreation?._id) {
-                const update = await put(JOB_REQUEST_END_POINT.update(jobCreation?._id), jobCreation);
+            if (jobId) {
+                const update = await put(JOB_REQUEST_END_POINT.update(jobId), jobCreation);
                 if (update.status === 'SUCCESS') {
                     notify('success', update.message);
                     router.push('/job_creation');
@@ -961,7 +962,7 @@ const JobCreationForm = () => {
                                                 type="text"
                                                 name="preferenceInstitute"
                                                 id="phoneNumber"
-                                                placeholder="+990 3343 7865"
+                                                placeholder="Preference Institute Name"
                                                 onChange={handleChange}
                                                 defaultValue={jobCreation?.preferenceInstitute}
 
@@ -1214,6 +1215,7 @@ const JobCreationForm = () => {
                                             // type="submit"
                                             onClick={handleSubmit}
                                         >
+                                            {jobId?"Update":"Create"}
                                             Update
                                         </button>
                                     </div>

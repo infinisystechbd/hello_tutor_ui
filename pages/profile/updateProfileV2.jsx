@@ -605,7 +605,7 @@ console.log("prevImg",prevImg)
                                     <div className="mb-4 flex items-center gap-3">
                                         {/* {profile?.photo_source && <ImageUpload profile={profile?.photo_source}/>} */}
                                         {/* <div className="h-14 w-14 rounded-full"> */}
-                                        <ImageUpload profile={profile?.photo_source} />
+                                        <ImageUpload profile={"/avater.jpg"} />
                                         {/* </div> */}
                                         {/* <div>
                                             <span className="mb-1.5 text-black dark:text-white">

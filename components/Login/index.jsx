@@ -44,7 +44,7 @@ const SignInComponent = ({ submitForm, setPhone, setPassword, setLoading, loadin
 
                 <div className="mb-6">
                     <label className="mb-2.5 block font-medium text-black dark:text-white">
-                        Re-type Password
+                        Password
                     </label>
                     <div className="relative">
                         <input

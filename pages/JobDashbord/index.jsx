@@ -244,14 +244,17 @@ const JobDashboard = () => {
             {category?.map((t) => (
               <div key={t.categoryId}>
                 <Button
-                  className="w-full h-full"
+                  className="w-full h-full flex items-center justify-center sm:justify-start"
                   variant="outlined"
                   onClick={() => setSelectedCategory(t._id)}
                 >
-                  {t.name}
+                  <span className="text-center sm:text-left sm:mx-auto">{t.name}</span>
                 </Button>
               </div>
             ))}
+
+
+
             <Button
               className="w-full h-full"
               variant="outlined"
@@ -261,11 +264,12 @@ const JobDashboard = () => {
               Filter
             </Button>
             <Button
-              className="w-full h-full"
+              className="w-full h-full flex items-center justify-center sm:justify-start"
               variant="outlined"
               onClick={resetFilter}
             >
-              Reset-Filter
+              <span className="text-center sm:text-left sm:mx-auto">Reset-Filter</span>
+
             </Button>
           </div>
         </div>
