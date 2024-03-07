@@ -18,6 +18,7 @@ const UpdateProfileV2 = () => {
     }, []);
     const [loading, setLoading] = useState(true);
     const [profile, setProfile] = useState({});
+    console.log("profile",profile)
     const [changePassword, setChangePassword] = useState({});
     const [tokenValues, setTokenValues] = useState({});
     const [city, setCity] = useState([]);
@@ -38,7 +39,6 @@ const UpdateProfileV2 = () => {
         await get(USER_END_POINT.userInfo())
             .then((res) => {
                 if (isSubscribed) {
-                    console.log("indfo data", res?.data);
                     setProfile({
                         fullName: res?.data?.name,
                         city: res?.data?.city?._id,
@@ -172,25 +172,56 @@ const UpdateProfileV2 = () => {
     };
 
 const[prevImg,setPrevImg] = useState();
-console.log("prevImg",prevImg)
     const presetKey = "gbaauwdv";
     const  cloudName= "di4gfzmis";
 
+    // const submitImage = async (e) => {
+    //     e.preventDefault();
+
+    //     const formData = new FormData();
+    //     formData.append('file', image);
+    //     formData.append('upload_preset', presetKey);
+
+    //     try {
+    //         const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData);
+    //         setPrevImg(response.data.secure_url);
+
+    //         console.log('Uploaded image URL:', response.data.secure_url);
+    //     } catch (error) {
+    //         console.error('Failed to upload image', error);
+    //     }
+    // };
+
     const submitImage = async (e) => {
         e.preventDefault();
-
+    
         const formData = new FormData();
         formData.append('file', image);
         formData.append('upload_preset', presetKey);
-
+    
         try {
+            // Upload image to Cloudinary
             const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData);
-            setPrevImg(response.data.secure_url);
-            console.log('Uploaded image URL:', response.data.secure_url);
+            const newImageUrl = response.data.secure_url;
+            console.log("calling");
+    
+            // Check if profile.attachment exists and is an array
+            const updatedAttachment = Array.isArray(profile.attachment) ? [...profile.attachment, newImageUrl] : [newImageUrl];
+    
+            // Update attachment field in profile with new image URL
+            const updatedProfile = {
+                ...profile,
+                attachment: updatedAttachment
+            };
+    
+            // Send updated profile data to your API for updating
+            // const update = await axios.put(USER_END_POINT.update(), updatedProfile);
+            console.log('Uploaded image URL:', updatedProfile);
         } catch (error) {
             console.error('Failed to upload image', error);
         }
     };
+    
     
 
     return (
@@ -665,8 +696,7 @@ console.log("prevImg",prevImg)
                                                 <span className="text-primary">Click to upload</span> or
                                                 drag and drop
                                             </p>
-                                            <p className="mt-1.5">SVG, PNG, JPG or GIF</p>
-                                            <p>(max, 800 X 800px)</p>
+                                            
                                         </div>
                                     </div>
 
