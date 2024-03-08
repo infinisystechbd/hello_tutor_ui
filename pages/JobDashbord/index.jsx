@@ -230,20 +230,12 @@ const JobDashboard = () => {
               Filter
             </Button>
             <Button
-<<<<<<< HEAD
               className="w-full h-full flex items-center justify-center sm:justify-start"
               variant="outlined"
               onClick={resetFilter}
             >
               <span className="text-center sm:text-left sm:mx-auto">Reset-Filter</span>
 
-=======
-              className="w-full h-full text-center sm:text-sm" // Adding text-center and sm:text-sm classes
-              variant="outlined"
-              onClick={resetFilter}
-            >
-              Reset Filter
->>>>>>> 4a697677445297c0cd086e27e613acf954e258ef
             </Button>
           </div>
 
