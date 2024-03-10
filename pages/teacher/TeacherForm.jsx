@@ -34,8 +34,6 @@ const TeacherForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
         status: '',
     });
 
-        console.log("teacherInfo",teacherInfo);
-
     useEffect(() => {
         if (setEditData === null) {
             setTeacherInfo({
@@ -142,6 +140,7 @@ const TeacherForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                     if (isParentRender) {
                         isParentRender(true);
                     }
+                    setTeacherInfo({})
                     onClose();
                 } else {
                     notify('error', update.errorMessage);
@@ -153,6 +152,7 @@ const TeacherForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                     if (isParentRender) {
                         isParentRender(true);
                     }
+                    setTeacherInfo({})
                     onClose();
                 } else {
                     notify('error', response.errorMessage);
@@ -171,7 +171,11 @@ const TeacherForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                 <div className="fixed inset-0 z-10 overflow-y-auto ">
                     <div className="flex items-center justify-center min-h-screen">
                         <div className="fixed inset-0 bg-black opacity-50"></div>
-                        <div className="relative bg-white p-8 rounded-lg  dark:border-strokedark dark:bg-boxdark w-full max-w-md max-h-full">
+                        {/* <div className="relative bg-white p-8 rounded-lg  dark:border-strokedark dark:bg-boxdark w-full max-w-md max-h-full"> */}
+                        <div className="relative bg-white p-8 rounded-lg dark:border-strokedark dark:bg-boxdark w-full max-w-xl max-h-full">
+
+                            {/* <div className="relative bg-white p-8 rounded-lg dark:border-strokedark dark:bg-boxdark w-full max-h-full"> */}
+
                             {/* Modal content */}
                             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -205,102 +209,112 @@ const TeacherForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                                 </button>
                             </div>
                             {/* Your modal content goes here */}
-                            <form onSubmit={handleSubmit} className="p-4 md:p-5">
-                                <div className="grid gap-4 mb-4 grid-cols-2">
-                                    <div className="col-span-2">
-                                        <label
-                                            htmlFor="name"
-                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                        >
-                                            Name
-                                        </label>
-                                        <input
-                                            type="text"
-                                            name="fullName"
-                                            id="name"
-                                            className="bg-gray border-stroke border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                                            placeholder="Type class name"
-                                            required=""
-                                            defaultValue={teacherInfo?.fullName}
-                                            onChange={handleChange}
-                                        />
+                            <div className="p-1">
+                                <form onSubmit={handleSubmit} className="p-4 md:p-5">
+                                    <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+                                        <div className="w-full sm:w-1/2">
+                                            <label
+                                                htmlFor="name"
+                                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                            >
+                                                Name
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name="fullName"
+                                                id="name"
+                                                className="bg-gray border-stroke border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                                                placeholder="Type class name"
+                                                required=""
+                                                defaultValue={teacherInfo?.fullName}
+                                                onChange={handleChange}
+                                            />
+                                        </div>
+                                        <div className="w-full sm:w-1/2">
+                                            <label
+                                                htmlFor="name"
+                                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                            >
+                                                Phone
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name="phone"
+                                                id="name"
+                                                className="bg-gray border-stroke border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                                                placeholder="Type Phone Number"
+                                                required=""
+                                                defaultValue={teacherInfo?.phone}
+                                                onChange={handleChange}
+                                            />
+                                        </div>
                                     </div>
 
-                                    <div className="col-span-2">
-                                        <label
-                                            htmlFor="name"
-                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                        >
-                                            Phone
-                                        </label>
-                                        <input
-                                            type="text"
-                                            name="phone"
-                                            id="name"
-                                            className="bg-gray border-stroke border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                                            placeholder="Type class name"
-                                            required=""
-                                            defaultValue={teacherInfo?.phone}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
+                                    <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
 
 
-                                    <div className="col-span-2">
-                                        <label
-                                            htmlFor="subject"
-                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                        >
-                                            City
-                                        </label>
-                                        <select
-                                            name="city"
-                                            id="city"
-                                            className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                                            defaultValue={teacherInfo?.city}
-                                            // onChange={handleCity}
-                                            onChange={(e) => {
-                                                handleCity(e);
-                                                handleChange(e); // Assuming selectedOptions is available in your scope
-                                            }}
-                                        >
-                                            <option value="" disabled>
-                                                Choose a city
-                                            </option>
-                                            {city.map((city) => (
-                                                <option key={city.id} value={city._id}>
-                                                    {city.name}
+                                        <div className="w-full sm:w-1/2">
+
+                                            <label
+                                                htmlFor="subject"
+                                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                            >
+                                                City
+                                            </label>
+                                            <select
+                                                name="city"
+                                                id="city"
+                                                className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                                                defaultValue={teacherInfo?.city}
+                                                // onChange={handleCity}
+                                                onChange={(e) => {
+                                                    handleCity(e);
+                                                    handleChange(e); // Assuming selectedOptions is available in your scope
+                                                }}
+                                            >
+                                                <option value="" disabled>
+                                                    Choose a city
                                                 </option>
-                                            ))}
-                                        </select>
+                                                {city.map((city) => (
+                                                    <option key={city.id} value={city._id}>
+                                                        {city.name}
+                                                    </option>
+                                                ))}
+                                            </select>
 
-                                    </div>
 
-                                    <div className="col-span-2">
-                                        <label
-                                            htmlFor="subject"
-                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                        >
-                                            Location
-                                        </label>
-                                        <select
-                                            name="location"
-                                            id="city"
-                                            className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                                            value={teacherInfo?.location}
-                                            onChange={handleChange}
-                                        >
-                                            <option value="" disabled>
-                                                Choose a city
-                                            </option>
-                                            {location.map((location) => (
-                                                <option key={location.id} value={location._id}>
-                                                    {location.name}
+                                        </div>
+                                        <div className="w-full sm:w-1/2">
+                                            <label
+                                                htmlFor="subject"
+                                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                            >
+                                                Location
+                                            </label>
+                                            <select
+                                                name="location"
+                                                id="city"
+                                                className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                                                value={teacherInfo?.location}
+                                                onChange={handleChange}
+                                            >
+                                                <option value="" disabled>
+                                                    Choose a city
                                                 </option>
-                                            ))}
-                                        </select>
+                                                {location.map((location) => (
+                                                    <option key={location.id} value={location._id}>
+                                                        {location.name}
+                                                    </option>
+                                                ))}
+                                            </select>
 
+                                        </div>
                                     </div>
+
+
+
+
+
 
                                     <div className="col-span-2">
                                         <label
@@ -309,7 +323,7 @@ const TeacherForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                                         >
                                             Address
                                         </label>
-                                        <input
+                                        {/* <input
                                             type="text"
                                             name="address"
                                             id="address"
@@ -318,80 +332,95 @@ const TeacherForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                                             required=""
                                             defaultValue={teacherInfo?.address}
                                             onChange={handleChange}
-                                        />
-                                    </div>
+                                        /> */}
 
-                                    <div className="col-span-2">
-                                        <label
-                                            htmlFor="isPortalAccess"
-                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                        >
-                                            Portal Access
-                                        </label>
-                                        <select
-                                            name='isPortalAccess'
-                                            id="isPortalAccess"
-                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500  dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                                        <textarea
+                                            className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                                            name="address"
+                                            id="bio"
+                                            rows={2}
+                                            placeholder="Write your address here"
                                             onChange={handleChange}
-                                            value={teacherInfo?.isPortalAccess}
-                                        >
-                                            <option selected="">Select category</option>
-                                            <option value={true}>Active</option>
-                                            <option value={false}>Inactive</option>
+                                            defaultValue={teacherInfo?.address}
 
-                                        </select>
+
+                                        ></textarea>
                                     </div>
 
 
-                                    <div className="col-span-2">
-                                        <label
-                                            htmlFor="status"
-                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                        >
-                                            Status
-                                        </label>
-                                        <select
-                                            name='status'
-                                            id="status"
-                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500  dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                                            onChange={handleChange}
-                                            value={teacherInfo?.status}
-                                        >
-                                            <option selected="">Select category</option>
-                                            <option value={true}>Active</option>
-                                            <option value={false}>Inactive</option>
+                                    <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
 
-                                        </select>
+
+                                        <div className="w-full sm:w-1/2">
+                                            <label
+                                                htmlFor="isPortalAccess"
+                                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                            >
+                                                Portal Access
+                                            </label>
+                                            <select
+                                                name='isPortalAccess'
+                                                id="isPortalAccess"
+                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500  dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                                                onChange={handleChange}
+                                                value={teacherInfo?.isPortalAccess}
+                                            >
+                                                <option selected="">Select category</option>
+                                                <option value={true}>Active</option>
+                                                <option value={false}>Inactive</option>
+
+                                            </select>
+                                        </div>
+
+                                        <div className="w-full sm:w-1/2">
+                                            <label
+                                                htmlFor="status"
+                                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                            >
+                                                Status
+                                            </label>
+                                            <select
+                                                name='status'
+                                                id="status"
+                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500  dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                                                onChange={handleChange}
+                                                value={teacherInfo?.status}
+                                            >
+                                                <option selected="">Select category</option>
+                                                <option value={true}>Active</option>
+                                                <option value={false}>Inactive</option>
+
+                                            </select>
+                                        </div>
                                     </div>
 
 
-
-                                </div>
-                                <div className="ml-auto">
-                                    <button
-                                        type="submit"
-                                        className="text-white inline-flex items-center bg-primary hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                    >
-                                        <svg
-                                            className="me-1 -ms-1 w-5 h-5"
-                                            fill="currentColor"
-                                            viewBox="0 0 20 20"
-                                            xmlns="http://www.w3.org/2000/svg"
+                                    <div className="ml-auto">
+                                        <button
+                                            type="submit"
+                                            className="text-white inline-flex items-center bg-primary hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                         >
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
-                                        {setEditData?._id ? "Update Tutor" : "Create New Tutor"}
+                                            <svg
+                                                className="me-1 -ms-1 w-5 h-5"
+                                                fill="currentColor"
+                                                viewBox="0 0 20 20"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                                    clipRule="evenodd"
+                                                />
+                                            </svg>
+                                            {setEditData?._id ? "Update" : "Create"}
 
-                                        {/* Add new Subject */}
-                                    </button>
-                                </div>
+                                            {/* Add new Subject */}
+                                        </button>
+                                    </div>
 
 
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

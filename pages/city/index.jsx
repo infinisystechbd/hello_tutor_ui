@@ -11,6 +11,7 @@ import DebouncedSearchInput from '@/components/elements/DebouncedSearchInput';
 import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import { del } from '@/helpers/api_helper';
 import CityForm from './CityForm';
+import HeadSection from '@/components/HeadSection';
 
 const DeleteModal = ({ isOpen, onClose, data, isParentRender }) => {
   const [loading, setLoading] = useState(false);
@@ -228,6 +229,8 @@ const City = () => {
       /*** Pagination End  */
 
     return (
+      <>
+       <HeadSection title="Manage City" />
         <div className="flex flex-col gap-10">
         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between items-center border-b border-stroke dark:border-strokedark">
@@ -267,6 +270,7 @@ const City = () => {
           />
         </div>
       </div>
+      </>
     )
 }
 

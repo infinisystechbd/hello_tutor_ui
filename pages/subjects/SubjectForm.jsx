@@ -50,6 +50,7 @@ const SubjectForm = ({ isOpen, onClose, setEditData,isParentRender }) => {
           if (isParentRender) {
             isParentRender(true);
           }
+          setSubject({});
           onClose();
         }
       } catch (error) {
@@ -64,6 +65,7 @@ const SubjectForm = ({ isOpen, onClose, setEditData,isParentRender }) => {
           if (isParentRender) {
             isParentRender(true);
           }
+          setSubject({});
           onClose();
         } else {
           notify('error', response.errorMessage);
@@ -192,7 +194,7 @@ const SubjectForm = ({ isOpen, onClose, setEditData,isParentRender }) => {
                         clipRule="evenodd"
                       />
                     </svg>
-                    {setEditData?._id?"Update Subject":"Create New Subject"} 
+                    {setEditData?._id?"Update":"Create Subject"} 
 
                     {/* Add new Subject */}
                   </button>

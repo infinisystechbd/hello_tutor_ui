@@ -11,26 +11,32 @@ import { useGetAllData } from '@/utils/hooks/useGetAllData';
 
 
 const CategoryForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
-
+console.log("setEditData",setEditData)
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
     }, []);
 
     const [loading, setLoading] = useState(false);
     const [classes, setClasses] = useState([]);
-    console.log("classes", classes);
+
 
     const [categoryInfo, setCategoryInfo] = useState({
         name: '',
         class: [],
         code: '',
-        status: ''
+        status: true
     });
 
-    console.log("categoryInfo", categoryInfo);
+
     useEffect(() => {
         if (setEditData === null) {
-            setCategoryInfo({ name: '', class: [], code: '', status: '' });
+            setCategoryInfo(
+                {
+                    name: '',
+                    class: [],
+                    code: '',
+                    status: true
+                });
         } else {
             setCategoryInfo({
                 name: setEditData.name || '',
@@ -127,6 +133,7 @@ const CategoryForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                     if (isParentRender) {
                         isParentRender(true);
                     }
+                    setCategoryInfo({});
                     onClose();
                 } else {
                     notify('error', update.errorMessage);
@@ -138,6 +145,7 @@ const CategoryForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                     if (isParentRender) {
                         isParentRender(true);
                     }
+                    setCategoryInfo({});
                     onClose();
                 } else {
                     notify('error', response.errorMessage);
@@ -165,7 +173,7 @@ const CategoryForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                             {/* Modal content */}
                             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                                    {setEditData?._id ? "Update Subject" : "Create New Category"}
+                                    {setEditData?._id ? "Update Form" : "Create Form"}
                                 </h3>
                                 <button
                                     onClick={() => {
@@ -268,7 +276,7 @@ const CategoryForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                                             defaultValue={categoryInfo?.status}
                                             onChange={handleChange}
                                         >
-                                            <option selected="">Select Status</option>
+                                            {/* <option selected="">Select Status</option> */}
                                             <option value={true}>Active</option>
                                             <option value={false}>Inactive</option>
 
@@ -293,7 +301,7 @@ const CategoryForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                                                 clipRule="evenodd"
                                             />
                                         </svg>
-                                        {setEditData?._id ? "Update Subject" : "Create New Category"}
+                                        {setEditData?._id ? "Update" : "Create"}
 
                                         {/* Add new Subject */}
                                     </button>

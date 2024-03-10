@@ -12,6 +12,7 @@ import ToastMessage from '@/components/Toast';
 import DebouncedSearchInput from '@/components/elements/DebouncedSearchInput';
 import LocationForm from './LocationForm';
 import withAuth from '@/components/withAuth';
+import HeadSection from '@/components/HeadSection';
 
 
 
@@ -39,6 +40,7 @@ const DeleteModal = ({ isOpen, onClose, data, isParentRender }) => {
     }
     return (
         <>
+     
             {isOpen && (
                 <div className="fixed inset-0 z-10 overflow-y-auto">
                     <div className="flex items-center justify-center min-h-screen">
@@ -160,7 +162,6 @@ const Location = () => {
     ) => {
         setPage(pagination.current);
         setLimit(pagination.pageSize);
-        console.log(pagination, filters, sorter, extra);
     };
 
     /*** Pagination End  */
@@ -223,6 +224,8 @@ const Location = () => {
 
 
     return (
+        <>
+           <HeadSection title="Manage Location" />
         <div className="flex flex-col gap-10">
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                 <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between items-center border-b border-stroke dark:border-strokedark">
@@ -261,6 +264,7 @@ const Location = () => {
                 />
             </div>
         </div>
+        </>
     )
 }
 

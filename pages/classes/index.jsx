@@ -12,6 +12,7 @@ import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import ClassForm from './ClassForm';
 import { del } from '@/helpers/api_helper';
 import withAuth from '@/components/withAuth';
+import HeadSection from '@/components/HeadSection';
 
 
 
@@ -231,6 +232,8 @@ const Classes = () => {
 
 
   return (
+    <>
+    <HeadSection title="Manage Classes" />
     <div className="flex flex-col gap-10">
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between items-center border-b border-stroke dark:border-strokedark">
@@ -270,6 +273,7 @@ const Classes = () => {
         />
       </div>
     </div>
+    </>
   )
 }
 

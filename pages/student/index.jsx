@@ -12,6 +12,7 @@ import ToastMessage from "@/components/Toast";
 import DebouncedSearchInput from "@/components/elements/DebouncedSearchInput";
 import withAuth from "@/components/withAuth";
 import StudentForm from "./StudentForm";
+import HeadSection from "@/components/HeadSection";
 
 const Students = () => {
   /*** Storing data start */
@@ -68,6 +69,7 @@ const Students = () => {
     GUARDIAN_END_POINT.get(page, limit, search, "")
   );
 
+  console.log("tutorList",tutorList?.data?.data)
   //Render Function
   const reFetchHandler = (isRender) => {
     if (isRender) fetchTutorList();
@@ -100,23 +102,23 @@ const Students = () => {
       render: (text, record, index) => index + 1,
     },
     {
-      title: "Tutor Id",
-      dataIndex: "tutorId",
+      title: "Guardian Id",
+      dataIndex: "guardianId",
       // fixed: 'left',
     },
     {
-      title: "Tutor Name",
+      title: "Guardian Name",
       dataIndex: "fullName",
       // fixed: 'left',
     },
 
     {
-      title: "Tutor Phone",
+      title: "Guardian Phone",
       dataIndex: "phone",
       // fixed: 'left',
     },
     {
-      title: "Tutor Address",
+      title: "Guardian Address",
       dataIndex: "address",
     },
     {
@@ -162,11 +164,13 @@ const Students = () => {
   };
 
   return (
+    <>
+     <HeadSection title="Manage Guardian" />
     <div className="flex flex-col gap-10">
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between items-center border-b border-stroke dark:border-strokedark">
           <h4 className="text-xl font-semibold text-black dark:text-white">
-            All Tutor
+            All Guardian
           </h4>
           <button
             href="#"
@@ -197,6 +201,7 @@ const Students = () => {
         />
       </div>
     </div>
+    </>
   );
 };
 

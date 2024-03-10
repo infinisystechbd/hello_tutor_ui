@@ -12,6 +12,7 @@ import ToastMessage from "@/components/Toast";
 import DebouncedSearchInput from "@/components/elements/DebouncedSearchInput";
 import TeacherForm from "./TeacherForm";
 import withAuth from "@/components/withAuth";
+import HeadSection from "@/components/HeadSection";
 
 const Teacher = () => {
   /*** Storing data start */
@@ -162,6 +163,8 @@ const Teacher = () => {
   };
 
   return (
+    <>
+     <HeadSection title="Manage Teacher" />
     <div className="flex flex-col gap-10">
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between items-center border-b border-stroke dark:border-strokedark">
@@ -197,6 +200,7 @@ const Teacher = () => {
         />
       </div>
     </div>
+    </>
   );
 };
 

@@ -14,7 +14,6 @@ const DropdownUser = () => {
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState(null);
   const [tokenValues, setTokenValues] = useState({});
-  console.log("tokenValues",tokenValues)
   useEffect(() => {
     const decode = parseJwt(token);
     setTokenValues(decode);

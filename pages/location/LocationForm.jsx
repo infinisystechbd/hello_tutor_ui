@@ -19,7 +19,7 @@ const LocationForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
     const [locationInfo, setLocationInfo] = useState({
         name: '',
         city: '',
-        status: ''
+        status:true 
     });
 
 
@@ -53,11 +53,11 @@ const LocationForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
 
     useEffect(() => {
         if (setEditData === null) {
-            setLocationInfo({ name: '', status: '',city:'' });
+            setLocationInfo({ name: '', status: true,city:'' });
         } else {
             setLocationInfo({
-                name: setEditData.name || '',
-                status: setEditData.status || '',
+                name: setEditData.name,
+                status: setEditData.status ,
                 city: setEditData?.city?._id,
             });
 
@@ -89,6 +89,7 @@ const LocationForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
               if (isParentRender) {
                 isParentRender(true);
               }
+              setLocationInfo({});
               onClose();
             }
           } catch (error) {
@@ -103,6 +104,7 @@ const LocationForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
               if (isParentRender) {
                 isParentRender(true);
               }
+              setLocationInfo({});
               onClose();
             } else {
               notify('error', response.errorMessage);
@@ -132,7 +134,7 @@ const LocationForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                             {/* Modal content */}
                             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                                    {setEditData?._id ? "Update Class" : "Create New Class"}
+                                    {setEditData?._id ? "Update Form" : "Create Form"}
                                 </h3>
                                 <button
                                     onClick={() => {
@@ -223,8 +225,7 @@ const LocationForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500  dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                                             onChange={handleChange}
                                             value={locationInfo?.status}
-                                        >
-                                            <option selected="">Select category</option>
+                                        >   
                                             <option value={true}>Active</option>
                                             <option value={false}>Inactive</option>
 
@@ -251,7 +252,7 @@ const LocationForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                                                 clipRule="evenodd"
                                             />
                                         </svg>
-                                        {setEditData?._id ? "Update Class" : "Create New Class"}
+                                        {setEditData?._id ? "Update" : "Create"}
 
                                         {/* Add new Subject */}
                                     </button>

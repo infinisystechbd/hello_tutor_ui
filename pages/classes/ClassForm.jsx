@@ -20,7 +20,7 @@ const ClassForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
     const [classInfo, setClassInfo] = useState({
         name: '',
         subject: [],
-        status: ''
+        status: true
     });
 
 
@@ -30,7 +30,7 @@ const ClassForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
 
     useEffect(() => {
         if (setEditData === null) {
-            setClassInfo({ name: '', status: '' });
+            setClassInfo({ name: '', status: true });
         } else {
             setClassInfo({
                 name: setEditData.name || '',
@@ -118,6 +118,7 @@ const ClassForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                     if (isParentRender) {
                         isParentRender(true);
                     }
+                    setClassInfo({});
                     onClose();
                 } else {
                     notify('error', update.errorMessage);
@@ -129,6 +130,7 @@ const ClassForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                     if (isParentRender) {
                         isParentRender(true);
                     }
+                    setClassInfo({});
                     onClose();
                 } else {
                     notify('error', response.errorMessage);
@@ -236,7 +238,7 @@ const ClassForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                                             onChange={handleChange}
                                             value={classInfo?.status}
                                         >
-                                            <option selected="">Select category</option>
+                                            
                                             <option value={true}>Active</option>
                                             <option value={false}>Inactive</option>
 
@@ -263,7 +265,7 @@ const ClassForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                                                 clipRule="evenodd"
                                             />
                                         </svg>
-                                        {setEditData?._id ? "Update Class" : "Create New Class"}
+                                        {setEditData?._id ? "Update" : "Create"}
 
                                         {/* Add new Subject */}
                                     </button>

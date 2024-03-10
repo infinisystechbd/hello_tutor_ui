@@ -11,6 +11,7 @@ import { del } from '@/helpers/api_helper';
 import ToastMessage from '@/components/Toast';
 import DebouncedSearchInput from '@/components/elements/DebouncedSearchInput';
 import CategoryForm from './categoryForm';
+import HeadSection from '@/components/HeadSection';
 
 
 const DeleteModal = ({ isOpen, onClose, data, isParentRender }) => {
@@ -37,6 +38,7 @@ const DeleteModal = ({ isOpen, onClose, data, isParentRender }) => {
   }
   return (
     <>
+     <HeadSection title="Manage Category" />
       {isOpen && (
         <div className="fixed inset-0 z-10 overflow-y-auto">
           <div className="flex items-center justify-center min-h-screen">

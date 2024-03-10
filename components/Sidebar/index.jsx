@@ -20,7 +20,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   )
   const { http, setToken, token } = Axios();
   const [tokenValues, setTokenValues] = useState({});
-  console.log("tokenValues", tokenValues)
 
   useEffect(() => {
     const decode = parseJwt(token);
