@@ -10,8 +10,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Select from 'react-select';
 
 
-
-
 const StudentForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
 
     const [cityId, setCityId] = useState("");
@@ -142,6 +140,7 @@ const StudentForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                     if (isParentRender) {
                         isParentRender(true);
                     }
+                    setTeacherInfo({});
                     onClose();
                 } else {
                     notify('error', update.errorMessage);
@@ -153,6 +152,7 @@ const StudentForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                     if (isParentRender) {
                         isParentRender(true);
                     }
+                    setTeacherInfo({})
                     onClose();
                 } else {
                     notify('error', response.errorMessage);
@@ -171,11 +171,11 @@ const StudentForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                 <div className="fixed inset-0 z-10 overflow-y-auto ">
                     <div className="flex items-center justify-center min-h-screen">
                         <div className="fixed inset-0 bg-black opacity-50"></div>
-                        <div className="relative bg-white p-8 rounded-lg dark:border-strokedark dark:bg-boxdark w-full max-w-xl max-h-full">
+                        <div className="relative bg-white  rounded-lg dark:border-strokedark dark:bg-boxdark w-full max-w-xl max-h-full">
                             {/* Modal content */}
                             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                                    {setEditData?._id ? "Update Guardian" : "Create New Guardian"}
+                                    {setEditData?._id ? "Update" : "Create"}
                                 </h3>
                                 <button
                                     onClick={() => {
@@ -280,36 +280,38 @@ const StudentForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
 
 
                                     </div>
-                                </div>
 
-
-
-
-                                <div className="col-span-2">
-                                    <label
-                                        htmlFor="subject"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                    >
-                                        Location
-                                    </label>
-                                    <select
-                                        name="location"
-                                        id="city"
-                                        className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                                        value={teacherInfo?.location}
-                                        onChange={handleChange}
-                                    >
-                                        <option value="" disabled>
-                                            Choose a city
-                                        </option>
-                                        {location.map((location) => (
-                                            <option key={location.id} value={location._id}>
-                                                {location.name}
+                                    <div className="w-full sm:w-1/2">
+                                        <label
+                                            htmlFor="subject"
+                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        >
+                                            Location
+                                        </label>
+                                        <select
+                                            name="location"
+                                            id="city"
+                                            className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                                            value={teacherInfo?.location}
+                                            onChange={handleChange}
+                                        >
+                                            <option value="" disabled>
+                                                Choose a city
                                             </option>
-                                        ))}
-                                    </select>
+                                            {location.map((location) => (
+                                                <option key={location.id} value={location._id}>
+                                                    {location.name}
+                                                </option>
+                                            ))}
+                                        </select>
 
+                                    </div>
                                 </div>
+
+
+
+
+
 
                                 <div className="col-span-2">
                                     <label
@@ -318,7 +320,7 @@ const StudentForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                                     >
                                         Address
                                     </label>
-                                    <input
+                                    {/* <input
                                         type="text"
                                         name="address"
                                         id="address"
@@ -327,54 +329,63 @@ const StudentForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                                         required=""
                                         defaultValue={teacherInfo?.address}
                                         onChange={handleChange}
-                                    />
-                                </div>
-
-                                <div className="col-span-2">
-                                    <label
-                                        htmlFor="isPortalAccess"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                    >
-                                        Portal Access
-                                    </label>
-                                    <select
-                                        name='isPortalAccess'
-                                        id="isPortalAccess"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500  dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                                    /> */}
+                                    <textarea
+                                        className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                                        name="address"
+                                        id="bio"
+                                        rows={2}
+                                        placeholder="Write your address here"
                                         onChange={handleChange}
-                                        value={teacherInfo?.isPortalAccess}
-                                    >
-                                        <option selected="">Select category</option>
-                                        <option value={true}>Active</option>
-                                        <option value={false}>Inactive</option>
+                                        defaultValue={teacherInfo?.address}
 
-                                    </select>
+
+                                    ></textarea>
                                 </div>
 
+                                <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+                                    <div className="w-full sm:w-1/2">
+                                        <label
+                                            htmlFor="isPortalAccess"
+                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        >
+                                            Portal Access
+                                        </label>
+                                        <select
+                                            name='isPortalAccess'
+                                            id="isPortalAccess"
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500  dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                                            onChange={handleChange}
+                                            value={teacherInfo?.isPortalAccess}
+                                        >
+                                            <option selected="">Select category</option>
+                                            <option value={true}>Active</option>
+                                            <option value={false}>Inactive</option>
 
-                                <div className="col-span-2">
-                                    <label
-                                        htmlFor="status"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                    >
-                                        Status
-                                    </label>
-                                    <select
-                                        name='status'
-                                        id="status"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500  dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                                        onChange={handleChange}
-                                        value={teacherInfo?.status}
-                                    >
-                                        <option selected="">Select category</option>
-                                        <option value={true}>Active</option>
-                                        <option value={false}>Inactive</option>
+                                        </select>
+                                    </div>
+                                    <div className="w-full sm:w-1/2">
+                                        <label
+                                            htmlFor="status"
+                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        >
+                                            Status
+                                        </label>
+                                        <select
+                                            name='status'
+                                            id="status"
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500  dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                                            onChange={handleChange}
+                                            value={teacherInfo?.status}
+                                        >
+                                            <option selected="">Select category</option>
+                                            <option value={true}>Active</option>
+                                            <option value={false}>Inactive</option>
 
-                                    </select>
+                                        </select>
+                                    </div>
+
                                 </div>
-
-
-
 
                                 <div className="ml-auto">
                                     <button
@@ -393,7 +404,7 @@ const StudentForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                                                 clipRule="evenodd"
                                             />
                                         </svg>
-                                        {setEditData?._id ? "Update Tutor" : "Create New Tutor"}
+                                        {setEditData?._id ? "Update" : "Create"}
 
                                         {/* Add new Subject */}
                                     </button>

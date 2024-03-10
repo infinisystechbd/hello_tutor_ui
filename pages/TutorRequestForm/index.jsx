@@ -718,7 +718,7 @@ const TutorRequestForm = () => {
                                                     value={jobCreation?.daysPerWeek}
 
                                                 >
-                                                    <option value>Choose a Id</option>
+                                                    <option value>Choose Day Per Week</option>
                                                     <option value={1}>1 Day Per Week</option>
                                                     <option value={2}>2 Day Per Week</option>
                                                     <option value={3}>3 Day Per Week</option>
@@ -741,7 +741,7 @@ const TutorRequestForm = () => {
                                                 type="text"
                                                 name="preferenceInstitute"
                                                 id="phoneNumber"
-                                                placeholder="+990 3343 7865"
+                                                placeholder="Preference Institute"
                                                 onChange={handleChange}
                                                 defaultValue={jobCreation?.preferenceInstitute}
 
