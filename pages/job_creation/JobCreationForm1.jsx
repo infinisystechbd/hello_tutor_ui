@@ -29,7 +29,7 @@ const JobCreationForm = () => {
     const [loading, setLoading] = useState(false);
     const [code, setCode] = useState("");
     const [numOfStudent, setNumOfStudent] = useState(null);
-
+    const[jobId,setJobId] = useState(null);
 
     const [jobCreation, setJobCreation] = useState({
         guardian: '',
@@ -59,7 +59,7 @@ const JobCreationForm = () => {
 
 
 
-console.log("jobCreation",jobCreation)
+
 
 
 
@@ -75,10 +75,10 @@ console.log("jobCreation",jobCreation)
             try {
                 const parsedData = JSON.parse(data);
                 // Continue processing the parsed data
-                console.log("parsedData",parsedData)
                 setEditData(true)
                 // Set the editData state with the parsed data
                 // setEditData(parsedData);
+                setJobId(parsedData?._is)
                 setJobCreation({
                     guardian: parsedData?.guardian?._id,
                     category: parsedData?.category?._id,
@@ -289,7 +289,7 @@ console.log("jobCreation",jobCreation)
                 [name]: value === 'true' || value === true, // Convert the value to boolean
             }));
         }
-        else if ( name === 'full_name' || name === 'guardian' || name === 'phone' || name === 'tuitionType' || name === 'city' || name === 'location' || name === 'studentGender' || name === 'teacherGender' || name === 'noOfStudent' ||
+        else if (name === 'guardian' || name === 'phone' || name === 'tuitionType' || name === 'city' || name === 'location' || name === 'studentGender' || name === 'teacherGender' || name === 'noOfStudent' ||
             name === 'daysPerWeek' || name === 'preferenceInstitute' || name === 'hireDate' || name === 'tutoringTime' || name === 'salaryType' || name === 'salary' || name === 'jobStatus' || name === 'address' || name === 'category') {
             // Convert value to integer for 'noOfStudent' and 'daysPerWeek' fields
             setJobCreation((prev) => ({
@@ -325,27 +325,30 @@ console.log("jobCreation",jobCreation)
         e.preventDefault();
         setLoading(true);
 
-        // For the 'subject' array
+        // const subjects = jobCreation.subject?.map((subjectId) => ({
+        //     subjectId: subjectId,
+        // }));
+        // jobCreation.subject = subjects;
 
-        const subjects = jobCreation.subject.map(subjectId => ({
-            subjectId: subjectId
+        // const classes = jobCreation.class?.map((classId) => ({
+        //     classId: jobCreation?._id ? classId.value : classId,
+        // }));
+        // jobCreation.class = classes;
+
+
+        const subjects = jobCreation.subject?.map((subjectId) => ({
+            subjectId: subjectId,
         }));
         jobCreation.subject = subjects;
 
-
-
-
-        // For the 'class' array
         const classes = jobCreation.class?.map((classId) => ({
-            classId: classId,
+            classId:  classId,
         }));
         jobCreation.class = classes;
 
-        console.log("jobCreation", jobCreation)
-        // return;
         try {
-            if (jobCreation?._id) {
-                const update = await put(JOB_REQUEST_END_POINT.update(jobCreation?._id), jobCreation);
+            if (jobId) {
+                const update = await put(JOB_REQUEST_END_POINT.update(jobId), jobCreation);
                 if (update.status === 'SUCCESS') {
                     notify('success', update.message);
                     router.push('/job_creation');
@@ -611,7 +614,7 @@ console.log("jobCreation",jobCreation)
                                                 labelKey="value"
                                                 valueKey="id"
                                                 onChange={(selectedOptions) => handleChange({ target: { name: 'class' } }, selectedOptions)}
-                                                selectedValues={jobCreation.class || []} 
+                                                selectedValues={jobCreation.class || []}  // Use jobCreation.class directly
                                             />
                                         </div>
 
@@ -627,7 +630,7 @@ console.log("jobCreation",jobCreation)
                                                 labelKey="value"
                                                 valueKey="id"
                                                 onChange={(selectedOptions) => handleChange({ target: { name: 'subject' } }, selectedOptions)}
-                                                selectedValues={jobCreation?.subject || []}
+                                                selectedValues={jobCreation?.subject || []} // Provide an empty array as a fallback
                                             />
                                         </div>
                                     </div>
@@ -688,8 +691,7 @@ console.log("jobCreation",jobCreation)
                                                     {city && (
                                                         <>
                                                             <option value="" disabled>
-                                                                Choose a City 
-                                                            </option>
+                                                                Choose a City                                                            </option>
                                                             {city.map((city) => (
                                                                 <option key={city._id} value={city._id}>
                                                                     {city.name}
@@ -960,7 +962,7 @@ console.log("jobCreation",jobCreation)
                                                 type="text"
                                                 name="preferenceInstitute"
                                                 id="phoneNumber"
-                                                placeholder="+990 3343 7865"
+                                                placeholder="Preference Institute Name"
                                                 onChange={handleChange}
                                                 defaultValue={jobCreation?.preferenceInstitute}
 
@@ -1213,7 +1215,8 @@ console.log("jobCreation",jobCreation)
                                             // type="submit"
                                             onClick={handleSubmit}
                                         >
-                                            {jobCreation?._id ? "Update":"Create"}
+                                            {jobId?"Update":"Create"}
+                                            Update
                                         </button>
                                     </div>
                                 </form>

@@ -7,6 +7,8 @@ import RegWithPersonalInfo from "@/components/Register/RegWithPersonalInfo"
 import { useRouter } from "next/router";
 import toast from "../../components/Toast"
 import Axios from "@/utils/axios"
+import { SECURITY_END_POINT } from "@/constants"
+import { post } from "@/helpers/api_helper"
 const SignUp = () => {
   const notify = React.useCallback((type, message) => {
     toast({ type, message });
@@ -21,6 +23,9 @@ const SignUp = () => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [reference, setReference] = useState("");
+  const [postVerifyOtp, setPostVerifyOtp] = useState({
+    otp: "",
+  });
   const [postEmailOtp, setPostEmailOtp] = useState({
     fullName:"",
     phone: "",
@@ -41,6 +46,7 @@ const SignUp = () => {
  
 
   const otpSent = async (event) => {
+ 
     event.preventDefault();
    
     if (postEmailOtp?.selectedCheckbox =='student') {
@@ -71,6 +77,9 @@ const SignUp = () => {
         confirmPassword:postEmailOtp?.confirmPassword,
       }
 
+     
+      // console.log("teacher",teacherData);
+      // return;
       try {
         const tutorReg = await post(SECURITY_END_POINT.tutorReg(),{ fullName: postEmailOtp?.fullName, phone: postEmailOtp?.phone, gender: postEmailOtp?.gender, password: postEmailOtp?.password, confirmPassword: postEmailOtp?.confirmPassword });
         notify("success", "successfully Registration!");
@@ -84,7 +93,7 @@ const SignUp = () => {
         notify("error", message);
     }
 
-      console.log("teacher",teacherData);
+    
     }
     
 
