@@ -31,7 +31,7 @@ const UpdateProfileV2 = () => {
 
   const [image, setImage] = useState("");
   const [attachment, setAttachment] = useState("");
-  const [attach, setAttach] = useState(profile?.attachment || []);
+  const [attach, setAttach] = useState(profile?.education || []);
 
   const router = useRouter();
   useEffect(() => {
@@ -50,7 +50,7 @@ const UpdateProfileV2 = () => {
             city: res?.data?.city?._id,
             location: res?.data?.location?._id,
             address: res?.data?.address,
-            attachment: res?.data?.attachment,
+            education: res?.data?.education,
           });
         }
       })
@@ -250,7 +250,7 @@ const UpdateProfileV2 = () => {
           ...profile,
           education: attach,
         };
-        setProfile(updatedProfile);
+        // setProfile(updatedProfile);
 
         // Send updated profile data to your API for updating
         // const update = await axios.put(USER_END_POINT.update(), updatedProfile);
