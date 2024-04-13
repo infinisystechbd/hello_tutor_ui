@@ -22,7 +22,6 @@ const UpdateProfileV2 = () => {
   }, []);
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState({});
-  console.log("profile", profile);
   const [changePassword, setChangePassword] = useState({});
   const [tokenValues, setTokenValues] = useState({});
   const [city, setCity] = useState([]);
@@ -31,7 +30,7 @@ const UpdateProfileV2 = () => {
 
   const [image, setImage] = useState("");
   const [attachment, setAttachment] = useState("");
-  const [attach, setAttach] = useState(profile?.education || []);
+  const [attach, setAttach] = useState(profile?.attachment || []);
 
   const router = useRouter();
   useEffect(() => {
@@ -50,8 +49,9 @@ const UpdateProfileV2 = () => {
             city: res?.data?.city?._id,
             location: res?.data?.location?._id,
             address: res?.data?.address,
-            education: res?.data?.education,
+            attachment: res?.data?.attachment,
           });
+          setAttach(res?.data?.attachment);
         }
       })
       .catch((err) => {
@@ -131,7 +131,10 @@ const UpdateProfileV2 = () => {
     setLoading(true);
 
     try {
-      const update = await put(USER_END_POINT.update(), profile);
+      const update = await put(USER_END_POINT.update(), {
+        ...profile,
+        attachment: attach,
+      });
       if (update.status === "SUCCESS") {
         notify("success", update.message);
         router.push("/profile");
@@ -221,11 +224,10 @@ const UpdateProfileV2 = () => {
 
   const submitAttachment = async () => {
     //  e.preventDefault();
-    console.log(attachment);
     let formData = new FormData();
     formData.append("file", attachment);
     formData.append("upload_preset", presetKey);
-    if (attachment != null) {
+    if (attachment) {
       try {
         // Upload image to Cloudinary
         const response = await axios.post(
@@ -233,43 +235,33 @@ const UpdateProfileV2 = () => {
           formData
         );
         const newAttachmentUrl = response.data.secure_url;
-        const data = response.data;
-        setAttach([...attach, data]);
-        // setAttachment("");
-        console.log("calling", response);
-        console.log(attach);
+        const data = await response.data;
+        await setAttach([...attach, data]);
 
         // Check if profile.attachment exists and is an array
         const updatedAttachment = setProfile({
           ...profile,
-          education: attach,
+          attachment: attach,
         });
+        await setProfile({ ...profile, attachment: attach });
 
-        // Update attachment field in profile with new image URL
-        const updatedProfile = {
-          ...profile,
-          education: attach,
-        };
-        // setProfile(updatedProfile);
-
-        // Send updated profile data to your API for updating
-        // const update = await axios.put(USER_END_POINT.update(), updatedProfile);
-        console.log("Uploaded image URL:", profile);
+        notify("success", "File Uploaded Successfully");
+        setAttachment("");
       } catch (error) {
+        notify("error", error);
         console.error("Failed to upload image", error);
       }
+    } else {
+      notify("error", "Please Select valid File");
     }
   };
   const onDelete = (public_id) => {
     setAttach(attach?.filter((t) => t.public_id != public_id));
     setProfile({
       ...profile,
-      education: attach,
+      attachment: attach,
     });
   };
-  useEffect(() => {
-    submitAttachment();
-  }, [attachment]);
 
   return (
     <>
@@ -778,12 +770,27 @@ const UpdateProfileV2 = () => {
                     ""
                   )}
 
-                  <div>
+                  <div className="flex justify-end gap-4.5">
                     <input
                       className="mt-4 w-full rounded border border-stroke bg-gray py-3 pl-5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                       type="file"
                       onChange={(e) => setAttachment(e.target.files[0])}
                     />
+                    <svg
+                      class="h-8 w-8 text-red-500 cursor-pointer mt-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      onClick={() => submitAttachment()}
+                    >
+                      {" "}
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />{" "}
+                      <polyline points="17 8 12 3 7 8" />{" "}
+                      <line x1="12" y1="3" x2="12" y2="15" />
+                    </svg>
                   </div>
 
                   <div className="flex justify-end gap-4.5">
@@ -794,11 +801,11 @@ const UpdateProfileV2 = () => {
                                             Cancel
                                         </button> */}
                     <button
-                      className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-95"
+                      className="mt-2 flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-95"
                       // type="submit"
                       // onClick={() => { handleSubmit() }}
 
-                      onClick={submitImage}
+                      onClick={(e) => handleSubmit(e)}
                     >
                       Update
                     </button>
