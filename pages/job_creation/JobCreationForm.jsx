@@ -37,6 +37,7 @@ const JobCreationForm = () => {
   const [numOfStudent, setNumOfStudent] = useState(null);
 
   const [jobCreation, setJobCreation] = useState({
+    _id: "",
     guardian: "",
     category: "",
     noOfStudent: null,
@@ -61,8 +62,6 @@ const JobCreationForm = () => {
     // jobStatus: 'PENDING',
   });
 
-  console.log("jobCreation", jobCreation);
-
   const [editData, setEditData] = useState(false);
   useEffect(() => {
     if (data === null) {
@@ -81,6 +80,7 @@ const JobCreationForm = () => {
         handleCategory(parsedData?.category?._id);
         handleLocation(parsedData.city?._id);
         setJobCreation({
+          _id: parsedData?._id,
           guardian: parsedData?.guardian?._id,
           category: parsedData?.category?._id,
           noOfStudent: parsedData?.noOfStudent,
@@ -327,8 +327,10 @@ const JobCreationForm = () => {
     // return;
     try {
       if (jobCreation?._id) {
+        const _id = jobCreation?._id;
+        delete jobCreation?._id;
         const update = await put(
-          JOB_REQUEST_END_POINT.update(jobCreation?._id),
+          JOB_REQUEST_END_POINT.update(_id),
           jobCreation
         );
         if (update.status === "SUCCESS") {
