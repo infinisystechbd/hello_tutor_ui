@@ -16,6 +16,7 @@ import { mapArrayToDropdown } from "@/helpers/common_Helper";
 import { useGetAllData } from "@/utils/hooks/useGetAllData";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
+import { FaPhoneAlt } from "react-icons/fa";
 
 const JobCreationForm = () => {
   const notify = useCallback((type, message) => {
@@ -61,7 +62,7 @@ const JobCreationForm = () => {
     status: "",
     // jobStatus: 'PENDING',
   });
-
+console.log(jobCreation);
   const [editData, setEditData] = useState(false);
   useEffect(() => {
     if (data === null) {
@@ -478,7 +479,7 @@ const JobCreationForm = () => {
                         className="mb-3 block text-sm font-medium text-black dark:text-white"
                         htmlFor="dob"
                       >
-                        Phone
+                        <span>Phone {jobCreation?.phone && (<a href={`tel:${jobCreation?.phone}`} className="xl-1 inline-flex items-center text-green-600"><FaPhoneAlt/> </a>) } </span>
                       </label>
                       <input
                         className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
