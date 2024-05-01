@@ -14,6 +14,7 @@ import { QUERY_KEYS } from "@/constants/queryKeys";
 import { get, post, put } from "@/helpers/api_helper";
 import { mapArrayToDropdown } from "@/helpers/common_Helper";
 import { useGetAllData } from "@/utils/hooks/useGetAllData";
+import { Button, Card } from "@material-tailwind/react";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { FaPhoneAlt } from "react-icons/fa";
@@ -38,7 +39,6 @@ const JobCreationForm = () => {
   const [numOfStudent, setNumOfStudent] = useState(null);
 
   const [jobCreation, setJobCreation] = useState({
-    _id: "",
     guardian: "",
     category: "",
     noOfStudent: null,
@@ -62,7 +62,7 @@ const JobCreationForm = () => {
     status: "",
     // jobStatus: 'PENDING',
   });
-console.log(jobCreation);
+  console.log(jobCreation);
   const [editData, setEditData] = useState(false);
   useEffect(() => {
     if (data === null) {
@@ -258,7 +258,7 @@ console.log(jobCreation);
         [name]: value === "true" || value === true, // Convert the value to boolean
       }));
     } else if (
-      name === "full_name" ||
+      name === "fullName" ||
       name === "guardian" ||
       name === "phone" ||
       name === "tuitionType" ||
@@ -342,6 +342,10 @@ console.log(jobCreation);
           setLoading(false);
         }
       } else {
+        if (newGuardian) {
+          delete jobCreation?.guardian;
+          jobCreation["isNewGuardian"] = true;
+        }
         const response = await post(
           JOB_REQUEST_END_POINT.create(),
           jobCreation
@@ -365,9 +369,31 @@ console.log(jobCreation);
       return true;
     }
   };
-
   return (
     <>
+      {jobCreation?._id ?? (
+        <Card className="mb-4 mt-4  md:h-auto w-full bg-white lg:p-8 rounded-lg  dark:border-strokedark dark:bg-boxdark   lg:max-h-full ">
+          <div className="justify-center items-end">
+            <div className="grid grid-cols-4 sm:grid-cols-2 md:grid-cols-4 gap-5">
+              <Button
+                className="w-full h-full text-center sm:text-sm" // Adding text-center and sm:text-sm classes
+                variant="outlined"
+              >
+                Approve
+              </Button>
+              <Button
+                className="w-full h-full flex items-center justify-center sm:justify-start"
+                variant="outlined"
+              >
+                <span className="text-center sm:text-left sm:mx-auto">
+                  Reject
+                </span>
+              </Button>
+            </div>
+          </div>
+        </Card>
+      )}
+
       <div className="mx-auto max-w-250">
         <div className="grid grid-cols-6 gap-8">
           {/* Guardian Information start */}
@@ -395,7 +421,7 @@ console.log(jobCreation);
                     <div className="mb-5.5">
                       <label
                         className="mb-3 block text-sm font-medium text-black dark:text-white"
-                        htmlFor="full_name"
+                        htmlFor="fullName"
                       >
                         Full Name
                       </label>
@@ -428,10 +454,10 @@ console.log(jobCreation);
                         <input
                           className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                           type="text"
-                          name="full_name"
-                          id="full_name"
+                          name="fullName"
+                          id="fullName"
                           placeholder="Enter the name"
-                          defaultValue={jobCreation?.full_name}
+                          defaultValue={jobCreation?.fullName}
                           onChange={handleChange}
                         />
                       </div>
@@ -479,7 +505,17 @@ console.log(jobCreation);
                         className="mb-3 block text-sm font-medium text-black dark:text-white"
                         htmlFor="dob"
                       >
-                        <span>Phone {jobCreation?.phone && (<a href={`tel:${jobCreation?.phone}`} className="xl-1 inline-flex items-center text-green-600"><FaPhoneAlt/> </a>) } </span>
+                        <span>
+                          Phone{" "}
+                          {jobCreation?.phone && (
+                            <a
+                              href={`tel:${jobCreation?.phone}`}
+                              className="xl-1 inline-flex items-center text-green-600"
+                            >
+                              <FaPhoneAlt />{" "}
+                            </a>
+                          )}{" "}
+                        </span>
                       </label>
                       <input
                         className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
@@ -933,7 +969,7 @@ console.log(jobCreation);
                         type="text"
                         name="preferenceInstitute"
                         id="phoneNumber"
-                        placeholder="+990 3343 7865"
+                        placeholder="University / College name"
                         onChange={handleChange}
                         defaultValue={jobCreation?.preferenceInstitute}
                       />
