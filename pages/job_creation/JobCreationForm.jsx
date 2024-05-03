@@ -14,7 +14,6 @@ import { QUERY_KEYS } from "@/constants/queryKeys";
 import { get, post, put } from "@/helpers/api_helper";
 import { mapArrayToDropdown } from "@/helpers/common_Helper";
 import { useGetAllData } from "@/utils/hooks/useGetAllData";
-import { Button, Card } from "@material-tailwind/react";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { FaPhoneAlt } from "react-icons/fa";
@@ -48,13 +47,13 @@ const JobCreationForm = () => {
     location: "",
     address: "",
     studentGender: "",
-    teacherGender: "",
+    teacherGender: "Any",
     daysPerWeek: "",
     preferenceInstitute: "",
     salaryType: "",
     salary: "",
     phone: "",
-    isApproval: "",
+    isApproval: false,
     tuitionType: "",
     // curriculum: '',
     hireDate: "",
@@ -369,29 +368,54 @@ const JobCreationForm = () => {
       return true;
     }
   };
+  const approve = async (value, comment = "") => {
+    console.log("Approve value: ", value);
+    const _id = jobCreation?._id;
+    const res = await put(JOB_REQUEST_END_POINT.approval(_id), {
+      IsApproval: value,
+      rejectedFor: comment,
+    });
+    if (res.status === "SUCCESS") {
+      notify("success", `${value == true ? "Approved" : "Rejected"}`);
+      router.push("/job_creation");
+    } else {
+      notify("error", response.errorMessage);
+      setLoading(false);
+    }
+  };
   return (
     <>
-      {jobCreation?._id ?? (
-        <Card className="mb-4 mt-4  md:h-auto w-full bg-white lg:p-8 rounded-lg  dark:border-strokedark dark:bg-boxdark   lg:max-h-full ">
+      {jobCreation?._id != null ? (
+        <div className="mb-4 mt-4  md:h-auto w-full bg-white lg:p-8 rounded-lg  dark:border-strokedark dark:bg-boxdark   lg:max-h-full ">
           <div className="justify-center items-end">
             <div className="grid grid-cols-4 sm:grid-cols-2 md:grid-cols-4 gap-5">
-              <Button
-                className="w-full h-full text-center sm:text-sm" // Adding text-center and sm:text-sm classes
-                variant="outlined"
+              <button
+                className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-95" // Adding text-center and sm:text-sm classes
+                onClick={() => approve(true)}
               >
                 Approve
-              </Button>
-              <Button
-                className="w-full h-full flex items-center justify-center sm:justify-start"
-                variant="outlined"
+              </button>
+              <button
+                className="flex justify-center rounded bg-danger py-2 px-6 font-medium text-gray hover:bg-opacity-95"
+                onClick={() => approve(false)}
               >
                 <span className="text-center sm:text-left sm:mx-auto">
                   Reject
                 </span>
-              </Button>
+              </button>
+              <span className="flex justify-center items-center rounded-md bg-blue-50 px-2 py-1  font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
+                Approval Status:{" "}
+                {jobCreation?.isApproval == true ? "Approved" : "Reject"}
+              </span>
+              <span className="flex justify-center items-center rounded-md bg-blue-50 px-2 py-1  font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
+                Job Status:{" "}
+                {jobCreation?.status == true ? "Active" : "InActive"}
+              </span>
             </div>
           </div>
-        </Card>
+        </div>
+      ) : (
+        ""
       )}
 
       <div className="mx-auto max-w-250">
@@ -919,10 +943,11 @@ const JobCreationForm = () => {
                             value="Any"
                             onChange={handleChange}
                             className="form-radio h-5 w-5 text-primary border-primary focus:ring-0 focus:outline-none"
-                            defaultChecked={handleRadio(
-                              jobCreation?.teacherGender,
-                              "Any"
-                            )}
+                            defaultChecked={
+                              editData == true
+                                ? handleRadio(jobCreation?.teacherGender, "Any")
+                                : true
+                            }
                           />
                           <span className="ml-2">Any </span>
                         </label>
@@ -1059,61 +1084,7 @@ const JobCreationForm = () => {
                       />
                     </div>
                   </div>
-                  <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-                    <div className="w-full sm:w-1/2">
-                      <label
-                        className="mb-3 block text-sm font-medium text-black dark:text-white"
-                        htmlFor="fullName"
-                      >
-                        Status
-                      </label>
-                      <div className="relative">
-                        <select
-                          name="status"
-                          id="status"
-                          className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                          onChange={handleChange}
-                          defaultValue={jobCreation?.status.toString()}
-                        >
-                          <option value>Status</option>
-                          <option value={"true"}>Active</option>
-                          <option value={"false"}>Inactive</option>
-                        </select>
-                      </div>
-                    </div>
-                    {/* <div className="w-full sm:w-1/2">
-                                            <ToggleSwitch
-                                                value={isTrue}
-                                                setValue={setIsTrue}
-                                                onChange={handleNewGuardian}
-                                                checkedChildren="Yes"
-                                                unCheckedChildren="No"
-                                                label="Approval"
-                                            />
-                                        </div> */}
-
-                    <div className="w-full sm:w-1/2">
-                      <label
-                        className="mb-3 block text-sm font-medium text-black dark:text-white"
-                        htmlFor="Approval"
-                      >
-                        Approval
-                      </label>
-                      <div className="relative">
-                        <select
-                          name="isApproval"
-                          id="isApproval"
-                          className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                          onChange={handleChange}
-                          defaultValue={jobCreation?.isApproval}
-                        >
-                          <option value>Select..</option>
-                          <option value={true}>Active</option>
-                          <option value={false}>Inactive</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
+                  <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row"></div>
 
                   <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                     <div className="w-full sm:w-1/2">
@@ -1166,33 +1137,53 @@ const JobCreationForm = () => {
                         ></textarea>
                       </div>
                     </div>
-
-                    {editData && (
-                      <div className="w-full sm:w-1/2">
-                        <label
-                          className="mb-3 block text-sm font-medium text-black dark:text-white"
-                          htmlFor="Approval"
+                    <div className="w-full sm:w-1/2">
+                      <label
+                        className="mb-3 block text-sm font-medium text-black dark:text-white"
+                        htmlFor="fullName"
+                      >
+                        Status
+                      </label>
+                      <div className="relative">
+                        <select
+                          name="status"
+                          id="status"
+                          className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                          onChange={handleChange}
+                          defaultValue={jobCreation?.status.toString()}
                         >
-                          Approval
-                        </label>
-                        <div className="relative">
-                          <select
-                            name="jobStatus"
-                            id="jobStatus"
-                            className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                            onChange={handleChange}
-                            value={jobCreation?.jobStatus}
-                          >
-                            <option value>Select..</option>
-                            <option value="ACTIVE">Active</option>
-                            <option value="PENDING">PENDING</option>
-                            <option value="CANCELED">CANCELED</option>
-                            <option value="CONFIRMED">CONFIRMED</option>
-                          </select>
-                        </div>
+                          <option value>Status</option>
+                          <option value={"true"}>Active</option>
+                          <option value={"false"}>Inactive</option>
+                        </select>
                       </div>
-                    )}
+                    </div>
                   </div>
+                  {/* {editData && (
+                    <div className="w-full sm:w-1/2">
+                      <label
+                        className="mb-3 block text-sm font-medium text-black dark:text-white"
+                        htmlFor="Approval"
+                      >
+                        Approval
+                      </label>
+                      <div className="relative">
+                        <select
+                          name="jobStatus"
+                          id="jobStatus"
+                          className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                          onChange={handleChange}
+                          value={jobCreation?.jobStatus}
+                        >
+                          <option value>Select..</option>
+                          <option value="ACTIVE">Active</option>
+                          <option value="PENDING">PENDING</option>
+                          <option value="CANCELED">CANCELED</option>
+                          <option value="CONFIRMED">CONFIRMED</option>
+                        </select>
+                      </div>
+                    </div>
+                  )} */}
 
                   <div className="flex justify-end gap-4.5">
                     <button
