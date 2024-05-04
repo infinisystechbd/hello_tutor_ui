@@ -8,7 +8,6 @@ import { parseJwt } from "@/helpers/common_Helper";
 const DropdownUser = () => {
 
 
-
   const { http, saveToken, token, logout } = Axios();
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [loading, setLoading] = useState(true);
@@ -20,6 +19,15 @@ const DropdownUser = () => {
   }, [token]);
 
 
+  const RoleNames = {
+    1: 'Admin',
+    4:'Student',
+    5: 'Teacher',
+  };
+
+  const roleName = RoleNames[tokenValues.role] || 'Admin';
+
+console.log("tokenValues",tokenValues)
   const trigger = useRef(null)
   const dropdown = useRef(null)
 
@@ -109,9 +117,9 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Suparan Sharma
+           {tokenValues?.fullName || roleName}
           </span>
-          <span className="block text-xs">Admin</span>
+          <span className="block text-xs">{roleName}</span>
         </span>
 
         <span className="h-12 w-12 rounded-full">

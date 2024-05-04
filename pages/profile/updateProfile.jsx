@@ -56,7 +56,6 @@ const UpdateProfile = ({ handleSubmit, profile, setProfile }) => {
     const getAllCountries = async () => {
         try {
             setLoading(true);
-            console.log('country call')
             const authRes = await http_get_request({ endpoint: '/geo/v1/getCountryList' });
             setCountryList(authRes?.results || []);
         } catch (error) {

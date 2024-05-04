@@ -4,7 +4,7 @@ import makeAnimated from 'react-select/animated';
 
 const animatedComponents = makeAnimated();
 
-const AnimatedMulti = ({ options, labelKey, valueKey, onChange, selectedValues }) => {
+const AnimatedMultiObj = ({ options, labelKey, valueKey, onChange, selectedValues }) => {
   // Ensure options is an array and not undefined
   const transformOptions = (options) => {
     return Array.isArray(options)
@@ -35,4 +35,4 @@ const AnimatedMulti = ({ options, labelKey, valueKey, onChange, selectedValues }
   );
 };
 
-export default AnimatedMulti;
+export default AnimatedMultiObj;
