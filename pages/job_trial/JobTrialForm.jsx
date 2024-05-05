@@ -23,7 +23,7 @@ const JobTrialForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
         shortListedTutorForTrail: [],
         comment: "",
     });
-
+console.log("jobId",jobId)
     useEffect(() => {
         if (setEditData === null) {
             setJobTrial({ jobId: '', comment: '' });
@@ -75,8 +75,9 @@ const JobTrialForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
             '_id'
         );
         setTutorList(TUTORDROPDOWN);
+        console.log(TUTORDROPDOWN)
         
-        setJobId(jobName);
+        // setJobId(jobName);
     }
     
 
@@ -91,6 +92,7 @@ const JobTrialForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                 ...prev,
                 [name]: value,
             }));
+            setJobId(value)
           
         } else if (name === 'tutorId') {
             const tutorIds = selectedOptions.map((option) => ({ tutorId: option.value }));
