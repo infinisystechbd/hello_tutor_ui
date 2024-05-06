@@ -2,8 +2,6 @@ import React from 'react'
 
 const PostVerifyOtpCompo = ({ otpVerify, setPostVerifyOtp, postVerifyOtp,reference }) => {
 
-    console.log("postVerifyOtp", postVerifyOtp);
-
     const handleChange = (e) => {
         setPostVerifyOtp((prev) => ({
             ...prev,

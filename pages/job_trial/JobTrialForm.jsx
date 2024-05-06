@@ -23,7 +23,6 @@ const JobTrialForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
         shortListedTutorForTrail: [],
         comment: "",
     });
-console.log("jobId",jobId)
     useEffect(() => {
         if (setEditData === null) {
             setJobTrial({ jobId: '', comment: '' });
@@ -75,7 +74,6 @@ console.log("jobId",jobId)
             '_id'
         );
         setTutorList(TUTORDROPDOWN);
-        console.log(TUTORDROPDOWN)
         
         // setJobId(jobName);
     }
@@ -108,7 +106,6 @@ console.log("jobId",jobId)
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        console.log(jobTrial.shortListedTutorForTrail);
 
         const response = await post(TRIAL_END_POINT.create(jobId), {
             shortListedTutorForTrail: jobTrial.shortListedTutorForTrail

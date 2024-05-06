@@ -61,19 +61,14 @@ const JobCreationForm = () => {
     status: "",
     // jobStatus: 'PENDING',
   });
-  console.log(jobCreation);
   const [editData, setEditData] = useState(false);
   useEffect(() => {
     if (data === null) {
-      // Handle null data, e.g., provide default values or log a message
-      console.error("Received null data");
       setEditData(false);
     } else {
       // Parse the JSON data
       try {
         const parsedData = JSON.parse(data);
-        // Continue processing the parsed data
-        console.log("parsedData", parsedData);
         setEditData(true);
         // Set the editData state with the parsed data
         // setEditData(parsedData);
@@ -156,12 +151,11 @@ const JobCreationForm = () => {
       const fetchCategory = await get(CATEGORIE_END_POINT.info(value));
 
       setCode(fetchCategory?.data?.code);
-      console.log(fetchCategory);
+     
       const classInfo = fetchCategory?.data?.class.map((item) => ({
         _id: item?.classId?._id,
         name: item?.classId?.name,
       }));
-      console.log("class info", classInfo);
       const CLASSDROPDOWN = classInfo.map((item) => ({
         id: item?._id,
         value: item?.name,
@@ -323,7 +317,6 @@ const JobCreationForm = () => {
     }));
     jobCreation.class = classes;
 
-    console.log("jobCreation", jobCreation);
     // return;
     try {
       if (jobCreation?._id) {
@@ -369,7 +362,7 @@ const JobCreationForm = () => {
     }
   };
   const approve = async (value, comment = "") => {
-    console.log("Approve value: ", value);
+
     const _id = jobCreation?._id;
     const res = await put(JOB_REQUEST_END_POINT.approval(_id), {
       IsApproval: value,

@@ -18,7 +18,7 @@ const ChannelImageUpload = ({ channel_id,channel }) => {
     const [originalImage, setOriginalImage] = useState();
 
     useEffect(() => {
-        console.log("profile: ", channel?.logo_source);
+        
         if (channel?.logo_source === null) {
             setImgPreview("/upload/avater.jpg");
             setProfileImgDelete(false);
@@ -50,7 +50,7 @@ const ChannelImageUpload = ({ channel_id,channel }) => {
             body.append("filename", fname);
             // update profile in api
             const api_res = await updateProfilInApi(fname);
-            console.log("api res: ", api_res);
+            
             if (api_res === "success") {
                 setOriginalImage(fname);
                 const response = await fetch(`/api/upload`, { method: "POST", body });
@@ -72,7 +72,7 @@ const ChannelImageUpload = ({ channel_id,channel }) => {
 
     // update profile in api
     const updateProfilInApi = async (file = null) => {
-        console.log("file",file);
+       
         // set data
         const data = {
             ...channel,
@@ -103,7 +103,6 @@ const ChannelImageUpload = ({ channel_id,channel }) => {
         setTimeout(async () => {
             // remove profile from api
             updateProfilInApi();
-            console.log("originalImage: ", originalImage);
             const response = await fetch("/api/deleteImage", {
                 method: "POST",
                 headers: {

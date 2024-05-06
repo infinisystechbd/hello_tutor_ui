@@ -56,8 +56,6 @@ const JobTrial = () => {
     TRIAL_END_POINT.get()
   );
 
-
-  console.log("all job list", jobRequestList?.data);
   /**Job list dropdown */
 
   const reFetchHandler = (isRender) => {

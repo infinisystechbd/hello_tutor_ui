@@ -10,7 +10,6 @@ import withAuth from "@/components/withAuth";
 const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState(null);
-  console.log("this is from profile pages : ",profile);
 
   const notify = React.useCallback((type, message) => {
     toast({ type, message });
@@ -68,7 +67,6 @@ const Profile = () => {
 
     await http_put_request({ endpoint: '/user/v1/putMe', data: { ...data } }).then(function (res) {
       if (res.status === 'success') {
-        console.log("calling", res);
         notify("success", `Update Successfully`);
         getProfileDetails();
       } else {

@@ -19,7 +19,7 @@ const MyApp = ({ Component, pageProps }) => {
   const [queryClient] = useState(() => new QueryClient());
 
   const { http, user, token, logout } = Axios();
-  // console.log("user", user);
+
 
   // if (typeof window !== undefined) {
   //   if (!token) {

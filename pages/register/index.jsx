@@ -55,8 +55,6 @@ const SignUp = () => {
         password:postEmailOtp?.password,
         confirmPassword:postEmailOtp?.confirmPassword,
       }
-      console.log('students',studentData)
-
 
       try {
         const guardianReg = await post(SECURITY_END_POINT.guardianReg(), { phone: postEmailOtp?.phone, password: postEmailOtp?.password, confirmPassword: postEmailOtp?.confirmPassword });
@@ -78,8 +76,7 @@ const SignUp = () => {
       }
 
      
-      // console.log("teacher",teacherData);
-      // return;
+      
       try {
         const tutorReg = await post(SECURITY_END_POINT.tutorReg(),{ fullName: postEmailOtp?.fullName, phone: postEmailOtp?.phone, gender: postEmailOtp?.gender, password: postEmailOtp?.password, confirmPassword: postEmailOtp?.confirmPassword });
         notify("success", "successfully Registration!");
@@ -145,8 +142,6 @@ const SignUp = () => {
 
   const submitProfile = async (event) => {
     event.preventDefault();
-    // console.log("profile", profile);
-
 
 
     await http_post_request({ endpoint: '/auth/v1/postRegister', data: { ...profile, email: postEmailOtp?.email, full_name: postEmailOtp?.name } }).then(function (authRes) {

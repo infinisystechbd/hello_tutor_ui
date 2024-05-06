@@ -10,7 +10,6 @@ const JobStauts = () => {
   const { token } = Axios();
   const [activeJob, setActiveJob] = useState([]);
   const [pendingJob, setPendingJob] = useState([]);
-  console.log("pendingJob", pendingJob)
   const [cancelJob, setCancelJob] = useState([]);
   const [confirmJob, setConfirmJob] = useState([]);
   const [activeStatus, setActiveStatus] = useState(false);

@@ -17,7 +17,6 @@ const UpdateProfile = ({ handleSubmit, profile, setProfile }) => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const toggleModal = () => {
-        console.log("click", profile);
         setIsModalOpen(!isModalOpen);
 
         getAllCountries();
@@ -46,11 +45,7 @@ const UpdateProfile = ({ handleSubmit, profile, setProfile }) => {
     };
 
 
-    useEffect(() => {
-        console.log('init call call', profile)
-        // getAllCountries();
-        // getAllStateList();
-    }, []);
+
 
 
     const getAllCountries = async () => {

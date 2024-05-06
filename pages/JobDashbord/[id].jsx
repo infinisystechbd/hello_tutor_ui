@@ -15,7 +15,6 @@ const JobDetails = () => {
     const { http, setToken, token } = Axios();
     const [profile, setProfile] = useState({});
     const [loading, setLoading] = useState(false);
-    console.log("profile", profile);
     const notify = React.useCallback((type, message) => {
         toast({ type, message });
     }, []);

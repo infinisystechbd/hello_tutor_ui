@@ -84,7 +84,6 @@ const LogIn = () => {
         password: postEmailOtp?.password,
         confirmPassword: postEmailOtp?.confirmPassword,
       }
-      console.log('students', studentData)
 
 
       try {
@@ -119,7 +118,6 @@ const LogIn = () => {
         notify("error", message);
       }
 
-      console.log("teacher", teacherData);
     }
 
 
@@ -171,8 +169,6 @@ const LogIn = () => {
 
   const submitProfile = async (event) => {
     event.preventDefault();
-    // console.log("profile", profile);
-
 
 
     await http_post_request({ endpoint: '/auth/v1/postRegister', data: { ...profile, email: postEmailOtp?.email, full_name: postEmailOtp?.name } }).then(function (authRes) {
@@ -226,7 +222,6 @@ const LogIn = () => {
       }
       notify("error", message);
     }
-    // console.log("{ phone: phone, password: password }",{ phone: phone, password: password });
 
   }
 

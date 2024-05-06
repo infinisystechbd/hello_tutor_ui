@@ -22,7 +22,6 @@ const Header = (props) => {
   }, [token]);
 
 
-console.log("tokenValues",tokenValues)
 
 
   return (

@@ -62,7 +62,6 @@ const JobAssignForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
     }, [jobRequestList]);
 
 
-    console.log("tutorList", jobRequestList?.data);
     /**Job Request dropdown */
 
 

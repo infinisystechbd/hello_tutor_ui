@@ -26,8 +26,6 @@ const DropdownUser = () => {
   };
 
   const roleName = RoleNames[tokenValues.role] || 'Admin';
-
-console.log("tokenValues",tokenValues)
   const trigger = useRef(null)
   const dropdown = useRef(null)
 
