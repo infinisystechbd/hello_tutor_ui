@@ -18,7 +18,6 @@ const ImageUpload = ({ profile }) => {
     const [originalImage, setOriginalImage] = useState();
 
     useEffect(() => {
-        console.log("profile: ", profile);
         if (profile === null) {
             setImgPreview("/upload/avater.jpg");
             setProfileImgDelete(false);
@@ -50,7 +49,6 @@ const ImageUpload = ({ profile }) => {
             body.append("filename", fname);
             // update profile in api
             const api_res = await updateProfilInApi(fname);
-            console.log("api res: ", api_res);
             if (api_res === "success") {
                 setOriginalImage(fname);
                 const response = await fetch(`/api/upload`, { method: "POST", body });
@@ -101,7 +99,6 @@ const ImageUpload = ({ profile }) => {
         setTimeout(async () => {
             // remove profile from api
             updateProfilInApi();
-            console.log("originalImage: ", originalImage);
             const response = await fetch("/api/deleteImage", {
                 method: "POST",
                 headers: {

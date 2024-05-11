@@ -11,7 +11,6 @@ import { useGetAllData } from '@/utils/hooks/useGetAllData';
 
 
 const CategoryForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
-console.log("setEditData",setEditData)
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
     }, []);

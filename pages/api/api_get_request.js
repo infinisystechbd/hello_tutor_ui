@@ -1,8 +1,4 @@
 export default async function handler(req, res) {
-
-    console.log(`get:req:token= ${req.body.access_token}`);
-    console.log(`get:req:endpoint= ${process.env.NEXT_API_URL}${req.body.endpoint}`);
-
     const response = await fetch(
         `${process.env.NEXT_API_URL}${req.body.endpoint}`,
         {

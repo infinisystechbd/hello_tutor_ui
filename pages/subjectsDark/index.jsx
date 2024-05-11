@@ -157,7 +157,6 @@ const Subjects = () => {
     ) => {
         setPage(pagination.current);
         setLimit(pagination.pageSize);
-        console.log(pagination, filters, sorter, extra);
     };
 
     /*** Pagination End  */

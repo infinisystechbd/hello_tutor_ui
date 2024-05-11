@@ -123,7 +123,7 @@ const File_Upload = ({ channel_id, channel }) => {
 
 
     const handleDeleteProfile = async (pdfPreview, index) => {
-        console.log(pdfPreview, index);
+      
         setLoader(true);
 
         const newPdfPreviews = [...pdfPreviews];

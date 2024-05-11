@@ -81,8 +81,6 @@ const JobManagent = () => {
     JOB_REQUEST_END_POINT.get(page, limit, search, "")
   );
 
-
-  console.log(jobRequestList?.data);
   //Render Function
   const reFetchHandler = (isRender) => {
     if (isRender) fetchJobRequestList();
@@ -103,7 +101,6 @@ const JobManagent = () => {
   const onChange = (pagination, filters, sorter, extra) => {
     setPage(pagination.current);
     setLimit(pagination.pageSize);
-    console.log(pagination, filters, sorter, extra);
   };
 
   /*** Pagination End  */

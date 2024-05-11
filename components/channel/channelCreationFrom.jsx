@@ -5,11 +5,6 @@ const ChannelCreationFrom = ({ toggleModal, isModalOpen, setIsModalOpen, handleS
 
     const [countrylist, setCountryList] = useState([]);
     const [loading, setLoading] = useState(true);
-
-
-
-    console.log("channelProfile",channelProfile);
-
     const getAllCountries = async () => {
         try {
             setLoading(true);

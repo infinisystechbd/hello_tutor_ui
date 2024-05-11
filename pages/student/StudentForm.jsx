@@ -32,7 +32,7 @@ const StudentForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
         status: '',
     });
 
-    console.log("teacherInfo", teacherInfo);
+
 
     useEffect(() => {
         if (setEditData === null) {
@@ -102,7 +102,6 @@ const StudentForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
 
     const handleCity = async (e) => {
         const { name, value } = e.target;
-        console.log("value", value);
         setIsVisited(true);
         setCityId(value)
         const fetchLocation = await get(LOCATION_END_POINT.getLocationByCityId(value));

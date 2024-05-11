@@ -6,7 +6,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 
 const SubjectForm = ({ isOpen, onClose, setEditData,isParentRender }) => {
 
-  const [subject, setSubject] = useState({ name: '', status: '' });
+  const [subject, setSubject] = useState({ name: '', status: true });
   const [loading, setLoading] = useState(false);
 
   const notify = useCallback((type, message) => {
@@ -28,13 +28,31 @@ const SubjectForm = ({ isOpen, onClose, setEditData,isParentRender }) => {
 
 
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setSubject((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setSubject((prev) => ({
+  //     ...prev,
+  //     [name]: value,
+  //   }));
+  // };
+
+
+  const [error, setError] = useState('');
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        const isValid = /^[^0-9]/.test(value);
+
+        if (!isValid) {
+            setError('Name cannot start with a number');
+        } else {
+            setError('');
+            setSubject((prev) => ({
+                ...prev,
+                [name]: value,
+            }));
+        }
+    };
 
 
 
@@ -84,14 +102,6 @@ const SubjectForm = ({ isOpen, onClose, setEditData,isParentRender }) => {
     onClose();
     setLoading(false);
   };
-
-
-
-
-
-
-
-
 
   return (
 
@@ -153,6 +163,9 @@ const SubjectForm = ({ isOpen, onClose, setEditData,isParentRender }) => {
                       defaultValue={subject?.name}
                       onChange={handleChange}
                     />
+                    {error && (
+                            <p className="text-red-500 text-xs mt-1"> {error} </p>
+                        )}  
                   </div>
 
                   <div className="col-span-2">
@@ -169,7 +182,7 @@ const SubjectForm = ({ isOpen, onClose, setEditData,isParentRender }) => {
                       onChange={handleChange}
                       value={subject?.status}
                     >
-                      <option selected="">Select category</option>
+                      <option selected="">Select Status</option>
                       <option value={true}>Active</option>
                       <option value={false}>Inactive</option>
 

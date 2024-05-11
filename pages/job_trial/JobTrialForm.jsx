@@ -1,42 +1,40 @@
+
+import AnimatedMultiObj from '@/components/elements/AnimatedMultiObj';
 import ToastMessage from '@/components/Toast';
 import withAuth from '@/components/withAuth';
-import { JOB_ASSIGN_END_POINT, JOB_REQUEST_END_POINT } from '@/constants';
+import { JOB_ASSIGN_END_POINT, JOB_REQUEST_END_POINT, TRIAL_END_POINT } from '@/constants';
 import { QUERY_KEYS } from '@/constants/queryKeys';
-import { get } from '@/helpers/api_helper';
+import { get, post } from '@/helpers/api_helper';
 import { mapArrayToDropdown } from '@/helpers/common_Helper';
 import { useGetAllData } from '@/utils/hooks/useGetAllData';
 import { useCallback, useEffect, useState } from 'react';
 
-const JobAssignForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
+const JobTrialForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
 
+    const notify = useCallback((type, message) => {
+        ToastMessage({ type, message });
+    }, []);
+    const[jobId,setJobId] = useState(null);
     const [loading, setLoading] = useState(false);
     const [jobList, setJobList] = useState([]);
     const [tutorList, setTutorList] = useState([]);
-    const [jobAssign, setJobAssign] = useState({
+    const [jobTrial, setJobTrial] = useState({
         jobId: "",
-        tutorId: "",
+        shortListedTutorForTrail: [],
         comment: "",
     });
-
-    
     useEffect(() => {
         if (setEditData === null) {
-            setJobAssign({ jobId: '', tutorId: '', comment: '' });
+            setJobTrial({ jobId: '', comment: '' });
         } else {
-            setJobAssign({
+            setJobTrial({
                 jobId: setEditData.jobId || '',
-                tutorId: setEditData.tutorId || '',
+                shortListedTutorForTrail: setEditData?.shortListedTutorForTrail?.map((t) => t.tutorId)?.map((t) => t?._id) || '',
                 comment: setEditData.comment || '',
             });
 
         }
     }, [setEditData?._id, setEditData]);
-
-    const notify = useCallback((type, message) => {
-        ToastMessage({ type, message });
-    }, []);
-
-
 
 
     /**fetch Job Request list */
@@ -68,55 +66,50 @@ const JobAssignForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
 
     /**fetch tutor list */
 
-    const handleTutor = async (value) => {
-
-        const fetchTutor = await get(JOB_REQUEST_END_POINT.getTutorByJobId(value));
+    const handleTutor = async (jobId, jobName) => { // Adding jobId as a parameter
+        const fetchTutor = await get(JOB_REQUEST_END_POINT.getTutorByJobId(jobId));
         const TUTORDROPDOWN = mapArrayToDropdown(
             fetchTutor.data,
             'fullName',
             '_id'
         );
-        setTutorList(TUTORDROPDOWN)
+        setTutorList(TUTORDROPDOWN);
+        
+        // setJobId(jobName);
     }
+    
 
     /**fetch tutor list  End */
 
 
-    const handleChange = (e) => {
+    const handleChange = (e, selectedOptions) => {
         const { name, value } = e.target;
-        setJobAssign((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
+        if (name === 'jobId') {
+            // Handle text input
+            setJobTrial((prev) => ({
+                ...prev,
+                [name]: value,
+            }));
+            setJobId(value)
+          
+        } else if (name === 'tutorId') {
+            const tutorIds = selectedOptions.map((option) => ({ tutorId: option.value }));
+            
+            setJobTrial((prev) => ({
+                ...prev,
+                shortListedTutorForTrail: tutorIds,
+            }));
+        }
     }
-
-
-
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
 
-        try {
-            const formattedAssignInfo = {
-                jobId: jobAssign.jobId,
-                tutorId: jobAssign.tutorId,
-                comment: jobAssign.comment,
-            };
-
-            if (setEditData?._id) {
-                const update = await put(JOB_ASSIGN_END_POINT.update(setEditData._id), formattedAssignInfo);
-                if (update.status === 'SUCCESS') {
-                    notify('success', update.message);
-                    if (isParentRender) {
-                        isParentRender(true);
-                    }
-                    onClose();
-                } else {
-                    notify('error', update.errorMessage);
-                }
-            } else {
-                const response = await post(JOB_ASSIGN_END_POINT.create(), formattedAssignInfo);
+        const response = await post(TRIAL_END_POINT.create(jobId), {
+            shortListedTutorForTrail: jobTrial.shortListedTutorForTrail
+        });
                 if (response.status === 'SUCCESS') {
                     notify('success', response.message);
                     if (isParentRender) {
@@ -126,18 +119,8 @@ const JobAssignForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                 } else {
                     notify('error', response.errorMessage);
                 }
-            }
-        } catch (error) {
-            console.error(error);
-            notify('error', error.message);
-        } finally {
-            setLoading(false);
-        }
-    };
 
-
-
-
+    }
 
 
     return (
@@ -150,7 +133,7 @@ const JobAssignForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                             {/* Modal content */}
                             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                                    {setEditData?._id ? "Update Class" : "Assign New Job"}
+                                    {setEditData?._id ? "Update Class" : "Trial New Job"}
                                 </h3>
                                 <button
                                     onClick={() => {
@@ -195,9 +178,10 @@ const JobAssignForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                                             <select
                                                 onChange={(e) => {
                                                     handleChange(e);
-                                                    handleTutor(e.target.value);
+                                                    handleTutor(e.target.value, e.target.options[e.target.selectedIndex].text);
                                                 }}
-                                                value={jobAssign?.jobId}
+                                                
+                                                value={jobTrial?.jobId}
 
                                                 name='jobId'
                                                 id="status"
@@ -225,23 +209,31 @@ const JobAssignForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                                             Select Tutor
                                         </label>
                                         <div className="relative">
-                                            <select
-                                                onChange={(e) => handleChange(e)}  // <-- Pass the event to handleChange
-                                                name='tutorId'
-                                                id="status"
-                                                value={jobAssign.tutorId} // <-- Ensure you set the selected value
-                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                                            >
-                                                <option value="" disabled>
-                                                    Choose a Tutor
+                                            {/* <select
+                                        onChange={(e) => handleChange(e)}  // <-- Pass the event to handleChange
+                                        name='tutorId'
+                                        id="status"
+                                        value={jobTrial.tutorId} // <-- Ensure you set the selected value
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                                    >
+                                        <option value="" disabled>
+                                            Choose a Tutor
+                                        </option>
+                                        {tutorList &&
+                                            tutorList.map((tutor) => (
+                                                <option key={tutor._id} value={tutor._id}>
+                                                    {tutor.fullName}
                                                 </option>
-                                                {tutorList &&
-                                                    tutorList.map((tutor) => (
-                                                        <option key={tutor._id} value={tutor._id}>
-                                                            {tutor.fullName}
-                                                        </option>
-                                                    ))}
-                                            </select>
+                                            ))}
+                                    </select> */}
+                                            <AnimatedMultiObj
+                                                options={tutorList}
+                                                labelKey="fullName"
+                                                valueKey="_id"
+                                                onChange={(selectedOptions) => handleChange({ target: { name: 'tutorId' } }, selectedOptions)}
+                                                selectedValues={jobTrial?.jobTrial}
+                                            />
+
                                         </div>
                                     </div>
 
@@ -292,7 +284,7 @@ const JobAssignForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                                                 rows={3}
                                                 placeholder="Write your comment here"
                                                 onChange={handleChange}
-                                            // defaultValue={jobCreation?.comment}
+                                                defaultValue={jobTrial?.comment}
 
                                             ></textarea>
                                         </div>
@@ -318,7 +310,7 @@ const JobAssignForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                                                 clipRule="evenodd"
                                             />
                                         </svg>
-                                        {setEditData?._id ? "Update Class" : "Assign New Job"}
+                                        {setEditData?._id ? "Update Class" : "Trial New Job"}
 
                                         {/* Add new Subject */}
                                     </button>
@@ -334,4 +326,4 @@ const JobAssignForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
     )
 }
 
-export default withAuth(JobAssignForm)
+export default JobTrialForm

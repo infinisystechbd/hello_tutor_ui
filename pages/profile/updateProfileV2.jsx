@@ -43,7 +43,6 @@ const UpdateProfileV2 = () => {
     await get(USER_END_POINT.userInfo())
       .then((res) => {
         if (isSubscribed) {
-          console.log(res.data);
           setProfile({
             fullName: res?.data?.name,
             city: res?.data?.city?._id,
@@ -181,7 +180,6 @@ const UpdateProfileV2 = () => {
   //         const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData);
   //         setPrevImg(response.data.secure_url);
 
-  //         console.log('Uploaded image URL:', response.data.secure_url);
   //     } catch (error) {
   //         console.error('Failed to upload image', error);
   //     }
@@ -201,7 +199,6 @@ const UpdateProfileV2 = () => {
         formData
       );
       const newImageUrl = response.data.secure_url;
-      console.log("calling");
 
       // Check if profile.attachment exists and is an array
       const updatedAttachment = Array.isArray(profile.attachment)
@@ -214,9 +211,7 @@ const UpdateProfileV2 = () => {
         attachment: updatedAttachment,
       };
 
-      // Send updated profile data to your API for updating
-      // const update = await axios.put(USER_END_POINT.update(), updatedProfile);
-      console.log("Uploaded image URL:", updatedProfile);
+     
     } catch (error) {
       console.error("Failed to upload image", error);
     }

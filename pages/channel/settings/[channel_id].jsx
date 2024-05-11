@@ -19,10 +19,6 @@ const Channel_details = () => {
   const [country_id, setCountryId] = useState(null);
   const [newAccessKey,setNewAccessKey] = useState();
 
-
-  console.log("channel", channel);
-
-
   /**Channel Info start */
   useEffect(() => {
     const controller = new AbortController();
@@ -94,7 +90,6 @@ const Channel_details = () => {
     if (name === 'country_code') {
       const selectedCountry = countrylist.find((country) => country.id === parseInt(value, 10));
 
-      console.log("selectedCountry", selectedCountry);
       setCountryId(selectedCountry ? selectedCountry.id : null);
     }
 
@@ -140,7 +135,6 @@ const Channel_details = () => {
       }
     });
 
-    console.log("handleSubmit", data);
   };
 
   /*** Submit Update Data end  */

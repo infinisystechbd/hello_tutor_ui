@@ -41,7 +41,6 @@ const ECommerce = () => {
         setLoading(true);
 
         const authRes = await http_get_request({ endpoint: `/channel/v1/getActiveChannel/${uid}` });
-        console.log("authRes", authRes);
         setChannel(authRes?.results)
       } catch (error) {
         console.error('Error fetching countries:', error);

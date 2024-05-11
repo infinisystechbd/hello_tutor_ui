@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 export  default async function deleteImage (req, res) {
-    console.log("deleteImage deleteImage");
+
     if (req.method !== 'POST') {
         return res.status(405).end();
     }
@@ -13,7 +13,7 @@ export  default async function deleteImage (req, res) {
     }
     
     const imagePath = path.join(`${process.env.NEXT_PUBLIC_FILES_SERVER_DIRECTORY}`, imageName);
-    console.log("imge path: ",imagePath);
+   
     try {
         if (fs.existsSync(imagePath)) {
             fs.unlinkSync(imagePath);

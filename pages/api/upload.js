@@ -16,7 +16,7 @@ export default async function upload (req, res){
             if (err) return reject(err)
             var oldPath = files.file[0].filepath;
             var newPath = `${process.env.NEXT_PUBLIC_FILES_SERVER_DIRECTORY}/${fields.filename}`;
-            console.log("new path: ",newPath);
+            
             mv(oldPath, newPath, function(err) {
             });
             res.status(200).json({ fields, files })

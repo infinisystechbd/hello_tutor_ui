@@ -69,7 +69,6 @@ const Students = () => {
     GUARDIAN_END_POINT.get(page, limit, search, "")
   );
 
-  console.log("tutorList",tutorList?.data?.data)
   //Render Function
   const reFetchHandler = (isRender) => {
     if (isRender) fetchTutorList();
@@ -90,7 +89,6 @@ const Students = () => {
   const onChange = (pagination, filters, sorter, extra) => {
     setPage(pagination.current);
     setLimit(pagination.pageSize);
-    console.log(pagination, filters, sorter, extra);
   };
 
   /*** Pagination End  */

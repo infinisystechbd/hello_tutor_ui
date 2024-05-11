@@ -17,7 +17,6 @@ const UpdateProfile = ({ handleSubmit, profile, setProfile }) => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const toggleModal = () => {
-        console.log("click", profile);
         setIsModalOpen(!isModalOpen);
 
         getAllCountries();
@@ -46,17 +45,12 @@ const UpdateProfile = ({ handleSubmit, profile, setProfile }) => {
     };
 
 
-    useEffect(() => {
-        console.log('init call call', profile)
-        // getAllCountries();
-        // getAllStateList();
-    }, []);
+
 
 
     const getAllCountries = async () => {
         try {
             setLoading(true);
-            console.log('country call')
             const authRes = await http_get_request({ endpoint: '/geo/v1/getCountryList' });
             setCountryList(authRes?.results || []);
         } catch (error) {
