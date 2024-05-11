@@ -151,7 +151,7 @@ const JobCreationForm = () => {
       const fetchCategory = await get(CATEGORIE_END_POINT.info(value));
 
       setCode(fetchCategory?.data?.code);
-     
+
       const classInfo = fetchCategory?.data?.class.map((item) => ({
         _id: item?.classId?._id,
         name: item?.classId?.name,
@@ -362,10 +362,9 @@ const JobCreationForm = () => {
     }
   };
   const approve = async (value, comment = "") => {
-
     const _id = jobCreation?._id;
     const res = await put(JOB_REQUEST_END_POINT.approval(_id), {
-      IsApproval: value,
+      isApproval: value,
       rejectedFor: comment,
     });
     if (res.status === "SUCCESS") {
