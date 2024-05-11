@@ -29,7 +29,7 @@ const DebouncedSearchInput = ({ setSearch }) => {
    
     <input
         type="text"
-        placeholder="Search subjects..."
+        placeholder="Search..."
         className="border border-gray-300 rounded-md p-2 text-sm"
         value={searchValue}
         onChange={handleSearchChange}

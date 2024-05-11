@@ -56,52 +56,50 @@ const SubjectForm = ({ isOpen, onClose, setEditData,isParentRender }) => {
 
 
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // Add your form submission logic here
-    setLoading(true);
-    if (setEditData?._id) {
-      try {
-        const update = await put(SUBJECT_END_POINT.update(setEditData._id), subject);
-        if (update.status == 'SUCCESS') {
-          notify('success', update.message);
-          if (isParentRender) {
-            isParentRender(true);
-          }
-          setSubject({});
-          onClose();
-        }
-      } catch (error) {
-        notify('error', update.errorMessage);
-        setLoading(false);
-      }
-    } else {
-      try {
-        const response = await post(SUBJECT_END_POINT.create(), subject);
-        if (response.status === 'SUCCESS') {
-          notify('success', response.message);
-          if (isParentRender) {
-            isParentRender(true);
-          }
-          setSubject({});
-          onClose();
-        } else {
-          notify('error', response.errorMessage);
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      setLoading(true);
+  
+      if (!subject.name) {
+          setError('Please enter a name');
+      } else if (error) {
+          notify('error', error);
           setLoading(false);
-        }
-      } catch (error) {
-        console.log(error)
-        notify('error', error.message);
-        setLoading(false);
+          return;
+      } else {
+          try {
+              if (setEditData?._id) {
+                  const update = await put(SUBJECT_END_POINT.update(setEditData._id), subject);
+                  if (update.status === 'SUCCESS') {
+                      notify('success', update.message);
+                      if (isParentRender) {
+                          isParentRender(true);
+                      }
+                      setSubject({});
+                      onClose();
+                  }
+              } else {
+                  const response = await post(SUBJECT_END_POINT.create(), subject);
+                  if (response.status === 'SUCCESS') {
+                      notify('success', response.message);
+                      if (isParentRender) {
+                          isParentRender(true);
+                      }
+                      setSubject({});
+                      onClose();
+                  } else {
+                      notify('error', response.errorMessage);
+                  }
+              }
+          } catch (error) {
+              notify('error', error.message);
+          }
       }
-
-      // setLoading(false);
-
-    }
-
-    onClose();
-    setLoading(false);
+  
+      setLoading(false);
   };
+  
+  
 
   return (
 

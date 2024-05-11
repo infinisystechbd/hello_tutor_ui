@@ -16,7 +16,7 @@ const ClassForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
     const notify = useCallback((type, message) => {
         ToastMessage({ type, message });
     }, []);
-    
+
     const [classInfo, setClassInfo] = useState({
         name: '',
         subject: [],
@@ -24,6 +24,7 @@ const ClassForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
     });
 
 
+    const [nameError, setNameError] = useState(false);
 
     const [loading, setLoading] = useState(false);
     const [subjects, setSubjects] = useState([]);
@@ -74,8 +75,9 @@ const ClassForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
 
     const handleChange = (e, selectedOptions) => {
         const { name, value } = e.target;
+        // Regular expression to match if the name starts with a number or a special character
+        const regex = /^[^0-9!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/;
 
-        // Handle different input fields
         if (name === 'status' && e.target.type === 'select-one') {
             // Handle select input
             setClassInfo((prev) => ({
@@ -83,11 +85,16 @@ const ClassForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                 [name]: value === 'true' || value === true, // Convert the value to boolean
             }));
         } else if (name === 'name') {
-            // Handle text input
             setClassInfo((prev) => ({
                 ...prev,
                 [name]: value,
             }));
+            // Check if the name starts with a number or special character
+            if (!regex.test(value)) {
+                setNameError(true);
+            } else {
+                setNameError(false);
+            }
         } else if (name === 'subject') {
             const subjectIds = selectedOptions.map((option) => option.value);
 
@@ -205,6 +212,9 @@ const ClassForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                                             defaultValue={classInfo?.name}
                                             onChange={handleChange}
                                         />
+                                        {nameError && (
+                                            <p className="text-red-500">Name cannot start with a number or special character</p>
+                                        )}
                                     </div>
 
 
@@ -238,7 +248,7 @@ const ClassForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                                             onChange={handleChange}
                                             value={classInfo?.status}
                                         >
-                                            
+
                                             <option value={true}>Active</option>
                                             <option value={false}>Inactive</option>
 
@@ -279,6 +289,6 @@ const ClassForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
             )}
         </>
     )
-}
+}   
 
 export default withAuth(ClassForm)
