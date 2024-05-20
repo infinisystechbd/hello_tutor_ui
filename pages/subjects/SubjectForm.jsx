@@ -4,7 +4,7 @@ import { SUBJECT_END_POINT } from '@/constants';
 import { post, put } from '@/helpers/api_helper';
 import React, { useCallback, useEffect, useState } from 'react'
 
-const SubjectForm = ({ isOpen, onClose, setEditData,isParentRender }) => {
+const SubjectForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
 
   const [subject, setSubject] = useState({ name: '', status: true });
   const [loading, setLoading] = useState(false);
@@ -39,67 +39,67 @@ const SubjectForm = ({ isOpen, onClose, setEditData,isParentRender }) => {
 
   const [error, setError] = useState('');
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        const isValid = /^[^0-9]/.test(value);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    const isValid = /^[^0-9]/.test(value);
 
-        if (!isValid) {
-            setError('Name cannot start with a number');
-        } else {
-            setError('');
-            setSubject((prev) => ({
-                ...prev,
-                [name]: value,
-            }));
-        }
-    };
-
-
-
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      setLoading(true);
-  
-      if (!subject.name) {
-          setError('Please enter a name');
-      } else if (error) {
-          notify('error', error);
-          setLoading(false);
-          return;
-      } else {
-          try {
-              if (setEditData?._id) {
-                  const update = await put(SUBJECT_END_POINT.update(setEditData._id), subject);
-                  if (update.status === 'SUCCESS') {
-                      notify('success', update.message);
-                      if (isParentRender) {
-                          isParentRender(true);
-                      }
-                      setSubject({});
-                      onClose();
-                  }
-              } else {
-                  const response = await post(SUBJECT_END_POINT.create(), subject);
-                  if (response.status === 'SUCCESS') {
-                      notify('success', response.message);
-                      if (isParentRender) {
-                          isParentRender(true);
-                      }
-                      setSubject({});
-                      onClose();
-                  } else {
-                      notify('error', response.errorMessage);
-                  }
-              }
-          } catch (error) {
-              notify('error', error.message);
-          }
-      }
-  
-      setLoading(false);
+    if (!isValid) {
+      setError('Name cannot start with a number');
+    } else {
+      setError('');
+      setSubject((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
-  
-  
+
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    if (!subject.name) {
+      setError('Please enter a name');
+    } else if (error) {
+      notify('error', error);
+      setLoading(false);
+      return;
+    } else {
+      try {
+        if (setEditData?._id) {
+          const update = await put(SUBJECT_END_POINT.update(setEditData._id), subject);
+          if (update.status === 'SUCCESS') {
+            notify('success', update.message);
+            if (isParentRender) {
+              isParentRender(true);
+            }
+            setSubject({});
+            onClose();
+          }
+        } else {
+          const response = await post(SUBJECT_END_POINT.create(), subject);
+          if (response.status === 'SUCCESS') {
+            notify('success', response.message);
+            if (isParentRender) {
+              isParentRender(true);
+            }
+            setSubject({});
+            onClose();
+          } else {
+            notify('error', response.errorMessage);
+          }
+        }
+      } catch (error) {
+        notify('error', error.message);
+      }
+    }
+
+    setLoading(false);
+  };
+
+
 
   return (
 
@@ -112,13 +112,13 @@ const SubjectForm = ({ isOpen, onClose, setEditData,isParentRender }) => {
               {/* Modal content */}
               <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                   {setEditData?._id?"Update Subject":"Create New Subject"} 
+                  {setEditData?._id ? "Update Subject" : "Create New Subject"}
                 </h3>
                 <button
-                    onClick={() => {
-                      onClose();
-                      setSubject({});
-                    }}
+                  onClick={() => {
+                    onClose();
+                    setSubject({});
+                  }}
                   type="button"
                   className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                   data-modal-toggle="crud-modal"
@@ -162,8 +162,8 @@ const SubjectForm = ({ isOpen, onClose, setEditData,isParentRender }) => {
                       onChange={handleChange}
                     />
                     {error && (
-                            <p className="text-red-500 text-xs mt-1"> {error} </p>
-                        )}  
+                      <p className="text-red-500 text-xs mt-1"> {error} </p>
+                    )}
                   </div>
 
                   <div className="col-span-2">
@@ -205,7 +205,7 @@ const SubjectForm = ({ isOpen, onClose, setEditData,isParentRender }) => {
                         clipRule="evenodd"
                       />
                     </svg>
-                    {setEditData?._id?"Update":"Create Subject"} 
+                    {setEditData?._id ? "Update" : "Create Subject"}
 
                     {/* Add new Subject */}
                   </button>

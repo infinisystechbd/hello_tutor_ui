@@ -35,7 +35,7 @@ const ClassForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
         } else {
             setClassInfo({
                 name: setEditData.name || '',
-                status: setEditData.status || '',
+                status: setEditData.status || true,
                 subject: setEditData?.subject?.map((t) => t.subjectId)?.map((t) => t?._id),
             });
 
