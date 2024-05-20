@@ -400,8 +400,7 @@ const JobCreationForm = () => {
                 {jobCreation?.isApproval == true ? "Approved" : "Reject"}
               </span>
               <span className="flex justify-center items-center rounded-md bg-blue-50 px-2 py-1  font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
-                Job Status:{" "}
-                {jobCreation?.status == true ? "Active" : "InActive"}
+                Job Status: {jobCreation?.jobStatus}
               </span>
             </div>
           </div>
