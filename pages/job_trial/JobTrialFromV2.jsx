@@ -5,6 +5,7 @@ import { Row, Table, Tag } from "antd";
 import { useCallback, useEffect, useState } from "react";
 
 const JobTrialFromV2 = ({ isOpen, onClose, trialData }) => {
+  console.log("trialData",trialData)
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
@@ -26,10 +27,12 @@ const JobTrialFromV2 = ({ isOpen, onClose, trialData }) => {
 
   const handleSubmit = async () => {
     // setLoading(true);
+    // console.log("shortList",shortList);
+    // return;
 
     const response = await post(
-      TRIAL_END_POINT.create(trialData?._id),
-      ...shortList
+      TRIAL_END_POINT.create(trialData?.jobId),
+      {shortListedTutorForTrail:shortList}
     );
     if (response.status === "SUCCESS") {
       notify("success", response.message);
