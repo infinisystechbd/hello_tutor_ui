@@ -393,6 +393,9 @@ const JobCreationForm = () => {
   const guarDianInfo = async () => {
     try {
       const res = await get(GUARDIAN_END_POINT.info(jobCreation?.guardian));
+      if (res?.data?.city?._id) {
+        handleLocation(res?.data?.city?._id);
+      }
       setJobCreation({
         ...jobCreation,
         city: res?.data?.city?._id,
