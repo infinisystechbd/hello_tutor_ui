@@ -14,6 +14,7 @@ const JobDetails = () => {
     const { data, isError, isLoading } = useGetAllData(QUERY_KEYS.GET_JOB_DETAILS, DASHBOARD_END_POINT.jobDetails(id));
     const { http, setToken, token } = Axios();
     const [profile, setProfile] = useState({});
+    console.log("profile",profile)
     const [loading, setLoading] = useState(false);
     const notify = React.useCallback((type, message) => {
         toast({ type, message });
@@ -53,16 +54,12 @@ const JobDetails = () => {
                 </div>
             </div>
 
-
             <h5 className="mb-4 text-2xl font-bold tracking-tight text-gray-900 border-0 border-b-2">
                 {data?.data.title}
             </h5>
-
-
             <div class="grid gap-x-8 gap-y-4 lg:grid-cols-3 sm:grid-cols-1">
                 <div> <span className='font-bold'>Tuition Type:</span>{data?.data?.tuitionType} </div>
                 <div> <span className='font-bold'> Student Gender: </span> {data?.data?.studentGender}</div>
-
                 <div> <span className='font-bold'>Preferred Tutor:</span>{data?.data?.preferredGender}</div>
                 <div> <span className='font-bold'>Tutoring Time: </span> {new Date(data?.data?.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
                 <div> <span className='font-bold'>Tutoring Days: </span>{data?.data?.daysPerWeek} </div>
@@ -71,14 +68,22 @@ const JobDetails = () => {
                 <div> <span className='font-bold'>Subjects: </span>{data?.data?.subjects}</div>
                 <div> <span className='font-bold'>Location: </span>{data?.data?.address}</div>
             </div>
+
             <div className="flex justify-end">
 
-                {token !== null ? (
-                    <button onClick={handleApply}
+                {token !== null  ? (
+                    <>
+                    
+                    {  profile?.role === 5 && 
+                        
+                        <button onClick={handleApply}
                         className="inline-flex mt-5 items-center px-6 py-3 text-lg font-medium text-center text-white bg-blue-500 rounded-lg"
                     >
                         Apply
-                    </button>
+                    </button>}
+                    
+                    </>
+
 
                 ) : (
                     <>

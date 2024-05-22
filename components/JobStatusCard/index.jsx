@@ -11,7 +11,7 @@ const JobStatusCard = ({data}) => {
     const classNames = data?.class?.map(item => item?.classId?.name).join(', ');
     const classLabel = data?.class?.length > 1 ? 'classes' : 'class';
     const subjectNames = data?.subject?.map(item => item?.subjectId?.name).join(', ');
-  const subjectLabel =  data?.subject?.length > 1 ? 'subjects' : 'subject';
+    const subjectLabel =  data?.subject?.length > 1 ? 'subjects' : 'subject';
     return (
 
         <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-black dark:text-white mb-1 ">
@@ -44,11 +44,11 @@ const JobStatusCard = ({data}) => {
               <p>{data.address}</p>
             </div>
     
-            <div className="flex items-center justify-start gap-2 mt-2">
+            {/* <div className="flex items-center justify-start gap-2 mt-2">
               <RiGraduationCapFill className="text-xl text-blue-500" />
               <p className="font-semibold">Tuition Type:</p>
               <p>{data.tuitionType}</p>
-            </div>
+            </div> */}
             <div className="flex items-center justify-start gap-2 mt-2">
               <FaDollarSign className="text-xl text-blue-500" />
               <p className="font-semibold">Salary:</p>
