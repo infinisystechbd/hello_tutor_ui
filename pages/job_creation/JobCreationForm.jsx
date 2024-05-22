@@ -542,7 +542,7 @@ const JobCreationForm = () => {
                               </option>
                               {guardianList.data.data.map((guardian) => (
                                 <option key={guardian._id} value={guardian._id}>
-                                  {guardian.fullName}
+                                  {guardian.fullName} :: {guardian.phone}
                                 </option>
                               ))}
                             </>
