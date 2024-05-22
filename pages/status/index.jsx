@@ -5,6 +5,7 @@ import { get } from '@/helpers/api_helper';
 import Axios from '@/utils/axios';
 import JobCard from '@/components/JobCard';
 import withAuth from '@/components/withAuth';
+import JobStatusCard from '@/components/JobStatusCard';
 
 const JobStauts = () => {
   const { token } = Axios();
@@ -135,7 +136,8 @@ const JobStauts = () => {
       <div className="flex justify-center items-end">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
           {activeStatus && activeJob.map((jobDetail, index) => (
-            <JobCard key={jobDetail.jobId} data={jobDetail}></JobCard>
+            <JobStatusCard key={jobDetail.jobId} data={jobDetail}></JobStatusCard>
+            // <JobCard key={jobDetail.jobId} data={jobDetail}></JobCard>
           ))}
 
           {pendingStatus && pendingJob.map((jobDetail, index) => (

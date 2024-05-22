@@ -8,6 +8,7 @@ import { IoIosPerson,IoIosFemale } from "react-icons/io";
 import { FaBook } from "react-icons/fa";
 
 const JobCard = ({data}) => {
+  console.log("data",data)
   return (
 
     <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-black dark:text-white mb-1 ">
@@ -21,36 +22,35 @@ const JobCard = ({data}) => {
           <p>{data.jobId}</p>
         </div>
 
-        <div className="flex items-center justify-start gap-2">
+        <div className="flex items-center justify-start gap-2 m-2">
           <MdOutlineDateRange className="text-xl text-blue-500" />
           <p className="font-semibold">Posted Date:</p>
           <p>{data.postedDate}</p>
         </div>
 
-        <div className="flex items-center justify-start gap-2">
+        <div className="flex items-center justify-start gap-2 m-2">
           <FaBook className="text-xl text-blue-500" />
           <p className="font-semibold">Subject :</p>
           <p>{data.subjects}</p>
         </div>
 
-        <div className="flex items-center justify-start gap-2">
+        <div className="flex items-center justify-start gap-2 m-2">
           <IoLocationSharp className="text-xl text-blue-500" />
-          <p></p>
           <p className="font-semibold">Location:</p>
           <p>{data.address}</p>
         </div>
 
-        <div className="flex items-center justify-start gap-2">
+        <div className="flex items-center justify-start gap-2 m-2">
           <RiGraduationCapFill className="text-xl text-blue-500" />
           <p className="font-semibold">Tuition Type:</p>
           <p>{data.tuitionType}</p>
         </div>
-        <div className="flex items-center justify-start gap-2">
+        <div className="flex items-center justify-start gap-2 m-2">
           <FaDollarSign className="text-xl text-blue-500" />
           <p className="font-semibold">Salary:</p>
           <p>{data.salary}</p>
         </div>
-        <div className="flex items-center justify-start gap-2">
+        <div className="flex items-center justify-start gap-2 m-2">
         {data.preferredGender ==="female" ? <IoIosPerson className="text-xl text-blue-500" /> :<IoIosFemale className="text-xl text-blue-500" />}
           <p className="font-semibold">Tutor prefer:</p>
           <p>{data.preferredGender}</p>
