@@ -1,6 +1,6 @@
 import ToastMessage from "@/components/Toast";
 import withAuth from "@/components/withAuth";
-import { JOB_ASSIGN_END_POINT, JOB_REQUEST_END_POINT } from "@/constants";
+import { JOB_ASSIGN_END_POINT, JOB_REQUEST_END_POINT, TRIAL_END_POINT } from "@/constants";
 import { QUERY_KEYS } from "@/constants/queryKeys";
 import { get, post } from "@/helpers/api_helper";
 import { mapArrayToDropdown } from "@/helpers/common_Helper";
@@ -53,8 +53,12 @@ const JobAssignForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
 
   /**fetch tutor list */
 
-  const handleTutor = async (value) => {
-    const fetchTutor = await get(JOB_REQUEST_END_POINT.getTutorByJobId(value));
+  const handleTutor = async (job) => {
+    console.log('Selected Job ID:', job._id);
+  console.log('Selected Job ID:', job.jobId);
+    const fetchTutor = await get(JOB_REQUEST_END_POINT.getTutorByJobId(job._id));
+    // const fetchTrialTutor = await get(TRIAL_END_POINT.getTrialTutorByJobId(value?.jobId));
+    // console.log("fetchTrialTutor",fetchTrialTutor);
     const TUTORDROPDOWN = mapArrayToDropdown(
       fetchTutor.data,
       "fullName",
@@ -172,8 +176,11 @@ const JobAssignForm = ({ isOpen, onClose, setEditData, isParentRender }) => {
                     <div className="relative">
                       <select
                         onChange={(e) => {
+                          const selectedJob = jobList.find(job => job._id === e.target.value);
                           handleChange(e);
-                          handleTutor(e.target.value);
+                          // handleTutor(e.target.value);
+                          handleTutor(selectedJob);
+
                         }}
                         value={jobAssign?.jobId}
                         name="jobId"

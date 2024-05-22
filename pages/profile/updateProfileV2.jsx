@@ -22,6 +22,7 @@ const UpdateProfileV2 = () => {
   }, []);
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState({});
+  console.log("profile",profile)
   const [changePassword, setChangePassword] = useState({});
   const [tokenValues, setTokenValues] = useState({});
   const [city, setCity] = useState([]);

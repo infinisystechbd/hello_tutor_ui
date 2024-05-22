@@ -6,16 +6,50 @@ import UpdateProfile from "./updateProfile";
 import toast from "../../components/Toast"
 import Link from 'next/link';
 import withAuth from "@/components/withAuth";
+import { PROFILE_END_POINT, USER_END_POINT } from "@/constants";
+import { get } from "@/helpers/api_helper";
+import ImageUpload from "@/components/uploads/ImageUpload";
 
 const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState(null);
+  const [profile1, setProfile1] = useState(null);
+  const [profileInfo, setProfileInfo] = useState();
+  const [attach, setAttach] = useState(profile1?.attachment || []);
 
   const notify = React.useCallback((type, message) => {
     toast({ type, message });
   }, []);
 
 
+
+  const user_Info = async () => {
+    let isSubscribed = true;
+    await get(USER_END_POINT.userInfo())
+      .then((res) => {
+        if (isSubscribed) {
+          console.log("calling", res?.data)
+          setProfileInfo(res?.data)
+          setProfile1({
+            fullName: res?.data?.name,
+            city: res?.data?.city?._id,
+            location: res?.data?.location?._id,
+            address: res?.data?.address,
+            attachment: res?.data?.attachment,
+          });
+          setAttach(res?.data?.attachment);
+        }
+      })
+      .catch((err) => {
+        console.log("Server Error ~!");
+      });
+
+    return () => (isSubscribed = false);
+  };
+
+  useEffect(() => {
+    user_Info();
+  }, []);
 
 
   const getProfileDetails = async () => {
@@ -74,7 +108,7 @@ const Profile = () => {
       }
     });
 
-   
+
   };
 
 
@@ -99,7 +133,7 @@ const Profile = () => {
               className="flex cursor-pointer items-center justify-center gap-2 rounded bg-primary py-1 px-2 text-sm font-medium text-white hover:bg-opacity-80 xsm:px-4"
             >
               <input type="file" name="cover" className="sr-only" />
-              
+
               <Link href="/profile/updateProfileV2">
                 <span >Edit Me</span>
               </Link>
@@ -113,14 +147,14 @@ const Profile = () => {
             <div className="relative drop-shadow-2">
 
 
-        
-                  <Image
-                    style={{ borderRadius: '50%' }}
-                    width={160}
-                    height={160}
-                    src={"/upload/avater.jpg"}
-                    alt="User"
-                  /> 
+
+              <Image
+                style={{ borderRadius: '50%' }}
+                width={160}
+                height={160}
+                src={"/upload/avater.jpg"}
+                alt="User"
+              />
             </div>
           </div>
           <div className="mt-4">
@@ -137,39 +171,39 @@ const Profile = () => {
           </div>
         </div>
 
-        <div className="w-8/12 m-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <div className="w-9/12 m-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <div className="grid grid-cols-2 gap-10 ">
 
             <div className="" >
               <div className="w-full justify-start items-center flex  border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark dark:bg-gray-800 border-b border-b-gray border-b-1">
                 <div className="capitalize py-2 w-32 font-medium text-gray-900 whitespace-nowrap dark:text-white">Mobile number</div>
                 <div className="flex justify-center items-center w-2.5">:</div>
-                <div className="flex-grow py-4 text-left">01789085098</div>
+                <div className="flex-grow py-4 text-left">{profileInfo?.phone}</div>
               </div>
               <div className="w-full justify-start items-center flex  border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark dark:bg-gray-800 border-b border-b-gray border-b-1">
                 <div className="capitalize py-2 w-32 font-medium text-gray-900 whitespace-nowrap dark:text-white">Email</div>
                 <div className="flex justify-center items-center w-2.5">:</div>
-                <div className="flex-grow py-4 text-left">Suparan Sharma </div>
+                <div className="flex-grow py-4 text-left">{profileInfo?.email ?? 'Please Update'}  </div>
               </div>
               <div className="w-full justify-start items-center flex  border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark dark:bg-gray-800 border-b border-b-gray border-b-1">
-                <div className="capitalize py-2 w-32 font-medium text-gray-900 whitespace-nowrap dark:text-white">Admin</div>
+                <div className="capitalize py-2 w-32 font-medium text-gray-900 whitespace-nowrap dark:text-white">User ID</div>
                 <div className="flex justify-center items-center w-2.5">:</div>
-                <div className="flex-grow py-4 text-left">Admin 123 </div>
+                <div className="flex-grow py-4 text-left">{profileInfo?.user} </div>
               </div>
               <div className="w-full justify-start items-center flex  border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark dark:bg-gray-800 border-b border-b-gray border-b-1">
                 <div className="capitalize py-2 w-32 font-medium text-gray-900 whitespace-nowrap dark:text-white">DOB</div>
                 <div className="flex justify-center items-center w-2.5">:</div>
-                <div className="flex-grow py-4 text-left">31/08/1999</div>
+                <div className="flex-grow py-4 text-left">{profileInfo?.dob ?? 'DD/MM/YYYY'} </div>
               </div>
               <div className="w-full justify-start items-center flex  border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark dark:bg-gray-800 border-b border-b-gray border-b-1">
                 <div className="capitalize py-2 w-32 font-medium text-gray-900 whitespace-nowrap dark:text-white">Gender</div>
                 <div className="flex justify-center items-center w-2.5">:</div>
-                <div className="flex-grow py-4 text-left">Male</div>
+                <div className="flex-grow py-4 text-left">{profileInfo?.gender ?? 'Please Update'}</div>
               </div>
               <div className="w-full justify-start items-center flex  border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark dark:bg-gray-800 border-b border-b-gray border-b-1">
                 <div className="capitalize py-2 w-32 font-medium text-gray-900 whitespace-nowrap dark:text-white">Join Date</div>
                 <div className="flex justify-center items-center w-2.5">:</div>
-                <div className="flex-grow py-4 text-left">12/12/2023</div>
+                <div className="flex-grow py-4 text-left">{profileInfo?.joinData ?? 'Please Update'}</div>
               </div>
             </div>
 
@@ -177,7 +211,7 @@ const Profile = () => {
               <div className="w-full justify-start items-center flex  border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark dark:bg-gray-800 border-b border-b-gray border-b-1">
                 <div className="capitalize py-2 w-32 font-medium text-gray-900 whitespace-nowrap dark:text-white">Nationality</div>
                 <div className="flex justify-center items-center w-2.5">:</div>
-                <div className="flex-grow py-4 text-left">Bangladeshi</div>
+                <div className="flex-grow py-4 text-left">{profileInfo?.nationality ?? 'Bangladeshi'}</div>
               </div>
               <div className="w-full justify-start items-center flex  border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark dark:bg-gray-800 border-b border-b-gray border-b-1">
                 <div className="capitalize py-2 w-32 font-medium text-gray-900 whitespace-nowrap dark:text-white">Country</div>
@@ -185,34 +219,112 @@ const Profile = () => {
                 <div className="flex-grow py-4 text-left">Bangladesh</div>
               </div>
               <div className="w-full justify-start items-center flex  border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark dark:bg-gray-800 border-b border-b-gray border-b-1">
-                <div className="capitalize py-2 w-32 font-medium text-gray-900 whitespace-nowrap dark:text-white">State</div>
-                <div className="flex justify-center items-center w-2.5">:</div>
-                <div className="flex-grow py-4 text-left">Dhaka</div>
-              </div>
-              <div className="w-full justify-start items-center flex  border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark dark:bg-gray-800 border-b border-b-gray border-b-1">
                 <div className="capitalize py-2 w-32 font-medium text-gray-900 whitespace-nowrap dark:text-white">City</div>
                 <div className="flex justify-center items-center w-2.5">:</div>
-                <div className="flex-grow py-4 text-left">Dhaka</div>
+                <div className="flex-grow py-4 text-left">{profileInfo?.city?.name ?? 'Please Update'}</div>
               </div>
+              <div className="w-full justify-start items-center flex  border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark dark:bg-gray-800 border-b border-b-gray border-b-1">
+                <div className="capitalize py-2 w-32 font-medium text-gray-900 whitespace-nowrap dark:text-white">State</div>
+                <div className="flex justify-center items-center w-2.5">:</div>
+                <div className="flex-grow py-4 text-left">{profileInfo?.location?.name ?? 'Please Update'}</div>
+              </div>
+
 
 
               <div className="w-full justify-start items-center flex  border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark dark:bg-gray-800 border-b border-b-gray border-b-1">
                 <div className="capitalize py-2 w-32 font-medium text-gray-900 whitespace-nowrap dark:text-white">Zip Code</div>
                 <div className="flex justify-center items-center w-2.5">:</div>
-                <div className="flex-grow py-4 text-left">1229</div>
+                <div className="flex-grow py-4 text-left">{profileInfo?.zipCode ?? 'Please Update'}</div>
               </div>
-              <div className="w-full justify-start items-center flex  border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark dark:bg-gray-800 border-b border-b-gray border-b-1">
-                <div className="capitalize py-2 w-32 font-medium text-gray-900 whitespace-nowrap dark:text-white">Address</div>
+              <div className="w-full flex items-center border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark dark:bg-gray-800 border-b border-b-gray border-b-1">
+                <div className="capitalize py-2 w-32 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  Address
+                </div>
                 <div className="flex justify-center items-center w-2.5">:</div>
-                <div className="flex-grow py-4 text-left">Nikunjja-2,Dhaka,Bangladesh</div>
+                <div className="flex-grow py-4 text-left overflow-hidden overflow-ellipsis whitespace-nowrap">
+                  {profileInfo?.address ?? 'Please Update'}
+                </div>
               </div>
+
 
             </div>
 
           </div>
         </div>
 
+        <div className="w-9/12 m-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mt-4">
+          <div className="grid grid-cols-1 gap-10 ">
+          <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+              <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
+                <h3 className="font-medium text-black dark:text-white">
+                  Your Attasment
+                </h3>
+              </div>
+              <div className="p-7">
+                <form action="#">
 
+                  {attach?.length > 0 ? (
+                    <>
+                      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                              <th scope="col" className="px-6 py-3">
+                                File name
+                              </th>
+                              <th scope="col" className="px-6 py-3"></th>
+                              <th scope="col" className="px-6 py-3">
+                                <span className="sr-only">Edit</span>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {attach?.map((t, i) => (
+                              <tr
+                                key={i}
+                                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                              >
+                                <th
+                                  scope="row"
+                                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                >
+                                  {t.original_filename}
+                                </th>
+                                <td className="px-6 py-4 text-right">
+                                  <a
+                                    href="#"
+                                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                    onClick={() => onDelete(t.public_id)}
+                                  >
+                                    Delete
+                                  </a>
+                                </td>
+                                <td className="px-6 py-4 text-right">
+                                  <a
+                                    href={t.url}
+                                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                    download
+                                    target="_blank"
+                                  >
+                                    Download
+                                  </a>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </>
+                  ) : (
+                    ""
+                  )}
+
+                 
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
 
 
 
