@@ -238,9 +238,9 @@ const JobCreationForm = () => {
     setNewGuardian(value);
   };
   const [fixedSalary, setFixedSalary] = useState({
-    minSalary: '',
-    maxSalary: '',
-});
+    minSalary: "",
+    maxSalary: "",
+  });
 
   const handleChange = (e, selectedOptions) => {
     const { name, value } = e.target;
@@ -296,8 +296,7 @@ const JobCreationForm = () => {
         ...prev,
         subject: subjectId,
       }));
-    }
-    else if (name === "minSalary" || name === "maxSalary") {
+    } else if (name === "minSalary" || name === "maxSalary") {
       setFixedSalary((prev) => ({
         ...prev,
         [name]: value,
@@ -393,25 +392,24 @@ const JobCreationForm = () => {
 
   const guarDianInfo = async () => {
     try {
-        const res = await get(GUARDIAN_END_POINT.info(jobCreation?.guardian));
-        console.log("guardian info is", res?.data);
-        setJobCreation({
-          city:res?.data?.city?._id,
-          location:res?.data?.location?._id,
-          address:res?.data?.address,
-          phone:res?.data?.phone,
-         
-        });
+      const res = await get(GUARDIAN_END_POINT.info(jobCreation?.guardian));
+      setJobCreation({
+        ...jobCreation,
+        city: res?.data?.city?._id,
+        location: res?.data?.location?._id,
+        address: res?.data?.address,
+        phone: res?.data?.phone,
+      });
     } catch (error) {
-        console.error("Failed to fetch guardian info:", error);
+      console.error("Failed to fetch guardian info:", error);
     }
-};
+  };
 
-useEffect(() => {
+  useEffect(() => {
     if (jobCreation?.guardian) {
-        guarDianInfo();
+      guarDianInfo();
     }
-}, [jobCreation?.guardian]);
+  }, [jobCreation?.guardian]);
   return (
     <>
       {jobCreation?._id != null ? (
@@ -1072,69 +1070,69 @@ useEffect(() => {
                   </div>
 
                   <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-  <div className="w-full sm:w-1/2">
-    <label
-      className="mb-3 block text-sm font-medium text-black dark:text-white"
-      htmlFor="salaryType"
-    >
-      Salary Type
-    </label>
-    <div className="relative">
-      <select
-        name="salaryType"
-        id="salaryType"
-        className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-        onChange={handleChange}
-        value={jobCreation?.salaryType}
-      >
-        <option value="">Choose a type</option>
-        <option value="Fixed">Fixed</option>
-        <option value="Range">Range</option>
-        <option value="Negotiable">Negotiable</option>
-      </select>
-    </div>
-  </div>
-  <div className="w-full sm:w-1/2">
-    <label
-      className="mb-3 block text-sm font-medium text-black dark:text-white"
-      htmlFor="salary"
-    >
-      Salary (BDT)
-    </label>
-    {jobCreation?.salaryType === "Range" ? (
-      <div className="flex gap-2">
-        <input
-          className="w-full rounded border border-stroke bg-gray py-3 pl-2 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-          type="text"
-          name="minSalary"
-          id="minSalary"
-          placeholder="Min Salary"
-          onChange={handleChange}
-          value={fixedSalary.minSalary}
-        />
-        <input
-          className="w-full rounded border border-stroke bg-gray py-3 pl-2 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-          type="text"
-          name="maxSalary"
-          id="maxSalary"
-          placeholder="Max Salary"
-          onChange={handleChange}
-          value={fixedSalary.maxSalary}
-        />
-      </div>
-    ) : (
-      <input
-        className="w-full rounded border border-stroke bg-gray py-3 pl-2 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-        type="text"
-        name="salary"
-        id="salary"
-        placeholder="Enter the salary"
-        onChange={handleChange}
-        value={jobCreation?.salary}
-      />
-    )}
-  </div>
-</div>
+                    <div className="w-full sm:w-1/2">
+                      <label
+                        className="mb-3 block text-sm font-medium text-black dark:text-white"
+                        htmlFor="salaryType"
+                      >
+                        Salary Type
+                      </label>
+                      <div className="relative">
+                        <select
+                          name="salaryType"
+                          id="salaryType"
+                          className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                          onChange={handleChange}
+                          value={jobCreation?.salaryType}
+                        >
+                          <option value="">Choose a type</option>
+                          <option value="Fixed">Fixed</option>
+                          <option value="Range">Range</option>
+                          <option value="Negotiable">Negotiable</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="w-full sm:w-1/2">
+                      <label
+                        className="mb-3 block text-sm font-medium text-black dark:text-white"
+                        htmlFor="salary"
+                      >
+                        Salary (BDT)
+                      </label>
+                      {jobCreation?.salaryType === "Range" ? (
+                        <div className="flex gap-2">
+                          <input
+                            className="w-full rounded border border-stroke bg-gray py-3 pl-2 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                            type="text"
+                            name="minSalary"
+                            id="minSalary"
+                            placeholder="Min Salary"
+                            onChange={handleChange}
+                            value={fixedSalary.minSalary}
+                          />
+                          <input
+                            className="w-full rounded border border-stroke bg-gray py-3 pl-2 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                            type="text"
+                            name="maxSalary"
+                            id="maxSalary"
+                            placeholder="Max Salary"
+                            onChange={handleChange}
+                            value={fixedSalary.maxSalary}
+                          />
+                        </div>
+                      ) : (
+                        <input
+                          className="w-full rounded border border-stroke bg-gray py-3 pl-2 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                          type="text"
+                          name="salary"
+                          id="salary"
+                          placeholder="Enter the salary"
+                          onChange={handleChange}
+                          value={jobCreation?.salary}
+                        />
+                      )}
+                    </div>
+                  </div>
 
                   <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row"></div>
 
