@@ -141,16 +141,16 @@ const JobStauts = () => {
           ))}
 
           {pendingStatus && pendingJob.map((jobDetail, index) => (
-            <JobCard key={jobDetail.jobId} data={jobDetail}></JobCard>
+            <JobStatusCard key={jobDetail.jobId} data={jobDetail}></JobStatusCard>
           ))}
 
 
           {cancelStatus && cancelJob.map((jobDetail, index) => (
-            <JobCard key={jobDetail.jobId} data={jobDetail}></JobCard>
+            <JobStatusCard key={jobDetail.jobId} data={jobDetail}></JobStatusCard>
           ))}
 
           {confirmedStatus && confirmJob.map((jobDetail, index) => (
-            <JobCard key={jobDetail.jobId} data={jobDetail}></JobCard>
+            <JobStatusCard key={jobDetail.jobId} data={jobDetail}></JobStatusCard>
           ))}
 
 
