@@ -1,3 +1,4 @@
+import ToastMessage from "@/components/Toast";
 import { JOB_REQUEST_END_POINT, TRIAL_END_POINT } from "@/constants";
 import { get, post } from "@/helpers/api_helper";
 import { CheckOutlined } from "@ant-design/icons";
@@ -31,7 +32,7 @@ const JobTrialFromV2 = ({ isOpen, onClose, trialData }) => {
     // return;
 
     const response = await post(
-      TRIAL_END_POINT.create(trialData?.jobId),
+      TRIAL_END_POINT.create(trialData?._id),
       {shortListedTutorForTrail:shortList}
     );
     if (response.status === "SUCCESS") {
