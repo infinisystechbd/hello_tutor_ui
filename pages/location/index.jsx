@@ -13,6 +13,8 @@ import DebouncedSearchInput from '@/components/elements/DebouncedSearchInput';
 import LocationForm from './LocationForm';
 import withAuth from '@/components/withAuth';
 import HeadSection from '@/components/HeadSection';
+import ClassViewForm from '../classes/ClassViewForm';
+import LocationViewForm from './LocationViewForm';
 
 
 
@@ -167,7 +169,18 @@ const Location = () => {
     /*** Pagination End  */
 
 
+    //View  Modal form
+    const [isViewModalOpen, setIsViewModalOpen] = useState(false);
 
+  
+    const handleViewOpen = (data) => {
+      setIsViewModalOpen(true);
+      setEditData(data);
+    };
+
+    const closeViewModal = () => {
+      setIsViewModalOpen(false);
+  };
 
     const columns = [
         {
@@ -253,6 +266,7 @@ const Location = () => {
 
                 <LocationForm isOpen={isModalOpen} onClose={closeModal} setEditData={editData} isParentRender={reFetchHandler} />
                 <DeleteModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal} data={editData} isParentRender={reFetchHandler} />
+                <LocationViewForm isOpen={isViewModalOpen} onClose={closeViewModal} setEditData={editData} isParentRender={reFetchHandler} />
 
                 <Table
                     className="border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark text-black dark:text-white"

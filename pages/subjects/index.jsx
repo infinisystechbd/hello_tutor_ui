@@ -13,6 +13,7 @@ import { del } from '@/helpers/api_helper';
 import ToastMessage from '@/components/Toast';
 import DebouncedSearchInput from '@/components/elements/DebouncedSearchInput';
 import withAuth from '@/components/withAuth';
+import SubjectViewForm from './SubjectViewForm';
 
 
 const DeleteModal = ({ isOpen, onClose, data, isParentRender }) => {
@@ -127,11 +128,20 @@ const Subjects = () => {
     /**Subject Delete end */
 
 
+  //View  Modal form
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [subject, setSubject] = useState({});
+
+  const handleViewOpen = (data) => {
+    setIsViewModalOpen(true);
+    setSubject(data);
+  };
 
 
 
-
-
+  const closeViewModal = () => {
+    setIsViewModalOpen(false);
+};
 
     /*** Fetch All Subject List Start  */
 
@@ -264,6 +274,7 @@ const Subjects = () => {
 
                 <SubjectForm isOpen={isModalOpen} onClose={closeModal} setEditData={editData} isParentRender={reFetchHandler} />
                 <DeleteModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal} data={editData} isParentRender={reFetchHandler} />
+                <SubjectViewForm isViewModalOpen={isViewModalOpen} onClose={closeViewModal} setIsViewModalOpen={setIsViewModalOpen} subject={subject} />
 
                 <Table
                     className="border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark text-black dark:text-white"

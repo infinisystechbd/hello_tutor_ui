@@ -12,6 +12,7 @@ import ToastMessage from '@/components/Toast';
 import DebouncedSearchInput from '@/components/elements/DebouncedSearchInput';
 import CategoryForm from './categoryForm';
 import HeadSection from '@/components/HeadSection';
+import CategoryViewForm from './CategoryViewForm';
 
 
 const DeleteModal = ({ isOpen, onClose, data, isParentRender }) => {
@@ -128,6 +129,19 @@ const Categories = () => {
     setDeleteIsModalOpen(false);
   };
   /**Category Delete end */
+
+
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+
+  
+  const handleViewOpen = (data) => {
+    setIsViewModalOpen(true);
+    setEditData(data);
+  };
+
+  const closeViewModal = () => {
+    setIsViewModalOpen(false);
+};
 
 
 
@@ -269,6 +283,7 @@ const Categories = () => {
 
         <CategoryForm isOpen={isModalOpen} onClose={closeModal} setEditData={editData} isParentRender={reFetchHandler} />
         <DeleteModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal} data={editData} isParentRender={reFetchHandler} />
+        <CategoryViewForm isOpen={isViewModalOpen} onClose={closeViewModal} setEditData={editData} isParentRender={reFetchHandler} />
 
         <Table
           className="border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark text-black dark:text-white"

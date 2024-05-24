@@ -12,6 +12,7 @@ import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import { del } from '@/helpers/api_helper';
 import CityForm from './CityForm';
 import HeadSection from '@/components/HeadSection';
+import CityViewForm from './CityViewForm';
 
 const DeleteModal = ({ isOpen, onClose, data, isParentRender }) => {
   const [loading, setLoading] = useState(false);
@@ -121,7 +122,19 @@ const City = () => {
 
 
 
+    //View  Modal form
+    const [isViewModalOpen, setIsViewModalOpen] = useState(false);
 
+  
+    const handleViewOpen = (data) => {
+      setIsViewModalOpen(true);
+      setEditData(data);
+    };
+
+    const closeViewModal = () => {
+      setIsViewModalOpen(false);
+  };
+  
 
 
 
@@ -257,6 +270,7 @@ const City = () => {
   
           <CityForm isOpen={isModalOpen} onClose={closeModal} setEditData={editData} isParentRender={reFetchHandler} />
           <DeleteModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal} data={editData} isParentRender={reFetchHandler} />
+          <CityViewForm isOpen={isViewModalOpen} onClose={closeViewModal} setEditData={editData} isParentRender={reFetchHandler} />
 
   
           <Table

@@ -63,7 +63,7 @@ const JobTrialFromV2 = ({ isOpen, onClose, trialData }) => {
     dataIndex: "fullName",
     key: "fullName",
     render: (text, record) => (
-      <Link href={`/tutorProfile/${record._id}`} legacyBehavior>
+      <Link href={`/teacher/${record._id}`} legacyBehavior>
         <a target="_blank">{text}</a>
       </Link>
     ),

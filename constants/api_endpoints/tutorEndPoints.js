@@ -5,4 +5,5 @@ export const TUTOR_END_POINT = {
     info: (id) => `/tutor/${id}`,
     update: (id) => `/tutor/${id}`,
     delete:(id) => `/tutor/${id}`,
+    tutorJobDetails:(id) => `/job/tutor/${id}`,
 }

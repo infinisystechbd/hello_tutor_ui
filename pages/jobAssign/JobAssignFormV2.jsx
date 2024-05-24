@@ -8,26 +8,95 @@ import { useGetAllData } from "@/utils/hooks/useGetAllData";
 import { useCallback, useEffect, useState } from "react";
 import { Row, Table, Tag } from "antd";
 const JobAssignForm2 = ({ isOpen, onClose, assignData }) => {
-
-
-
-  const fetchTutorList = async () => {
-    if (assignData?._id) {
-      // const fetchData = await get(JOB_REQUEST_END_POINT.getTutorByJobId(assignData?._id));
-       const fetchTrialTutor = await get(TRIAL_END_POINT.getTrialTutorByJobId(assignData?._id));
-
-      setJobRequestList(fetchData);
-    }
-  };
+  const [loading, setLoading] = useState(false);
+  const notify = useCallback((type, message) => {
+    ToastMessage({ type, message });
+  }, []);
+  console.log("assignData", assignData)
+  const [requestedTutor, setRequestedTutor] = useState([])
+  const [jobAssign, setJobAssign] = useState({
+    jobId: assignData?._id,
+    tutorId: "",
+    comment: "",
+  });
+  console.log("requestedTutor", requestedTutor)
   useEffect(() => {
-    fetchTutorList();
+    setRequestedTutor(assignData?.requestedTutor);
   }, [assignData?._id]);
 
-  const handleChange = (e) => { }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setJobAssign((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  }
+    setLoading(true);
+
+    const formattedAssignInfo = {
+      jobId: assignData?._id,
+      tutorId: jobAssign.tutorId,
+      comment: jobAssign.comment,
+    };
+
+    const response = await post(
+      JOB_ASSIGN_END_POINT.create(),
+      formattedAssignInfo
+    );
+    if (response.status === "SUCCESS") {
+      notify("success", response.message);
+      
+      onClose();
+    } else {
+      notify("error", response.errorMessage);
+    }
+
+    // try {
+    //   const formattedAssignInfo = {
+    //     jobId: jobAssign.jobId,
+    //     tutorId: jobAssign.tutorId,
+    //     comment: jobAssign.comment,
+    //   };
+
+    //   if (setEditData?._id) {
+    //     const update = await put(
+    //       JOB_ASSIGN_END_POINT.update(setEditData._id),
+    //       formattedAssignInfo
+    //     );
+    //     if (update.status === "SUCCESS") {
+    //       notify("success", update.message);
+    //       if (isParentRender) {
+    //         isParentRender(true);
+    //       }
+    //       onClose();
+    //     } else {
+    //       notify("error", update.errorMessage);
+    //     }
+    //   } else {
+    //     const response = await post(
+    //       JOB_ASSIGN_END_POINT.create(),
+    //       formattedAssignInfo
+    //     );
+    //     if (response.status === "SUCCESS") {
+    //       notify("success", response.message);
+    //       if (isParentRender) {
+    //         isParentRender(true);
+    //       }
+    //       onClose();
+    //     } else {
+    //       notify("error", response.errorMessage);
+    //     }
+    //   }
+    // } catch (error) {
+    //   console.error(error);
+    //   notify("error", error.message);
+    // } finally {
+    //   setLoading(false);
+    // }
+  };
   return (
     <>
       {isOpen && (
@@ -80,7 +149,23 @@ const JobAssignForm2 = ({ isOpen, onClose, assignData }) => {
                       Select Tutor
                     </label>
                     <div className="relative">
-
+                      <select
+                        onChange={(e) => handleChange(e)} // <-- Pass the event to handleChange
+                        name="tutorId"
+                        id="status"
+                        value={jobAssign.tutorId} // <-- Ensure you set the selected value
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                      >
+                        <option value="" disabled>
+                          Choose a Tutor
+                        </option>
+                        {requestedTutor &&
+      requestedTutor.map((tutor) => (
+        <option key={tutor.tutorId._id} value={tutor.tutorId._id}>
+          {tutor.tutorId.fullName}
+        </option>
+      ))}
+                      </select>
                     </div>
                   </div>
 

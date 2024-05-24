@@ -13,6 +13,7 @@ import ClassForm from './ClassForm';
 import { del } from '@/helpers/api_helper';
 import withAuth from '@/components/withAuth';
 import HeadSection from '@/components/HeadSection';
+import ClassViewForm from './ClassViewForm';
 
 
 
@@ -122,6 +123,21 @@ const Classes = () => {
     setDeleteIsModalOpen(false);
   };
   /** Delete end */
+
+
+    //View  Modal form
+    const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+
+  
+    const handleViewOpen = (data) => {
+      setIsViewModalOpen(true);
+      setEditData(data);
+    };
+
+    const closeViewModal = () => {
+      setIsViewModalOpen(false);
+  };
+  
 
 
   const {
@@ -260,6 +276,7 @@ const Classes = () => {
 
         <ClassForm isOpen={isModalOpen} onClose={closeModal} setEditData={editData} isParentRender={reFetchHandler} />
         <DeleteModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal} data={editData} isParentRender={reFetchHandler} />
+        <ClassViewForm isOpen={isViewModalOpen} onClose={closeViewModal} setEditData={editData} isParentRender={reFetchHandler} />
 
 
         <Table
