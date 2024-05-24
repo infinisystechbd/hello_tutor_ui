@@ -3,6 +3,7 @@ import { JOB_REQUEST_END_POINT, TRIAL_END_POINT } from "@/constants";
 import { get, post } from "@/helpers/api_helper";
 import { CheckOutlined } from "@ant-design/icons";
 import { Row, Table, Tag } from "antd";
+import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
 const JobTrialFromV2 = ({ isOpen, onClose, trialData }) => {
@@ -59,9 +60,13 @@ const JobTrialFromV2 = ({ isOpen, onClose, trialData }) => {
   const columns = [
     {
       title: "FullName",
-      dataIndex: "fullName",
-      key: "phone",
-      render: (text) => <a>{text}</a>,
+    dataIndex: "fullName",
+    key: "fullName",
+    render: (text, record) => (
+      <Link href={`/tutorProfile/${record._id}`} legacyBehavior>
+        <a target="_blank">{text}</a>
+      </Link>
+    ),
     },
     {
       title: "Phone",

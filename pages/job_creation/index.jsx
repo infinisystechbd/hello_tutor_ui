@@ -3,13 +3,14 @@ import withAuth from "@/components/withAuth";
 import { JOB_REQUEST_END_POINT } from "@/constants";
 import { QUERY_KEYS } from "@/constants/queryKeys";
 import { useGetAllData } from "@/utils/hooks/useGetAllData";
-import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, EyeOutlined,AimOutlined } from "@ant-design/icons";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Row, Table, Tag } from "antd";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import JobTrialFromV2 from "../job_trial/JobTrialFromV2";
+import JobAssignFormV2 from "../jobAssign/JobAssignFormV2";
 
 const JobManagent = () => {
   /*** Storing data start */
@@ -19,9 +20,11 @@ const JobManagent = () => {
   const [perPage, setPerPage] = useState(10);
   const [editData, setEditData] = useState({});
   const [trialData, setTrialData] = useState({});
+  const [assignData, setAssignData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteIsModalOpen] = useState(false);
   const [isTrialModal, setIsTrialModal] = useState(false);
+  const [isAssignModal, setIsAssignModal] = useState(false);
   /*** Storing data end */
   const router = useRouter();
 
@@ -82,6 +85,7 @@ const JobManagent = () => {
     JOB_REQUEST_END_POINT.get(page, limit, search, "")
   );
 
+  console.log("jobRequestList",jobRequestList?.data)
   //Render Function
   const reFetchHandler = (isRender) => {
     if (isRender) fetchJobRequestList();
@@ -108,7 +112,24 @@ const JobManagent = () => {
     setTrialData(row);
   };
 
+
+
+
+
   /*** Pagination End  */
+
+
+  /*** Assign Start  */
+  const handleAssignOpen = (row) => {
+    setIsAssignModal(!isAssignModal);
+    setAssignData(row);
+  };
+
+
+  const onAssignClose = () => {
+    setIsAssignModal(!isAssignModal);
+  };
+  /*** Assign End  */
 
   const columns = [
     {
@@ -119,17 +140,24 @@ const JobManagent = () => {
     {
       title: "Guardian",
       dataIndex: ["guardian", "fullName"],
+      render: (text, record) => (text ? text : record.phone),
       // fixed: 'left',
     },
 
     {
-      title: "Tutor Phone",
+      title: "Guardian Phone",
       dataIndex: "phone",
       // fixed: 'left',
     },
+    // {
+    //   title: "Tutor Address",
+    //   dataIndex: "address",
+    // },
     {
-      title: "Tutor Address",
-      dataIndex: "address",
+      title: "Trialed",
+      dataIndex: "shortListedTutorForTrail",
+      render: (shortListedTutorForTrail) =>
+        shortListedTutorForTrail && shortListedTutorForTrail.length > 0 ?  <Tag color="green">Yes</Tag> :  <Tag color="volcano">No</Tag>,
     },
     {
       title: "Status",
@@ -145,7 +173,7 @@ const JobManagent = () => {
       title: "Action",
       key: "action",
       fixed: "right",
-      width: 100,
+      width: 150,
       render: (row) => actionButton(row), // You need to define actionButton function
     },
   ];
@@ -159,6 +187,11 @@ const JobManagent = () => {
         >
           <a onClick={() => handleTrailOpen(row)} style={{ color: "green" }}>
             <EyeOutlined style={{ fontSize: "22px" }} />
+          </a>
+
+          <a onClick={() => handleAssignOpen(row)} >
+          <AimOutlined style={{ fontSize: "22px" }}/>
+            {/* <DeleteOutlined style={{ fontSize: "22px" }} /> */}
           </a>
 
           <a onClick={() => handleEdit(row)} className="text-primary">
@@ -212,6 +245,11 @@ const JobManagent = () => {
           isOpen={isTrialModal}
           trialData={trialData}
           onClose={onClose}
+        />
+        <JobAssignFormV2
+          isOpen={isAssignModal}
+          assignData={assignData}
+          onClose={onAssignClose}
         />
       </div>
     </div>
