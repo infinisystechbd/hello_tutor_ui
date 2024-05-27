@@ -3,7 +3,12 @@ import withAuth from "@/components/withAuth";
 import { JOB_REQUEST_END_POINT } from "@/constants";
 import { QUERY_KEYS } from "@/constants/queryKeys";
 import { useGetAllData } from "@/utils/hooks/useGetAllData";
-import { DeleteOutlined, EditOutlined, EyeOutlined,AimOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  UserAddOutlined,
+  UsergroupAddOutlined,
+} from "@ant-design/icons";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Row, Table, Tag } from "antd";
@@ -85,7 +90,7 @@ const JobManagent = () => {
     JOB_REQUEST_END_POINT.get(page, limit, search, "")
   );
 
-  console.log("jobRequestList",jobRequestList?.data)
+  console.log("jobRequestList", jobRequestList?.data);
   //Render Function
   const reFetchHandler = (isRender) => {
     if (isRender) fetchJobRequestList();
@@ -112,19 +117,13 @@ const JobManagent = () => {
     setTrialData(row);
   };
 
-
-
-
-
   /*** Pagination End  */
-
 
   /*** Assign Start  */
   const handleAssignOpen = (row) => {
     setIsAssignModal(!isAssignModal);
     setAssignData(row);
   };
-
 
   const onAssignClose = () => {
     setIsAssignModal(!isAssignModal);
@@ -157,7 +156,11 @@ const JobManagent = () => {
       title: "Trialed",
       dataIndex: "shortListedTutorForTrail",
       render: (shortListedTutorForTrail) =>
-        shortListedTutorForTrail && shortListedTutorForTrail.length > 0 ?  <Tag color="green">Yes</Tag> :  <Tag color="volcano">No</Tag>,
+        shortListedTutorForTrail && shortListedTutorForTrail.length > 0 ? (
+          <Tag color="green">Yes</Tag>
+        ) : (
+          <Tag color="volcano">No</Tag>
+        ),
     },
     {
       title: "Status",
@@ -186,11 +189,11 @@ const JobManagent = () => {
           style={{ display: "flex", alignItems: "center" }}
         >
           <a onClick={() => handleTrailOpen(row)} style={{ color: "green" }}>
-            <EyeOutlined style={{ fontSize: "22px" }} />
+            <UsergroupAddOutlined style={{ fontSize: "22px" }} />
           </a>
 
-          <a onClick={() => handleAssignOpen(row)} >
-          <AimOutlined style={{ fontSize: "22px" }}/>
+          <a onClick={() => handleAssignOpen(row)}>
+            <UserAddOutlined style={{ fontSize: "22px" }} />
             {/* <DeleteOutlined style={{ fontSize: "22px" }} /> */}
           </a>
 
