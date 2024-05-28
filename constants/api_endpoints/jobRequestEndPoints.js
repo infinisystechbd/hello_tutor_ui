@@ -10,4 +10,5 @@ export const JOB_REQUEST_END_POINT = {
   delete: (id) => `/job/${id}`,
   approval: (id) => `/job/approval/${id}`,
   getTutorByJobId: (id) => `/job/requesttour/${id}`,
+  getTrialedTutorByJobId: (id) => `/job/trail/${id}`,
 };

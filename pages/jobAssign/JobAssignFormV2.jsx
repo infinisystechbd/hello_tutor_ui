@@ -20,9 +20,27 @@ const JobAssignForm2 = ({ isOpen, onClose, assignData }) => {
     comment: "",
   });
   console.log("requestedTutor", requestedTutor)
+  // useEffect(() => {
+  //   setRequestedTutor(assignData?.requestedTutor);
+  //   console.log("assignData?._id",assignData?._id)
+
+  // }, [assignData?._id]);
+
+
+
+  const fetchTriledTutor = async () => {
+    try {
+      const fetchTutor =await get(TRIAL_END_POINT.getTrialTutorByJobId(assignData?._id));
+      setRequestedTutor(fetchTutor?.data)
+      console.log("fetchTutor", fetchTutor)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
-    setRequestedTutor(assignData?.requestedTutor);
-  }, [assignData?._id]);
+    fetchTriledTutor()
+  }, [assignData?._id])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,6 +48,8 @@ const JobAssignForm2 = ({ isOpen, onClose, assignData }) => {
       ...prev,
       [name]: value,
     }));
+
+
   };
 
   const handleSubmit = async (e) => {
@@ -48,7 +68,7 @@ const JobAssignForm2 = ({ isOpen, onClose, assignData }) => {
     );
     if (response.status === "SUCCESS") {
       notify("success", response.message);
-      
+
       onClose();
     } else {
       notify("error", response.errorMessage);
@@ -160,11 +180,11 @@ const JobAssignForm2 = ({ isOpen, onClose, assignData }) => {
                           Choose a Tutor
                         </option>
                         {requestedTutor &&
-      requestedTutor.map((tutor) => (
-        <option key={tutor.tutorId._id} value={tutor.tutorId._id}>
-          {tutor.tutorId.fullName}
-        </option>
-      ))}
+                          requestedTutor.map((tutor) => (
+                            <option key={tutor._id} value={tutor._id}>
+                              {tutor.fullName}
+                            </option>
+                          ))}
                       </select>
                     </div>
                   </div>
