@@ -62,6 +62,7 @@ const JobCreationForm = () => {
     // jobStatus: 'PENDING',
   });
   const [editData, setEditData] = useState(false);
+  console.log(jobCreation);
   useEffect(() => {
     if (data === null) {
       setEditData(false);
@@ -69,6 +70,7 @@ const JobCreationForm = () => {
       // Parse the JSON data
       try {
         const parsedData = JSON.parse(data);
+        console.log("Parsed Data", parsedData);
         setEditData(true);
         // Set the editData state with the parsed data
         // setEditData(parsedData);
@@ -98,6 +100,7 @@ const JobCreationForm = () => {
           hireDate: parsedData.hireDate,
           tutoringTime: parsedData.tutoringTime,
           status: parsedData.status,
+          jobStatus: parsedData.jobStatus,
         });
       } catch (error) {
         console.error("Error parsing JSON data:", error);
