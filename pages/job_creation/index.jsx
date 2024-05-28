@@ -85,7 +85,7 @@ const JobManagent = () => {
     JOB_REQUEST_END_POINT.get(page, limit, search, "")
   );
 
-  console.log("jobRequestList",jobRequestList?.data)
+ 
   //Render Function
   const reFetchHandler = (isRender) => {
     if (isRender) fetchJobRequestList();
