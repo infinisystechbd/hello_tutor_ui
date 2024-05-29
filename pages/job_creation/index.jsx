@@ -13,10 +13,11 @@ import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Row, Table, Tag } from "antd";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import JobTrialFromV2 from "../job_trial/JobTrialFromV2";
 import JobAssignFormV2 from "../jobAssign/JobAssignFormV2";
 import ClassForm from "../classes/ClassForm";
+import useThemeManager from "@/hooks/useThemeManager";
 
 const JobManagent = () => {
   /*** Storing data start */
@@ -31,11 +32,11 @@ const JobManagent = () => {
   const [isDeleteModalOpen, setDeleteIsModalOpen] = useState(false);
   const [isTrialModal, setIsTrialModal] = useState(false);
   const [isAssignModal, setIsAssignModal] = useState(false);
+  const [isDarkMode, toggleTheme] = useThemeManager();
+  console.log(isDarkMode);
   /*** Storing data end */
-  const router = useRouter();
-  const themeColor = JSON.parse(localStorage.getItem("color-theme"));
-  const isDarkMode = themeColor == 'dark';
-  console.log(themeColor);
+  const router = useRouter();  
+
   /**Function start */
 
   /**Job Add start */
