@@ -3,7 +3,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 /* @import 'antd/dist/antd.css'; */
 
 @layer base {
@@ -175,4 +174,28 @@ span.flatpickr-weekday,
 
 .map-btn .jvectormap-container .jvectormap-zoomin {
   right: 45px;
+}
+
+.ant-table-wrapper.dark .ant-table,
+.ant-table-wrapper.dark .ant-table-thead > tr > th,
+.ant-table-wrapper.dark .ant-table-tbody > tr > td {
+  background-color: #1f2937; /* Tailwind's gray-800 */
+  color: #ffffff; /* Tailwind's white */
+}
+
+.ant-table-wrapper.dark .ant-pagination-item {
+  background-color: #1f2937; /* Tailwind's gray-800 */
+}
+
+.ant-table-wrapper.dark .ant-pagination-item-active {
+  background-color: #4b5563; /* Tailwind's gray-700 */
+  border-color: #4b5563; /* Tailwind's gray-700 */
+}
+
+.ant-table-wrapper.dark .ant-table-thead > tr > th {
+  border-bottom: 1px solid #374151; /* Tailwind's gray-700 */
+}
+
+.ant-table-wrapper.dark .ant-table-tbody > tr > td {
+  border-bottom: 1px solid #374151; /* Tailwind's gray-700 */
 }

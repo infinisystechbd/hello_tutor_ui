@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import JobTrialFromV2 from "../job_trial/JobTrialFromV2";
 import JobAssignFormV2 from "../jobAssign/JobAssignFormV2";
+import ClassForm from "../classes/ClassForm";
 
 const JobManagent = () => {
   /*** Storing data start */
@@ -32,7 +33,9 @@ const JobManagent = () => {
   const [isAssignModal, setIsAssignModal] = useState(false);
   /*** Storing data end */
   const router = useRouter();
-
+  const themeColor = JSON.parse(localStorage.getItem("color-theme"));
+  const isDarkMode = themeColor == 'dark';
+  console.log(themeColor);
   /**Function start */
 
   /**Job Add start */
@@ -235,8 +238,16 @@ const JobManagent = () => {
         {/* <TeacherForm isOpen={isModalOpen} onClose={closeModal} setEditData={editData} isParentRender={reFetchHandler} /> */}
         {/* <DeleteModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal} data={editData} isParentRender={reFetchHandler} /> */}
 
-        <Table
+        {/* <Table
           className="border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark text-black dark:text-white"
+          columns={columns}
+          dataSource={jobRequestList?.data?.map((t) => ({ ...t, key: t._id }))}
+          scroll={{ x: "max-content" }}
+          pagination={pagination}
+          onChange={onChange}
+        /> */}
+        <Table
+          className={`ant-table-wrapper ${isDarkMode ? 'dark' : ''} border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark text-black dark:text-white`}
           columns={columns}
           dataSource={jobRequestList?.data?.map((t) => ({ ...t, key: t._id }))}
           scroll={{ x: "max-content" }}
