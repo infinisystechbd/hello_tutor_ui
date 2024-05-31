@@ -35,7 +35,7 @@ const DropdownChannel = () => {
     }
 
     return () => controller.abort();
-  }, [uid]);
+  }, [uid]); 
 
   return (
     <div className="hidden sm:block">

@@ -21,8 +21,26 @@ const JobAssignForm2 = ({ isOpen, onClose, assignData }) => {
     comment: "",
   });
   console.log("requestedTutor", requestedTutor);
+  // useEffect(() => {
+  //   setRequestedTutor(assignData?.requestedTutor);
+  //   console.log("assignData?._id",assignData?._id)
+
+  // }, [assignData?._id]);
+
+  const fetchTriledTutor = async () => {
+    try {
+      const fetchTutor = await get(
+        TRIAL_END_POINT.getTrialTutorByJobId(assignData?._id)
+      );
+      setRequestedTutor(fetchTutor?.data);
+      console.log("fetchTutor", fetchTutor);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    setRequestedTutor(assignData?.requestedTutor);
+    fetchTriledTutor();
   }, [assignData?._id]);
 
   const handleChange = (e) => {
@@ -164,11 +182,8 @@ const JobAssignForm2 = ({ isOpen, onClose, assignData }) => {
                         </option>
                         {requestedTutor &&
                           requestedTutor.map((tutor) => (
-                            <option
-                              key={tutor.tutorId._id}
-                              value={tutor.tutorId._id}
-                            >
-                              {tutor.tutorId.fullName}
+                            <option key={tutor._id} value={tutor._id}>
+                              {tutor.fullName}
                             </option>
                           ))}
                       </select>

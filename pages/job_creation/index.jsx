@@ -13,9 +13,11 @@ import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Row, Table, Tag } from "antd";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import JobTrialFromV2 from "../job_trial/JobTrialFromV2";
 import JobAssignFormV2 from "../jobAssign/JobAssignFormV2";
+import ClassForm from "../classes/ClassForm";
+import useThemeManager from "@/hooks/useThemeManager";
 
 const JobManagent = () => {
   /*** Storing data start */
@@ -30,8 +32,10 @@ const JobManagent = () => {
   const [isDeleteModalOpen, setDeleteIsModalOpen] = useState(false);
   const [isTrialModal, setIsTrialModal] = useState(false);
   const [isAssignModal, setIsAssignModal] = useState(false);
+  const [isDarkMode, toggleTheme] = useThemeManager();
+  console.log(isDarkMode);
   /*** Storing data end */
-  const router = useRouter();
+  const router = useRouter();  
 
   /**Function start */
 
@@ -235,8 +239,16 @@ const JobManagent = () => {
         {/* <TeacherForm isOpen={isModalOpen} onClose={closeModal} setEditData={editData} isParentRender={reFetchHandler} /> */}
         {/* <DeleteModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal} data={editData} isParentRender={reFetchHandler} /> */}
 
-        <Table
+        {/* <Table
           className="border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark text-black dark:text-white"
+          columns={columns}
+          dataSource={jobRequestList?.data?.map((t) => ({ ...t, key: t._id }))}
+          scroll={{ x: "max-content" }}
+          pagination={pagination}
+          onChange={onChange}
+        /> */}
+        <Table
+          className={`ant-table-wrapper ${isDarkMode ? 'dark' : ''} border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark text-black dark:text-white`}
           columns={columns}
           dataSource={jobRequestList?.data?.map((t) => ({ ...t, key: t._id }))}
           scroll={{ x: "max-content" }}

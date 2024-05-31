@@ -67,12 +67,12 @@ const Header = (props) => {
           {/* <!-- Hamburger Toggle BTN --> */}
 
           <Link className="block flex-shrink-0 lg:hidden" href="/">
-            <Image
+            {/* <Image
               width={32}
               height={32}
               src={"/images/logo/logo-icon.svg"}
               alt="Logo"
-            />
+            /> */}
           </Link>
         </div>
 
@@ -90,11 +90,11 @@ const Header = (props) => {
             {/* <!-- Dark Mode Toggler --> */}
 
             {/* <!-- Notification Menu Area --> */}
-            <DropdownNotification />
+            {/* <DropdownNotification /> */}
             {/* <!-- Notification Menu Area --> */}
 
             {/* <!-- Chat Notification Area --> */}
-            <DropdownMessage />
+            {/* <DropdownMessage /> */}
             {/* <!-- Chat Notification Area --> */}
          
 

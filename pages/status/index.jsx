@@ -33,7 +33,7 @@ const JobStauts = () => {
   const handlePending = () => {
 
     setPendingStatus(true)
-    setActiveStatus(true)
+    setActiveStatus(false)
 
     setCancelStatus(false)
     setConfirmedStatus(false)
@@ -44,7 +44,7 @@ const JobStauts = () => {
   const handleCancel = () => {
 
     setCancelStatus(true)
-    setActiveStatus(true)
+    setActiveStatus(false)
     setPendingStatus(false)
 
     setConfirmedStatus(false)
@@ -55,7 +55,7 @@ const JobStauts = () => {
   const handleConfirmed = () => {
 
     setConfirmedStatus(true)
-    setActiveStatus(true)
+    setActiveStatus(false)
     setPendingStatus(false)
     setCancelStatus(false)
     setConfirmedStatus(false)
