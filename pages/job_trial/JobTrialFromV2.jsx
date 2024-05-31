@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
 const JobTrialFromV2 = ({ isOpen, onClose, trialData }) => {
-  console.log("trialData",trialData)
+  console.log("trialData", trialData);
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
@@ -28,14 +28,17 @@ const JobTrialFromV2 = ({ isOpen, onClose, trialData }) => {
   }, [trialData?._id]);
 
   const handleSubmit = async () => {
+    if (dataList.length == 0) {
+      notify("warning", "Please Select For Trial");
+      return;
+    }
     // setLoading(true);
     // console.log("shortList",shortList);
     // return;
 
-    const response = await post(
-      TRIAL_END_POINT.create(trialData?._id),
-      {shortListedTutorForTrail:shortList}
-    );
+    const response = await post(TRIAL_END_POINT.create(trialData?._id), {
+      shortListedTutorForTrail: shortList,
+    });
     if (response.status === "SUCCESS") {
       notify("success", response.message);
 
@@ -60,13 +63,13 @@ const JobTrialFromV2 = ({ isOpen, onClose, trialData }) => {
   const columns = [
     {
       title: "FullName",
-    dataIndex: "fullName",
-    key: "fullName",
-    render: (text, record) => (
-      <Link href={`/teacher/${record._id}`} legacyBehavior>
-        <a target="_blank">{text}</a>
-      </Link>
-    ),
+      dataIndex: "fullName",
+      key: "fullName",
+      render: (text, record) => (
+        <Link href={`/teacher/${record._id}`} legacyBehavior>
+          <a target="_blank">{text}</a>
+        </Link>
+      ),
     },
     {
       title: "Phone",

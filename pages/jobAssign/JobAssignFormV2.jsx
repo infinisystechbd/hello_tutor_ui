@@ -1,25 +1,26 @@
 import ToastMessage from "@/components/Toast";
 import withAuth from "@/components/withAuth";
-import { JOB_ASSIGN_END_POINT, JOB_REQUEST_END_POINT, TRIAL_END_POINT } from "@/constants";
-import { QUERY_KEYS } from "@/constants/queryKeys";
-import { get, post } from "@/helpers/api_helper";
-import { mapArrayToDropdown } from "@/helpers/common_Helper";
-import { useGetAllData } from "@/utils/hooks/useGetAllData";
+import { JOB_ASSIGN_END_POINT } from "@/constants";
+import { post } from "@/helpers/api_helper";
 import { useCallback, useEffect, useState } from "react";
-import { Row, Table, Tag } from "antd";
 const JobAssignForm2 = ({ isOpen, onClose, assignData }) => {
   const [loading, setLoading] = useState(false);
   const notify = useCallback((type, message) => {
     ToastMessage({ type, message });
   }, []);
-  console.log("assignData", assignData)
-  const [requestedTutor, setRequestedTutor] = useState([])
+  console.log("assignData", assignData);
+  const [requestedTutor, setRequestedTutor] = useState([]);
+  const [showError, setShowError] = useState(false);
+  const [error, setError] = useState({
+    tutorId: "Please select tutor",
+    comment: "Comment is Require",
+  });
   const [jobAssign, setJobAssign] = useState({
     jobId: assignData?._id,
     tutorId: "",
     comment: "",
   });
-  console.log("requestedTutor", requestedTutor)
+  console.log("requestedTutor", requestedTutor);
   useEffect(() => {
     setRequestedTutor(assignData?.requestedTutor);
   }, [assignData?._id]);
@@ -34,6 +35,10 @@ const JobAssignForm2 = ({ isOpen, onClose, assignData }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (jobAssign?.tutorId == "" || jobAssign.comment == "") {
+      setShowError(true);
+      return;
+    }
     setLoading(true);
 
     const formattedAssignInfo = {
@@ -48,7 +53,7 @@ const JobAssignForm2 = ({ isOpen, onClose, assignData }) => {
     );
     if (response.status === "SUCCESS") {
       notify("success", response.message);
-      
+
       onClose();
     } else {
       notify("error", response.errorMessage);
@@ -139,8 +144,6 @@ const JobAssignForm2 = ({ isOpen, onClose, assignData }) => {
               {/* Your modal content goes here */}
               <form onSubmit={handleSubmit} className="p-4 md:p-5">
                 <div className="grid gap-4 mb-4 grid-cols-2">
-
-
                   <div className="col-span-2">
                     <label
                       htmlFor="subject"
@@ -160,12 +163,20 @@ const JobAssignForm2 = ({ isOpen, onClose, assignData }) => {
                           Choose a Tutor
                         </option>
                         {requestedTutor &&
-      requestedTutor.map((tutor) => (
-        <option key={tutor.tutorId._id} value={tutor.tutorId._id}>
-          {tutor.tutorId.fullName}
-        </option>
-      ))}
+                          requestedTutor.map((tutor) => (
+                            <option
+                              key={tutor.tutorId._id}
+                              value={tutor.tutorId._id}
+                            >
+                              {tutor.tutorId.fullName}
+                            </option>
+                          ))}
                       </select>
+                      {jobAssign?.tutorId === "" && showError === true ? (
+                        <span className="text-red-600">{error.tutorId}</span>
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
 
@@ -215,8 +226,13 @@ const JobAssignForm2 = ({ isOpen, onClose, assignData }) => {
                         rows={3}
                         placeholder="Write your comment here"
                         onChange={handleChange}
-                      // defaultValue={jobCreation?.comment}
+                        // defaultValue={jobCreation?.comment}
                       ></textarea>
+                      {jobAssign?.comment === "" && showError === true ? (
+                        <span className="text-red-600">{error.comment}</span>
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
                 </div>
@@ -237,7 +253,6 @@ const JobAssignForm2 = ({ isOpen, onClose, assignData }) => {
                         clipRule="evenodd"
                       />
                     </svg>
-
 
                     {/* Add new Subject */}
                   </button>

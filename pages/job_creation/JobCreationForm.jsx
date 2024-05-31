@@ -36,6 +36,29 @@ const JobCreationForm = () => {
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState("");
   const [numOfStudent, setNumOfStudent] = useState(null);
+  const [showError, setShowError] = useState(false);
+  const [error, setError] = useState({
+    guardian: "please select Guardian",
+    category: "please select Category",
+    noOfStudent: "Please select Student's number",
+    subject: "please select subject",
+    class: "Please select class",
+    city: "please select city",
+    location: "please select location",
+    address: "please write address",
+    studentGender: "please select gender",
+    daysPerWeek: "please select Day",
+    preferenceInstitute: "please write Preference Institute",
+    salaryType: "please select salary type",
+    salary: "salary is required",
+    phone: "Phone is required",
+    tuitionType: "Please select Type",
+    // curriculum: '',
+    hireDate: "Please select hire date",
+    tutoringTime: "please select time",
+    status: "select job status",
+    // jobStatus: 'PENDING',
+  });
 
   const [jobCreation, setJobCreation] = useState({
     guardian: "",
@@ -319,6 +342,28 @@ const JobCreationForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (
+      jobCreation?.guardian === "" ||
+      jobCreation?.tuitionType === "" ||
+      jobCreation?.category === "" ||
+      jobCreation?.noOfStudent == null ||
+      jobCreation?.class.length === 0 ||
+      jobCreation?.subject.length == 0 ||
+      jobCreation?.city === "" ||
+      jobCreation?.location === "" ||
+      jobCreation?.address === "" ||
+      jobCreation.studentGender === "" ||
+      jobCreation?.daysPerWeek === "" ||
+      jobCreation?.preferenceInstitute === "" ||
+      jobCreation?.hireDate === "" ||
+      jobCreation?.tutoringTime == "" ||
+      jobCreation?.salaryType === "" ||
+      jobCreation?.salary === "" ||
+      jobCreation?.status === ""
+    ) {
+      setShowError(true);
+      return;
+    }
     setLoading(true);
 
     // For the 'subject' array
@@ -335,6 +380,7 @@ const JobCreationForm = () => {
     jobCreation.class = classes;
 
     // return;
+
     try {
       if (jobCreation?._id) {
         const _id = jobCreation?._id;
@@ -534,9 +580,9 @@ const JobCreationForm = () => {
                           onChange={handleChange}
                           value={jobCreation?.guardian}
                         >
-                          <option value="" disabled>
+                          {/* <option value="" disabled>
                             Choose a Guardian
-                          </option>
+                          </option> */}
 
                           {guardianList?.data?.data && (
                             <>
@@ -551,6 +597,11 @@ const JobCreationForm = () => {
                             </>
                           )}
                         </select>
+                        {jobCreation?.guardian === "" && showError === true ? (
+                          <span className="text-red-600">{error.guardian}</span>
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </div>
                   )}
@@ -582,6 +633,11 @@ const JobCreationForm = () => {
                         onChange={handleChange}
                         defaultValue={jobCreation?.phone}
                       />
+                      {jobCreation?.phone === "" && showError === true ? (
+                        <span className="text-red-600">{error.phone}</span>
+                      ) : (
+                        ""
+                      )}
                     </div>
 
                     <div className="w-full sm:w-1/2">
@@ -608,6 +664,13 @@ const JobCreationForm = () => {
                           Package Tutoring
                         </option>
                       </select>
+                      {jobCreation?.tuitionType === "" && showError === true ? (
+                        <span className="text-red-600">
+                          {error.tuitionType}
+                        </span>
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
 
@@ -641,6 +704,11 @@ const JobCreationForm = () => {
                               </option>
                             ))}
                         </select>
+                        {jobCreation?.category === "" && showError === true ? (
+                          <span className="text-red-600">{error.category}</span>
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </div>
 
@@ -663,6 +731,14 @@ const JobCreationForm = () => {
                           handleStudentNumberChange(e);
                         }}
                       />
+                      {jobCreation?.noOfStudent === null &&
+                      showError === true ? (
+                        <span className="text-red-600">
+                          {error.noOfStudent}
+                        </span>
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
 
@@ -686,6 +762,11 @@ const JobCreationForm = () => {
                         }
                         selectedValues={jobCreation.class || []}
                       />
+                      {jobCreation?.class.length == 0 && showError === true ? (
+                        <span className="text-red-600">{error.class}</span>
+                      ) : (
+                        ""
+                      )}
                     </div>
 
                     <div className="w-full sm:w-1/2">
@@ -707,6 +788,12 @@ const JobCreationForm = () => {
                         }
                         selectedValues={jobCreation?.subject || []}
                       />
+                      {jobCreation?.subject.length == 0 &&
+                      showError === true ? (
+                        <span className="text-red-600">{error.subject}</span>
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
 
@@ -766,6 +853,11 @@ const JobCreationForm = () => {
                             </>
                           )}
                         </select>
+                        {jobCreation?.city === "" && showError === true ? (
+                          <span className="text-red-600">{error.city}</span>
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </div>
 
@@ -802,6 +894,11 @@ const JobCreationForm = () => {
                             </>
                           )}
                         </select>
+                        {jobCreation?.location === "" && showError === true ? (
+                          <span className="text-red-600">{error.location}</span>
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </div>
                   </div>
@@ -854,6 +951,11 @@ const JobCreationForm = () => {
                         onChange={handleChange}
                         defaultValue={jobCreation?.address}
                       ></textarea>
+                      {jobCreation?.address === "" && showError === true ? (
+                        <span className="text-red-600">{error.address}</span>
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
                 </form>
@@ -928,6 +1030,14 @@ const JobCreationForm = () => {
                           </label>
                         )}
                       </div>
+                      {jobCreation?.studentGender === "" &&
+                      showError === true ? (
+                        <span className="text-red-600">
+                          {error.studentGender}
+                        </span>
+                      ) : (
+                        ""
+                      )}
                     </div>
 
                     <div className="w-full sm:w-1/2">
@@ -1013,6 +1123,13 @@ const JobCreationForm = () => {
                           <option value={7}>7 Day Per Week</option>
                         </select>
                       </div>
+                      {jobCreation?.daysPerWeek === "" && showError === true ? (
+                        <span className="text-red-600">
+                          {error.daysPerWeek}
+                        </span>
+                      ) : (
+                        ""
+                      )}
                     </div>
                     <div className="w-full sm:w-1/2">
                       <label
@@ -1030,6 +1147,14 @@ const JobCreationForm = () => {
                         onChange={handleChange}
                         defaultValue={jobCreation?.preferenceInstitute}
                       />
+                      {jobCreation?.preferenceInstitute === "" &&
+                      showError === true ? (
+                        <span className="text-red-600">
+                          {error.preferenceInstitute}
+                        </span>
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
 
@@ -1054,6 +1179,11 @@ const JobCreationForm = () => {
                             : ""
                         }
                       />
+                      {jobCreation?.hireDate === "" && showError === true ? (
+                        <span className="text-red-600">{error.hireDate}</span>
+                      ) : (
+                        ""
+                      )}
                     </div>
 
                     <div className="w-full sm:w-1/2">
@@ -1072,6 +1202,14 @@ const JobCreationForm = () => {
                         onChange={handleChange}
                         defaultValue={jobCreation?.tutoringTime}
                       />
+                      {jobCreation?.tutoringTime === "" &&
+                      showError === true ? (
+                        <span className="text-red-600">
+                          {error.tutoringTime}
+                        </span>
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
 
@@ -1097,6 +1235,11 @@ const JobCreationForm = () => {
                           <option value="Negotiable">Negotiable</option>
                         </select>
                       </div>
+                      {jobCreation?.salaryType === "" && showError === true ? (
+                        <span className="text-red-600">{error.salaryType}</span>
+                      ) : (
+                        ""
+                      )}
                     </div>
                     <div className="w-full sm:w-1/2">
                       <label
@@ -1136,6 +1279,11 @@ const JobCreationForm = () => {
                           onChange={handleChange}
                           value={jobCreation?.salary}
                         />
+                      )}
+                      {jobCreation?.salary === "" && showError === true ? (
+                        <span className="text-red-600">{error.salary}</span>
+                      ) : (
+                        ""
                       )}
                     </div>
                   </div>
@@ -1212,6 +1360,11 @@ const JobCreationForm = () => {
                           <option value={"true"}>Active</option>
                           <option value={"false"}>Inactive</option>
                         </select>
+                        {jobCreation?.status === "" && showError === true ? (
+                          <span className="text-red-600">{error.status}</span>
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </div>
                   </div>
