@@ -57,6 +57,7 @@ const JobCreationForm = () => {
     hireDate: "Please select hire date",
     tutoringTime: "please select time",
     status: "select job status",
+    fullName: "Full Name is require",
     // jobStatus: 'PENDING',
   });
 
@@ -342,9 +343,22 @@ const JobCreationForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (newGuardian == true) {
+      if (jobCreation?.fullName == "") {
+        setShowError(true);
+        return;
+      }
+    }
+    if (newGuardian == false) {
+      if (jobCreation?.guardian === "") {
+        setShowError(true);
+        return;
+      }
+    }
+
     if (
-      jobCreation?.guardian === "" ||
       jobCreation?.tuitionType === "" ||
+      jobCreation?.phone === "" ||
       jobCreation?.category === "" ||
       jobCreation?.noOfStudent == null ||
       jobCreation?.class.length === 0 ||
@@ -563,6 +577,13 @@ const JobCreationForm = () => {
                           onChange={handleChange}
                         />
                       </div>
+                      {newGuardian === true &&
+                      jobCreation?.fullName === "" &&
+                      showError === true ? (
+                        <span className="text-red-600">{error.fullName}</span>
+                      ) : (
+                        ""
+                      )}
                     </div>
                   ) : (
                     <div className="mb-5.5">
