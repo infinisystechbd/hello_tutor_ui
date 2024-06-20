@@ -1,23 +1,18 @@
-'use clie'
-import React, { useEffect, useState } from "react"
-import Link from "next/link"
-import Image from "next/image"
-import Axios from "../../utils/axios";
-import { useRouter } from "next/router";
-import SignInComponent from "../../components/Login";
-import SignUpFirstComponent from "@/components/Register/SignUpFirstComponent";
-import MyToast from "@mdrakibul8001/toastify";
-import toast from "../../components/Toast"
+"use clie";
 import PostVerifyOtpCompo from "@/components/Register/PostVerifyOtpCompo";
 import RegWithPersonalInfo from "@/components/Register/RegWithPersonalInfo";
+import SignUpFirstComponent from "@/components/Register/SignUpFirstComponent";
 import { SECURITY_END_POINT } from "@/constants";
 import { post } from "@/helpers/api_helper";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import SignInComponent from "../../components/Login";
+import toast from "../../components/Toast";
+import Axios from "../../utils/axios";
 // const { notify } = MyToast();
 
 const LogIn = () => {
-
-
-
   const [signup, setSignup] = useState(false);
   const router = useRouter();
   const [userId, setUserId] = useState(null);
@@ -28,7 +23,6 @@ const LogIn = () => {
   const [password, setPassword] = useState("");
   const [reference, setReference] = useState("");
 
-
   const notify = React.useCallback((type, message) => {
     toast({ type, message });
   }, []);
@@ -36,16 +30,15 @@ const LogIn = () => {
   const [postEmailOtp, setPostEmailOtp] = useState({
     fullName: "",
     phone: "",
-    password: '',
-    confirmPassword: '',
+    password: "",
+    confirmPassword: "",
     gender: "",
-    selectedCheckbox: 'student'
-  })
+    selectedCheckbox: "student",
+  });
 
   const [postVerifyOtp, setPostVerifyOtp] = useState({
     otp: "",
   });
-
 
   const [profile, setProfile] = useState({
     mobile_number: "",
@@ -58,18 +51,14 @@ const LogIn = () => {
     state: null,
     city: null,
     zip_code: "",
-    address: ""
-  })
-
-
-
+    address: "",
+  });
 
   useEffect(() => {
     if (token) {
-      router.replace('/');
+      router.replace("/");
     }
-  }, [token])
-
+  }, [token]);
 
   /**------------------------OTP sent related start --------------------------- */
 
@@ -78,19 +67,22 @@ const LogIn = () => {
   const otpSent = async (event) => {
     event.preventDefault();
 
-    if (postEmailOtp?.selectedCheckbox == 'student') {
+    if (postEmailOtp?.selectedCheckbox == "student") {
       let studentData = {
         phone: postEmailOtp?.phone,
         password: postEmailOtp?.password,
         confirmPassword: postEmailOtp?.confirmPassword,
-      }
-
+      };
 
       try {
-        const guardianReg = await post(SECURITY_END_POINT.guardianReg(), { phone: postEmailOtp?.phone, password: postEmailOtp?.password, confirmPassword: postEmailOtp?.confirmPassword });
+        const guardianReg = await post(SECURITY_END_POINT.guardianReg(), {
+          phone: postEmailOtp?.phone,
+          password: postEmailOtp?.password,
+          confirmPassword: postEmailOtp?.confirmPassword,
+        });
         notify("success", "successfully Registration!");
         setUserId(guardianReg?.data?._id);
-        setIsOtpSent(true)
+        setIsOtpSent(true);
       } catch (error) {
         let message;
         console.log(error);
@@ -103,39 +95,33 @@ const LogIn = () => {
         phone: postEmailOtp?.phone,
         password: postEmailOtp?.password,
         confirmPassword: postEmailOtp?.confirmPassword,
-      }
+      };
 
       try {
-        const tutorReg = await post(SECURITY_END_POINT.tutorReg(), { fullName: postEmailOtp?.fullName, phone: postEmailOtp?.phone, gender: postEmailOtp?.gender, password: postEmailOtp?.password, confirmPassword: postEmailOtp?.confirmPassword });
+        const tutorReg = await post(SECURITY_END_POINT.tutorReg(), {
+          fullName: postEmailOtp?.fullName,
+          phone: postEmailOtp?.phone,
+          gender: postEmailOtp?.gender,
+          password: postEmailOtp?.password,
+          confirmPassword: postEmailOtp?.confirmPassword,
+        });
         notify("success", "successfully Registration!");
         setUserId(tutorReg?.data?._id);
-        setIsOtpSent(true)
-
+        setIsOtpSent(true);
       } catch (error) {
         let message;
         console.log(error);
 
         notify("error", message);
       }
-
     }
-
-
-
-  }
-
+  };
 
   /**------------------------OTP sent related end --------------------------- */
-
-
-
 
   /**------------------------OTP verify related start --------------------------- */
 
   const [isVerify, setIsVerify] = useState(false);
-
-
-
 
   const otpVerify = async (event) => {
     // id,otp
@@ -143,72 +129,74 @@ const LogIn = () => {
     setLoading(true);
 
     try {
-      const update = await post(SECURITY_END_POINT.verifyOtp(userId), { token: postVerifyOtp?.otp });
-      if (update.status == 'SUCCESS') {
-        const login = await post(SECURITY_END_POINT.login(), { phone: postEmailOtp?.phone, password: postEmailOtp?.password });
+      const update = await post(SECURITY_END_POINT.verifyOtp(userId), {
+        token: postVerifyOtp?.otp,
+      });
+      if (update.status == "SUCCESS") {
+        const login = await post(SECURITY_END_POINT.login(), {
+          phone: postEmailOtp?.phone,
+          password: postEmailOtp?.password,
+        });
         setToken(login.accessToken);
         notify("success", "successfully Login!");
-
       }
     } catch (error) {
-      notify('error', update.error);
+      notify("error", update.error);
       setLoading(false);
     }
     setLoading(false);
   };
 
-
-
   /**------------------------OTP verify related end --------------------------- */
 
-
-
-
   /**------------------------Profile start --------------------------- */
-
 
   const submitProfile = async (event) => {
     event.preventDefault();
 
-
-    await http_post_request({ endpoint: '/auth/v1/postRegister', data: { ...profile, email: postEmailOtp?.email, full_name: postEmailOtp?.name } }).then(function (authRes) {
-      if (authRes.status === 'success') {
+    await http_post_request({
+      endpoint: "/auth/v1/postRegister",
+      data: {
+        ...profile,
+        email: postEmailOtp?.email,
+        full_name: postEmailOtp?.name,
+      },
+    }).then(function (authRes) {
+      if (authRes.status === "success") {
         const result = authRes?.results;
         notify("success", `Successfully register`);
         saveToken(result?.user, result?.access_token);
-
       } else {
         notify("error", `Something went wrong`);
       }
-    })
-
-  }
+    });
+  };
 
   /**------------------------Profile End --------------------------- */
-
-
-
 
   const submitForm = async (event) => {
     event.preventDefault();
     try {
-      const login = await post(SECURITY_END_POINT.login(), { phone: phone, password: password });
+      const login = await post(SECURITY_END_POINT.login(), {
+        phone: phone,
+        password: password,
+      });
       setToken(login.accessToken);
       notify("success", "successfully Login!");
-
     } catch (error) {
       let message;
       const errorStatus = error?.response?.status;
       if (errorStatus) {
         switch (error.response.status) {
           case 404:
-            message = 'Sorry! the page you are looking for could not be found';
+            message = "Sorry! the page you are looking for could not be found";
             break;
           case 500:
-            message = 'Sorry! something went wrong, please contact our support team';
+            message =
+              "Sorry! something went wrong, please contact our support team";
             break;
           case 401:
-            message = 'Invalid credentials';
+            message = "Invalid credentials";
             break;
           default:
             message = error[1];
@@ -216,35 +204,21 @@ const LogIn = () => {
         }
       }
 
-
-      if (!errorStatus && error.code === 'ERR_NETWORK') {
-        message = 'Netword Error!';
+      if (!errorStatus && error.code === "ERR_NETWORK") {
+        message = "Netword Error!";
       }
       notify("error", message);
     }
-
-  }
-
-
-
+  };
 
   const handleSignupClick = () => {
     setSignup(!signup);
   };
 
-
   return (
     <>
-
-
-
       <div className="flex rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark  items-center justify-center h-screen w-full  ">
-
-
-
         <div className="flex w-full md:w-10/12 flex-wrap justify-center items-center">
-
-
           <div className="hidden w-full xl:block xl:w-1/2">
             <div className="py-17.5 px-26 text-center">
               <Link className="mb-5.5 inline-block" href="/JobDashbord">
@@ -264,13 +238,15 @@ const LogIn = () => {
                 /> */}
                 {/* mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2 */}
                 {/* <h3 style={{ fontSize: '24px', color: 'blue' }}>Hello Tutor</h3> */}
-                <h3 className="text-2xl font-bold" style={{ fontSize: '34px', color: 'blue' }}>Hello Tutor</h3>
+                <h3
+                  className="text-2xl font-bold"
+                  style={{ fontSize: "34px", color: "blue" }}
+                >
+                  Hello Tutor
+                </h3>
               </Link>
 
-              <p className="2xl:px-20">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                suspendisse.
-              </p>
+              <p className="2xl:px-20">Welcome To Hello Tutor BD.</p>
 
               <span className="mt-15 inline-block">
                 <svg
@@ -399,102 +375,68 @@ const LogIn = () => {
 
           <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
+              {signup === false ? (
+                <>
+                  <SignInComponent
+                    submitForm={submitForm}
+                    setPhone={setPhone}
+                    setPassword={setPassword}
+                    setLoading={setLoading}
+                    loading={loading}
+                  />
 
-              {
-
-                signup === false ?
-                  <>
-
-                    <SignInComponent
-                      submitForm={submitForm}
-                      setPhone={setPhone}
-                      setPassword={setPassword}
-                      setLoading={setLoading}
-                      loading={loading}
-                    />
-
-                    {/* <RegWithPersonalInfo
+                  {/* <RegWithPersonalInfo
                      profile= {profile}
                      setProfile ={setProfile}
                      submitProfile={submitProfile}
                     /> */}
-
-                  </>
-                  :
-                  <>
-
-
-
-                    {
-
-                      isOtpSent === false ?
-                        <SignUpFirstComponent
-                          otpSent={otpSent}
-                          setPostEmailOtp={setPostEmailOtp}
-                          postEmailOtp={postEmailOtp}
+                </>
+              ) : (
+                <>
+                  {isOtpSent === false ? (
+                    <SignUpFirstComponent
+                      otpSent={otpSent}
+                      setPostEmailOtp={setPostEmailOtp}
+                      postEmailOtp={postEmailOtp}
+                    />
+                  ) : (
+                    <>
+                      {isVerify === false ? (
+                        <PostVerifyOtpCompo
+                          otpVerify={otpVerify}
+                          setPostVerifyOtp={setPostVerifyOtp}
+                          postVerifyOtp={postVerifyOtp}
+                          reference={postEmailOtp?.email}
                         />
-                        :
-                        <>
-
-                          {
-
-                            isVerify === false ?
-
-                              <PostVerifyOtpCompo
-                                otpVerify={otpVerify}
-                                setPostVerifyOtp={setPostVerifyOtp}
-                                postVerifyOtp={postVerifyOtp}
-                                reference={postEmailOtp?.email}
-                              />
-                              :
-                              <RegWithPersonalInfo
-                                profile={profile}
-                                setProfile={setProfile}
-                                submitProfile={submitProfile}
-                              />
-                          }
-
-                        </>
-
-                    }
-
-
-                  </>
-              }
-
-
-
-
-
-
+                      ) : (
+                        <RegWithPersonalInfo
+                          profile={profile}
+                          setProfile={setProfile}
+                          submitProfile={submitProfile}
+                        />
+                      )}
+                    </>
+                  )}
+                </>
+              )}
 
               <div className="mt-6 text-center">
                 <p>
-                  {
-                    signup === false ? "Don’t have any account?" : "Already have an account"
-                  }
+                  {signup === false
+                    ? "Don’t have any account?"
+                    : "Already have an account"}
 
                   <dev className="text-primary" onClick={handleSignupClick}>
-                    {
-                      signup === false ? "Sign Up" : "Sign In"
-                    }
-
+                    {signup === false ? "Sign Up" : "Sign In"}
                   </dev>
                 </p>
               </div>
             </div>
           </div>
-
-
-
         </div>
-
-
-
       </div>
-
     </>
-  )
-}
+  );
+};
 
-export default LogIn
+export default LogIn;

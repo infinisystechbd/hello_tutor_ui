@@ -85,8 +85,12 @@ const JobCreationForm = () => {
     status: "",
     // jobStatus: 'PENDING',
   });
+
   const [editData, setEditData] = useState(false);
   console.log(jobCreation);
+
+  console.log(jobCreation.city);
+  console.log(jobCreation.location);
   useEffect(() => {
     if (data === null) {
       setEditData(false);
@@ -343,12 +347,12 @@ const JobCreationForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (newGuardian == true) {
+    /* if (newGuardian == true) {
       if (jobCreation?.fullName == "") {
         setShowError(true);
         return;
       }
-    }
+    } */
     if (newGuardian == false) {
       if (jobCreation?.guardian === "") {
         setShowError(true);
@@ -379,7 +383,8 @@ const JobCreationForm = () => {
       return;
     }
     setLoading(true);
-
+    console.log(jobCreation.city);
+    console.log(jobCreation.location);
     // For the 'subject' array
 
     const subjects = jobCreation?.subject?.map((subjectId) => ({
@@ -398,11 +403,10 @@ const JobCreationForm = () => {
     try {
       if (jobCreation?._id) {
         const _id = jobCreation?._id;
-        delete jobCreation?._id;
-        const update = await put(
-          JOB_REQUEST_END_POINT.update(_id),
-          jobCreation
-        );
+        const jobCreate = { ...jobCreation };
+        //jobCreate['city']=
+        delete jobCreate?._id;
+        const update = await put(JOB_REQUEST_END_POINT.update(_id), jobCreate);
         if (update.status === "SUCCESS") {
           notify("success", update.message);
           router.push("/job_creation");

@@ -1,7 +1,7 @@
 import ToastMessage from "@/components/Toast";
 import withAuth from "@/components/withAuth";
-import { JOB_ASSIGN_END_POINT } from "@/constants";
-import { post } from "@/helpers/api_helper";
+import { JOB_ASSIGN_END_POINT, TRIAL_END_POINT } from "@/constants";
+import { get, post } from "@/helpers/api_helper";
 import { useCallback, useEffect, useState } from "react";
 const JobAssignForm2 = ({ isOpen, onClose, assignData }) => {
   const [loading, setLoading] = useState(false);
@@ -29,11 +29,13 @@ const JobAssignForm2 = ({ isOpen, onClose, assignData }) => {
 
   const fetchTriledTutor = async () => {
     try {
-      const fetchTutor = await get(
-        TRIAL_END_POINT.getTrialTutorByJobId(assignData?._id)
-      );
-      setRequestedTutor(fetchTutor?.data);
-      console.log("fetchTutor", fetchTutor);
+      if (assignData?._id) {
+        const fetchTutor = await get(
+          TRIAL_END_POINT.getTrialTutorByJobId(assignData?._id)
+        );
+        setRequestedTutor(fetchTutor?.data);
+        console.log("fetchTutor", fetchTutor);
+      }
     } catch (error) {
       console.log(error);
     }
