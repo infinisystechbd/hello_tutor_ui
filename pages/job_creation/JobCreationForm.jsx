@@ -89,12 +89,8 @@ const JobCreationForm = () => {
   const [editData, setEditData] = useState(false);
   console.log(jobCreation);
 
-  console.log(jobCreation.city);
-  console.log(jobCreation.location);
   useEffect(() => {
-    if (data === null) {
-      setEditData(false);
-    } else {
+    if (data) {
       // Parse the JSON data
       try {
         const parsedData = JSON.parse(data);
@@ -133,6 +129,8 @@ const JobCreationForm = () => {
       } catch (error) {
         console.error("Error parsing JSON data:", error);
       }
+    } else {
+      setEditData(false);
     }
   }, [data]);
   /** Fetch Guardian List */
@@ -361,24 +359,27 @@ const JobCreationForm = () => {
     }
 
     if (
-      jobCreation?.tuitionType === "" ||
-      jobCreation?.phone === "" ||
-      jobCreation?.category === "" ||
-      jobCreation?.noOfStudent == null ||
+      !jobCreation?.tuitionType ||
+      !jobCreation?.phone ||
+      !jobCreation?.category ||
+      !jobCreation?.noOfStudent ||
       jobCreation?.class.length === 0 ||
       jobCreation?.subject.length == 0 ||
-      jobCreation?.city === "" ||
-      jobCreation?.location === "" ||
-      jobCreation?.address === "" ||
-      jobCreation.studentGender === "" ||
-      jobCreation?.daysPerWeek === "" ||
-      jobCreation?.preferenceInstitute === "" ||
-      jobCreation?.hireDate === "" ||
-      jobCreation?.tutoringTime == "" ||
-      jobCreation?.salaryType === "" ||
-      jobCreation?.salary === "" ||
-      jobCreation?.status === ""
+      !jobCreation?.city ||
+      !jobCreation?.location ||
+      !jobCreation?.address ||
+      !jobCreation.studentGender ||
+      !jobCreation?.daysPerWeek ||
+      !jobCreation?.preferenceInstitute ||
+      !jobCreation?.hireDate ||
+      !jobCreation?.tutoringTime ||
+      !jobCreation?.salaryType ||
+      !jobCreation?.salary ||
+      !jobCreation?.status
     ) {
+      console.log("first");
+      console.log(jobCreation.city);
+      console.log(jobCreation.location);
       setShowError(true);
       return;
     }
@@ -456,7 +457,7 @@ const JobCreationForm = () => {
       setLoading(false);
     }
   };
-
+  let count = 0;
   const guarDianInfo = async () => {
     try {
       const res = await get(GUARDIAN_END_POINT.info(jobCreation?.guardian));
@@ -465,9 +466,6 @@ const JobCreationForm = () => {
       }
       setJobCreation({
         ...jobCreation,
-        city: res?.data?.city?._id,
-        location: res?.data?.location?._id,
-        address: res?.data?.address,
         phone: res?.data?.phone,
       });
     } catch (error) {
@@ -878,7 +876,7 @@ const JobCreationForm = () => {
                             </>
                           )}
                         </select>
-                        {jobCreation?.city === "" && showError === true ? (
+                        {!jobCreation?.city && showError === true ? (
                           <span className="text-red-600">{error.city}</span>
                         ) : (
                           ""
@@ -919,7 +917,7 @@ const JobCreationForm = () => {
                             </>
                           )}
                         </select>
-                        {jobCreation?.location === "" && showError === true ? (
+                        {!jobCreation?.location && showError === true ? (
                           <span className="text-red-600">{error.location}</span>
                         ) : (
                           ""
