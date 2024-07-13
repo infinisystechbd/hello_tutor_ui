@@ -52,7 +52,8 @@ const TutorRequestForm = () => {
     tutoringTime: "Select tutoring time",
     status: "",
   });
-
+  const[defaultPhoneNumber,setDefaultPhoneNumber]=useState();
+console.log(defaultPhoneNumber)
   const [jobCreation, setJobCreation] = useState({
     category: "",
     noOfStudent: null,
@@ -67,7 +68,7 @@ const TutorRequestForm = () => {
     preferenceInstitute: "",
     salaryType: "",
     salary: "",
-    phone: "",
+    phone: defaultPhoneNumber,
     isApproval: "",
     tuitionType: "",
     hireDate: "",
@@ -80,6 +81,7 @@ const TutorRequestForm = () => {
     const decode = parseJwt(token);
     setTokenValues(decode);
     setJobCreation({ ...jobCreation, phone: tokenValues.phone });
+    setDefaultPhoneNumber(tokenValues?.phone?.slice(-11))
   }, [token]);
 
   /** Fetch category List */

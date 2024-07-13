@@ -87,14 +87,14 @@ const JobCreationForm = () => {
   });
 
   const [editData, setEditData] = useState(false);
-  console.log(jobCreation);
+  
 
   useEffect(() => {
     if (data) {
       // Parse the JSON data
       try {
         const parsedData = JSON.parse(data);
-        console.log("Parsed Data", parsedData);
+        
         setEditData(true);
         // Set the editData state with the parsed data
         // setEditData(parsedData);
@@ -449,6 +449,7 @@ const JobCreationForm = () => {
       isApproval: value,
       rejectedFor: comment,
     });
+    console.log('res',res)
     if (res.status === "SUCCESS") {
       notify("success", `${value == true ? "Approved" : "Rejected"}`);
       router.push("/job_creation");
