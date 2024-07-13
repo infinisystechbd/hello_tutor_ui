@@ -286,6 +286,7 @@ console.log(defaultPhoneNumber)
 
     let body = {
       ...jobCreation,
+      phone:jobCreation?.phone ?? defaultPhoneNumber,
       guardian: tokenValues.userId,
       status: false,
       isApproval: false,
