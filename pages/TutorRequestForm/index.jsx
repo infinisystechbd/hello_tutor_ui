@@ -79,9 +79,10 @@ console.log(defaultPhoneNumber)
   const router = useRouter();
   useEffect(() => {
     const decode = parseJwt(token);
+    console.log('decode',decode)
     setTokenValues(decode);
     setJobCreation({ ...jobCreation, phone: tokenValues.phone });
-    setDefaultPhoneNumber(tokenValues?.phone?.slice(-11))
+    setDefaultPhoneNumber(decode?.phone?.slice(-11))
   }, [token]);
 
   /** Fetch category List */
